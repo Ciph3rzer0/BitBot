@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+	<string name="app_name">Bits-N-Bots</string>
+	
+	<!-- Hamza -->
+	<string name="hello">Hello World, main_menu!</string>
+	<string-array name="menu_content">
+		<item>Engine</item>
+		<item>Interpreter</item>
+		<item>Tutorial</item>
+		<item>_</item>
+		<item>Game Modes</item>
+		<item>Options</item>
+		<item>High Scores</item>
+		<item>Help</item>
+		<item>Quit</item>
+	</string-array>
+	
+	<!-- Nick -->
+	<string-array name="menu_contents">
+		<item>Print Statement</item>
+		<item>For Loop</item>
+		<item>Back to Main Menu</item>
+	</string-array>
+	<string name="for_statement">FOR I 1 TO N \n\t&lt;executed statement&gt;\nNEXT I\n</string>
+	<string name="if_statement">\nIF &lt;some condition&gt; THEN GOTO &lt;some line&gt;\n</string>
+	<string name="var_declaration">DIM VAR &lt;variable declaration&gt; as &lt;TYPE&gt;</string>
+	<string name="do_while_statement">DO \n\t&lt;executed statements&gt;\n LOOP UNTIL/WHILE\n</string>
+	<string name="print_statement">PRINT &lt;String&gt; ; &lt;variable&gt;</string>
+</resources>

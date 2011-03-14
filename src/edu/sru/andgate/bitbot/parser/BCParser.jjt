@@ -1,0 +1,174 @@
+/**
+ * JJTree template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */options{  JDK_VERSION = "1.5";
+  IGNORE_CASE = true;  STATIC = false;
+//  DEBUG_PARSER = true; 
+  VISITOR = true;
+  MULTI = true; } PARSER_BEGIN(bc1)package com.sru.theguild.parser;
+
+public class bc1 {}PARSER_END(bc1)
+/* Skip Whitespace & comments */SKIP :{  " "| "\t"| "\n"| "\r"| < "//" (~[ "\n", "\r" ])*    (      "\n"    | "\r"    | "\r\n"    ) >| < "/*" (~[ "*" ])* "*"    (      ~[ "/" ] (~[ "*" ])* "*"    )*    "/" >}TOKEN : /* LITERALS */{  < INTEGER_LITERAL :    < DECIMAL_LITERAL > ([ "l", "L" ])?  | < HEX_LITERAL > ([ "l", "L" ])?  | < OCTAL_LITERAL > ([ "l", "L" ])?     >| < #DECIMAL_LITERAL : [ "1"-"9" ] ([ "0"-"9" ])* >| < #HEX_LITERAL : "0" [ "x", "X" ] ([ "0"-"9", "a"-"f", "A"-"F" ])+ >| < #OCTAL_LITERAL : "0" ([ "0"-"7" ])* >}
+TOKEN : /* OPERATIONS */
+{
+  < BOOL_OP : "AND" | "OR" >
+| < EQ_OP : "==" | "!=" >
+| < REL_OP : "<" | ">" | "<=" | ">=" > 
+| < ADD_OP : "+" | "-" >
+| < MUL_OP : "*" | "/" | "%" >
+//| < POW_OP : "^" >
+| < CONCAT : "&" >
+}
+
+TOKEN : /* RESERVED WORDS */
+{
+  < PRINT : "print" >
+| < LET : "let" >
+| < EQUAL : "=" >
+| < DIM : "dim" >
+| < AS : "as" >
+| < INTEGER : "integer" >}
+TOKEN : /* IDENTIFIERS */{  < IDENTIFIER :    < LETTER >    (      < LETTER >    | < DIGIT >    )* >| < #LETTER : [ "_", "a"-"z", "A"-"Z" ] >| < #DIGIT : [ "0"-"9" ] >
+| < STRING_LITERAL : "\"~[\"]*\"" >}SimpleNode Start() #Root :{}{  Program()  {    return jjtThis;  }}
+void Program() :
+{}{
+  ListOfInstructions()
+  < EOF >}
+
+void ListOfInstructions() #void :
+{}
+{
+  (Instruction())*
+}
+
+void Instruction() #void :
+{}
+{
+  Expression() ";"
+  |
+  Assignment() ";"
+  | 
+  Print() ";"
+  |
+  Declaration() ";"}
+
+void Print() :
+{}{
+  < PRINT > Expression()}
+void Declaration() :
+{}{
+  < DIM > Identifier() < AS > < INTEGER >}
+
+void Assignment() :
+{}
+{   < LET > Identifier() < EQUAL >  Expression()
+}
+
+/* ---------- Needs Work ------------- */
+void StringExpression() :
+{}{
+  Expression()
+  < CONCAT > { jjtThis.value = "&"; }
+  Expression()}
+
+void StringLiteral() :
+{
+  Token t;
+}{
+  t = < STRING_LITERAL > { jjtThis.value = t.image; }}
+/* ----------------------- */
+void Expression() #void ://#Expression(>1) :{}{  BooleanExpression() {}}
+
+void BooleanExpression() #BooleanExpression(>1) :
+{
+  Token t;
+}
+{
+  EqualityExpression()
+  (
+    t = < BOOL_OP > { jjtThis.value = t.image; }
+    
+    EqualityExpression()
+  )*
+}
+
+void EqualityExpression() #EqualityExpression(>1) :
+{
+  Token t;
+}
+{
+  RelationalExpression()
+  (
+    t = < EQ_OP > { jjtThis.value = t.image; }
+    
+    RelationalExpression()
+  )*
+}
+
+void RelationalExpression() #RelationalExpression(>1) :
+{
+  Token t;
+}
+{
+  AdditiveExpression()
+  (
+    t = < REL_OP > { jjtThis.value = t.image; }
+    
+    AdditiveExpression()
+  )*
+}
+
+void AdditiveExpression() #AdditiveExpression(>1) :{  Node n;   Token t;  String op = "err";}{  MultiplicativeExpression()    (     t = < ADD_OP > { op = t.image; }		// Store the operation.
+        MultiplicativeExpression()    {
+      /* This code is key to imitating the left recursiveness that expressions         exibit, but JavaCC disallows us from using.
+       */      ASTAdditiveExpression newN = new ASTAdditiveExpression(bc1TreeConstants.JJTADDITIVEEXPRESSION);      newN.value = op;      
+      // Pop and add the first operand from the stack
+      n = jjtree.popNode();      newN.jjtAddChild(n, 1);
+      n.jjtSetParent(newN);
+      
+      // Pop and add the second operand from the stack      n = jjtree.popNode();
+      newN.jjtAddChild(n, 0);
+      n.jjtSetParent(newN);
+      
+      // Push the new node back on the stack
+      jjtree.pushNode(newN);    }  )*
+  }
+
+void MultiplicativeExpression() #MultiplicativeExpression(>1) :{
+  Node n; 
+  Token t;
+  String op = "err";
+}{  UnaryExpression()  (    t = < MUL_OP > { op = t.image; }
+        UnaryExpression()
+    {
+      /* This code is key to imitating the left recursiveness that expressions
+         exibit, but JavaCC disallows us from using.
+       */
+      ASTMultiplicativeExpression newN = new ASTMultiplicativeExpression(bc1TreeConstants.JJTMULTIPLICATIVEEXPRESSION);
+      newN.value = op;
+      
+      // Pop and add the first operand from the stack
+      n = jjtree.popNode();
+      newN.jjtAddChild(n, 1);
+      n.jjtSetParent(newN);
+      
+      // Pop and add the second operand from the stack
+      n = jjtree.popNode();
+      newN.jjtAddChild(n, 0);
+      n.jjtSetParent(newN);
+      
+      // Push the new node back on the stack
+      jjtree.pushNode(newN);
+    }  )*
+  }void UnaryExpression() #void :{}{  "(" Expression() ")"
+| UnaryPlusOrMinus()| Identifier()| Integer()}
+void UnaryPlusOrMinus() #UnaryExpression :
+{
+Token t;
+}
+{
+   t = < ADD_OP > { jjtThis.value = t.image; } UnaryExpression() 
+}
+void Identifier() :{
+  Token t;
+}{  t = < IDENTIFIER > { jjtThis.value = t.image; }}void Integer() #IntegerLiteral :{  Token t;
+}{  t = < INTEGER_LITERAL > { jjtThis.value = t.image; }}
