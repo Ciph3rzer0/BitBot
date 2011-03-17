@@ -17,13 +17,6 @@ import android.view.WindowManager;
 
 import android.widget.PopupWindow;
 
-/**
- * This class does most of the work of wrapping the {@link PopupWindow} so it's simpler to use. 
- * Edited by Lorensius. W. L. T
- * 
- * @author qberticus
- * 
- */
 public class CustomPopupWindow {
 	protected final View anchor;
 	protected final PopupWindow window;
@@ -153,7 +146,7 @@ public class CustomPopupWindow {
 	public void showDropDown(int xOffset, int yOffset) {
 		preShow();
 
-		window.setAnimationStyle(R.style.Animations_PopDownMenu_Left);
+		window.setAnimationStyle(R.style.Animations_PopDownMenu);
 
 		window.showAsDropDown(anchor, xOffset, yOffset);
 	}
