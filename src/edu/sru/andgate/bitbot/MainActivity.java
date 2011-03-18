@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends ListActivity
 {
+	/// test
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
