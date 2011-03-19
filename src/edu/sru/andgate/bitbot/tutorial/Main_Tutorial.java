@@ -2,7 +2,6 @@ package edu.sru.andgate.bitbot.tutorial;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,7 +12,6 @@ import java.io.InputStreamReader;
 import edu.sru.andgate.bitbot.R;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,7 +59,7 @@ public class Main_Tutorial extends Activity {
 		setActionItem(do_while_shell, editor, "do while shell", "do while statement selected", getResources().getString(R.string.do_while_statement));
 		setActionItem(for_shell,editor, "for statement shell", "for statement selected", getResources().getString(R.string.for_statement));
 		setActionItem(paren_tool,editor, "Parenthesis ( )", "Parenthesis Selected", getResources().getString(R.string.parenthesis));
-		setActionItem(quote_tool,editor, "Quotations ' '", "Quotes Selected", getResources().getString(R.string.quotations));
+		setActionItem(quote_tool,editor, "Quotations \" \"", "Quotes Selected", getResources().getString(R.string.quotations));
 		
 		/*
 		 * Set all the QuickAction buttons onClick() methods 
@@ -168,9 +166,7 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onClick(View v) 
 			{
-				Intent myIntent = new Intent(v.getContext(), Tutorial_List.class);
-                startActivity(myIntent);
-                finish();
+				finish();
 			}
 		});
 		
@@ -182,7 +178,7 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onDrawerOpened() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.openarrow);
+				slideHandleButton.setBackgroundResource(R.drawable.closearrow);
 				try 
 				{
 		        	TextView generalText = (TextView)findViewById(R.id.tutorial_text);
@@ -199,7 +195,7 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onDrawerClosed() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.closearrow);
+				slideHandleButton.setBackgroundResource(R.drawable.openarrow);
 			}
 		});
 		
@@ -218,7 +214,7 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onClick(View v) 
 			{
-				Toast.makeText(Main_Tutorial.this, popUpString , Toast.LENGTH_SHORT).show();
+				//Toast.makeText(Main_Tutorial.this, popUpString , Toast.LENGTH_SHORT).show();
 				int start = editor.getSelectionStart();
 				int end = editor.getSelectionEnd();
 				editor.getText().replace(Math.min(start, end), Math.max(start, end),
@@ -238,6 +234,10 @@ public class Main_Tutorial extends Activity {
 	 */
 	protected void checkAnswer(File file, int resId) throws IOException 
 	{
+		/*
+		 * Temporary - Need to send file(s) to interpreter and compare abstract 
+		 * 				Syntax Tree's
+		 */
 			String line1 = null;
 			String line2 = null;
 			String temp1 = "";
@@ -273,7 +273,7 @@ public class Main_Tutorial extends Activity {
 			   */
 		  }else
 			  {
-				  		Toast.makeText(Main_Tutorial.this,"Wrong Answer",Toast.LENGTH_SHORT).show();
+				Toast.makeText(Main_Tutorial.this,"Wrong Answer",Toast.LENGTH_SHORT).show();
 			  }
 	}
 	

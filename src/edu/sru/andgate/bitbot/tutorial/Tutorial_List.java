@@ -53,7 +53,6 @@ public class Tutorial_List extends ListActivity {
 	         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
 	         		myIntent.putExtra("File_ID", tutorials_table.get((String)((TextView) view).getText()));
 	         		startActivity(myIntent);
-	         		finish();
 	         	  }
         	}
           
