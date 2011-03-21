@@ -97,7 +97,7 @@ public interface bc1Constants {
     "<IDENTIFIER>",
     "<LETTER>",
     "<DIGIT>",
-    "\"\\\"~[\\\"]*\\\"\"",
+    "<STRING_LITERAL>",
     "\";\"",
     "\"(\"",
     "\")\"",

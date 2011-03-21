@@ -85,8 +85,6 @@ public class RunVisitor implements bc1Visitor
 	// Perhaps just <0 instead of <=0
 	private void NextInstruction()
 	{
-		instructionsLeft--;								// We used one instruction.
-		
 		// If we have less than 1 instruction left, we need to wait until we're
 		// allowed to do more processing.
 		if (instructionsLeft <= 0)
@@ -105,6 +103,10 @@ public class RunVisitor implements bc1Visitor
 				Log.e("BitBot Interpreter", Log.getStackTraceString(e));
 			}
 		}
+		
+		
+		instructionsLeft--;								// We used one instruction.
+		
 	}
 	
 	/**
@@ -131,14 +133,14 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(SimpleNode node, Object data)
 	{
 		// This should never actually get called...
-		out.println("[===SimpleNode===]");
+//		out.println("[===SimpleNode===]");
 		return null;
 	}
 	@Override
 	public Object visit(ASTRoot node, Object data)
 	{
-		out.println(" ");
-		out.println("[--- Root ---]");
+//		out.println(" ");
+//		out.println("[--- Root ---]");
 		
 		// Visit Program
 		node.jjtGetChild(0).jjtAccept(this, null);
@@ -148,7 +150,7 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTProgram node, Object data)
 	{
-		out.println("[= Program =]");
+//		out.println("[= Program =]");
 		
 		// Visit all Instructions
 		for (int i=0; i<node.jjtGetNumChildren(); i++)
@@ -165,7 +167,9 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
-		out.println("[Print]");
+		for (int i=0; i<node.jjtGetNumChildren(); i++)
+			out.println( "[PRINT] " + node.jjtGetChild(i).jjtAccept(this, null).toString() );
+		
 		return null;
 	}
 	@Override
@@ -178,7 +182,7 @@ public class RunVisitor implements bc1Visitor
 		
 		vars.put(id, value);
 		
-		out.println("[Declaration] " + id + " = "  + value);
+//		out.println("[Declaration] " + id + " = "  + value);
 		return null;
 	}
 	@Override
@@ -186,7 +190,7 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
-		out.println("[Assignment]");
+//		out.println("[Assignment]");
 		
 		// ID is first child
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
@@ -196,7 +200,7 @@ public class RunVisitor implements bc1Visitor
 		// Update the variable
 		vars.put(id, value);
 		
-		out.println("[/Assignment: " + id + "=" + value + "]");
+//		out.println("[/Assignment: " + id + "=" + value + "]");
 		
 		return value;
 	}
@@ -206,9 +210,9 @@ public class RunVisitor implements bc1Visitor
 	//*  				   STRINGS 						*
 	//***************************************************
 	@Override
-	public Object visit(ASTStringExpression node, Object data)
+	public Object visit(ASTConcatExpression node, Object data)
 	{
-		out.println("StringExpression");
+//		out.println("StringExpression");
 		
 		// Determine the operation
 		String op = node.jjtGetValue().toString();
@@ -227,7 +231,7 @@ public class RunVisitor implements bc1Visitor
 		if (op.equalsIgnoreCase("&"))
 			result = v1 + v2;
 		else 
-			out.println("Unknown Operation: '" + op + "'");
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 
 		// Log
 		out.println(v1 + " " + op + " " + v2 + " -> " + result);
@@ -239,6 +243,8 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(ASTStringLiteral node, Object data)
 	{
 		String result = node.jjtGetValue().toString();
+		result = result.substring(1, result.length()-1);
+		
 		out.println("StringLiteral: " + result);
 		return result;
 	}
@@ -252,7 +258,7 @@ public class RunVisitor implements bc1Visitor
 		String key = node.jjtGetValue().toString();
 		String result = vars.get(key);
 
-		out.println(key + ":" + result);
+//		out.println(key + ":" + result);
 		
 		return result;
 	}
@@ -273,7 +279,7 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTBooleanExpression node, Object data)
 	{
-		out.println("BooleanExpression");
+//		out.println("BooleanExpression");
 		// TODO actually return something
 		return "0";
 	}
@@ -281,7 +287,7 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTEqualityExpression node, Object data)
 	{
-		out.println("EqualityExpression");
+//		out.println("EqualityExpression");
 		// TODO actually return something
 		return "0";
 	}
@@ -289,7 +295,7 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTRelationalExpression node, Object data)
 	{
-		out.println("RelationalExpression");
+//		out.println("RelationalExpression");
 		// TODO actually return something
 		return "0";
 	}
@@ -318,10 +324,10 @@ public class RunVisitor implements bc1Visitor
 		if (op.equalsIgnoreCase("+"))			result = v1 + v2;
 		else if (op.equalsIgnoreCase("-"))		result = v1 - v2;
 		else 
-			out.println("Unknown Operation: '" + op + "'");
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 
 		// Log
-		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
 		
 		return result;
 	}
@@ -351,10 +357,10 @@ public class RunVisitor implements bc1Visitor
 		if (op.equalsIgnoreCase("*"))			result = v1 * v2;
 		else if (op.equalsIgnoreCase("/"))		result = v1 / v2;
 		else 
-			out.println("Unknown Operation: '" + op + "'");
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 		
 		// Log
-		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
 		
 		return result;
 	}
@@ -365,13 +371,13 @@ public class RunVisitor implements bc1Visitor
 		NextInstruction();
 		
 		String op = node.jjtGetValue().toString();
-		out.println("UnaryExpression: " + op);
+//		out.println("UnaryExpression: " + op);
 		
 		// Get operand
 		int v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
 		
 		// Log
-		out.println(op + v1);
+//		out.println(op + v1);
 		
 		// Negate if necessary
 		if (op.equals("-")) return -v1;
@@ -437,13 +443,23 @@ public class RunVisitor implements bc1Visitor
 	{
 		out.println("[Begin While Loop]");
 		
-		while ( Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
-		{
-			for (int i=1; i<node.jjtGetNumChildren(); i++)
-				node.jjtGetChild(i).jjtAccept(this, null);
+		final long startTime = System.nanoTime();
+		final long endTime;
+		try {
+		
+		
+			while ( Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
+			{
+				for (int i=1; i<node.jjtGetNumChildren(); i++)
+					node.jjtGetChild(i).jjtAccept(this, null);
+			}
+		
+		} finally {
+		  endTime = System.nanoTime();
 		}
+		final long duration = endTime - startTime;
 		
-		
+		out.println("endTime = " + duration);
 		out.println("[/End While Loop]");
 		
 		

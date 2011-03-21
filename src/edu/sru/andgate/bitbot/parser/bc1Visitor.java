@@ -12,7 +12,7 @@ public interface bc1Visitor
   public Object visit(ASTPrint node, Object data);
   public Object visit(ASTDeclaration node, Object data);
   public Object visit(ASTAssignment node, Object data);
-  public Object visit(ASTStringExpression node, Object data);
+  public Object visit(ASTConcatExpression node, Object data);
   public Object visit(ASTStringLiteral node, Object data);
   public Object visit(ASTBooleanExpression node, Object data);
   public Object visit(ASTEqualityExpression node, Object data);
@@ -23,4 +23,4 @@ public interface bc1Visitor
   public Object visit(ASTIdentifier node, Object data);
   public Object visit(ASTIntegerLiteral node, Object data);
 }
-/* JavaCC - OriginalChecksum=f147b97db0543fcd599e54a2fb7ad827 (do not edit this line) */
+/* JavaCC - OriginalChecksum=dad0bb2d89d32b7efc4cfa0583bc5318 (do not edit this line) */

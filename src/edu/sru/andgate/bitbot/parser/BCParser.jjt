@@ -87,7 +87,7 @@ TOKEN : /* IDENTIFIERS */
     )* >
 | < #LETTER : [ "_", "a"-"z", "A"-"Z" ] >
 | < #DIGIT : [ "0"-"9" ] >
-| < STRING_LITERAL : "\"~[\"]*\"" >
+| < STRING_LITERAL : "\"" (~["\""])* "\"" >
 }
 
 SimpleNode Start() #Root :
@@ -159,6 +159,7 @@ void Print() :
 {}
 {
   < PRINT > Expression()
+//  < PRINT > StringLiteral()
 }
 
 void Declaration() :
@@ -174,12 +175,23 @@ void Assignment() :
 }
 
 /* ---------- Needs Work ------------- */
-void StringExpression() :
+void ConcatExpression() #ConcatExpression(>1) :
+{
+Token t;
+}
+{
+  StringExpression()
+  (
+    t = < CONCAT > { jjtThis.value = t.image; }
+    
+    StringExpression()
+  )*
+}
+
+void StringExpression() #void :
 {}
 {
-  Expression()
-  < CONCAT > { jjtThis.value = "&"; }
-  Expression()
+  BooleanExpression() | StringLiteral()
 }
 
 void StringLiteral() :
@@ -194,7 +206,7 @@ void StringLiteral() :
 void Expression() #void ://#Expression(>1) :
 {}
 {
-  BooleanExpression() {}
+  ConcatExpression() {}
 }
 
 void BooleanExpression() #BooleanExpression(>1) :

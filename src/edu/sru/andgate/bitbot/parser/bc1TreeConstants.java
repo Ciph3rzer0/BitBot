@@ -12,7 +12,7 @@ public interface bc1TreeConstants
   public int JJTPRINT = 6;
   public int JJTDECLARATION = 7;
   public int JJTASSIGNMENT = 8;
-  public int JJTSTRINGEXPRESSION = 9;
+  public int JJTCONCATEXPRESSION = 9;
   public int JJTSTRINGLITERAL = 10;
   public int JJTBOOLEANEXPRESSION = 11;
   public int JJTEQUALITYEXPRESSION = 12;
@@ -34,7 +34,7 @@ public interface bc1TreeConstants
     "Print",
     "Declaration",
     "Assignment",
-    "StringExpression",
+    "ConcatExpression",
     "StringLiteral",
     "BooleanExpression",
     "EqualityExpression",
@@ -46,4 +46,4 @@ public interface bc1TreeConstants
     "IntegerLiteral",
   };
 }
-/* JavaCC - OriginalChecksum=c83d88d97e98121faa9c28f30b8e9579 (do not edit this line) */
+/* JavaCC - OriginalChecksum=5e4662d961d30664d62fd7d15828b30d (do not edit this line) */

@@ -17,6 +17,7 @@
 			android:layout_height="wrap_content"
 			android:gravity="center_horizontal"
 			android:text="1"
+			android:layout_weight="1"
 			/>
 			
 		<Button android:id="@+id/notifyButton2" 
@@ -24,13 +25,15 @@
 			android:layout_height="wrap_content"
 			android:gravity="center_horizontal"
 			android:text="10"
+			android:layout_weight="1"
 			/>
 		
 		<Button android:id="@+id/notifyButton3"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:gravity="center_horizontal"
-			android:text="100"
+			android:text="1000"
+			android:layout_weight="1"
 			/>
 	</LinearLayout>
 	

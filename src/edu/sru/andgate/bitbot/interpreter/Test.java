@@ -85,12 +85,15 @@ public class Test extends Activity
 	 * Test Code
 	 */
 	String code =
-	/*1*/	"Dim i as Integer;\n" +
-	/*2*/	"Let i = 100;\n" +
-	/*3*/	"While i Do\n" + 
-	/*4*/	"Let b = 1*2*-3;\n" +
-	/*5*/	"Let i = i-1;\n" + 
-	/*6*/	"End\n"
+		/*1*/	"Print \"Hello World\" & \"1\" & \"2\";\n" +
+		/*1*/	"Print \"Test \" & (5-1);\n" +
+		/*1*/	"Dim i as Integer;\n" +
+		/*2*/	"Let i = 3;\n" +
+		/*1*/	"Print \"i = \" & i;\n" +
+		/*3*/	"While i Do\n" + 
+		/*4*/	"Print i;\n" +
+		/*5*/	"Let i = i-1;\n" + 
+		/*6*/	"End\n"
 	;
 	
 	

@@ -91,7 +91,7 @@ TOKEN : /* IDENTIFIERS */
     )* >
 | < #LETTER : [ "_", "a"-"z", "A"-"Z" ] >
 | < #DIGIT : [ "0"-"9" ] >
-| < STRING_LITERAL : "\"~[\"]*\"" >
+| < STRING_LITERAL : "\"" (~["\""])* "\"" >
 }
 
 SimpleNode Start()       :
@@ -324,6 +324,7 @@ void Print() :
     }
   }
 /*@egen*/
+//  < PRINT > StringLiteral()
 }
 
 void Declaration() :
@@ -391,18 +392,23 @@ void Assignment() :
 }
 
 /* ---------- Needs Work ------------- */
-void StringExpression() :
-{/*@bgen(jjtree) StringExpression */
-  ASTStringExpression jjtn000 = new ASTStringExpression(JJTSTRINGEXPRESSION);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}
-{/*@bgen(jjtree) StringExpression */
+void ConcatExpression()                       :
+{/*@bgen(jjtree) #ConcatExpression(> 1) */
+ASTConcatExpression jjtn000 = new ASTConcatExpression(JJTCONCATEXPRESSION);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
+Token t;
+}
+{/*@bgen(jjtree) #ConcatExpression(> 1) */
   try {
 /*@egen*/
-  Expression()
-  < CONCAT > { jjtn000.value = "&"; }
-  Expression()/*@bgen(jjtree)*/
+  StringExpression()
+  (
+    t = < CONCAT > { jjtn000.value = t.image; }
+    
+    StringExpression()
+  )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -419,10 +425,16 @@ void StringExpression() :
     throw (Error)jjte000;
   } finally {
     if (jjtc000) {
-      jjtree.closeNodeScope(jjtn000, true);
+      jjtree.closeNodeScope(jjtn000, jjtree.nodeArity() > 1);
     }
   }
 /*@egen*/
+}
+
+void StringExpression()       :
+{}
+{
+  BooleanExpression() | StringLiteral()
 }
 
 void StringLiteral() :
@@ -454,7 +466,7 @@ void StringLiteral() :
 void Expression()       ://#Expression(>1) :
 {}
 {
-  BooleanExpression() {}
+  ConcatExpression() {}
 }
 
 void BooleanExpression()                        :
