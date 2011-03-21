@@ -18,4 +18,4 @@ class ASTStringLiteral extends SimpleNode {
     return visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=e749e128f608caf28cbf221fb920e7a7 (do not edit this line) */
+/* JavaCC - OriginalChecksum=ad493533735d60a88ff4355f4670321e (do not edit this line) */

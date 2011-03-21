@@ -23,6 +23,11 @@ public class MainActivity extends ListActivity
 	{
 		super.onCreate(savedInstanceState);
 		
+		//*  Start Interpreter first for testing purposes 
+		Intent engineIntent = new Intent(MainActivity.this, Test.class);
+		startActivity(engineIntent);
+		//*/
+		
 		String[] menu_content = getResources().getStringArray(R.array.menu_content);
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item, menu_content));
 		

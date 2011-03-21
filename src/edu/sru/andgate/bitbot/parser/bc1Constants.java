@@ -41,15 +41,25 @@ public interface bc1Constants {
   /** RegularExpression Id. */
   int AS = 21;
   /** RegularExpression Id. */
-  int INTEGER = 22;
+  int WHILE = 22;
   /** RegularExpression Id. */
-  int IDENTIFIER = 23;
+  int DO = 23;
   /** RegularExpression Id. */
-  int LETTER = 24;
+  int INTEGER = 24;
   /** RegularExpression Id. */
-  int DIGIT = 25;
+  int SUBROUTINE = 25;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 26;
+  int CALL = 26;
+  /** RegularExpression Id. */
+  int END = 27;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 28;
+  /** RegularExpression Id. */
+  int LETTER = 29;
+  /** RegularExpression Id. */
+  int DIGIT = 30;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 31;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -78,7 +88,12 @@ public interface bc1Constants {
     "\"=\"",
     "\"dim\"",
     "\"as\"",
+    "\"while\"",
+    "\"do\"",
     "\"integer\"",
+    "<SUBROUTINE>",
+    "\"call\"",
+    "\"end\"",
     "<IDENTIFIER>",
     "<LETTER>",
     "<DIGIT>",
@@ -86,6 +101,7 @@ public interface bc1Constants {
     "\";\"",
     "\"(\"",
     "\")\"",
+    "\",\"",
   };
 
 }

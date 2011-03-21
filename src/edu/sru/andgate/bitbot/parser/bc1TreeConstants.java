@@ -6,25 +6,31 @@ public interface bc1TreeConstants
   public int JJTROOT = 0;
   public int JJTPROGRAM = 1;
   public int JJTVOID = 2;
-  public int JJTPRINT = 3;
-  public int JJTDECLARATION = 4;
-  public int JJTASSIGNMENT = 5;
-  public int JJTSTRINGEXPRESSION = 6;
-  public int JJTSTRINGLITERAL = 7;
-  public int JJTBOOLEANEXPRESSION = 8;
-  public int JJTEQUALITYEXPRESSION = 9;
-  public int JJTRELATIONALEXPRESSION = 10;
-  public int JJTADDITIVEEXPRESSION = 11;
-  public int JJTMULTIPLICATIVEEXPRESSION = 12;
-  public int JJTUNARYEXPRESSION = 13;
-  public int JJTIDENTIFIER = 14;
-  public int JJTINTEGERLITERAL = 15;
+  public int JJTWHILELOOP = 3;
+  public int JJTSUBCALL = 4;
+  public int JJTSUBDECLARATION = 5;
+  public int JJTPRINT = 6;
+  public int JJTDECLARATION = 7;
+  public int JJTASSIGNMENT = 8;
+  public int JJTSTRINGEXPRESSION = 9;
+  public int JJTSTRINGLITERAL = 10;
+  public int JJTBOOLEANEXPRESSION = 11;
+  public int JJTEQUALITYEXPRESSION = 12;
+  public int JJTRELATIONALEXPRESSION = 13;
+  public int JJTADDITIVEEXPRESSION = 14;
+  public int JJTMULTIPLICATIVEEXPRESSION = 15;
+  public int JJTUNARYEXPRESSION = 16;
+  public int JJTIDENTIFIER = 17;
+  public int JJTINTEGERLITERAL = 18;
 
 
   public String[] jjtNodeName = {
     "Root",
     "Program",
     "void",
+    "WhileLoop",
+    "SubCall",
+    "SubDeclaration",
     "Print",
     "Declaration",
     "Assignment",
@@ -40,4 +46,4 @@ public interface bc1TreeConstants
     "IntegerLiteral",
   };
 }
-/* JavaCC - OriginalChecksum=9b546a8f037b69bd0b6c201a7459ed56 (do not edit this line) */
+/* JavaCC - OriginalChecksum=c83d88d97e98121faa9c28f30b8e9579 (do not edit this line) */

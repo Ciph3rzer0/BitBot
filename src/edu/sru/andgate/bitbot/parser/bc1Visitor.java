@@ -6,6 +6,9 @@ public interface bc1Visitor
   public Object visit(SimpleNode node, Object data);
   public Object visit(ASTRoot node, Object data);
   public Object visit(ASTProgram node, Object data);
+  public Object visit(ASTWhileLoop node, Object data);
+  public Object visit(ASTSubCall node, Object data);
+  public Object visit(ASTSubDeclaration node, Object data);
   public Object visit(ASTPrint node, Object data);
   public Object visit(ASTDeclaration node, Object data);
   public Object visit(ASTAssignment node, Object data);
@@ -20,4 +23,4 @@ public interface bc1Visitor
   public Object visit(ASTIdentifier node, Object data);
   public Object visit(ASTIntegerLiteral node, Object data);
 }
-/* JavaCC - OriginalChecksum=0065dfb0946849db466e4c29ccc40ef2 (do not edit this line) */
+/* JavaCC - OriginalChecksum=f147b97db0543fcd599e54a2fb7ad827 (do not edit this line) */

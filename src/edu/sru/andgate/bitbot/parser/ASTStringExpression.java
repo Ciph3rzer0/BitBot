@@ -18,4 +18,4 @@ class ASTStringExpression extends SimpleNode {
     return visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=e42ddc37071842ce4f8a90afae4ad841 (do not edit this line) */
+/* JavaCC - OriginalChecksum=521778e7ca9715a581bf7d65c2933bed (do not edit this line) */

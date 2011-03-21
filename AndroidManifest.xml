@@ -14,7 +14,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".graphics.GameEngine"></activity>
-		<activity android:name=".interpreter.Test"></activity>
+		<activity android:name=".interpreter.Test" android:configChanges="orientation|keyboardHidden" >
+			
+		</activity>
 		<activity android:name=".tutorial.Tutorial_List"></activity>
 		<activity android:name=".tutorial.Main_Tutorial" android:label="@string/app_name" android:screenOrientation="landscape"></activity>
 		
