@@ -19,19 +19,29 @@ public class GameEngine extends Activity
 	Bot test;
 	Bot test2;
 	Bot test3;
+	Bot bot4,bot5,bot6,bot7,bot8,bot9,bot10;
 	BotLayer testTurret;
 	BotLayer test2Turret;
 	int[][] drawList;
 	int drawListPointer = 0;
 	
+	int MAX_OBJECTS = 250;
+	
+	Bot[] testBotArray;
+	int NUM_TEST_BOTS = 0;
+	
 	final int TYPE_BOT = 0;
+	
+	TileMap testMap;
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
     {		
         super.onCreate(savedInstanceState);
         
-        Log.v("bitbot", "onCreate");
+        Log.v("bitbot", "onCreate called");
+        
+        testBotArray = new Bot[NUM_TEST_BOTS];
         
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -42,11 +52,11 @@ public class GameEngine extends Activity
         glSurfaceView = new GLSurfaceView(this);
         
         //Declare Draw List
-        drawList = new int[2][100];
+        drawList = new int[2][MAX_OBJECTS];       
         
         //Test Bot 1
         test = new Bot();
-        test.setTranslation(-1.5f,0.1f,-5.0f);
+        test.setTranslation(-3.5f,0.1f,-5.0f);
         test.addTexture(R.drawable.sand);	//TextureID = 0
         
         //Test Bot 1 Turret Layer
@@ -57,7 +67,7 @@ public class GameEngine extends Activity
         
         //Test Bot 2
         test2 = new Bot();
-        test2.setTranslation(1.5f,0.1f,-5.0f);
+        test2.setTranslation(3.5f,0.1f,-5.0f);
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
         
@@ -69,7 +79,7 @@ public class GameEngine extends Activity
         //Test Bot 3
         test3 = new Bot();
         test3.setTranslation(0.0f,0.1f,-5.0f);
-        test3.setScale(0.5f,0.5f,0.5f);
+        test3.setScale(1.2f,1.2f,1.2f);
         test3.addTexture(R.drawable.red);	//TextureID = 0
         test3.addTexture(R.drawable.green);	//TextureID = 1
         test3.setSelectedTexture(0);
@@ -81,6 +91,19 @@ public class GameEngine extends Activity
         glSurfaceView.setRenderer(gameRenderer);
         glSurfaceView.setRenderMode(0); //0 = Render When Dirty
         setContentView(glSurfaceView);
+        
+        //Mass Test Bots
+        for(int i=0;i<NUM_TEST_BOTS;i++)
+        {
+        	testBotArray[i] = new Bot();
+        	testBotArray[i].addTexture(R.drawable.red);
+        	testBotArray[i].setTranslation(2.0f,0.0f,-5.0f);
+        	gameRenderer.addObjectToWorld(testBotArray[i]);
+        }
+        
+        testMap = new TileMap();
+        //testMap.addTexture(R.drawable.stone);
+        gameRenderer.setTileMap(testMap);
         
         //Add test objects to world
         gameRenderer.addObjectToWorld(testTurret);
@@ -95,7 +118,24 @@ public class GameEngine extends Activity
 		//Tell camera to continuously update so it can follow user bot
 		gameRenderer.continuousCameraUpdate = true;
         
-        preloadTextures();							//Should always be called before game starts	
+        preloadTextures();							//Should always be called before game starts
+        
+        //Mass of bots
+        
+        for(int i=0;i<NUM_TEST_BOTS;i++)
+        {
+        	addToDrawList(TYPE_BOT,testBotArray[i].ID);
+        }
+        
+        //Add objects to draw list (which is cleared by renderer after each frame is drawn)
+        addToDrawList(TYPE_BOT,test.ID);
+        addToDrawList(TYPE_BOT,testTurret.ID);
+        addToDrawList(TYPE_BOT,test2.ID);
+        addToDrawList(TYPE_BOT,test2Turret.ID);
+        addToDrawList(TYPE_BOT,test3.ID);
+      
+        gameRenderer.drawListSize = drawListPointer+1;
+        
         gameRenderer.startSimulation();
         fakeGameLoop();
     }
@@ -139,15 +179,15 @@ public class GameEngine extends Activity
     				}
     				
     				//Make some other stuff happen
-    	    		test.setTranslation(-1.5f,(0.01f + move),-5.0f);
-    	    		test2.setTranslation(1.5f,(-1*(0.01f + move)),-5.0f);
+    	    		test.setTranslation(-3.5f,(0.01f + move),-5.0f);
+    	    		test2.setTranslation(3.5f,(-1*(0.01f + move)),-5.0f);
     	    		//test2.move(45.0f, 0.1f);
     	    		test2Turret.setRotationAngle(rotate);
     	    		
     	    		if(goinUp)
     	    		{
-    	    			move += 0.03f;
-    	    			if(move >= 3.0f)
+    	    			move += 0.05f;
+    	    			if(move >= 5.0f)
     	    			{
     	    				goinUp = false;
     	    				test.setRotation(180.0f,0.0f,0.0f,-5.0f);
@@ -158,8 +198,8 @@ public class GameEngine extends Activity
     	    		}
     	    		else
     	    		{
-    	    			move -= 0.03f;
-    	    			if(move <= -3.0f)
+    	    			move -= 0.05f;
+    	    			if(move <= -5.0f)
     	    			{
     	    				goinUp = true;
     	    				test.setRotation(0.0f,0.0f,0.0f,-5.0f);
@@ -173,23 +213,32 @@ public class GameEngine extends Activity
     				gameRenderer.cameraX = test2.parameters[0];
     				gameRenderer.cameraY = test2.parameters[1];
     	    		
+    				/*
     	            //Add objects to draw list (which is cleared by renderer after each frame is drawn)
     	            addToDrawList(TYPE_BOT,test.ID);
     	            addToDrawList(TYPE_BOT,testTurret.ID);
     	            addToDrawList(TYPE_BOT,test2.ID);
     	            addToDrawList(TYPE_BOT,test2Turret.ID);
     	            addToDrawList(TYPE_BOT,test3.ID);
-    	    		
+    	            
+    	            for(int i=0;i<NUM_TEST_BOTS;i++)
+    	            {
+    	            	addToDrawList(TYPE_BOT,testBotArray[i].ID);
+    	            }
+    	            
+    	            gameRenderer.drawListSize = drawListPointer+1;
+    	    		*/
+    	            
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn)
     	    		{
 	    	    		if(gameRenderer.getFrameDrawn())
 	    	    		{
-	    	    			gameRenderer.drawListSize = drawListPointer+1;
+	    	    			//gameRenderer.drawListSize = drawListPointer+1;
 	    	    			gameRenderer.setFrameDrawn(false);
 	    	    			glSurfaceView.requestRender();
 	    	    			thisFrameDrawn = true;
-	    	    			drawListPointer = 0;
+	    	    			//drawListPointer = 0;
 	    	    		}
     	    		}
     			}

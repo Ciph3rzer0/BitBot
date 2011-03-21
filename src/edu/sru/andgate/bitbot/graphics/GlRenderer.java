@@ -23,7 +23,7 @@ public class GlRenderer implements Renderer
 	int totalObjCount = 0;
 	int botCount = 0;
 	int botLayerCount = 0;
-	public float cameraZoom = 2.6f;	//2.6 for testing
+	public float cameraZoom = 8.42f;	//2.6 for testing
 	float aspectRatio;
 	float cameraX = 0.0f;
 	float cameraY = 0.0f;
@@ -34,8 +34,9 @@ public class GlRenderer implements Renderer
 	boolean startSimulation = false;
 	boolean preloadTextures = false;
 	public boolean continuousCameraUpdate = false;
+	TileMap tileMap;
 	
-	int MAX_OBJECTS = 100;
+	int MAX_OBJECTS = 500;
 	
 	//Constructor hands over context
 	public GlRenderer(Context context)
@@ -62,6 +63,11 @@ public class GlRenderer implements Renderer
 		drawList = dl;
 	}
 	
+	public void setTileMap(TileMap tm)
+	{
+		tileMap = tm;
+	}
+	
 	public void addObjectToWorld(Bot obj)
 	{
 		objectList[objCount] = obj;		//Add object to master list
@@ -85,6 +91,7 @@ public class GlRenderer implements Renderer
 		//Pre-load Textures
 		if(preloadTextures)
 		{
+			//Bot Objects
 			for(int i=0;i<objCount;i++)
 			{
 				for(int j=0;j<objectList[i].textureHopper.size();j++)
@@ -93,6 +100,12 @@ public class GlRenderer implements Renderer
 					objectList[i].setTextureUpdateFlag(0.0f);
 				}
 			}
+			//Tile Map Textures
+			for(int i=0;i<tileMap.numTextures;i++)
+			{
+				tileMap.loadGLTexture(gl, this.context, i);
+			}
+			
 			preloadTextures = false;
 		}
 		//Main Simulation
@@ -100,6 +113,10 @@ public class GlRenderer implements Renderer
 		{
 			//Clear Screen and Depth Buffer
 			gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+			
+			//Tile map update is a special case and isnt used with drawList
+			gl.glLoadIdentity();
+			tileMap.draw(gl);
 			
 			//Draw all objects in Draw List
 			for(int i=0;i < drawListSize;i++)	//NEEDS CHANGED BACK
@@ -109,26 +126,13 @@ public class GlRenderer implements Renderer
 				{
 					//Reset ModelView Matrix
 					gl.glLoadIdentity();
-					//Get parameters for the current object to be drawn
-					paramList = objectList[drawList[1][i]].getCurrentParameters();
-					//Prepare openGL for drawing
-					gl.glTranslatef(paramList[0], paramList[1], paramList[2]);				//Translate Object
-					gl.glRotatef(paramList[3], paramList[4], paramList[5], paramList[6]);	//Rotate Object
-					gl.glScalef(paramList[7], paramList[8], paramList[9]);					//Scale Object
-					
-					//Check to see if new texture needs loaded (0.0=NO, 1.0=YES) (this will probably be out-dated soon)
-					if(paramList[10] == 1.0f)
-					{
-						objectList[drawList[1][i]].loadGLTexture(gl, this.context, objectList[drawList[1][i]].getSelectedTexture()); //objectList[drawList.get(i)].getSelectedTexture()
-						objectList[drawList[1][i]].setTextureUpdateFlag(0.0f);
-					}
 					//Draw object with parameter changes loaded
 					objectList[drawList[1][i]].draw(gl);
 				}
 				//Handle OTHER_OBJECT_TYPES_HERE
 			}
 			//Reset Draw List
-			drawListSize = 0;
+			//drawListSize = 0;
 			
 			//CAMERA MOVEMENT CONTROLLER
 			if(continuousCameraUpdate)
@@ -137,6 +141,7 @@ public class GlRenderer implements Renderer
 				gl.glLoadIdentity(); 					//Reset The Projection Matrix
 			   // gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
 			    gl.glOrthof(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) - (aspectRatio * cameraZoom), (cameraY) + (aspectRatio * cameraZoom), 0.01f, 100.0f);
+			    tileMap.setDrawRegion(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) + (aspectRatio * cameraZoom), (cameraY) - (aspectRatio * cameraZoom));
 				gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
 				gl.glLoadIdentity(); 					//Reset The Modelview Matrix
 			}
@@ -174,6 +179,7 @@ public class GlRenderer implements Renderer
 		//gl.glEnable(GL10.GL_DEPTH_TEST);
 	    //gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
 	    gl.glOrthof(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) - (aspectRatio * cameraZoom), (cameraY) + (aspectRatio * cameraZoom), 0.01f, 100.0f);
+	    tileMap.setDrawRegion(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) + (aspectRatio * cameraZoom), (cameraY) - (aspectRatio * cameraZoom));
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
 		//gl.glLoadIdentity(); 					//Reset The Modelview Matrix
@@ -186,7 +192,7 @@ public class GlRenderer implements Renderer
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 0.5f); 	//Background Clear Color (Black)
 		gl.glClearDepthf(1.0f); 					//Depth Buffer Setup
-		gl.glDisable(GL10.GL_DEPTH_TEST); 			//Enables/Disables Depth Testing
+		gl.glEnable(GL10.GL_DEPTH_TEST); 			//Enables/Disables Depth Testing
 		gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
 		
         gl.glEnable(GL10.GL_BLEND);
