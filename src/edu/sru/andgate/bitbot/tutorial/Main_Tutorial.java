@@ -25,7 +25,8 @@ import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class Main_Tutorial extends Activity {
-
+	private boolean canSimulate = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -137,17 +138,21 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onClick(View v) 
 			{
-				try
-				{
-				    File file = new File(getFilesDir(),"tutorial.txt");
-				    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-				    writer.write(editor.getText().toString());
-				    writer.flush();
-				    writer.close();
-				    checkAnswer(file, tutorialID);
-				} catch (IOException e) 
-				{
-				   e.printStackTrace();
+				if(tutorialID == R.raw.getting_started){
+					Toast.makeText(Main_Tutorial.this, "Not available in this Tutorial", Toast.LENGTH_SHORT).show();
+				}else{
+					try
+					{
+					    File file = new File(getFilesDir(),"tutorial.txt");
+					    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+					    writer.write(editor.getText().toString());
+					    writer.flush();
+					    writer.close();
+					    checkAnswer(file, tutorialID);
+					} catch (IOException e) 
+					{
+					   e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -160,12 +165,14 @@ public class Main_Tutorial extends Activity {
 			{
 				if(simulateFlag == 0){
 					Toast.makeText(Main_Tutorial.this, "No Simulation Available" , Toast.LENGTH_SHORT).show();
-				}else if(simulateFlag == 1){
+				}else if(canSimulate && simulateFlag == 1){
 					//Console Output here
 					Intent myIntent = new Intent(Main_Tutorial.this, Console.class);
          			startActivity(myIntent);
-				}else{
+				}else if (canSimulate && simulateFlag == 2){
 					//Graphical Simulation here
+				}else{
+					Toast.makeText(Main_Tutorial.this, "Simulation Available, but answer is not correct", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -278,12 +285,14 @@ public class Main_Tutorial extends Activity {
 		  if(temp1.equals(temp2))
 		  {
 			  Toast.makeText(Main_Tutorial.this,"Correct Answer",Toast.LENGTH_SHORT).show();
+			  canSimulate = true;
 			  /*
 			   * call function to simulate code here if not using sim button...
 			   */
 		  }else
 			  {
 				Toast.makeText(Main_Tutorial.this,"Wrong Answer",Toast.LENGTH_SHORT).show();
+				canSimulate = false;
 			  }
 	}
 	
