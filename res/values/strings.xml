@@ -4,20 +4,7 @@
 	<string name="app_name">Bits-N-Bots</string>
 	
 	<!-- Hamza -->
-	<string name="hello">Hello World, main_menu!</string>
-	<string-array name="menu_content">
-		<item>Engine</item>
-		<item>Interpreter</item>
-		<item>Tutorial</item>
-		<item>IDE</item>
-		<item>_</item>
-		<item>Game Modes</item>
-		<item>Options</item>
-		<item>High Scores</item>
-		<item>Help</item>
-		<item>Quit</item>
-	</string-array>
-	
+		
 	<!-- Nick -->
 	 <string-array name="menu_contents">
 	 	<item>Getting Started</item>
