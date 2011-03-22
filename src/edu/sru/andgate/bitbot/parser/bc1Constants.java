@@ -45,21 +45,39 @@ public interface bc1Constants {
   /** RegularExpression Id. */
   int DO = 23;
   /** RegularExpression Id. */
-  int INTEGER = 24;
+  int LOOP = 24;
   /** RegularExpression Id. */
-  int SUBROUTINE = 25;
+  int FOR = 25;
   /** RegularExpression Id. */
-  int CALL = 26;
+  int TO = 26;
   /** RegularExpression Id. */
-  int END = 27;
+  int STEP = 27;
   /** RegularExpression Id. */
-  int IDENTIFIER = 28;
+  int NEXT = 28;
   /** RegularExpression Id. */
-  int LETTER = 29;
+  int IF = 29;
   /** RegularExpression Id. */
-  int DIGIT = 30;
+  int THEN = 30;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 31;
+  int ELSE = 31;
+  /** RegularExpression Id. */
+  int ENDIF = 32;
+  /** RegularExpression Id. */
+  int INTEGER = 33;
+  /** RegularExpression Id. */
+  int SUBROUTINE = 34;
+  /** RegularExpression Id. */
+  int CALL = 35;
+  /** RegularExpression Id. */
+  int END = 36;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 37;
+  /** RegularExpression Id. */
+  int LETTER = 38;
+  /** RegularExpression Id. */
+  int DIGIT = 39;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 40;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -90,6 +108,15 @@ public interface bc1Constants {
     "\"as\"",
     "\"while\"",
     "\"do\"",
+    "\"loop\"",
+    "\"for\"",
+    "\"to\"",
+    "\"step\"",
+    "\"next\"",
+    "\"if\"",
+    "\"then\"",
+    "\"else\"",
+    "\"endif\"",
     "\"integer\"",
     "<SUBROUTINE>",
     "\"call\"",

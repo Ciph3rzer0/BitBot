@@ -74,6 +74,17 @@ TOKEN : /* RESERVED WORDS */
 
 | < WHILE : "while" >
 | < DO : "do" >
+| < LOOP : "loop" >
+
+| < FOR : "for" >
+| < TO : "to" >
+| < STEP : "step" >
+| < NEXT : "next" >
+
+| < IF : "if" >
+| < THEN : "then" >
+| < ELSE : "else" >
+| < ENDIF : "endif" >
 
 | < INTEGER : "integer" >
 | < SUBROUTINE : "subroutine" | "sub" >
@@ -167,10 +178,36 @@ void Program() :
 /*@egen*/
 }
 
-void ListOfInstructions()       :
-{}
-{
-  (Instruction())*
+void ListOfInstructions() :
+{/*@bgen(jjtree) ListOfInstructions */
+  ASTListOfInstructions jjtn000 = new ASTListOfInstructions(JJTLISTOFINSTRUCTIONS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) ListOfInstructions */
+  try {
+/*@egen*/
+  (Instruction())*/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
 }
 
 void Instruction()       :
@@ -189,6 +226,10 @@ void Instruction()       :
   SubDecl()
   |
   WhileLoop()
+  |
+  IfStatement()
+  |
+  ForLoop()
 }
 
 void WhileLoop() :
@@ -200,7 +241,80 @@ void WhileLoop() :
 {/*@bgen(jjtree) WhileLoop */
   try {
 /*@egen*/
-  < WHILE > Expression() < DO > ListOfInstructions() < END >/*@bgen(jjtree)*/
+  < WHILE > Expression() < DO > ListOfInstructions() < LOOP	>/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void IfStatement() :
+{/*@bgen(jjtree) IfStatement */
+  ASTIfStatement jjtn000 = new ASTIfStatement(JJTIFSTATEMENT);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) IfStatement */
+  try {
+/*@egen*/
+  < IF > Expression() < THEN >
+  
+  ListOfInstructions()
+  ( <ELSE> 
+    ListOfInstructions()
+  )?
+  
+  < ENDIF >/*@bgen(jjtree)*/
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
+    }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
+/*@egen*/
+}
+
+void ForLoop() :
+{/*@bgen(jjtree) ForLoop */
+  ASTForLoop jjtn000 = new ASTForLoop(JJTFORLOOP);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}
+{/*@bgen(jjtree) ForLoop */
+  try {
+/*@egen*/
+  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ?
+    ListOfInstructions()
+  < NEXT >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -324,7 +438,6 @@ void Print() :
     }
   }
 /*@egen*/
-//  < PRINT > StringLiteral()
 }
 
 void Declaration() :

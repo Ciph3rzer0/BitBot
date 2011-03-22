@@ -1,6 +1,10 @@
 package edu.sru.andgate.bitbot.interpreter;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PipedInputStream;
 import java.io.PrintStream;
 
 import android.util.Log;
@@ -32,6 +36,13 @@ public class BotInterpreter
 	private Bot bot;
 	
 	
+	private PipedInputStream botOutput;
+	private StringBuffer botLog;
+	
+	public String getBotLog()
+	{
+		return botLog.toString();
+	}
 	
 	
 	// TODO: Dumb, Hack
@@ -136,6 +147,25 @@ public class BotInterpreter
 	 */
 	public void resume(int numberOfInstructionsToExecute)
 	{
+		try
+		{
+			int b;
+			
+			while (botOutput.available() > 1)
+			{
+				b = botOutput.read();
+				botLog.append((char)b);
+//				Log.w("botLog", botLog.toString());
+			}
+			Log.i("botLog", botLog.toString());
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		if (rv != null)
 			rv.resume(numberOfInstructionsToExecute);
 		else
@@ -151,14 +181,25 @@ public class BotInterpreter
 			System.out.println("param[" + i + "] = " + params[i]);
 		
 		
-		
-		if (instr.equalsIgnoreCase("bot_move_forward"))
+		if (instr.equalsIgnoreCase("bot_move"))
 		{
 			return true;
 		}
+		else if (instr.equalsIgnoreCase("bot_turn"))
+		{
+			return true;
+		}
+		else if (instr.equalsIgnoreCase("bot_fire"))
+		{
+			return true;
+		}
+		else
+			Log.w("BitBot Interpreter", "Instruction not valid" + instr);
 		
 		return false;
 	}
+	
+	
 	
 	
 	/**
@@ -174,7 +215,21 @@ public class BotInterpreter
 		private RunThread(BotInterpreter bi)
 		{
 			if (rv == null)
+			{
 				rv = new RunVisitor(bi);
+				
+				try
+				{
+					botLog = new StringBuffer();
+					botOutput = new PipedInputStream(rv.getStdOut());
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 			else
 				Log.e("BitBot Interpreter", "Error: two RunThreads running in BotInterpreter.");
 		}
@@ -193,6 +248,9 @@ public class BotInterpreter
 			Log.i("BitBot Interpreter", "Thread '" + this.getName() + "' has finished.");
 		}
 	}
+	
+	
+	
 	
 	/**
 	 * Determine if this BotInterpreter's thread is waiting or not.

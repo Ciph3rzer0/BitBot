@@ -2,7 +2,10 @@ package edu.sru.andgate.bitbot.interpreter;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import android.util.Log;
@@ -37,7 +40,13 @@ public class RunVisitor implements bc1Visitor
 	private int instructionsLeft = 0;
 	private boolean _waiting = true;
 	
+	private PipedOutputStream $std_out = new PipedOutputStream();
+	private PrintStream std_out = new PrintStream($std_out, true);
+	
+	private PipedInputStream $std_in = new PipedInputStream();
+	
 	private BotInterpreter bi;
+	
 	
 	
 	private PrintStream out = new PrintStream( 
@@ -63,7 +72,11 @@ public class RunVisitor implements bc1Visitor
 	}
 	
 	
-	
+	/**
+	 * Creates a RunVisitor that interacts with the BotInterpreter <code>bi</code>.
+	 * Actually, as of now it does nothing.
+	 * @param bi
+	 */
 	public RunVisitor(BotInterpreter bi)
 	{
 		this.bi = bi;
@@ -81,8 +94,6 @@ public class RunVisitor implements bc1Visitor
 	/**
 	 * Decrements the instructionsLeft and if <= 0 makes the thread wait.
 	 */
-	// TODO : This decrements before executing an instruction.  Should do that after.
-	// Perhaps just <0 instead of <=0
 	private void NextInstruction()
 	{
 		// If we have less than 1 instruction left, we need to wait until we're
@@ -104,9 +115,7 @@ public class RunVisitor implements bc1Visitor
 			}
 		}
 		
-		
 		instructionsLeft--;								// We used one instruction.
-		
 	}
 	
 	/**
@@ -125,6 +134,25 @@ public class RunVisitor implements bc1Visitor
 		}
 	}
 	
+	/**
+	 * This is the standard output of the interpreter.  Attach it wherever needed.
+	 * @return the standard output of the interpreter.
+	 */
+	public PipedOutputStream getStdOut()
+	{
+		return $std_out;
+	}
+	
+	/**
+	 * Set the standard input of the interpreter.  Pass in input from the keyboard, or whatever.
+	 * @param in the standard input of the interpreter.
+	 */
+	public void setStdIn(PipedInputStream in)
+	{
+		$std_in = in;
+	}
+	
+	
 	
 	//***************************************************
 	//*  				 ROOT CLASSES 					*
@@ -133,14 +161,14 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(SimpleNode node, Object data)
 	{
 		// This should never actually get called...
-//		out.println("[===SimpleNode===]");
+		out.println("[===SimpleNode===] ERR: should not print. ");
 		return null;
 	}
 	@Override
 	public Object visit(ASTRoot node, Object data)
 	{
-//		out.println(" ");
-//		out.println("[--- Root ---]");
+		out.println(" ");
+		out.println("[--- Root ---]");
 		
 		// Visit Program
 		node.jjtGetChild(0).jjtAccept(this, null);
@@ -150,11 +178,10 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTProgram node, Object data)
 	{
-//		out.println("[= Program =]");
+		out.println("[= Program =]");
 		
-		// Visit all Instructions
-		for (int i=0; i<node.jjtGetNumChildren(); i++)
-			node.jjtGetChild(i).jjtAccept(this, null);
+		// ListOfInstructions
+		node.jjtGetChild(0).jjtAccept(this, null);
 		
 		return null;
 	}
@@ -167,8 +194,8 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
-		for (int i=0; i<node.jjtGetNumChildren(); i++)
-			out.println( "[PRINT] " + node.jjtGetChild(i).jjtAccept(this, null).toString() );
+		out.println( "[PRINT] " + node.jjtGetChild(0).jjtAccept(this, null).toString() );
+		std_out.println(node.jjtGetChild(0).jjtAccept(this, null).toString() );
 		
 		return null;
 	}
@@ -189,8 +216,6 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(ASTAssignment node, Object data)
 	{
 		NextInstruction();
-		
-//		out.println("[Assignment]");
 		
 		// ID is first child
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
@@ -234,20 +259,12 @@ public class RunVisitor implements bc1Visitor
 			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 
 		// Log
-		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
 		
 		return result;
 	}
 
-	@Override
-	public Object visit(ASTStringLiteral node, Object data)
-	{
-		String result = node.jjtGetValue().toString();
-		result = result.substring(1, result.length()-1);
-		
-		out.println("StringLiteral: " + result);
-		return result;
-	}
+	
 	
 	//***************************************************
 	//*  				IDENTIFIERS						*
@@ -271,6 +288,16 @@ public class RunVisitor implements bc1Visitor
 	{
 		//out.println("(" + node.jjtGetValue().toString() + ")");
 		return node.jjtGetValue().toString();
+	}
+	
+	@Override
+	public Object visit(ASTStringLiteral node, Object data)
+	{
+		String result = node.jjtGetValue().toString();
+		result = result.substring(1, result.length()-1);
+		
+//		out.println("StringLiteral: " + result);
+		return result;
 	}
 	
 	//***************************************************
@@ -370,13 +397,13 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
+		// Get operation
 		String op = node.jjtGetValue().toString();
-//		out.println("UnaryExpression: " + op);
-		
 		// Get operand
 		int v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
 		
 		// Log
+//		out.println("UnaryExpression: " + op);
 //		out.println(op + v1);
 		
 		// Negate if necessary
@@ -408,6 +435,7 @@ public class RunVisitor implements bc1Visitor
 			for (int i=0; i<params.length; i++)
 				out.println(params[i]);
 		}
+		
 		// Execute bot instructions
 		// TODO: check what this string is
 		Log.e("RV", instr.substring(0, 4));
@@ -426,10 +454,12 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTSubDeclaration node, Object data)
 	{
-		out.println("Sub Declaration:");
+		// Identifier
+		String name = node.jjtGetChild(0).jjtAccept(this, null).toString();
+		out.println("Sub Declaration: " + name);
 		
-		for (int i=0; i<node.jjtGetNumChildren(); i++)
-			node.jjtGetChild(i).jjtAccept(this, null);
+		// ListOfInstructions
+		node.jjtGetChild(1).jjtAccept(this, null);
 		
 		out.println("End Sub Declaration:");
 		
@@ -446,13 +476,9 @@ public class RunVisitor implements bc1Visitor
 		final long startTime = System.nanoTime();
 		final long endTime;
 		try {
-		
-		
+			// Loop while conditional is not false.  (0 == false, 1 == true)
 			while ( Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
-			{
-				for (int i=1; i<node.jjtGetNumChildren(); i++)
-					node.jjtGetChild(i).jjtAccept(this, null);
-			}
+				node.jjtGetChild(1).jjtAccept(this, null);
 		
 		} finally {
 		  endTime = System.nanoTime();
@@ -462,8 +488,48 @@ public class RunVisitor implements bc1Visitor
 		out.println("endTime = " + duration);
 		out.println("[/End While Loop]");
 		
+		return null;
+	}
+
+
+
+	@Override
+	public Object visit(ASTIfStatement node, Object data)
+	{
+//		out.println("[Begin IfStatement]");
 		
+		// Evaluate the conditional expression of the if statement
+		int conditional = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
+		
+		// Execute if conditional is not false.  (0 == false, 1 == true)
+		if ( conditional != 0)
+			node.jjtGetChild(1).jjtAccept(this, null);
+		else
+			node.jjtGetChild(2).jjtAccept(this, null);
+		
+//		out.println("[/End IfStatement]");
+		
+		return null;
+	}
+
+
+
+	@Override
+	public Object visit(ASTForLoop node, Object data)
+	{
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public Object visit(ASTListOfInstructions node, Object data)
+	{
+		// Execute every instruction in list
+		for (int i=0; i<node.jjtGetNumChildren(); i++)
+			node.jjtGetChild(i).jjtAccept(this, null);
+		
 		return null;
 	}
 	

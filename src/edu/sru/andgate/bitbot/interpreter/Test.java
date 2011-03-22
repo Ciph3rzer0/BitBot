@@ -23,6 +23,8 @@ public class Test extends Activity
 	TextView tv;
 	OutputStream ps;
 	
+	BotInterpreter b1;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -35,8 +37,7 @@ public class Test extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				vm.resume(1);
-//				tv.setText(ps. toString());
+				Resume(1);
 			}
 		});
 		
@@ -44,8 +45,7 @@ public class Test extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				vm.resume(10);
-//				tv.setText(ps. toString());
+				Resume(10);
 			}
 		});
 		
@@ -53,10 +53,11 @@ public class Test extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				vm.resume(1000);
-//				tv.setText(ps. toString());
+				Resume(1000);
 			}
 		});
+		
+		tv = (TextView)findViewById(R.id.txtMain);
 		
 		
 		
@@ -66,7 +67,7 @@ public class Test extends Activity
 		vm = new InstructionLimitedVirtualMachine();
 		
 		// Set up a couple BotInterpreters
-		BotInterpreter b1 = new BotInterpreter(null, code);
+		b1 = new BotInterpreter(null, code);
 		vm.addInterpreter(b1);
 		
 //		BotInterpreter b2 = new BotInterpreter(null, code2);
@@ -79,6 +80,12 @@ public class Test extends Activity
 		
 	}
 	
+	private void Resume(int i)
+	{
+		vm.resume(i);
+		tv.setText(b1.getBotLog());
+	}
+	
 	
 	
 	/**
@@ -88,12 +95,17 @@ public class Test extends Activity
 		/*1*/	"Print \"Hello World\" & \"1\" & \"2\";\n" +
 		/*1*/	"Print \"Test \" & (5-1);\n" +
 		/*1*/	"Dim i as Integer;\n" +
-		/*2*/	"Let i = 3;\n" +
+		/*2*/	"Let i = 16;\n" +
 		/*1*/	"Print \"i = \" & i;\n" +
 		/*3*/	"While i Do\n" + 
-		/*4*/	"Print i;\n" +
-		/*5*/	"Let i = i-1;\n" + 
-		/*6*/	"End\n"
+		/*4*/	"  Print i;\n" +
+		/*4*/	"  IF i-1 THEN\n" +
+		/*4*/	"    Print \"Not One! \" & i;\n" +
+		/*4*/	"  ELSE i;\n" +
+		/*4*/	"    Print \"ONE!!!!!!!\";\n" +
+		/*4*/	"  ENDIF\n" +
+		/*5*/	"  Let i = i-1;\n" + 
+		/*6*/	"Loop\n"
 	;
 	
 	

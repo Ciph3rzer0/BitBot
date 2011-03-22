@@ -70,6 +70,17 @@ TOKEN : /* RESERVED WORDS */
 
 | < WHILE : "while" >
 | < DO : "do" >
+| < LOOP : "loop" >
+
+| < FOR : "for" >
+| < TO : "to" >
+| < STEP : "step" >
+| < NEXT : "next" >
+
+| < IF : "if" >
+| < THEN : "then" >
+| < ELSE : "else" >
+| < ENDIF : "endif" >
 
 | < INTEGER : "integer" >
 | < SUBROUTINE : "subroutine" | "sub" >
@@ -106,7 +117,7 @@ void Program() :
   < EOF >
 }
 
-void ListOfInstructions() #void :
+void ListOfInstructions() :
 {}
 {
   (Instruction())*
@@ -128,12 +139,37 @@ void Instruction() #void :
   SubDecl()
   |
   WhileLoop()
+  |
+  IfStatement()
+  |
+  ForLoop()
 }
 
 void WhileLoop() :
 {}
 {
-  < WHILE > Expression() < DO > ListOfInstructions() < END >
+  < WHILE > Expression() < DO > ListOfInstructions() < LOOP	>
+}
+
+void IfStatement() :
+{}
+{
+  < IF > Expression() < THEN >
+  
+  ListOfInstructions()
+  ( <ELSE> 
+    ListOfInstructions()
+  )?
+  
+  < ENDIF >
+}
+
+void ForLoop() :
+{}
+{
+  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ?
+    ListOfInstructions()
+  < NEXT >
 }
 
 
@@ -159,7 +195,6 @@ void Print() :
 {}
 {
   < PRINT > Expression()
-//  < PRINT > StringLiteral()
 }
 
 void Declaration() :
