@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import edu.sru.andgate.bitbot.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +33,7 @@ public class Main_Tutorial extends Activity {
 		setContentView(R.layout.tutorial_main);
 		
 		final int tutorialID = getIntent().getExtras().getInt("File_ID",0);
+		final int simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
 		
 
 		//create the action items for the CustomPopUpWindow
@@ -156,7 +158,15 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onClick(View v) 
 			{
-				//code to create simulation - I.E. send file to bot code
+				if(simulateFlag == 0){
+					Toast.makeText(Main_Tutorial.this, "No Simulation Available" , Toast.LENGTH_SHORT).show();
+				}else if(simulateFlag == 1){
+					//Console Output here
+					Intent myIntent = new Intent(Main_Tutorial.this, Console.class);
+         			startActivity(myIntent);
+				}else{
+					//Graphical Simulation here
+				}
 			}
 		});
 		

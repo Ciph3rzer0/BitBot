@@ -19,6 +19,7 @@
 	
 	<!-- Nick -->
 	 <string-array name="menu_contents">
+	 	<item>Getting Started</item>
     	<item>Defining Variables</item>
         <item>Print Statement</item>
         <item>For Loop</item>
