@@ -18,6 +18,7 @@
 		<activity android:name=".tutorial.Tutorial_List"></activity>
 		<activity android:name=".tutorial.Main_Tutorial"></activity>
 		<activity android:name=".tutorial.Console"></activity>
+		<activity android:name=".ide.IDE"></activity>
 		
     </application>
 </manifest>
