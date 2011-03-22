@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent" android:layout_height="wrap_content">
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"/>
+	<Button 
+		android:id="@+id/sequence_btn" 
+		android:text="Sequence" 
+		android:layout_alignParentTop="true"
+		android:layout_width="110dip" android:layout_height="90dip">
+	</Button>
+	<Button 
+		android:layout_width="110dip" 
+		android:id="@+id/selection_btn" 
+		android:text=" Selection" 
+		android:layout_below="@+id/sequence_btn" 
+		android:layout_alignLeft="@+id/sequence_btn" 
+		android:layout_alignRight="@+id/sequence_btn" android:layout_height="90dip">
+	</Button>
+	<Button 
+		android:layout_width="110dip" 
+		android:id="@+id/iteration_btn" 
+		android:text=" Iteration" 
+		android:layout_below="@+id/selection_btn" 
+		android:layout_alignLeft="@+id/selection_btn" 
+		android:layout_alignRight="@+id/selection_btn" android:layout_height="90dip">
+	 </Button>
+	<Button 
+		android:layout_width="110dip" 
+		android:id="@+id/tools_btn" 
+		android:text="Quick Tools" 
+		android:layout_alignParentRight="true" android:layout_height="90dip">
+	</Button>
+	<Button 
+		android:layout_width="110dip" 
+		android:id="@+id/bot_btn" 
+		android:text="Bot Functions" 
+		android:layout_below="@+id/tools_btn" 
+		android:layout_alignLeft="@+id/tools_btn" 
+		android:layout_alignRight="@+id/tools_btn" android:layout_height="90dip">
+	</Button>
+	<Button 
+		android:layout_width="110dip" 
+		android:id="@+id/send_btn" 
+		android:text="Send Code" 
+		android:layout_below="@+id/bot_btn" 
+		android:layout_alignLeft="@+id/bot_btn" 
+		android:layout_alignRight="@+id/bot_btn" android:layout_height="90dip">
+	</Button>
+	<EditText 
+		android:id="@+id/editor" 
+		android:layout_width="match_parent" 
+		android:text="Edit Text Here" 
+		android:layout_toLeftOf="@+id/bot_btn" 
+		android:layout_toRightOf="@+id/sequence_btn"
+		android:layout_height="match_parent">
+	</EditText>
+	<SlidingDrawer 
+		android:layout_width="wrap_content" 
+		android:orientation="horizontal" 
+		android:id="@+id/SlidingDrawer" 
+		android:handle="@+id/slideHandleButton" 
+		android:content="@+id/contentLayout" 
+		android:padding="10dip" 
+		android:layout_height="400dip">
+		<Button 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:id="@+id/slideHandleButton" 
+			android:background="@drawable/openarrow">
+		</Button>
+		<ScrollView 
+			android:layout_width="wrap_content" 
+			android:id="@+id/contentLayout" 
+			android:orientation="vertical" 
+			android:background="#FF191919"
+			android:gravity="center|top" 
+			android:padding="10dip" 
+			android:layout_height="wrap_content">
+		<TextView
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:textColor="#00FF00"
+		    android:id="@+id/tutorial_text" />		
+		</ScrollView>
+	</SlidingDrawer>
+</RelativeLayout>
