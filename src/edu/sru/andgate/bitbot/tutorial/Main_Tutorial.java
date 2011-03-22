@@ -35,16 +35,29 @@ public class Main_Tutorial extends Activity {
 		
 		final int tutorialID = getIntent().getExtras().getInt("File_ID",0);
 		final int simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
-		
-
-		//create the action items for the CustomPopUpWindow
+			
+		/*
+		 * Action Items for Sequence, Selection, Iteration buttons
+		 */
 		final ActionItem for_shell = new ActionItem();
 		final ActionItem do_while_shell = new ActionItem();
 		final ActionItem var_decl = new ActionItem();
 		final ActionItem print_shell = new ActionItem();
 		final ActionItem if_shell = new ActionItem();
+		
+		/*
+		 * Action Items for Quick Tools button
+		 */
 		final ActionItem paren_tool = new ActionItem();
 		final ActionItem quote_tool = new ActionItem();
+		final ActionItem brace_tool = new ActionItem();
+		final ActionItem bracket_tool = new ActionItem();
+		
+		/*
+		 * Action Items for Bot Functions button
+		 */
+		final ActionItem move_bot = new ActionItem();
+		final ActionItem rotate_turret = new ActionItem();
 		
 		//create the text editor and cabinet button
 		final EditText editor = (EditText) this.findViewById(R.id.editor);
@@ -63,6 +76,9 @@ public class Main_Tutorial extends Activity {
 		setActionItem(for_shell,editor, "for statement shell", "for statement selected", getResources().getString(R.string.for_statement));
 		setActionItem(paren_tool,editor, "Parenthesis ( )", "Parenthesis Selected", getResources().getString(R.string.parenthesis));
 		setActionItem(quote_tool,editor, "Quotations \" \"", "Quotes Selected", getResources().getString(R.string.quotations));
+		setActionItem(brace_tool,editor,"Braces { }", "Braces Selected", getResources().getString(R.string.braces));
+		setActionItem(bracket_tool, editor, "Brackets [ ]", "Brackets Selected", getResources().getString(R.string.brackets));
+		
 		
 		/*
 		 * Set all the QuickAction buttons onClick() methods 
@@ -117,6 +133,8 @@ public class Main_Tutorial extends Activity {
 				QuickAction qa = new QuickAction(v);
 				qa.addActionItem(quote_tool);
 				qa.addActionItem(paren_tool);
+				qa.addActionItem(brace_tool);
+				qa.addActionItem(bracket_tool);
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}

@@ -28,11 +28,22 @@
         <item>If Statement</item>
         <item>Back to Main Menu</item>
      </string-array>
+    
+    <!-- Sequence, Selection, Iteration-->
     <string name="for_statement">FOR I 1 TO N \n\t&lt;executed statement&gt;\nNEXT I</string>
     <string name="if_statement">IF &lt;some condition&gt; THEN GOTO &lt;some line&gt;</string>
     <string name="var_declaration">DIM VAR &lt;variable declaration&gt; as &lt;TYPE&gt;</string>
     <string name="do_while_statement">DO \n\t&lt;executed statements&gt;\nLOOP UNTIL/WHILE</string>
     <string name="print_statement">PRINT &lt;String&gt; ; &lt;variable&gt;</string>
+   
+    <!-- Quick Tools -->
     <string name="parenthesis">( )</string>
     <string name="quotations">"\" \""</string>
+    <string name="braces">{ }</string>
+    <string name="brackets">[ ]</string>
+    
+    <!-- Bot Functions -->
+    <string name="bot_move">call bot_move(int x, int y)\n{\n\t//move code here\n}</string>
+    <string name="turret_rotate">call turret_rotate(int degree)\n{\n\t//rotation code here\n}</string>
+    
 </resources>
