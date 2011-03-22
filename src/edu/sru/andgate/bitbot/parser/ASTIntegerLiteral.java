@@ -18,4 +18,4 @@ class ASTIntegerLiteral extends SimpleNode {
     return visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=afcb734e5db9580b225495e7366db6ed (do not edit this line) */
+/* JavaCC - OriginalChecksum=93218dc0e6d964a398ff4c8b02345f49 (do not edit this line) */

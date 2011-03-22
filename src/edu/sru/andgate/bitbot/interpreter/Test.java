@@ -1,9 +1,17 @@
 package edu.sru.andgate.bitbot.interpreter;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 import edu.sru.andgate.bitbot.R;
@@ -11,19 +19,109 @@ import edu.sru.andgate.bitbot.parser.*;
 
 public class Test extends Activity
 {
-	SimpleNode root;
+	InstructionLimitedVirtualMachine vm;
+	TextView tv;
+	OutputStream ps;
+	
+	BotInterpreter b1;
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.testmain);
 		
-		System.out.println("BotCode Parser:: ");
+		// Set up the button to run the interpreters for 2 instructions.
+		findViewById(R.id.notifyButton).setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v)
+			{
+				Resume(1);
+			}
+		});
+		
+		findViewById(R.id.notifyButton2).setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v)
+			{
+				Resume(10);
+			}
+		});
+		
+		findViewById(R.id.notifyButton3).setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v)
+			{
+				Resume(1000);
+			}
+		});
+		
+		tv = (TextView)findViewById(R.id.txtMain);
+		
+		
 		
 		// TODO: create some JUnit testing
-		String code1 = 
+		System.out.println("BotCode Parser:: ");
+		
+		vm = new InstructionLimitedVirtualMachine();
+		
+		// Set up a couple BotInterpreters
+		b1 = new BotInterpreter(null, code);
+		vm.addInterpreter(b1);
+		
+//		BotInterpreter b2 = new BotInterpreter(null, code2);
+//		vm.addInterpreter(b2);
+		
+		// Set up data output in textview
+//		tv = (TextView) findViewById(R.id.txtMain);
+//		b1.setPrintStream(new PrintStream(ps = new ByteArrayOutputStream(128)));
+//		tv.setText(ps.toString());
+		
+	}
+	
+	private void Resume(int i)
+	{
+		vm.resume(i);
+		tv.setText(b1.getBotLog());
+	}
+	
+	
+	
+	/**
+	 * Test Code
+	 */
+	String code =
+		/*1*/	"Print \"Hello World\" & \"1\" & \"2\";\n" +
+		/*1*/	"Print \"Test \" & (5-1);\n" +
+		/*1*/	"Dim i as Integer;\n" +
+		/*2*/	"Let i = 16;\n" +
+		/*1*/	"Print \"i = \" & i;\n" +
+		/*3*/	"While i Do\n" + 
+		/*4*/	"  Print i;\n" +
+		/*4*/	"  IF i-1 THEN\n" +
+		/*4*/	"    Print \"Not One! \" & i;\n" +
+		/*4*/	"  ELSE i;\n" +
+		/*4*/	"    Print \"ONE!!!!!!!\";\n" +
+		/*4*/	"  ENDIF\n" +
+		/*5*/	"  Let i = i-1;\n" + 
+		/*6*/	"Loop\n"
+	;
+	
+	
+	String code11 = 
+	/*1*/	"Let a = 3*4/5;\n" + 
+	/*2*/	"Let b = 1*2*-3;\n" +
+	/*3*/	"Let c = -1+2-(3+4)-5;\n" + 
+	/*4*/	"Subroutine bot_mySub\n" +
+	/*5*/	"Let d = (1+1)/2;\n" +
+	/*6*/	"End\n" +
+	/*7*/	"Let e = 5;\n" +
+	/*8*/	"Call bot_mySub(1, 55);\n";
+	
+	
+	
+	String code1 = 
 	/*1*/	"Dim var as Integer;\n" +
 	/*2*/	"Dim a as Integer;\n" +
 	/*3*/	"Let a = 3-1;\n" +
@@ -32,57 +130,19 @@ public class Test extends Activity
 	/*6*/	"Let a = 1*2*-3;\n" +
 	/*7*/	"Let a = -1+2-(3+4)-5;\n" +
 	/*8*/	"Print a;\n";
-		
-		String code = 
-			/*1*/	"Dim var as Integer;\n" +
-			/*2*/	"Dim a as Integer;\n" +
-			/*3*/	"Let a = 3-1 < 4 == 2+3*2 <= 1 and 5+2;\n" +
-			/*4*/	"Let a = 3 < 4 < 5;\n";
-			
-		// Parse using JavaCC and JJTree
-		bc1 parser = new bc1(new ByteArrayInputStream(code.getBytes()));
-		try
-		{
-			SimpleNode n = parser.Start();
-			root = n;
-			
-			n.dump("");
-			System.out.println("Thank you.");
-		} catch (Exception e)
-		{
-			System.out.println("Oops.");
-			System.out.println(e.getMessage());
-		}
-		
-		
-		// Lets examine our "compiled" code
-		System.out.println(" ");
-		System.out.println("My Dump AST");
-		
-		Dump(root);
-		BC_AST_VM vm = new BC_AST_VM(root);
-		vm.run();
-		
-		System.out.println(" ");
-		System.out.println("Traversing AST");
-	}
 	
+	String code3 = 
+	/*1*/	"Dim var as Integer;\n" +
+	/*2*/	"Dim a as Integer;\n" +
+	/*3*/	"Let a = 3-1 < 4 == 2+3*2 <= 1 and 5+2;\n" +
+	/*4*/	"Let a = 3 < 4 < 5;\n";
 	
+	String code2 = 
+	/*1*/	"Let a = 1*2*-3;\n" +
+	/*2*/	"Call robot_fire(one, two, three);\n" +
+	/*3*/	"" +
+	/*4*/	"" +
+	/*5*/	"";
 	
-	
-	
-	private void Dump(Node s)
-	{
-		Dump(s, "");
-	}
-	
-	private void Dump(Node s, String space)
-	{
-		
-		System.out.println(space + s.toString() + ": " + ((SimpleNode)s).jjtGetValue());
-		
-		for(int i=0; i < s.jjtGetNumChildren(); i++)
-			Dump(s.jjtGetChild(i), space + "- ");
-	}
 	
 }

@@ -18,4 +18,4 @@ class ASTIdentifier extends SimpleNode {
     return visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=a0727af82c1a739c049d47431bea12ce (do not edit this line) */
+/* JavaCC - OriginalChecksum=0e419d2dea8e608ad3bc58c0a1ee934f (do not edit this line) */
