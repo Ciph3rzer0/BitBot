@@ -24,16 +24,16 @@ public class Bot
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
 	
-	private FloatBuffer vertexBuffer;	// buffer holding the vertices
-	private float vertices[] = {
+	public FloatBuffer vertexBuffer;	// buffer holding the vertices
+	public float vertices[] = {
 			-1.0f, -1.0f,  0.0f,		// V1 - bottom left
 			-1.0f,  1.0f,  0.0f,		// V2 - top left
 			 1.0f, -1.0f,  0.0f,		// V3 - bottom right
 			 1.0f,  1.0f,  0.0f			// V4 - top right
 	};
 
-	private FloatBuffer textureBuffer;	// buffer holding the texture coordinates
-	private float texture[] = {    		
+	public FloatBuffer textureBuffer;	// buffer holding the texture coordinates
+	public float texture[] = {    		
 			// Mapping coordinates for the vertices
 			0.0f, 1.0f,		// top left		(V2)
 			0.0f, 0.0f,		// bottom left	(V1)
@@ -42,7 +42,7 @@ public class Bot
 	};
 	
 	//Texture pointer
-	private int[] textures = new int[MAX_TEXTURE_ARRAY_SIZE];
+	public int[] textures = new int[MAX_TEXTURE_ARRAY_SIZE];
 
 	public Bot()
 	{
@@ -77,9 +77,9 @@ public class Bot
 		parameters[4] = 0.0f;	//rX
 		parameters[5] = 0.0f;	//rY
 		parameters[6] = 1.0f;	//rZ
-		parameters[7] = 0.3f;	//sX
-		parameters[8] = 0.3f;	//sY
-		parameters[9] = 0.3f;	//sZ
+		parameters[7] = 0.85f;	//sX 0.3
+		parameters[8] = 0.85f;	//sY
+		parameters[9] = 0.85f;	//sZ
 		parameters[10] = 1.0f;	//textureUpdateFlag (NO = 0.0, YES = 1.0) (Avoid at all costs)
 	}
 	
@@ -138,11 +138,6 @@ public class Bot
 		return SELECTED_TEXTURE;
 	}
 	
-	public void buildSpiteAnimation()
-	{
-		//METHOD NEEDS BUILT (FOR ITERATING THROUGH A TEXTURE SEQUENCE, INSTEAD OF ONE SOLID TEXTURE)
-	}
-	
 	/*
 	public void setID(int id)
 	{
@@ -158,11 +153,6 @@ public class Bot
 	{
 		textureHopper.add(texturePointer);
 	}
-	
-	public void bindLayer()
-	{
-		//THIS METHOD MAY NOT BE NEEDED, CAN BE DONE IN BOTLAYER CONSTRUCTOR.
-	}
 
 	public void loadGLTexture(GL10 gl, Context context, int curTexPointer)
 	{		
@@ -177,12 +167,6 @@ public class Bot
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 		
-		//gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA); 
-
-		//Different possible texture parameters, e.g. GL10.GL_CLAMP_TO_EDGE
-//		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
-//		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_REPEAT)
-		
 		// Use Android GLUtils to specify a two-dimensional texture image from our bitmap 
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 		
@@ -192,8 +176,6 @@ public class Bot
 		//textureLoaded = true;
 	}
 
-	
-	/** The draw method for the square with the GL context */
 	public void draw(GL10 gl)
 	{
 		// bind the previously generated texture
@@ -209,6 +191,11 @@ public class Bot
 		// Point to our vertex buffer
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+		
+		//Prepare openGL for drawing
+		gl.glTranslatef(parameters[0],parameters[1], parameters[2]);				//Translate Object
+		gl.glRotatef(parameters[3], parameters[4], parameters[5], parameters[6]);	//Rotate Object
+		gl.glScalef(parameters[7], parameters[8], parameters[9]);					//Scale Object
 		
 		// Draw the vertices as triangle strip
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);

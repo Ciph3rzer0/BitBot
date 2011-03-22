@@ -1,6 +1,7 @@
 package edu.sru.andgate.bitbot;
 
 import edu.sru.andgate.bitbot.graphics.GameEngine;
+import edu.sru.andgate.bitbot.ide.IDE;
 import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
 import android.app.Activity;
@@ -17,6 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends ListActivity
 {
+	/// test
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -55,6 +57,10 @@ public class MainActivity extends ListActivity
 				else if (viewText.equalsIgnoreCase("Interpreter"))
 				{
 					Intent engineIntent = new Intent(MainActivity.this, Test.class);
+					startActivity(engineIntent);
+				}else if (viewText.equalsIgnoreCase("IDE"))
+				{
+					Intent engineIntent = new Intent(MainActivity.this, IDE.class);
 					startActivity(engineIntent);
 				}
 			}

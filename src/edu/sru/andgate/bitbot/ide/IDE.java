@@ -1,10 +1,6 @@
-package edu.sru.andgate.bitbot.tutorial;
+package edu.sru.andgate.bitbot.ide;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,31 +8,23 @@ import java.io.InputStreamReader;
 import edu.sru.andgate.bitbot.R;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SlidingDrawer;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
-public class Main_Tutorial extends Activity {
-	private boolean canSimulate = false;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tutorial_main);
-		
-		final int tutorialID = getIntent().getExtras().getInt("File_ID",0);
-		final int simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
-			
-		/*
+public class IDE extends Activity {
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_ide);
+        
+        /*
 		 * Action Items for Sequence, Selection, Iteration buttons
 		 */
 		final ActionItem for_shell = new ActionItem();
@@ -59,6 +47,7 @@ public class Main_Tutorial extends Activity {
 		final ActionItem move_bot = new ActionItem();
 		final ActionItem rotate_turret = new ActionItem();
 		
+		
 		//create the text editor and cabinet button
 		final EditText editor = (EditText) this.findViewById(R.id.editor);
 		editor.setTextSize(12.0f);
@@ -78,7 +67,8 @@ public class Main_Tutorial extends Activity {
 		setActionItem(quote_tool,editor, "Quotations \" \"", "Quotes Selected", getResources().getString(R.string.quotations));
 		setActionItem(brace_tool,editor,"Braces { }", "Braces Selected", getResources().getString(R.string.braces));
 		setActionItem(bracket_tool, editor, "Brackets [ ]", "Brackets Selected", getResources().getString(R.string.brackets));
-		
+		setActionItem(move_bot,editor,"bot.move()", "Move Function Selected", getResources().getString(R.string.bot_move));
+		setActionItem(rotate_turret, editor, "turret.rotate()", "Turret Rotation Selected", getResources().getString(R.string.turret_rotate));
 		
 		/*
 		 * Set all the QuickAction buttons onClick() methods 
@@ -140,68 +130,27 @@ public class Main_Tutorial extends Activity {
 			}
 		});
 		
-		Button clear_btn = (Button) this.findViewById(R.id.clear_btn);
-		clear_btn.setOnClickListener(new View.OnClickListener() 
+		Button bot_code = (Button) this.findViewById(R.id.bot_btn);
+		bot_code.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
-				editor.setText("");
+				QuickAction qa = new QuickAction(v);
+				qa.addActionItem(move_bot);
+				qa.addActionItem(rotate_turret);
+				qa.setAnimStyle(QuickAction.ANIM_AUTO);
+				qa.show();
 			}
 		});
 		
-		Button lock_btn = (Button) this.findViewById(R.id.lock_btn);
-		lock_btn.setOnClickListener(new View.OnClickListener()
+		Button send_btn = (Button) this.findViewById(R.id.send_btn);
+		send_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
-				if(tutorialID == R.raw.getting_started){
-					Toast.makeText(Main_Tutorial.this, "Not available in this Tutorial", Toast.LENGTH_SHORT).show();
-				}else{
-					try
-					{
-					    File file = new File(getFilesDir(),"tutorial.txt");
-					    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-					    writer.write(editor.getText().toString());
-					    writer.flush();
-					    writer.close();
-					    checkAnswer(file, tutorialID);
-					} catch (IOException e) 
-					{
-					   e.printStackTrace();
-					}
-				}
-			}
-		});
-		
-		Button simulate_btn = (Button) this.findViewById(R.id.sim_btn);
-		simulate_btn.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				if(simulateFlag == 0){
-					Toast.makeText(Main_Tutorial.this, "No Simulation Available" , Toast.LENGTH_SHORT).show();
-				}else if(canSimulate && simulateFlag == 1){
-					//Console Output here
-					Intent myIntent = new Intent(Main_Tutorial.this, Console.class);
-         			startActivity(myIntent);
-				}else if (canSimulate && simulateFlag == 2){
-					//Graphical Simulation here
-				}else{
-					Toast.makeText(Main_Tutorial.this, "Simulation Available, but answer is not correct", Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
-		
-		Button back_btn = (Button) this.findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				finish();
+				
 			}
 		});
 		
@@ -214,14 +163,7 @@ public class Main_Tutorial extends Activity {
 			public void onDrawerOpened() 
 			{
 				slideHandleButton.setBackgroundResource(R.drawable.closearrow);
-				try 
-				{
-		        	TextView generalText = (TextView)findViewById(R.id.tutorial_text);
-					generalText.setText(readTxt(tutorialID));
-				} catch (IOException e) 
-				{
-					e.printStackTrace();
-				}
+				
 			}
 		});
 
@@ -262,58 +204,7 @@ public class Main_Tutorial extends Activity {
 		
 	}
 	
-	/*
-	 * inputs: File, Resource ID of Tutorial File
-	 * Output: User input to file, Toast to let user know if they were correct or not
-	 * Method to check if the user input matches the correct tutorial answer
-	 */
-	protected void checkAnswer(File file, int resId) throws IOException 
-	{
-		/*
-		 * Temporary - Need to send file(s) to interpreter and compare abstract 
-		 * 				Syntax Tree's
-		 */
-			String line1 = null;
-			String line2 = null;
-			String temp1 = "";
-			String temp2 = "";
-			
-		  // wrap a BufferedReader around FileReader
-		  InputStream input = getResources().openRawResource(resId);
-		  BufferedReader bufferedReader1 = new BufferedReader(new FileReader(file.getAbsolutePath()));
-		  InputStreamReader inputreader = new InputStreamReader(input);
-		  BufferedReader bufferedReader2 = new BufferedReader(inputreader);
-
-		  // use the readLine method of the BufferedReader to read one line at a time.
-		  // the readLine method returns null when there is nothing else to read.
-		  while ((line1 = bufferedReader1.readLine()) != null)
-		  {
-		    temp1+=line1.toString();
-		  }
-		  while(!bufferedReader2.readLine().equals("----------")) {}
-		  while((line2 = bufferedReader2.readLine()) != null)
-		  {
-			  temp2+=line2.toString();
-		  }
-		  // close the BufferedReader(s) when we're done
-		  bufferedReader1.close();
-		  bufferedReader2.close();
 		
-		  //Let the user know if they are right or not.
-		  if(temp1.equals(temp2))
-		  {
-			  Toast.makeText(Main_Tutorial.this,"Correct Answer",Toast.LENGTH_SHORT).show();
-			  canSimulate = true;
-			  /*
-			   * call function to simulate code here if not using sim button...
-			   */
-		  }else
-			  {
-				Toast.makeText(Main_Tutorial.this,"Wrong Answer",Toast.LENGTH_SHORT).show();
-				canSimulate = false;
-			  }
-	}
-	
 	//read in a text file
 	 private String readTxt(int id) throws IOException
 	 {
@@ -331,5 +222,4 @@ public class Main_Tutorial extends Activity {
 		  
 		 return temp;
 	    }
-	    
-	}
+}

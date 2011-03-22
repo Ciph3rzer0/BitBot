@@ -5,7 +5,7 @@
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="8" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/bitbot" android:label="@string/app_name">
         <activity android:name="MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -18,7 +18,9 @@
 			
 		</activity>
 		<activity android:name=".tutorial.Tutorial_List"></activity>
-		<activity android:name=".tutorial.Main_Tutorial" android:label="@string/app_name" android:screenOrientation="landscape"></activity>
+		<activity android:name=".tutorial.Main_Tutorial"></activity>
+		<activity android:name=".tutorial.Console"></activity>
+		<activity android:name=".ide.IDE"></activity>
 		
     </application>
 </manifest>

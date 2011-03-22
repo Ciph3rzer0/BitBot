@@ -1,1 +1,28 @@
+The PRINT statement in basic is used to 
+output a string, integer, etc. to the console.
+This simple tutorial is to get you used 
+to using this PRINT command. 
+
+As you can see the keyword 
+for the print command, PRINT, 
+is in all capital letters. 
+This is important since case sensitivity 
+can cause the program to throw errors. 
+Following the PRINT keyword can be a string, 
+variable, integer, etc. 
+
+In every programming language, 
+you will see the first program 
+you will complete is Hello World.
+This is a simple program that 
+outputs the string "hello world" 
+to the console.
+
+So as in every language, this tutorial 
+is for you to correctly print 
+the string "hello world" all lowercase.
+Remember case sensitivity is a must.
+
+Good Luck!
+----------
 PRINT "hello world"

@@ -1,4 +1,4 @@
-package edu.sru.andgate.bitbot.tutorial;
+package edu.sru.andgate.bitbot.ide;
 
 import edu.sru.andgate.bitbot.R;
 import android.content.Context;

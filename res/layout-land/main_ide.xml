@@ -3,7 +3,6 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent" android:layout_height="wrap_content">
-	
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -11,61 +10,55 @@
 	<Button 
 		android:id="@+id/sequence_btn" 
 		android:text="Sequence" 
-		android:layout_alignParentTop="true" android:layout_width="110dip" android:layout_height="75dip">
-	</Button>
-	<Button 
-		android:id="@+id/selection_btn" 
-		android:layout_toRightOf="@+id/sequence_btn" 
-		android:text=" Selection" 
 		android:layout_alignParentTop="true"
-		android:layout_width="110dip" android:layout_height="75dip">
+		android:layout_width="110dip" android:layout_height="90dip">
 	</Button>
 	<Button 
+		android:layout_width="110dip" 
+		android:id="@+id/selection_btn" 
+		android:text=" Selection" 
+		android:layout_below="@+id/sequence_btn" 
+		android:layout_alignLeft="@+id/sequence_btn" 
+		android:layout_alignRight="@+id/sequence_btn" android:layout_height="90dip">
+	</Button>
+	<Button 
+		android:layout_width="110dip" 
 		android:id="@+id/iteration_btn" 
 		android:text=" Iteration" 
-		android:layout_toRightOf="@+id/selection_btn" 
-		android:layout_width="110dip" android:layout_height="75dip">
-	</Button>
-	<EditText 
-		android:text="Edit Text Here"
-		android:id="@+id/editor" 
-		android:layout_below="@+id/sequence_btn"
-		android:layout_above="@+id/clear_btn"
-		android:layout_height="wrap_content" android:layout_width="match_parent">
-	</EditText>
+		android:layout_below="@+id/selection_btn" 
+		android:layout_alignLeft="@+id/selection_btn" 
+		android:layout_alignRight="@+id/selection_btn" android:layout_height="90dip">
+	 </Button>
 	<Button 
-		android:id="@+id/lock_btn" 
-		android:text="Lock in Text" 
-		android:layout_alignParentBottom="true"
-		android:layout_width="110dip" android:layout_height="75dip">
-	</Button>
-	<Button 
+		android:layout_width="110dip" 
 		android:id="@+id/tools_btn" 
 		android:text="Quick Tools" 
-		android:layout_height="60dip" 
-		android:layout_above="@+id/lock_btn" android:layout_width="165dip">
-	</Button>
-	<Button android:id="@+id/sim_btn" 
-		android:text="Simulate" 
-		android:layout_alignParentBottom="true"
-		android:layout_toRightOf="@+id/lock_btn"
-		android:layout_width="110dip" android:layout_height="75dip">
+		android:layout_alignParentRight="true" android:layout_height="90dip">
 	</Button>
 	<Button 
-		android:id="@+id/back_btn" 
-		android:text="Go Back" 
-		android:layout_alignParentBottom="true"
-		android:layout_toRightOf="@+id/sim_btn"
-		android:layout_width="110dip" android:layout_height="75dip">
+		android:layout_width="110dip" 
+		android:id="@+id/bot_btn" 
+		android:text="Bot Functions" 
+		android:layout_below="@+id/tools_btn" 
+		android:layout_alignLeft="@+id/tools_btn" 
+		android:layout_alignRight="@+id/tools_btn" android:layout_height="90dip">
 	</Button>
 	<Button 
-		android:id="@+id/clear_btn" 
-		android:text="Clear text" 
-		android:layout_height="60dip" 
-		android:layout_above="@+id/back_btn"  
-		android:layout_toRightOf="@+id/tools_btn"
-		android:layout_alignParentRight="true" android:layout_width="170dip">
+		android:layout_width="110dip" 
+		android:id="@+id/send_btn" 
+		android:text="Send Code" 
+		android:layout_below="@+id/bot_btn" 
+		android:layout_alignLeft="@+id/bot_btn" 
+		android:layout_alignRight="@+id/bot_btn" android:layout_height="90dip">
 	</Button>
+	<EditText 
+		android:id="@+id/editor" 
+		android:layout_width="match_parent" 
+		android:text="Edit Text Here" 
+		android:layout_toLeftOf="@+id/bot_btn" 
+		android:layout_toRightOf="@+id/sequence_btn"
+		android:layout_height="match_parent">
+	</EditText>
 	<SlidingDrawer 
 		android:layout_width="wrap_content" 
 		android:orientation="horizontal" 
