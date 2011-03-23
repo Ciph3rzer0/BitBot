@@ -14,6 +14,9 @@ import edu.sru.andgate.bitbot.tutorial.QuickAction;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -273,11 +276,23 @@ public class IDE extends Activity {
 		});
 	}
 	
-	public void addText(EditText edit){
-		
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.ide_tutorial_menu, menu);
+	    return true;
 	}
 	
-		
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.clear_btn:    editor.setText("");
+	        						break;
+	  
+	    }
+	    return true;
+	}
+	
 	//read in a text file
 	 private String readTxt(int id) throws IOException
 	 {

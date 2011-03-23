@@ -30,42 +30,12 @@
 		android:text="Edit Text Here"
 		android:id="@+id/editor" 
 		android:layout_below="@+id/sequence_btn"
-		android:layout_above="@+id/clear_btn"
+		android:layout_above="@+id/lock_btn"
 		android:layout_height="wrap_content" android:layout_width="match_parent">
 	</EditText>
-	<Button 
-		android:id="@+id/lock_btn" 
-		android:text="Lock in Text" 
-		android:layout_alignParentBottom="true"
-		android:layout_width="110dip" android:layout_height="75dip">
-	</Button>
-	<Button 
-		android:id="@+id/tools_btn" 
-		android:text="Quick Tools" 
-		android:layout_height="60dip" 
-		android:layout_above="@+id/lock_btn" android:layout_width="165dip">
-	</Button>
-	<Button android:id="@+id/sim_btn" 
-		android:text="Simulate" 
-		android:layout_alignParentBottom="true"
-		android:layout_toRightOf="@+id/lock_btn"
-		android:layout_width="110dip" android:layout_height="75dip">
-	</Button>
-	<Button 
-		android:id="@+id/back_btn" 
-		android:text="Go Back" 
-		android:layout_alignParentBottom="true"
-		android:layout_toRightOf="@+id/sim_btn"
-		android:layout_width="110dip" android:layout_height="75dip">
-	</Button>
-	<Button 
-		android:id="@+id/clear_btn" 
-		android:text="Clear text" 
-		android:layout_height="60dip" 
-		android:layout_above="@+id/back_btn"  
-		android:layout_toRightOf="@+id/tools_btn"
-		android:layout_alignParentRight="true" android:layout_width="170dip">
-	</Button>
+	<Button android:layout_width="110dip" android:layout_height="75dip" android:id="@+id/tools_btn" android:text="Quick Tools" android:layout_toLeftOf="@+id/lock_btn" android:layout_alignTop="@+id/lock_btn" android:layout_alignBottom="@+id/lock_btn"></Button>
+	<Button android:layout_width="110dip" android:layout_height="75dip" android:id="@+id/sim_btn" android:text="Simulate" android:layout_alignParentRight="true" android:layout_alignParentBottom="true"></Button>
+	<Button android:layout_width="110dip" android:layout_height="75dip" android:id="@+id/lock_btn" android:text="Lock in Text" android:layout_toLeftOf="@+id/sim_btn" android:layout_alignTop="@+id/sim_btn" android:layout_alignBottom="@+id/sim_btn"></Button>
 	<SlidingDrawer 
 		android:layout_width="wrap_content" 
 		android:orientation="horizontal" 

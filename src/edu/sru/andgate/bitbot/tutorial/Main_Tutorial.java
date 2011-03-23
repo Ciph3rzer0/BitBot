@@ -14,6 +14,9 @@ import edu.sru.andgate.bitbot.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,6 +29,7 @@ import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class Main_Tutorial extends Activity {
 	private boolean canSimulate = false;
+	private EditText editor; 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -60,7 +64,7 @@ public class Main_Tutorial extends Activity {
 		final ActionItem rotate_turret = new ActionItem();
 		
 		//create the text editor and cabinet button
-		final EditText editor = (EditText) this.findViewById(R.id.editor);
+		editor = (EditText) this.findViewById(R.id.editor);
 		editor.setTextSize(12.0f);
 		final SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 		final Button slideHandleButton = (Button) findViewById(R.id.slideHandleButton);
@@ -139,17 +143,7 @@ public class Main_Tutorial extends Activity {
 				qa.show();
 			}
 		});
-		
-		Button clear_btn = (Button) this.findViewById(R.id.clear_btn);
-		clear_btn.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				editor.setText("");
-			}
-		});
-		
+				
 		Button lock_btn = (Button) this.findViewById(R.id.lock_btn);
 		lock_btn.setOnClickListener(new View.OnClickListener()
 		{
@@ -195,16 +189,6 @@ public class Main_Tutorial extends Activity {
 			}
 		});
 		
-		Button back_btn = (Button) this.findViewById(R.id.back_btn);
-		back_btn.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				finish();
-			}
-		});
-		
 		/*
 		 * set the sliding drawer open/closed listeners and handlers
 		 */
@@ -236,6 +220,23 @@ public class Main_Tutorial extends Activity {
 		
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.ide_tutorial_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.clear_btn:    editor.setText("");
+	        						break;
+	  
+	    }
+	    return true;
+	}
+	
 	/*
 	 * creates the Action Item with the defined attributes: 
 	 * 		title, message string, text to be added when clicked
@@ -257,11 +258,7 @@ public class Main_Tutorial extends Activity {
 			}
 		});
 	}
-	
-	public void addText(EditText edit){
 		
-	}
-	
 	/*
 	 * inputs: File, Resource ID of Tutorial File
 	 * Output: User input to file, Toast to let user know if they were correct or not
