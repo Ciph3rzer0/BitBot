@@ -1,93 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="match_parent" android:layout_height="wrap_content">
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_weight="1"/>
-	<Button 
-		android:id="@+id/sequence_btn" 
-		android:text="Sequence" 
-		android:layout_alignParentTop="true"
-		android:layout_width="110dip" 
-		android:layout_height="75dip">
-	</Button>
-	<Button 
-		android:id="@+id/selection_btn" 
-		android:layout_toRightOf="@+id/sequence_btn" 
-		android:text=" Selection" 
-		android:layout_alignParentTop="true"
-		android:layout_width="110dip" 
-		android:layout_height="75dip">
-	</Button>
-	<Button 
-		android:id="@+id/iteration_btn" 
-		android:text=" Iteration" 
-		android:layout_toRightOf="@+id/selection_btn" 
-		android:layout_width="110dip" 
-		android:layout_height="75dip">
-	</Button>
-	<EditText 
-		android:text="Edit Text Here"
-		android:id="@+id/editor" 
-		android:layout_below="@+id/sequence_btn"
-		android:layout_above="@+id/tools_btn"
-		android:layout_height="wrap_content" 
-		android:layout_width="match_parent">
-	</EditText>
-	
-	<Button 
-		android:id="@+id/tools_btn" 
-		android:text="Quick Tools" 
-		android:layout_height="75dip" 
-		android:layout_alignParentBottom="true"
-		android:layout_toLeftOf="@+id/bot_btn" 
-		android:layout_width="110dip">
-	</Button>
-	<Button android:id="@+id/bot_btn" 
-		android:text="Bot Functions" 
-		android:layout_alignParentBottom="true"
-		android:layout_toLeftOf="@+id/send_btn"
-		android:layout_width="110dip" 
-		android:layout_height="75dip">
-	</Button>
-	<Button 
-		android:id="@+id/send_btn" 
-		android:text="Send Code" 
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentRight="true"
-		android:layout_width="110dip" 
-		android:layout_height="75dip">
-	</Button>
-	<SlidingDrawer 
-		android:layout_width="wrap_content" 
-		android:orientation="horizontal" 
-		android:id="@+id/SlidingDrawer" 
-		android:handle="@+id/slideHandleButton" 
-		android:content="@+id/contentLayout" 
-		android:padding="10dip" 
-		android:layout_height="400dip">
-		<Button 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:id="@+id/slideHandleButton" 
-			android:background="@drawable/openarrow">
-		</Button>
-		<ScrollView 
-			android:layout_width="wrap_content" 
-			android:id="@+id/contentLayout" 
-			android:orientation="vertical" 
-			android:background="#FF191919"
-			android:gravity="center|top" 
-			android:padding="10dip" 
-			android:layout_height="wrap_content">
+
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/ide_view_flipper"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:flipInterval="2000"
+ 	>
+
+	<RelativeLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent" android:layout_height="wrap_content">
 		<TextView
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-		    android:textColor="#00FF00"
-		    android:id="@+id/tutorial_text" />		
-		</ScrollView>
-	</SlidingDrawer>	
-</RelativeLayout>
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"/>
+		<Button 
+			android:id="@+id/sequence_btn" 
+			android:text="Sequence" 
+			android:layout_alignParentTop="true"
+			android:layout_width="110dip" 
+			android:layout_height="75dip">
+		</Button>
+		<Button 
+			android:id="@+id/selection_btn" 
+			android:layout_toRightOf="@+id/sequence_btn" 
+			android:text=" Selection" 
+			android:layout_alignParentTop="true"
+			android:layout_width="110dip" 
+			android:layout_height="75dip">
+		</Button>
+		<Button 
+			android:id="@+id/iteration_btn" 
+			android:text=" Iteration" 
+			android:layout_toRightOf="@+id/selection_btn" 
+			android:layout_width="110dip" 
+			android:layout_height="75dip">
+		</Button>
+		<EditText 
+			android:hint="Enter Code Here"
+			android:id="@+id/editor" 
+			android:layout_below="@+id/sequence_btn"
+			android:layout_above="@+id/tools_btn"
+			android:layout_height="wrap_content" 
+			android:layout_width="match_parent"
+			android:inputType="text|textMultiLine"
+			android:textSize="18dip"
+			android:typeface="monospace"
+			android:gravity="top"
+			/>
+		
+		<Button 
+			android:id="@+id/tools_btn" 
+			android:text="Quick Tools" 
+			android:layout_height="75dip" 
+			android:layout_alignParentBottom="true"
+			android:layout_toLeftOf="@+id/bot_btn" 
+			android:layout_width="110dip">
+		</Button>
+		<Button android:id="@+id/bot_btn" 
+			android:text="Bot Functions" 
+			android:layout_alignParentBottom="true"
+			android:layout_toLeftOf="@+id/send_btn"
+			android:layout_width="110dip" 
+			android:layout_height="75dip">
+		</Button>
+		<Button 
+			android:id="@+id/send_btn" 
+			android:text="Send Code" 
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_width="110dip" 
+			android:layout_height="75dip">
+		</Button>
+		<SlidingDrawer 
+			android:layout_width="wrap_content" 
+			android:orientation="horizontal" 
+			android:id="@+id/SlidingDrawer" 
+			android:handle="@+id/slideHandleButton" 
+			android:content="@+id/contentLayout" 
+			android:padding="10dip" 
+			android:layout_height="400dip">
+			<Button 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:id="@+id/slideHandleButton" 
+				android:background="@drawable/openarrow">
+			</Button>
+			<ScrollView 
+				android:layout_width="wrap_content" 
+				android:id="@+id/contentLayout" 
+				android:orientation="vertical" 
+				android:background="#FF191919"
+				android:gravity="center|top" 
+				android:padding="10dip" 
+				android:layout_height="wrap_content">
+			<TextView
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:textColor="#00FF00"
+			    android:id="@+id/tutorial_text" />		
+			</ScrollView>
+		</SlidingDrawer>	
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		>
+		
+		<LinearLayout
+			android:id="@+id/crap001"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="bottom"
+			android:layout_alignParentBottom="true"
+			>
+		
+			<Button 
+				android:id="@+id/ide_back_to_code_btn" 
+				android:text="Code"
+				android:layout_width="0px"
+				android:layout_weight="1" 
+				android:layout_height="wrap_content"
+			/>
+			
+		</LinearLayout>
+		
+		<TextView
+			android:id="@+id/ide_std_out"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:text="View Flipper?!!"
+			android:layout_alignBottom="@id/crap001"
+		/>
+		
+	</RelativeLayout>
+	
+</ViewFlipper>

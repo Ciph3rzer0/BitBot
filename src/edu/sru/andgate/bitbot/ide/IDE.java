@@ -6,21 +6,37 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
+import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import edu.sru.andgate.bitbot.tutorial.ActionItem;
 import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SlidingDrawer;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class IDE extends Activity {
     /** Called when the activity is first created. */
+	
+	/**
+	 * Used for sliding the ViewFlipper
+	 */
+	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
+	
+	private EditText editor;
+	private TextView botOutput;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +67,9 @@ public class IDE extends Activity {
 		
 		
 		//create the text editor and cabinet button
-		final EditText editor = (EditText) this.findViewById(R.id.editor);
-		editor.setTextSize(12.0f);
+		editor = (EditText) findViewById(R.id.editor);
+		botOutput = (TextView) findViewById(R.id.ide_std_out);
+		
 		final SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 		final Button slideHandleButton = (Button) findViewById(R.id.slideHandleButton);
 		
@@ -146,13 +163,42 @@ public class IDE extends Activity {
 			}
 		});
 		
+
+		sIn_left = AnimationUtils.loadAnimation(this, R.anim.slidein_left);
+		sOut_left = AnimationUtils.loadAnimation(this, R.anim.slideout_left);
+		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
+		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
+		
 		Button send_btn = (Button) this.findViewById(R.id.send_btn);
 		send_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
+				InterpreteCode();
 				
+				ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
+				
+				vf.setInAnimation(sIn_right);
+				vf.setOutAnimation(sOut_right);
+				
+				vf.showNext();
+				
+			}
+		});
+		
+		Button back_to_code = (Button) this.findViewById(R.id.ide_back_to_code_btn);
+		back_to_code.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
+
+				vf.setInAnimation(sIn_left);
+				vf.setOutAnimation(sOut_left);
+				
+				vf.showPrevious();
 			}
 		});
 		
@@ -180,6 +226,31 @@ public class IDE extends Activity {
 		
 	}
 	
+    private void InterpreteCode()
+    {
+    	try
+		{
+	    	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
+	    	BotInterpreter bi = new BotInterpreter(null, editor.getText().toString());
+	    	
+	    	ilvm.addInterpreter(bi);
+	    	ilvm.resume(10000);
+	    	
+		}
+    	catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			botOutput.setText(e.toString());
+		}
+    	catch (Error e)
+    	{
+    		e.printStackTrace();
+    		botOutput.setText(e.toString());
+    	}
+    }
+    
+    
 	/*
 	 * creates the Action Item with the defined attributes: 
 	 * 		title, message string, text to be added when clicked
