@@ -194,7 +194,7 @@ void SubDecl() #SubDeclaration :
 void Print() :
 {}
 {
-  < PRINT > Expression()
+  < PRINT > Expression() 
 }
 
 void Declaration() :

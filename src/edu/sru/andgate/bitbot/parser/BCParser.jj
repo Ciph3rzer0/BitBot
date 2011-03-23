@@ -437,7 +437,7 @@ void Print() :
       jjtree.closeNodeScope(jjtn000, true);
     }
   }
-/*@egen*/
+/*@egen*/ 
 }
 
 void Declaration() :
