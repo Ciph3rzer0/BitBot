@@ -11,18 +11,20 @@
 		android:textColor="#00FF00"
 		android:layout_alignParentTop="true"
 		android:layout_centerHorizontal="true"
-		android:id="@+id/game_modes" android:layout_width="100dip">
+		android:id="@+id/game_modes"
+		android:layout_width="100dip">
 	</Button>
 	<Button 
 		android:background="@drawable/hexbutton" 
-		android:text="                                        Tutorials" 
+		android:text="Tutorials" 
 		android:layout_height="wrap_content" 
 		android:textSize="15dip" 
 		android:textColor="#00FF00" 
 		android:id="@+id/tutorial_btn" 
-		android:layout_below="@+id/game_modes" 
+		android:layout_below="@id/game_modes" 
 		android:paddingBottom="15dip"
-		android:layout_toRightOf="@+id/game_modes" android:layout_width="100dip">
+		android:layout_toRightOf="@id/game_modes"
+		android:layout_width="100dip">
 	</Button>
 	<Button 
 		android:text="Interpreter" 
@@ -30,7 +32,7 @@
 		android:layout_width="wrap_content" 
 		android:id="@+id/options_btn" 
 		android:background="@drawable/hexbutton"
-		android:layout_below="@+id/tutorial_btn"
+		android:layout_below="@id/tutorial_btn"
 		android:textColor="#00FF00"
 		android:layout_alignLeft="@+id/tutorial_btn" 
 		android:layout_alignRight="@+id/tutorial_btn">
@@ -53,8 +55,9 @@
 		android:textSize="15dip" 
 		android:textColor="#00FF00" 
 		android:id="@+id/scores_btn" 
-		android:layout_below="@+id/game_modes" 
-		android:layout_toLeftOf="@+id/game_modes" android:layout_width="100dip">
+		android:layout_below="@id/game_modes" 
+		android:layout_toLeftOf="@id/game_modes"
+		android:layout_width="100dip">
 	</Button>
 	<ImageView 
 		android:id="@+id/bot_base" 
@@ -78,21 +81,23 @@
 		android:layout_width="wrap_content" 
 		android:id="@+id/puzzle_btn" 
 		android:textColor="#00FF00"
-		android:layout_alignLeft="@+id/scores_btn" 
-		android:layout_alignRight="@+id/scores_btn">
+		android:layout_alignLeft="@id/scores_btn" 
+		android:layout_alignRight="@id/scores_btn">
 	</Button>
 		<LinearLayout 
 		android:id="@+id/linearLayout1" 
 		android:background="@drawable/bit_land"
 		android:paddingBottom="20dip"
 		android:layout_alignParentLeft="true" 
-		android:layout_height="match_parent" android:layout_width="75dip">
+		android:layout_height="match_parent"
+		android:layout_width="75dip">
 	</LinearLayout>
 	<LinearLayout 
 		android:id="@+id/linearLayout2" 
 		android:layout_alignParentRight="true" 
 		android:background="@drawable/bot_land"
-		android:layout_height="match_parent" android:layout_width="75dip">
+		android:layout_height="match_parent"
+		android:layout_width="75dip">
 	</LinearLayout>
 	
 </RelativeLayout>

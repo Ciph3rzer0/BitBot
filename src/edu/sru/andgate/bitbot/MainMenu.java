@@ -25,7 +25,8 @@ public class MainMenu extends Activity {
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
         Button game_modes = (Button) findViewById(R.id.game_modes);
-		game_modes.setOnClickListener(new View.OnClickListener() 
+		game_modes.setOnClickListener(
+				new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
