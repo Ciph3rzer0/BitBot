@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.tutorial.ActionItem;
+import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 import android.app.Activity;
 import android.os.Bundle;
