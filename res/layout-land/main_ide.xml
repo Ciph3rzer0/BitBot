@@ -19,16 +19,53 @@
 			android:layout_alignParentTop="true"
 			android:layout_height="60dip" android:layout_width="65dip">
 		</Button>
-		<Button android:layout_height="60dip" android:textSize="9dip" android:layout_width="65dip" android:text=" Selection" android:id="@+id/selection_btn" android:layout_below="@+id/sequence_btn" android:layout_alignLeft="@+id/sequence_btn" android:layout_alignRight="@+id/sequence_btn"></Button>
-		<Button android:layout_height="60dip" android:textSize="9dip" android:layout_width="65dip" android:text=" Iteration" android:id="@+id/iteration_btn" android:layout_below="@+id/selection_btn" android:layout_alignLeft="@+id/selection_btn" android:layout_alignRight="@+id/selection_btn"></Button>
-		<Button android:layout_height="60dip" android:textSize="9dip" android:layout_width="65dip" android:text="Quick Tools" android:id="@+id/tools_btn" android:layout_below="@+id/iteration_btn" android:layout_alignLeft="@+id/iteration_btn" android:layout_alignRight="@+id/iteration_btn"></Button>
-		<Button android:layout_height="60dip" android:textSize="9dip" android:layout_width="65dip" android:text="Bot Function" android:id="@+id/bot_btn" android:layout_below="@+id/tools_btn" android:layout_alignLeft="@+id/tools_btn" android:layout_alignRight="@+id/tools_btn"></Button>
+		<Button 
+			android:layout_height="60dip" 
+			android:textSize="9dip" 
+			android:layout_width="65dip" 
+			android:text=" Selection" 
+			android:id="@+id/selection_btn" 
+			android:layout_below="@+id/sequence_btn" 
+			android:layout_alignLeft="@+id/sequence_btn" 
+			android:layout_alignRight="@+id/sequence_btn">
+		</Button>
+		<Button 
+			android:layout_height="60dip" 
+			android:textSize="9dip" 
+			android:layout_width="65dip" 
+			android:text=" Iteration" 
+			android:id="@+id/iteration_btn" 
+			android:layout_below="@+id/selection_btn" 
+			android:layout_alignLeft="@+id/selection_btn" 
+			android:layout_alignRight="@+id/selection_btn">
+		</Button>
+		<Button 
+			android:layout_height="60dip" 
+			android:textSize="9dip" 
+			android:layout_width="65dip" 
+			android:text="Quick Tools" 
+			android:id="@+id/tools_btn" 
+			android:layout_below="@+id/iteration_btn"
+			android:layout_alignLeft="@+id/iteration_btn" 
+			android:layout_alignRight="@+id/iteration_btn">
+		</Button>
+		<Button 
+			android:layout_height="60dip" 
+			android:textSize="9dip" 
+			android:layout_width="65dip" 
+			android:text="Bot Function" 
+			android:id="@+id/bot_btn" 
+			android:layout_below="@+id/tools_btn" 
+			android:layout_alignLeft="@+id/tools_btn" 
+			android:layout_alignRight="@+id/tools_btn">
+		</Button>
 		<EditText 
 			android:hint="Enter Code Here"
 			android:id="@+id/editor" 
 			android:layout_toRightOf="@+id/sequence_btn"
 			android:layout_toLeftOf="@+id/quick_bar"
 			android:layout_width="match_parent"
+			android:autoText="false"
 			android:inputType="text|textMultiLine"
 			android:textSize="18dip"
 			android:typeface="monospace"

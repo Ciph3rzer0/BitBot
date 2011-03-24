@@ -63,6 +63,7 @@
 			android:layout_below="@+id/sequence_btn"
 			android:layout_above="@+id/quick_bar"
 			android:layout_height="wrap_content" 
+			android:autoText="false"
 			android:layout_width="match_parent"
 			android:inputType="text|textMultiLine"
 			android:textSize="18dip"

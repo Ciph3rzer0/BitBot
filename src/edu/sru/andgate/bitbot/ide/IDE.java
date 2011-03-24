@@ -188,7 +188,7 @@ public class IDE extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				
+			
 			}
 		});
 		
@@ -197,7 +197,11 @@ public class IDE extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				try{
 					editor.setSelection(editor.getSelectionStart() -1);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -206,7 +210,12 @@ public class IDE extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				try{
 					editor.setSelection(editor.getSelectionStart() +1);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+					
 			}
 		});
 		
@@ -326,6 +335,7 @@ public class IDE extends Activity {
 		editor.getText().replace(Math.min(start, end), Math.max(start, end),
 		       append);
 	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
