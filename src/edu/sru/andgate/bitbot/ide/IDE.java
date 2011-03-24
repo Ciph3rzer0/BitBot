@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -172,7 +173,53 @@ public class IDE extends Activity {
 		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
 		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
 		
-		Button send_btn = (Button) this.findViewById(R.id.send_btn);
+		ImageButton delete_line = (ImageButton) this.findViewById(R.id.delete_line);
+		delete_line.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		ImageButton delete_word = (ImageButton) this.findViewById(R.id.delete_word);
+		delete_word.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		
+		ImageButton move_left = (ImageButton) this.findViewById(R.id.move_left);
+		move_left.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+					editor.setSelection(editor.getSelectionStart() -1);
+			}
+		});
+		
+		ImageButton move_right = (ImageButton) this.findViewById(R.id.move_right);
+		move_right.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+					editor.setSelection(editor.getSelectionStart() +1);
+			}
+		});
+		
+		ImageButton tab_over = (ImageButton) this.findViewById(R.id.tab_over);
+		tab_over.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				expandEditText("\t");				
+			}
+		});
+		
+		ImageButton send_btn = (ImageButton) this.findViewById(R.id.send_btn);
 		send_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
@@ -268,14 +315,17 @@ public class IDE extends Activity {
 			public void onClick(View v) 
 			{
 				//Toast.makeText(Main_Tutorial.this, popUpString , Toast.LENGTH_SHORT).show();
-				int start = editor.getSelectionStart();
-				int end = editor.getSelectionEnd();
-				editor.getText().replace(Math.min(start, end), Math.max(start, end),
-				       declaration);
+				expandEditText(declaration);
 			}
 		});
 	}
 	
+	public void expandEditText(String append){
+		int start = editor.getSelectionStart();
+		int end = editor.getSelectionEnd();
+		editor.getText().replace(Math.min(start, end), Math.max(start, end),
+		       append);
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();

@@ -17,61 +17,111 @@
 		<Button 
 			android:id="@+id/sequence_btn" 
 			android:text="Sequence" 
+			android:textSize="9dip"
 			android:layout_alignParentTop="true"
-			android:layout_width="110dip" 
-			android:layout_height="75dip">
+			android:layout_height="60dip" android:layout_width="65dip">
 		</Button>
 		<Button 
 			android:id="@+id/selection_btn" 
 			android:layout_toRightOf="@+id/sequence_btn" 
 			android:text=" Selection" 
+			android:textSize="9dip"
 			android:layout_alignParentTop="true"
-			android:layout_width="110dip" 
-			android:layout_height="75dip">
+			android:layout_height="60dip" android:layout_width="65dip">
 		</Button>
 		<Button 
 			android:id="@+id/iteration_btn" 
 			android:text=" Iteration" 
+			android:textSize="9dip"
 			android:layout_toRightOf="@+id/selection_btn" 
-			android:layout_width="110dip" 
-			android:layout_height="75dip">
+			android:layout_width="65dip" 
+			android:layout_height="60dip">
+		</Button>
+		<Button 
+			android:layout_height="60dip" 
+			android:layout_width="65dip" 
+			android:text="Quick Tools" 
+			android:textSize="9dip"
+			android:id="@+id/tools_btn" 
+			android:layout_toRightOf="@+id/iteration_btn" 
+			android:layout_alignTop="@+id/iteration_btn" 
+			android:layout_alignBottom="@+id/iteration_btn">
+		</Button>
+		<Button 
+			android:layout_height="60dip" 
+			android:layout_width="65dip" 
+			android:text="Bot Function" 
+			android:textSize="9dip"
+			android:id="@+id/bot_btn" 
+			android:layout_toRightOf="@+id/tools_btn" 
+			android:layout_alignTop="@+id/tools_btn" 
+			android:layout_alignBottom="@+id/tools_btn">
 		</Button>
 		<EditText 
 			android:hint="Enter Code Here"
 			android:id="@+id/editor" 
 			android:layout_below="@+id/sequence_btn"
-			android:layout_above="@+id/tools_btn"
+			android:layout_above="@+id/quick_bar"
 			android:layout_height="wrap_content" 
 			android:layout_width="match_parent"
 			android:inputType="text|textMultiLine"
 			android:textSize="18dip"
 			android:typeface="monospace"
-			android:gravity="top"
-			/>
-		
-		<Button 
-			android:id="@+id/tools_btn" 
-			android:text="Quick Tools" 
-			android:layout_height="75dip" 
+			android:gravity="top"/>
+		<HorizontalScrollView 
+			android:id="@+id/quick_bar" 
 			android:layout_alignParentBottom="true"
-			android:layout_toLeftOf="@+id/bot_btn" 
-			android:layout_width="110dip">
-		</Button>
-		<Button android:id="@+id/bot_btn" 
-			android:text="Bot Functions" 
-			android:layout_alignParentBottom="true"
-			android:layout_toLeftOf="@+id/send_btn"
-			android:layout_width="110dip" 
-			android:layout_height="75dip">
-		</Button>
-		<Button 
-			android:id="@+id/send_btn" 
-			android:text="Send Code" 
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentRight="true"
-			android:layout_width="110dip" 
-			android:layout_height="75dip">
-		</Button>
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content">	
+		<RelativeLayout 
+			android:layout_width="match_parent" 
+			android:layout_height="match_parent" 
+			android:layout_alignParentBottom="true" 
+			android:id="@+id/quick_bar_layout">
+			<ImageButton
+				android:id="@+id/delete_line"
+				android:src="@drawable/delete_line"
+				android:layout_height="60dip"
+				android:layout_width="65dip">
+			</ImageButton>
+			 <ImageButton
+				android:id="@+id/delete_word"
+				android:src="@drawable/delete_word"
+				android:layout_toRightOf="@+id/delete_line" 
+				android:layout_height="60dip"
+				android:layout_width="65dip">
+			 </ImageButton>
+			<ImageButton 
+				android:layout_height="60dip" 
+				android:layout_width="65dip" 
+				android:src="@drawable/move_left"
+				android:layout_toRightOf="@+id/delete_word"
+				android:id="@+id/move_left">
+			</ImageButton>
+			<ImageButton
+				android:layout_toRightOf="@+id/move_left" 
+				android:id="@+id/move_right" 
+				android:src="@drawable/move_right"
+				android:layout_height="60dip"
+				android:layout_width="65dip">
+			 </ImageButton>
+			<ImageButton
+				android:layout_toRightOf="@+id/move_right" 
+				android:id="@+id/tab_over" 
+				android:src="@drawable/tab"
+				android:layout_height="60dip"
+				android:layout_width="65dip">
+			 </ImageButton>
+			<ImageButton 
+				android:layout_height="60dip" 
+				android:layout_width="60dip" 
+				android:src="@drawable/go"
+				android:id="@+id/send_btn"
+				android:layout_toRightOf="@+id/tab_over"
+				android:layout_alignParentRight="true">
+			 </ImageButton>		
+		</RelativeLayout>
+	</HorizontalScrollView>
 		<SlidingDrawer 
 			android:layout_width="wrap_content" 
 			android:orientation="horizontal" 
