@@ -261,7 +261,6 @@ public class IDE extends Activity {
 			public void onDrawerOpened() 
 			{
 				slideHandleButton.setBackgroundResource(R.drawable.closearrow);
-				
 			}
 		});
 
@@ -276,27 +275,55 @@ public class IDE extends Activity {
 		
 	}
 	
+    /**
+     * This overrides the default back button behavior to flip back to the first
+     * view of the ViewFlipper before backing out of this activity.
+     */
+    @Override
+    public void onBackPressed() {
+    	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
+    	
+    	
+    	if (vf.getCurrentView().getId() == R.id.ide_vf_firstView)
+    		super.onBackPressed();
+    	else
+    		vf.showPrevious();
+    }
+    
+    /**
+     * Temporary code to test the VM
+     */
     private void InterpreteCode()
     {
+    	InstructionLimitedVirtualMachine ilvm;
+    	BotInterpreter bi = null;
+    	
     	try
 		{
-	    	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-	    	BotInterpreter bi = new BotInterpreter(null, editor.getText().toString());
+	    	ilvm = new InstructionLimitedVirtualMachine();
+	    	
+	    	bi = new BotInterpreter(null, editor.getText().toString());
+	    	bi.setOutputTextView(botOutput);
+	    	botOutput.setText(bi.getBotLog());
 	    	
 	    	ilvm.addInterpreter(bi);
-	    	ilvm.resume(10000);
-	    	
+	    	ilvm.resume(200);
 		}
     	catch (Exception e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			botOutput.setText(e.toString());
+			Log.e("BitBot Interpreter", e.getStackTrace().toString());
+//			botOutput.setText(e.toString());
 		}
     	catch (Error e)
     	{
-    		e.printStackTrace();
-    		botOutput.setText(e.toString());
+    		Log.e("BitBot Interpreter", "ERROR: " + e.getStackTrace().toString());
+//    		botOutput.setText(e.toString());
+    	}
+    	finally
+    	{
+    		if (botOutput != null && bi != null)
+    			botOutput.setText(bi.getBotLog());
     	}
     }
     

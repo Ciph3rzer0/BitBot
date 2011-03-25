@@ -47,8 +47,10 @@ public class RunVisitor implements bc1Visitor
 	
 	private BotInterpreter bi;
 	
-	
-	
+	/**
+	 * This can allow you to control where debug output would go.
+	 * Data here comes from the parser itself.
+	 */
 	private PrintStream out = new PrintStream( 
 		new OutputStream()
 		{
@@ -59,7 +61,6 @@ public class RunVisitor implements bc1Visitor
 			}
 		}
 	);
-	
 	public boolean setPrintStream(PrintStream p)
 	{
 		if (p != null)
@@ -170,7 +171,7 @@ public class RunVisitor implements bc1Visitor
 		out.println(" ");
 		out.println("[--- Root ---]");
 		
-		// Visit Program
+		// ASTProgram
 		node.jjtGetChild(0).jjtAccept(this, null);
 		
 		return null;
@@ -180,7 +181,7 @@ public class RunVisitor implements bc1Visitor
 	{
 		out.println("[= Program =]");
 		
-		// ListOfInstructions
+		// ASTListOfInstructions
 		node.jjtGetChild(0).jjtAccept(this, null);
 		
 		return null;
@@ -194,8 +195,15 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
-		out.println( "[PRINT] " + node.jjtGetChild(0).jjtAccept(this, null).toString() );
-		std_out.println(node.jjtGetChild(0).jjtAccept(this, null).toString() );
+		// ASTExpression
+		String eval = node.jjtGetChild(0).jjtAccept(this, null).toString();
+		
+		// Print the line
+		out.println( "[PRINT] " + eval);
+		std_out.println(eval);
+		
+		// Flush text to TextView
+		bi.flush();
 		
 		return null;
 	}
@@ -204,9 +212,11 @@ public class RunVisitor implements bc1Visitor
 	{
 		//NextInstruction();
 		
+		// ASTIdentifier
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
 		String value = "0";
 		
+		// Store variable in hash
 		vars.put(id, value);
 		
 //		out.println("[Declaration] " + id + " = "  + value);
@@ -217,9 +227,10 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
-		// ID is first child
+		// ASTIdentifier
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
-		// Value is second child
+		
+		// ASTExpression
 		String value = node.jjtGetChild(1).jjtAccept(this, null).toString();
 		
 		// Update the variable
@@ -229,42 +240,6 @@ public class RunVisitor implements bc1Visitor
 		
 		return value;
 	}
-
-	
-	//***************************************************
-	//*  				   STRINGS 						*
-	//***************************************************
-	@Override
-	public Object visit(ASTConcatExpression node, Object data)
-	{
-//		out.println("StringExpression");
-		
-		// Determine the operation
-		String op = node.jjtGetValue().toString();
-		
-		// Visit this nodes children to find out the two operands (v1 and v2)
-		String v1 = "", v2 = "";
-		try
-		{
-			v1 = node.jjtGetChild(0).jjtAccept(this, null).toString();
-			v2 = node.jjtGetChild(1).jjtAccept(this, null).toString();
-		}
-		catch(Exception e){}
-		
-		// Evaluate
-		String result = ":err:";
-		if (op.equalsIgnoreCase("&"))
-			result = v1 + v2;
-		else 
-			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
-
-		// Log
-//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
-		
-		return result;
-	}
-
-	
 	
 	//***************************************************
 	//*  				IDENTIFIERS						*
@@ -304,11 +279,66 @@ public class RunVisitor implements bc1Visitor
 	//*  				EXPRESSIONS						*
 	//***************************************************
 	@Override
+	public Object visit(ASTConcatExpression node, Object data)
+	{
+//		out.println("StringExpression");
+		
+		// Extract the operation
+		String op = node.jjtGetValue().toString();
+		
+		// Visit this nodes children to find out the two operands (v1 and v2)
+		String v1 = "", v2 = "";
+		try
+		{
+			v1 = node.jjtGetChild(0).jjtAccept(this, null).toString();
+			v2 = node.jjtGetChild(1).jjtAccept(this, null).toString();
+		}
+		catch(Exception e){}
+		
+		// Evaluate
+		String result = ":err:";
+		if (op.equalsIgnoreCase("&"))
+			result = v1 + v2;
+		else 
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
+
+		// Log
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+		
+		return result;
+	}
+	
+	@Override
 	public Object visit(ASTBooleanExpression node, Object data)
 	{
-//		out.println("BooleanExpression");
-		// TODO actually return something
-		return "0";
+		NextInstruction();
+		
+		// Determine the operation
+		String op = node.jjtGetValue().toString();
+		out.println("BooleanExpression: " + op);
+		
+		// Visit this nodes children to find out the two operands (v1 and v2)
+		int v1 = 0, v2 = 0;
+		try
+		{
+			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+		}
+		catch(Exception e){}
+		
+		// Evaluate
+		int result = 0;
+		if (op.equalsIgnoreCase("AND"))
+			result = ((v1!=0)&&(v2!=0))?1:0;
+		else if (op.equalsIgnoreCase("OR"))
+			result = ((v1!=0)||(v2!=0))?1:0;
+		else 
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
+
+		// Log
+		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+		
+		return result;
 	}
 	
 	@Override
@@ -433,7 +463,7 @@ public class RunVisitor implements bc1Visitor
 			
 			// Print them out temporarily
 			for (int i=0; i<params.length; i++)
-				out.println(params[i]);
+				out.println(params[i]);;
 		}
 		
 		// Execute bot instructions

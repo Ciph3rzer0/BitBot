@@ -22,8 +22,7 @@ SKIP :
 {
   " "
 | "\t"
-| "\n"
-| "\r"
+//| "\n"//| "\r"
 | < "//" (~[ "\n", "\r" ])*
     (
       "\n"
@@ -62,7 +61,9 @@ TOKEN : /* OPERATIONS */
 
 TOKEN : /* RESERVED WORDS */
 {
-  < PRINT : "print" >
+  < NL : ("\n" | "\r" | "\r\n") >  // Statement Terminator
+
+| < PRINT : "print" >
 | < LET : "let" >
 | < EQUAL : "=" >
 | < DIM : "dim" >
@@ -120,21 +121,24 @@ void Program() :
 void ListOfInstructions() :
 {}
 {
-  (Instruction())*
+  (
+    Instruction()
+    ( < NL > )+
+  )*
 }
 
 void Instruction() #void :
 {}
 {
-  Expression() ";"
+  Expression()  //";"
   |
-  Assignment() ";"
+  Assignment() //";"
   | 
-  Print() ";"
+  Print() //";"
   |
-  Declaration() ";"
+  Declaration() //";"
   |
-  SubCall() ";"
+  SubCall() //";" 
   |
   SubDecl()
   |
@@ -148,16 +152,16 @@ void Instruction() #void :
 void WhileLoop() :
 {}
 {
-  < WHILE > Expression() < DO > ListOfInstructions() < LOOP	>
+  < WHILE > Expression() < DO > <NL> ListOfInstructions() < LOOP >
 }
 
 void IfStatement() :
 {}
 {
-  < IF > Expression() < THEN >
+  < IF > Expression() < THEN > < NL >
   
   ListOfInstructions()
-  ( <ELSE> 
+  ( < ELSE > < NL >
     ListOfInstructions()
   )?
   
@@ -167,7 +171,7 @@ void IfStatement() :
 void ForLoop() :
 {}
 {
-  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ?
+  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
     ListOfInstructions()
   < NEXT >
 }
@@ -182,13 +186,17 @@ void SubCall() :
 void ParameterList() #void :
 {}
 {
+  (
   Expression() ( "," Expression() )*
+  )?
 }
 
 void SubDecl() #SubDeclaration :
 {}
 {
-  < SUBROUTINE > Identifier() ListOfInstructions() < END >
+  < SUBROUTINE > Identifier() < NL >
+    ListOfInstructions()
+  < END >
 }
 
 void Print() :
@@ -209,7 +217,14 @@ void Assignment() :
    < LET > Identifier() < EQUAL >  Expression()
 }
 
-/* ---------- Needs Work ------------- */
+/* ----------------------- */
+
+void Expression() #void ://#Expression(>1) :
+{}
+{
+  ConcatExpression() {}
+}
+
 void ConcatExpression() #ConcatExpression(>1) :
 {
 Token t;
@@ -235,13 +250,6 @@ void StringLiteral() :
 }
 {
   t = < STRING_LITERAL > { jjtThis.value = t.image; }
-}
-/* ----------------------- */
-
-void Expression() #void ://#Expression(>1) :
-{}
-{
-  ConcatExpression() {}
 }
 
 void BooleanExpression() #BooleanExpression(>1) :
