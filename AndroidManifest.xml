@@ -13,7 +13,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".graphics.GameEngine"></activity>
+        <activity android:name=".graphics.GameEngine" android:configChanges="orientation|keyboardHidden"></activity>
 		<activity android:name=".interpreter.Test" android:configChanges="orientation|keyboardHidden" >
 			
 		</activity>
