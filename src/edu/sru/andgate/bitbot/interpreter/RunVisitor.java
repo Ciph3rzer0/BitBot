@@ -39,6 +39,7 @@ public class RunVisitor implements bc1Visitor
 	private HashMap<String, String> vars = new HashMap<String, String>();
 	private int instructionsLeft = 0;
 	private boolean _waiting = true;
+	private boolean _abort = false;
 	
 	private PipedOutputStream $std_out = new PipedOutputStream();
 	private PrintStream std_out = new PrintStream($std_out, true);
@@ -46,6 +47,14 @@ public class RunVisitor implements bc1Visitor
 	private PipedInputStream $std_in = new PipedInputStream();
 	
 	private BotInterpreter bi;
+	
+	/**
+	 * This replaces "this" for all jjtAccept calls.  It functions identically to 
+	 * "this" until the thread has to abort, we then set __this__ to another Visitor
+	 * that will quickly rise back up the stack.
+	 */
+	private RunVisitor __this__;
+	
 	
 	/**
 	 * This can allow you to control where debug output would go.
@@ -97,6 +106,11 @@ public class RunVisitor implements bc1Visitor
 	 */
 	private void NextInstruction()
 	{
+		if (_abort)
+			return;
+		
+		Thread.currentThread().stop();
+		
 		// If we have less than 1 instruction left, we need to wait until we're
 		// allowed to do more processing.
 		if (instructionsLeft <= 0)
@@ -153,6 +167,14 @@ public class RunVisitor implements bc1Visitor
 		$std_in = in;
 	}
 	
+	/**
+	 * Flags this BotInterpreter to abort.  When it's execution thread runs next it will abort
+	 * its execution of interpreted code.
+	 */
+	public void abort()
+	{
+		_abort = true;
+	}
 	
 	
 	//***************************************************
@@ -467,15 +489,8 @@ public class RunVisitor implements bc1Visitor
 		}
 		
 		// Execute bot instructions
-		// TODO: check what this string is
-		Log.e("RV", instr.substring(0, 4));
 		if ( instr.substring(0, 4).equalsIgnoreCase("bot_") )
-		{
-			Log.w("RV", "call began with 'bot_'");
 			bi.executeBotInstruction(instr, params);
-		}
-		else
-			Log.w("RV", "call did not begin with 'bot_'");
 		
 		// TODO Auto-generated method stub
 		return null;
@@ -562,7 +577,8 @@ public class RunVisitor implements bc1Visitor
 		
 		return null;
 	}
-	
+
+
 	
 //	@Override
 //	public Object visit(ASTParameterList node, Object data)
