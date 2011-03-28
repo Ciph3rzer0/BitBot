@@ -137,7 +137,7 @@
       </TableLayout>         
       <SlidingDrawer 
 			android:layout_width="wrap_content" 
-			android:orientation="horizontal" 
+			android:orientation="vertical" 
 			android:id="@+id/SlidingDrawer" 
 			android:handle="@+id/slideHandleButton" 
 			android:content="@+id/contentLayout" 
@@ -147,7 +147,7 @@
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content" 
 				android:id="@+id/slideHandleButton" 
-				android:background="@drawable/openarrow">
+				android:background="@drawable/vertical_open_arrow">
 			</Button>
 			<ScrollView 
 				android:layout_width="wrap_content" 

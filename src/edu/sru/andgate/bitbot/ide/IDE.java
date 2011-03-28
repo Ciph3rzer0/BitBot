@@ -12,6 +12,7 @@ import edu.sru.andgate.bitbot.tutorial.ActionItem;
 import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -268,8 +269,11 @@ public class IDE extends Activity {
 			@Override
 			public void onDrawerOpened() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.closearrow);
-				
+				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_close_arrow);
+		        }else{
+		        	slideHandleButton.setBackgroundResource(R.drawable.closearrow);
+		        }
 			}
 		});
 
@@ -278,12 +282,18 @@ public class IDE extends Activity {
 			@Override
 			public void onDrawerClosed() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.openarrow);
+				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_open_arrow);
+		        }else{
+		        	slideHandleButton.setBackgroundResource(R.drawable.openarrow);
+		        }
+				
 			}
 		});
 		
 	}
 	
+    
     private void InterpreteCode()
     {
     	try
