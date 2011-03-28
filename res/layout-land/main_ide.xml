@@ -1,97 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+   
 <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/ide_view_flipper"
-	android:flipInterval="2000"
- 	android:layout_width="wrap_content" android:layout_height="wrap_content">
-
-	<RelativeLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent" android:layout_height="wrap_content">
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"/>
-		<Button 
-			android:id="@+id/sequence_btn" 
-			android:text="Sequence" 
-			android:textSize="9dip"
-			android:layout_alignParentTop="true"
-			android:layout_height="60dip" android:layout_width="65dip">
-		</Button>
-		<Button 
-			android:layout_height="60dip" 
-			android:textSize="9dip" 
-			android:layout_width="65dip" 
-			android:text=" Selection" 
-			android:id="@+id/selection_btn" 
-			android:layout_below="@+id/sequence_btn" 
-			android:layout_alignLeft="@+id/sequence_btn" 
-			android:layout_alignRight="@+id/sequence_btn">
-		</Button>
-		<Button 
-			android:layout_height="60dip" 
-			android:textSize="9dip" 
-			android:layout_width="65dip" 
-			android:text=" Iteration" 
-			android:id="@+id/iteration_btn" 
-			android:layout_below="@+id/selection_btn" 
-			android:layout_alignLeft="@+id/selection_btn" 
-			android:layout_alignRight="@+id/selection_btn">
-		</Button>
-		<Button 
-			android:layout_height="60dip" 
-			android:textSize="9dip" 
-			android:layout_width="65dip" 
-			android:text="Quick Tools" 
-			android:id="@+id/tools_btn" 
-			android:layout_below="@+id/iteration_btn"
-			android:layout_alignLeft="@+id/iteration_btn" 
-			android:layout_alignRight="@+id/iteration_btn">
-		</Button>
-		<Button 
-			android:layout_height="60dip" 
-			android:textSize="9dip" 
-			android:layout_width="65dip" 
-			android:text="Bot Function" 
-			android:id="@+id/bot_btn" 
-			android:layout_below="@+id/tools_btn" 
-			android:layout_alignLeft="@+id/tools_btn" 
-			android:layout_alignRight="@+id/tools_btn">
-		</Button>
-		<EditText 
-			android:hint="Enter Code Here"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:flipInterval="2000">
+   
+<RelativeLayout 
+	    android:id="@+id/relativeLayout1" 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent" 
+	    xmlns:android="http://schemas.android.com/apk/res/android">
+     <TableLayout 
+	       android:id="@+id/quick_bar" 
+	       android:layout_width="wrap_content" 
+	       android:layout_height="match_parent">
+	      <Button 
+		        android:text="Sequence" 
+		        android:id="@+id/sequence_btn" 
+		        android:textSize="10px"
+		        android:layout_height="0px" 
+		        android:layout_width="70dip"
+		        android:layout_weight="1">
+	        </Button>
+	        <Button 
+		        android:textSize="10px" 
+		        android:text="Selection" 
+		        android:layout_height="0px" 
+		        android:layout_weight="1" 
+		        android:layout_width="70dip" 
+		        android:id="@+id/selection_btn">
+	        </Button>
+	        <Button 
+		        android:text="Iteration"
+		        android:textSize="10px" 
+		        android:id="@+id/iteration_btn"
+		        android:layout_height="0px" 
+		   		android:layout_width="70dip"
+		        android:layout_weight="1">
+	        </Button>
+	        <Button 
+		        android:text="Quick Tools" 
+		        android:textSize="10px"
+		        android:id="@+id/tools_btn" 
+		        android:layout_height="0px" 
+		        android:layout_width="70dip"
+		        android:layout_weight="1">
+	        </Button>
+	        <Button 
+		        android:text="Bot Functions" 
+		        android:textSize="10px"
+		        android:id="@+id/bot_btn" 
+		        android:layout_height="0px" 
+		        android:layout_width="70dip"
+		        android:layout_weight="1">
+	        </Button>
+      </TableLayout>
+      
+      <TableLayout 
+      android:id="@+id/tableLayout1" 
+      android:layout_toRightOf="@id/quick_bar"
+      android:layout_toLeftOf="@id/tools_bar"
+      android:layout_width="wrap_content"  
+      android:layout_height="match_parent">
+          
+          <EditText 
+	        android:hint="Enter Code Here"
 			android:id="@+id/editor" 
-			android:layout_toRightOf="@+id/sequence_btn"
-			android:layout_toLeftOf="@+id/quick_bar"
-			android:layout_width="match_parent"
 			android:autoText="false"
+			android:layout_width="match_parent"
 			android:inputType="text|textMultiLine"
 			android:textSize="18dip"
 			android:typeface="monospace"
-			android:gravity="top" android:layout_height="match_parent"/>
-		<ScrollView 
-			android:id="@+id/quick_bar" 
-			android:layout_alignParentRight="true"
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content">
-		<RelativeLayout android:id="@+id/quick_bar_layout" android:layout_alignParentRight="true" android:layout_width="wrap_content" android:layout_height="wrap_content">
-			<ImageButton android:layout_width="65dip" android:src="@drawable/delete_line" android:layout_height="60dip" android:id="@+id/delete_line"></ImageButton>
-			<ImageButton android:layout_width="65dip" android:src="@drawable/delete_word" android:layout_height="60dip" android:id="@+id/delete_word" android:layout_below="@+id/delete_line" android:layout_alignLeft="@+id/delete_line" android:layout_alignRight="@+id/delete_line"></ImageButton>
-			<ImageButton android:layout_width="65dip" android:src="@drawable/move_left" android:layout_height="60dip" android:id="@+id/move_left" android:layout_below="@+id/delete_word" android:layout_alignLeft="@+id/delete_word" android:layout_alignRight="@+id/delete_word"></ImageButton>
-			<ImageButton android:layout_width="65dip" android:src="@drawable/move_right" android:layout_height="60dip" android:id="@+id/move_right" android:layout_below="@+id/move_left" android:layout_alignLeft="@+id/move_left" android:layout_alignRight="@+id/move_left"></ImageButton>
-			<ImageButton android:layout_width="60dip" android:src="@drawable/go" android:layout_height="60dip" android:id="@+id/send_btn" android:layout_below="@+id/tab_over" android:layout_alignLeft="@+id/move_right" android:layout_alignRight="@+id/move_right"></ImageButton>
-			<ImageButton android:layout_width="65dip" android:src="@drawable/tab" android:layout_height="60dip" android:id="@+id/tab_over" android:layout_below="@+id/move_right" android:layout_alignLeft="@+id/move_right" android:layout_alignRight="@+id/move_right"></ImageButton>
-		</RelativeLayout>
-		</ScrollView>
-			<SlidingDrawer 
+			android:gravity="top" android:layout_height="match_parent">
+          </EditText>
+      </TableLayout>
+     
+      <TableLayout 
+	      android:id="@+id/tools_bar" 
+	      android:layout_width="wrap_content" 
+	      android:layout_alignParentRight="true" 
+	      android:layout_height="match_parent">
+          
+          <ScrollView 
+          android:id="@+id/scrollView1" 
+          android:layout_height="match_parent" 
+          android:layout_width="wrap_content">
+              <TableLayout 
+	              android:layout_width="match_parent" 
+	              android:id="@+id/linearLayout1" 
+	              android:layout_height="match_parent">
+	         <ImageButton
+				android:id="@+id/delete_line"
+				android:src="@drawable/delete_line"
+				android:layout_height="0px" 
+		        android:layout_weight="1" 
+		        android:layout_width="70dip" >
+			</ImageButton>
+			<ImageButton
+				android:id="@+id/delete_word"
+				android:src="@drawable/delete_word"
+				android:layout_height="0px" 
+	        	android:layout_weight="1" 
+	        	android:layout_width="70dip" >
+			</ImageButton>
+			<ImageButton 
+				android:layout_height="0px" 
+		        android:layout_weight="1" 
+		        android:layout_width="70dip" 
+				android:src="@drawable/move_left"
+				android:id="@+id/move_left">
+			</ImageButton>
+			<ImageButton
+				android:id="@+id/move_right" 
+				android:src="@drawable/move_right"
+				android:layout_height="0px" 
+		        android:layout_weight="1" 
+		        android:layout_width="70dip">
+			</ImageButton>
+			<ImageButton
+				android:id="@+id/tab_over" 
+				android:src="@drawable/tab"
+				android:layout_height="0px" 
+		        android:layout_weight="1" 
+		        android:layout_width="70dip">
+			</ImageButton>
+			<ImageButton 
+				android:layout_height="0px" 
+		        android:layout_weight="1" 
+		        android:layout_width="70dip" 
+				android:src="@drawable/go"
+				android:id="@+id/send_btn">
+			</ImageButton>		
+              </TableLayout>
+          </ScrollView>
+      </TableLayout>         
+      <SlidingDrawer 
 			android:layout_width="wrap_content" 
 			android:orientation="horizontal" 
 			android:id="@+id/SlidingDrawer" 
 			android:handle="@+id/slideHandleButton" 
 			android:content="@+id/contentLayout" 
 			android:padding="10dip" 
-			android:layout_height="400dip">
+			android:layout_height="wrap_content">
 			<Button 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content" 
@@ -110,12 +161,11 @@
 			    android:layout_width="fill_parent"
 			    android:layout_height="fill_parent"
 			    android:textColor="#00FF00"
-			    android:id="@+id/tutorial_text" />		
+			    android:id="@+id/tutorial_text"/>		
 			</ScrollView>
 		</SlidingDrawer>
-	</RelativeLayout>
-
-	<RelativeLayout
+</RelativeLayout>
+<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		>
@@ -151,3 +201,12 @@
 	</RelativeLayout>
 	
 </ViewFlipper>
+
+
+
+   
+    
+   
+
+
+	
