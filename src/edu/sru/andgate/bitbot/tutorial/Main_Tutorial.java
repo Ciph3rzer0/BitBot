@@ -13,6 +13,7 @@ import edu.sru.andgate.bitbot.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -197,7 +198,11 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onDrawerOpened() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.closearrow);
+				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_close_arrow);
+		        }else{
+		        	slideHandleButton.setBackgroundResource(R.drawable.closearrow);
+		        }
 				try 
 				{
 		        	TextView generalText = (TextView)findViewById(R.id.tutorial_text);
@@ -214,7 +219,11 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onDrawerClosed() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.openarrow);
+				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_open_arrow);
+		        }else{
+		        	slideHandleButton.setBackgroundResource(R.drawable.openarrow);
+		        }
 			}
 		});
 		
