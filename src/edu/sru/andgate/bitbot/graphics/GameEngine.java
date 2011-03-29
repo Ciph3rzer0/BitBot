@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import java.io.*;
 
 public class GameEngine extends Activity
 {	
@@ -102,6 +103,9 @@ public class GameEngine extends Activity
         }
         
         testMap = new TileMap();
+        File mapFile = new File("TestMap");
+        testMap.loadMapFile(mapFile);
+        
         //testMap.addTexture(R.drawable.stone);
         gameRenderer.setTileMap(testMap);
         

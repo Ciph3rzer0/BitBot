@@ -12,8 +12,10 @@ import edu.sru.andgate.bitbot.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.opengl.GLUtils;
 import java.util.*;
+import java.io.*;
 
 public class TileMap
 {
@@ -32,7 +34,8 @@ public class TileMap
 	int numTextures = 0;
 	public int[][][] tileTextures;
 	public float[][][] tileLocations;
-	public int[][][] tileMaterials;
+	public int[][][] tileCodes;
+	public int[][][] tileBoundaries;
 	int[] drawBufferCount;
 	ArrayList<Integer> textureHopper;
 	ArrayList<int[][]> drawBuffer;
@@ -86,6 +89,7 @@ public class TileMap
 		textureHopper = new ArrayList<Integer>(MAX_TEXTURE_ARRAY_SIZE);
 		
 		//***********************TESTING SETUP**************************
+		/*
 		//Textures
 		this.addTexture(R.drawable.tile2);
 		this.addTexture(R.drawable.grass);
@@ -140,7 +144,117 @@ public class TileMap
 		tileTextures[49][53][0] = 1;
 		tileTextures[51][52][0] = 3;
 		tileTextures[54][55][0] = 3;
+		*/
 		
+	}
+	
+	public void loadMapFile(File mapProjectFile)
+	{
+		Scanner sc;
+		int token;
+		int mWidth, mHeight, step, tSize, nTextures;
+		
+		//Generate Local Arrays
+		tileLocations = new float[100][100][2];
+		tileTextures = new int[100][100][1];
+		tileBoundaries = new int[100][100][1];
+		tileCodes = new int[100][100][1];
+		
+		try
+		{
+	      sc = new Scanner(mapProjectFile.getName() + "/" + mapProjectFile.getName() + ".map");
+	      while (sc.hasNextInt())
+	      {
+	    	  //Dump current texture set
+	    	  numTextures = 0;
+	    	  textureHopper.clear();
+	    	  
+	    	  //Read basic map information
+	          mWidth = sc.nextInt();
+	          mHeight = sc.nextInt();
+	          
+	          tileSize = sc.nextInt();
+	          step = sc.nextInt();
+	          
+	          nTextures = sc.nextInt();
+	          
+	          //Figure some stuff about the map
+	          tileStep = (tileSize*2);
+	          rightMapEdge = mapWidth-1;
+	          topMapEdge = mapHeight-1;
+				
+	          drawBuffer = new ArrayList<int[][]>(numTextures);
+	          drawBufferCount = new int[numTextures];
+	          
+	          //Generate meta tiles
+	  		  int xCount = (((mWidth * step)/2) * -1) - step;
+	  		  int storedXCount = xCount;
+	  		  int yCount = mHeight;
+				
+	  		  //Set Tile Locations/Textures
+	  		  for(int i=0;i<mHeight;i++)
+	  		  {
+	  			  for(int j=0;j < mWidth;j++)
+	  			  {
+	  				  //Set tile meta info
+	  				  tileLocations[j][i][0] = xCount+=tileStep;
+	  				  tileLocations[j][i][1] = yCount;
+	  				  //Set default texture
+	  				  tileTextures[j][i][0] = 0;
+	  			  }
+	  			  //Reset x-position like a typewriter, and return a line. (Ching!)
+	  			  yCount-=tileStep;
+	  			  xCount = storedXCount;
+	  		  }
+	  		  
+	  		  //Initialize draw buffer for efficient drawing
+	          for(int i=0;i<numTextures;i++)
+	          {
+	        	  drawBuffer.add(new int[MAX_TILES_PER_FRAME][2]);
+	        	  drawBufferCount[i] = 0;
+	          }
+	          
+	          //Read textures
+	          for(int i=0;i<mHeight;i++)
+	          {
+	        	  for(int j=0;j<mWidth;j++)
+	        	  {
+	        		  tileTextures[j][i][0] = sc.nextInt();
+	        	  }
+	          }
+	          //Read boundaries
+	          for(int i=0;i<mHeight;i++)
+	          {
+	        	  for(int j=0;j<mWidth;j++)
+	        	  {
+	        		  tileBoundaries[j][i][0] = sc.nextInt();
+	        	  }
+	          }
+	          
+	          //Read codes
+	          for(int i=0;i<mHeight;i++)
+	          {
+	        	  for(int j=0;j<mWidth;j++)
+	        	  {
+	        		  tileCodes[j][i][0] = sc.nextInt();
+	        	  }
+	          }
+	          //Read and load textures ***NEEDS FIXED**********************************
+	          for(int i=0;i<numTextures;i++)
+	          {
+	        	  this.addTexture(R.drawable.deftile);
+	        	  this.addTexture(R.drawable.seltile);
+	        	  this.addTexture(R.drawable.stone);
+	        	  this.addTexture(R.drawable.brick);
+	        	  this.addTexture(R.drawable.grass);
+	        	  this.addTexture(R.drawable.sandtile);
+	          }
+	      }
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error loading map file.");
+		}
 	}
 	
 	public void setSelectedTexture(int selectedTex)
@@ -183,9 +297,9 @@ public class TileMap
 		tileTextures = textures;
 	}
 	
-	public void setTileMaterial(int[][][] materials)
+	public void setTileCodes(int[][][] codes)
 	{
-		tileMaterials = materials;
+		tileCodes = codes;
 	}
 
 	public void loadGLTexture(GL10 gl, Context context, int curTexPointer)
