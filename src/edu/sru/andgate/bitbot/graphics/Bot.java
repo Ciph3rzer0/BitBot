@@ -108,6 +108,10 @@ public class Bot
 		parameters[3] = newAngle;
 	}
 	
+	public void move(float angle, float speed, float distance){
+		//
+	}
+	
 	public void move(float angle, float stepSize)
 	{
 		float rise = (float)(Math.sin(angle) * stepSize) + parameters[1]; //(float)(Math.sin(angle) * stepSize) + parameters[1];
