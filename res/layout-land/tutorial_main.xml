@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/tutorial_view_flipper"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:flipInterval="2000">
+
+	<!-- Text View -->
+	<RelativeLayout 
+	    android:id="@+id/tutorial_text_view_main" 
+	    android:layout_width="fill_parent" 
+		android:layout_height="fill_parent" 
+		xmlns:android="http://schemas.android.com/apk/res/android">
+	        <LinearLayout 
+		        android:id="@+id/section_text" 
+		        android:layout_alignParentTop="true" 
+		        android:layout_above="@+id/code_view"
+		        android:layout_height="wrap_content" 
+		        android:layout_width="match_parent">
+	            <ScrollView 
+	            	android:id="@+id/scrollable_text" 
+	            	android:layout_height="match_parent" 
+	            	android:layout_width="match_parent">
+	                <TextView 
+		                android:id="@+id/tutorial_text" 
+		                android:text="TextView" 
+		                android:layout_width="match_parent" 
+		                android:layout_height="match_parent">
+	                </TextView>
+	           	</ScrollView>
+	        </LinearLayout>
+	        <LinearLayout 
+		        android:layout_alignParentBottom="true" 
+		        android:id="@+id/code_view" 
+		        android:layout_height="wrap_content" 
+		        android:layout_width="match_parent">
+	            <Button 
+		            android:text="Begin Coding" 
+		            android:textSize="15px"
+		            android:id="@+id/code_btn" 
+		            android:layout_width="0px"
+		            android:layout_weight="1" 
+		            android:layout_height="75dip">
+	            </Button>
+	        </LinearLayout>
+	    </RelativeLayout>
+	    
+		<!-- Coding View -->	    
+	    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
         <TableLayout 
 	        android:id="@+id/quick_bar" 
 	        android:layout_alignParentLeft="true" 
@@ -102,3 +150,42 @@
 			</ScrollView>
 		</SlidingDrawer>
     </RelativeLayout>
+	  
+	  <!-- Console View -->  
+	  <RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		>
+		
+		<LinearLayout
+			android:id="@+id/crap001"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="bottom"
+			android:layout_alignParentBottom="true"
+			>
+		
+			<Button 
+				android:id="@+id/ide_back_to_code_btn" 
+				android:text="Code"
+				android:layout_width="0px"
+				android:layout_weight="1" 
+				android:layout_height="wrap_content"
+			/>
+			
+		</LinearLayout>
+		
+		<TextView
+			android:id="@+id/ide_std_out"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:text="View Flipper?!!"
+			android:layout_alignBottom="@id/crap001"
+		/>
+		
+	</RelativeLayout>
+	
+</ViewFlipper>
+    
