@@ -7,13 +7,14 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
-
 import edu.sru.andgate.bitbot.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+//import android.graphics.drawable.Drawable;
 import android.opengl.GLUtils;
+import android.util.Log;
+
 import java.util.*;
 import java.io.*;
 
@@ -22,7 +23,7 @@ public class TileMap
 	float[] parameters;
 	int ID = 0;
 	int textureCount = 0;
-	int MAX_TEXTURE_ARRAY_SIZE = 5;
+	int MAX_TEXTURE_ARRAY_SIZE = 500;
 	int SELECTED_TEXTURE = 0;
 	public int mapWidth, mapHeight;
 	public int tileSize;
@@ -148,112 +149,114 @@ public class TileMap
 		
 	}
 	
-	public void loadMapFile(File mapProjectFile)
+	public void loadMapFile(String mapFile, Context context)
 	{
 		Scanner sc;
-		int token;
-		int mWidth, mHeight, step, tSize, nTextures;
+		int nTexturesInMap = 0;
 		
-		//Generate Local Arrays
-		tileLocations = new float[100][100][2];
-		tileTextures = new int[100][100][1];
-		tileBoundaries = new int[100][100][1];
-		tileCodes = new int[100][100][1];
-		
+		Log.v("bitbot", "Loading Map...");
+
 		try
-		{
-	      sc = new Scanner(mapProjectFile.getName() + "/" + mapProjectFile.getName() + ".map");
-	      while (sc.hasNextInt())
-	      {
-	    	  //Dump current texture set
-	    	  numTextures = 0;
-	    	  textureHopper.clear();
-	    	  
-	    	  //Read basic map information
-	          mWidth = sc.nextInt();
-	          mHeight = sc.nextInt();
+		{			
+		    InputStream mapFileStream = context.getAssets().open(mapFile);
+			sc = new Scanner(mapFileStream);
+
+			//Dump current texture set
+			numTextures = 0;
+			textureHopper.clear();
+		  
+			//Read basic map information
+			mapWidth = sc.nextInt();
+			mapHeight = sc.nextInt();
+		  
+			tileSize = sc.nextInt();
+			tileStep = sc.nextInt();
+		  
+			nTexturesInMap = sc.nextInt();
+		  
+			//Figure some stuff about the map
+			//tileStep = (tileSize*2);
+			rightMapEdge = mapWidth-1;
+			topMapEdge = mapHeight-1;
+			
+			//Generate draw buffer
+			drawBuffer = new ArrayList<int[][]>(nTexturesInMap);
+			drawBufferCount = new int[nTexturesInMap];
 	          
-	          tileSize = sc.nextInt();
-	          step = sc.nextInt();
+	  		//Generate Local Arrays
+	  		tileLocations = new float[mapWidth][mapHeight][2];
+	  		tileTextures = new int[mapWidth][mapHeight][1];
+	  		tileBoundaries = new int[mapWidth][mapHeight][1];
+	  		tileCodes = new int[mapWidth][mapHeight][1];
 	          
-	          nTextures = sc.nextInt();
-	          
-	          //Figure some stuff about the map
-	          tileStep = (tileSize*2);
-	          rightMapEdge = mapWidth-1;
-	          topMapEdge = mapHeight-1;
-				
-	          drawBuffer = new ArrayList<int[][]>(numTextures);
-	          drawBufferCount = new int[numTextures];
-	          
-	          //Generate meta tiles
-	  		  int xCount = (((mWidth * step)/2) * -1) - step;
-	  		  int storedXCount = xCount;
-	  		  int yCount = mHeight;
-				
-	  		  //Set Tile Locations/Textures
-	  		  for(int i=0;i<mHeight;i++)
-	  		  {
-	  			  for(int j=0;j < mWidth;j++)
-	  			  {
-	  				  //Set tile meta info
-	  				  tileLocations[j][i][0] = xCount+=tileStep;
-	  				  tileLocations[j][i][1] = yCount;
-	  				  //Set default texture
-	  				  tileTextures[j][i][0] = 0;
-	  			  }
-	  			  //Reset x-position like a typewriter, and return a line. (Ching!)
-	  			  yCount-=tileStep;
-	  			  xCount = storedXCount;
-	  		  }
-	  		  
-	  		  //Initialize draw buffer for efficient drawing
-	          for(int i=0;i<numTextures;i++)
-	          {
-	        	  drawBuffer.add(new int[MAX_TILES_PER_FRAME][2]);
-	        	  drawBufferCount[i] = 0;
-	          }
-	          
-	          //Read textures
-	          for(int i=0;i<mHeight;i++)
-	          {
-	        	  for(int j=0;j<mWidth;j++)
-	        	  {
-	        		  tileTextures[j][i][0] = sc.nextInt();
-	        	  }
-	          }
-	          //Read boundaries
-	          for(int i=0;i<mHeight;i++)
-	          {
-	        	  for(int j=0;j<mWidth;j++)
-	        	  {
-	        		  tileBoundaries[j][i][0] = sc.nextInt();
-	        	  }
-	          }
-	          
-	          //Read codes
-	          for(int i=0;i<mHeight;i++)
-	          {
-	        	  for(int j=0;j<mWidth;j++)
-	        	  {
-	        		  tileCodes[j][i][0] = sc.nextInt();
-	        	  }
-	          }
-	          //Read and load textures ***NEEDS FIXED**********************************
-	          for(int i=0;i<numTextures;i++)
-	          {
+	        //Generate meta tiles
+	  		int xCount = (((mapWidth * tileStep)/2) * -1) - tileStep;
+	  		int storedXCount = xCount;
+	  		int yCount = mapHeight;
+	  		
+	  		//Set Tile Locations/Textures
+	  		for(int i=0;i<mapHeight;i++)
+	  		{
+	  			for(int j=0;j < mapWidth;j++)
+	  			{
+	  				//Set tile meta info
+	  				tileLocations[j][i][0] = xCount+=tileStep;
+	  				tileLocations[j][i][1] = yCount;
+	  				//Set default texture
+	  				tileTextures[j][i][0] = 0;
+	  			}
+	  			//Reset x-position like a typewriter, and return a line. (Ching!)
+	  			yCount-=tileStep;
+	  			xCount = storedXCount;
+	  		}
+	  		//Initialize draw buffer for efficient drawing
+	        for(int i=0;i<nTexturesInMap;i++)
+	        {
+	        	System.out.println("draw buffer setup" + i);
+	        	drawBuffer.add(new int[MAX_TILES_PER_FRAME][2]);
+	        	drawBufferCount[i] = 0;
+	        }
+	        //Read textures
+	        for(int i=0;i<mapHeight;i++)
+	        {
+	        	for(int j=0;j<mapWidth;j++)
+	        	{
+	        		tileTextures[j][i][0] = sc.nextInt();
+	        	}
+	        }
+	        //Read boundaries
+	        for(int i=0;i<mapHeight;i++)
+	        {
+	        	for(int j=0;j<mapWidth;j++)
+	        	{
+	        		tileBoundaries[j][i][0] = sc.nextInt();
+	        	}
+	        }
+	        //Read Map Codes
+	        for(int i=0;i<mapHeight;i++)
+	        {
+	        	for(int j=0;j<mapWidth;j++)
+	        	{
+	        		tileCodes[j][i][0] = sc.nextInt();
+	        	}
+	        }
+	        //Read and load textures ***************************NEEDS FIXED**********************************
+	        //for(int i=0;i<1;i++)
+	        //{
 	        	  this.addTexture(R.drawable.deftile);
 	        	  this.addTexture(R.drawable.seltile);
 	        	  this.addTexture(R.drawable.stone);
 	        	  this.addTexture(R.drawable.brick);
 	        	  this.addTexture(R.drawable.grass);
 	        	  this.addTexture(R.drawable.sandtile);
-	          }
-	      }
+	          //}
+	          mapFileStream.close();
+	          Log.v("bitbot", "Map loading complete.");
+	      //}
 		}
 		catch(Exception e)
 		{
-			System.out.println("Error loading map file.");
+			System.out.println("Error loading map file: " + e.toString());
 		}
 	}
 	
