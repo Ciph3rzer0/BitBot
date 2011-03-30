@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
+import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,17 +22,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class Main_Tutorial extends Activity {
 	private boolean canSimulate = false;
 	private EditText editor; 
+	
+	/*
+	 * Used for sliding the ViewFlipper
+	 */
+	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
+	private TextView botOutput, main_text;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -58,11 +69,15 @@ public class Main_Tutorial extends Activity {
 		final ActionItem brace_tool = new ActionItem();
 		final ActionItem bracket_tool = new ActionItem();
 		
-		/*
-		 * Action Items for Bot Functions button
-		 */
-		final ActionItem move_bot = new ActionItem();
-		final ActionItem rotate_turret = new ActionItem();
+	
+		botOutput = (TextView) findViewById(R.id.ide_std_out);
+		main_text = (TextView) findViewById(R.id.tutorial_text);
+		
+		try {
+			main_text.setText(readTxt(tutorialID));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
 		//create the text editor and cabinet button
 		editor = (EditText) this.findViewById(R.id.editor);
@@ -84,6 +99,10 @@ public class Main_Tutorial extends Activity {
 		setActionItem(brace_tool,editor,"Braces { }", "Braces Selected", getResources().getString(R.string.braces));
 		setActionItem(bracket_tool, editor, "Brackets [ ]", "Brackets Selected", getResources().getString(R.string.brackets));
 		
+		sIn_left = AnimationUtils.loadAnimation(this, R.anim.slidein_left);
+		sOut_left = AnimationUtils.loadAnimation(this, R.anim.slideout_left);
+		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
+		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
 		
 		/*
 		 * Set all the QuickAction buttons onClick() methods 
@@ -179,14 +198,49 @@ public class Main_Tutorial extends Activity {
 				if(simulateFlag == 0){
 					Toast.makeText(Main_Tutorial.this, "No Simulation Available" , Toast.LENGTH_SHORT).show();
 				}else if(canSimulate && simulateFlag == 1){
-					//Console Output here
-					Intent myIntent = new Intent(Main_Tutorial.this, Console.class);
-         			startActivity(myIntent);
+					InterpreteCode();
+					
+					ViewFlipper vf = (ViewFlipper) findViewById(R.id.tutorial_view_flipper);
+					
+					vf.setInAnimation(sIn_right);
+					vf.setOutAnimation(sOut_right);
+					
+					vf.showNext();
 				}else if (canSimulate && simulateFlag == 2){
 					//Graphical Simulation here
 				}else{
 					Toast.makeText(Main_Tutorial.this, "Simulation Available, but answer is not correct", Toast.LENGTH_SHORT).show();
 				}
+			}
+		});
+		
+		Button to_code_button = (Button) this.findViewById(R.id.code_btn);
+		to_code_button.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				ViewFlipper vf = (ViewFlipper) findViewById(R.id.tutorial_view_flipper);
+
+				vf.setInAnimation(sIn_right);
+				vf.setOutAnimation(sOut_right);
+				
+				vf.showNext();
+			}
+		});
+		
+		Button back_to_code = (Button) this.findViewById(R.id.ide_back_to_code_btn);
+		back_to_code.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				ViewFlipper vf = (ViewFlipper) findViewById(R.id.tutorial_view_flipper);
+
+				vf.setInAnimation(sIn_left);
+				vf.setOutAnimation(sOut_left);
+				
+				vf.showPrevious();
 			}
 		});
 		
@@ -203,14 +257,6 @@ public class Main_Tutorial extends Activity {
 		        }else{
 		        	slideHandleButton.setBackgroundResource(R.drawable.closearrow);
 		        }
-				try 
-				{
-		        	TextView generalText = (TextView)findViewById(R.id.tutorial_text);
-					generalText.setText(readTxt(tutorialID));
-				} catch (IOException e) 
-				{
-					e.printStackTrace();
-				}
 			}
 		});
 
@@ -336,6 +382,30 @@ public class Main_Tutorial extends Activity {
 		 bufferedReader.close();
 		  
 		 return temp;
+	    }
+	 
+	 private void InterpreteCode()
+	    {
+	    	try
+			{
+		    	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
+		    	BotInterpreter bi = new BotInterpreter(null, editor.getText().toString());
+		    	
+		    	ilvm.addInterpreter(bi);
+		    	ilvm.resume(10000);
+		    	
+			}
+	    	catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				botOutput.setText(e.toString());
+			}
+	    	catch (Error e)
+	    	{
+	    		e.printStackTrace();
+	    		botOutput.setText(e.toString());
+	    	}
 	    }
 	    
 	}

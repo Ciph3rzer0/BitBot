@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_height="fill_parent" android:layout_width="match_parent">
+    android:layout_height="match_parent" android:layout_width="match_parent">
 	
 	<Button 
 		android:background="@drawable/hexbutton" 
@@ -9,7 +9,7 @@
 		android:layout_height="wrap_content" 
 		android:textSize="15dip" 
 		android:textColor="#00FF00"
-		android:layout_below="@+id/linearLayout1"
+		android:layout_above="@+id/bot_base"
 		android:layout_centerHorizontal="true"
 		android:id="@+id/game_modes" android:layout_width="100dip">
 	</Button>
@@ -42,7 +42,7 @@
 		android:textSize="15dip" 
 		android:textColor="#00FF00" 
 		android:id="@+id/quit_btn"
-		android:layout_above="@+id/linearLayout2"
+		android:layout_below="@+id/bot_base"
 		android:layout_centerHorizontal="true"
 		 android:layout_width="100dip">
 	</Button>
