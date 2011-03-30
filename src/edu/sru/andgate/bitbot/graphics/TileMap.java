@@ -166,13 +166,13 @@ public class TileMap
 			textureHopper.clear();
 		  
 			//Read basic map information
-			mapWidth = sc.nextInt();
-			mapHeight = sc.nextInt();
+			mapWidth = Integer.parseInt(sc.next());
+			mapHeight = Integer.parseInt(sc.next());
 		  
-			tileSize = sc.nextInt();
-			tileStep = sc.nextInt();
+			tileSize = Integer.parseInt(sc.next());
+			tileStep = Integer.parseInt(sc.next());
 		  
-			nTexturesInMap = sc.nextInt();
+			nTexturesInMap = Integer.parseInt(sc.next());
 		  
 			//Figure some stuff about the map
 			//tileStep = (tileSize*2);
@@ -221,7 +221,7 @@ public class TileMap
 	        {
 	        	for(int j=0;j<mapWidth;j++)
 	        	{
-	        		tileTextures[j][i][0] = sc.nextInt();
+	        		tileTextures[j][i][0] = Integer.parseInt(sc.next());
 	        	}
 	        }
 	        //Read boundaries
@@ -229,7 +229,7 @@ public class TileMap
 	        {
 	        	for(int j=0;j<mapWidth;j++)
 	        	{
-	        		tileBoundaries[j][i][0] = sc.nextInt();
+	        		tileBoundaries[j][i][0] = Integer.parseInt(sc.next());
 	        	}
 	        }
 	        //Read Map Codes
@@ -237,7 +237,7 @@ public class TileMap
 	        {
 	        	for(int j=0;j<mapWidth;j++)
 	        	{
-	        		tileCodes[j][i][0] = sc.nextInt();
+	        		tileCodes[j][i][0] = Integer.parseInt(sc.next());
 	        	}
 	        }
 	        //Read and load textures ***************************NEEDS FIXED**********************************
