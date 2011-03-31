@@ -418,7 +418,7 @@ public class Main_Tutorial extends Activity {
 			}
 			
 			
-		    return "no file found";
+		    return null;
 		}//end of main
 	 
 	/*
