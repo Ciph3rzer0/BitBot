@@ -3,13 +3,10 @@ package edu.sru.andgate.bitbot.tutorial;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,15 +16,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,6 +40,7 @@ import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class Main_Tutorial extends Activity {
+	
 	private boolean canSimulate = false;
 	private EditText editor; 
 	
@@ -62,6 +56,9 @@ public class Main_Tutorial extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial_main);
 		
+		/*
+		 * recieves content sent from previous view for re-use
+		 */
 		final String tutorialID = getIntent().getExtras().getString("File_ID");
 		final int simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
 		
@@ -83,10 +80,11 @@ public class Main_Tutorial extends Activity {
 		final ActionItem brace_tool = new ActionItem();
 		final ActionItem bracket_tool = new ActionItem();
 		
-	
+		
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		main_text = (TextView) findViewById(R.id.tutorial_text);
 		
+		//get text in the <text> tag of the tutorial chosen(tutorialID)
 		try {
 			main_text.setText(readXML(tutorialID,"text"));
 		} catch (IOException e1) {
@@ -95,7 +93,9 @@ public class Main_Tutorial extends Activity {
 		}
 		
 	
-		//create the text editor and cabinet button
+		/*
+		 * create the text editor and cabinet button
+		 */
 		editor = (EditText) this.findViewById(R.id.editor);
 		editor.setTextSize(12.0f);
 		final SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
@@ -115,13 +115,16 @@ public class Main_Tutorial extends Activity {
 		setActionItem(brace_tool,editor,"Braces { }", "Braces Selected", getResources().getString(R.string.braces));
 		setActionItem(bracket_tool, editor, "Brackets [ ]", "Brackets Selected", getResources().getString(R.string.brackets));
 		
+		/*
+		 * sets the view flipper sider animations
+		 */
 		sIn_left = AnimationUtils.loadAnimation(this, R.anim.slidein_left);
 		sOut_left = AnimationUtils.loadAnimation(this, R.anim.slideout_left);
 		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
 		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
 		
 		/*
-		 * Set all the QuickAction buttons onClick() methods 
+		 * Set all the QuickAction buttons & onClick() methods 
 		 */
 		Button sequence_btn = (Button) this.findViewById(R.id.sequence_btn);
 		sequence_btn.setOnClickListener(new View.OnClickListener() 
@@ -261,7 +264,7 @@ public class Main_Tutorial extends Activity {
 		});
 		
 		/*
-		 * set the sliding drawer open/closed listeners and handlers
+		 * set the sliding drawer open listeners/handlers
 		 */
 		slidingDrawer.setOnDrawerOpenListener(new OnDrawerOpenListener() 
 		{
@@ -273,9 +276,19 @@ public class Main_Tutorial extends Activity {
 		        }else{
 		        	slideHandleButton.setBackgroundResource(R.drawable.closearrow);
 		        }
+				try {
+					TextView help_text = (TextView) findViewById(R.id.help_text);
+					help_text.setText(readXML(tutorialID, "hints"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
+		/*
+		 *  set sliding drawer closed listerner/handlers
+		 */
 		slidingDrawer.setOnDrawerCloseListener(new OnDrawerCloseListener() 
 		{
 			@Override
@@ -374,6 +387,10 @@ public class Main_Tutorial extends Activity {
 			  }
 	}
 	
+	/*
+	 * Method that recieves an xml file name, and target <tag> 
+	 * 	returns the text in the specified <tag></tag>
+	 */
 	public String readXML(String my_file, String tag_name) throws IOException{
 	 		InputStream is = getAssets().open(my_file);
 			
@@ -382,7 +399,6 @@ public class Main_Tutorial extends Activity {
 	            DocumentBuilder docBuilder;
 				docBuilder = docBuilderFactory.newDocumentBuilder();
 				Document doc = docBuilder.parse(is);
-	            // normalize text representation
 	            doc.getDocumentElement ().normalize ();
 	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
 	            Element myText = (Element) tutorialText.item(0);
@@ -400,6 +416,10 @@ public class Main_Tutorial extends Activity {
 		    	return "no file found";
 		    }//end of main
 	 
+	/*
+	 * Method that runs the code through the interpreter
+	 * 	outputs to console view or gives error
+	 */
 	 private void InterpreteCode()
 	    {
 	    	try
@@ -422,6 +442,5 @@ public class Main_Tutorial extends Activity {
 	    		e.printStackTrace();
 	    		botOutput.setText(e.toString());
 	    	}
-	    }
-	    
-	}
+	    }	 
+}

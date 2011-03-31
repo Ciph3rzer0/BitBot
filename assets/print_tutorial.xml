@@ -27,7 +27,14 @@ Remember case sensitivity is a must.
 
 Good Luck!</text>
 <answer>PRINT "hello world"</answer>
-<hint1>hint 1</hint1>
-<hint2>hint 2</hint2>
-<hint3>hint 3</hint3>
+<hints>Goal: print the string hello world
+to the console.
+
+Hints:
+
+1. use the quick buttons to find the syntax
+	for printing to the console.
+	
+2. insert the hello world into the shell.
+</hints>
 </tutorial>
