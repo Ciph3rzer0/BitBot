@@ -198,7 +198,11 @@ public class IDE extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				try{
 					editor.setSelection(editor.getSelectionStart() -1);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -207,7 +211,11 @@ public class IDE extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				try{
 					editor.setSelection(editor.getSelectionStart() +1);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		});
 		

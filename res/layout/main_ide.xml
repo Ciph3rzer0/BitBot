@@ -204,7 +204,7 @@
 			/>
 			
 			<Button 
-				android:id="@+id/ide_stop_code_btn" 
+				android:id="@+id/ide_pause_code_btn" 
 				android:text="Pause"
 				android:color="#cc111100"
 				android:layout_width="0px"
