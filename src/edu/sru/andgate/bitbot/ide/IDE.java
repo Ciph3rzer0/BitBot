@@ -300,12 +300,60 @@ public class IDE extends Activity {
 //    		vf.showPrevious();
 //    }
     
+    // Temp variable declaration
+    private InstructionLimitedVirtualMachine ilvm;
+    
+    /**
+     * Temporary code to test the VM
+     */
+    public void StepCode(View v)
+    {
+    	try
+    	{
+    		ilvm.resume(1);
+    	}
+    	catch(Exception e)
+    	{
+    		e.printStackTrace();
+    	}
+    }
+    
+    /**
+     * A way to hard-stop the interpreter.  Good for ending infinite while loops.
+     * @param v Button that activated this.
+     */
+    public void PauseCode(View v)
+    {
+    	if (ilvm != null)
+    		ilvm.pause();
+    }
+    
+    /**
+     * A way to hard-stop the interpreter.  Good for ending infinite while loops.
+     * @param v Button that activated this.
+     */
+    public void StopCode(View v)
+    {
+    	if (ilvm != null)
+    		ilvm.stop();
+    }
+    
     /**
      * Temporary code to test the VM
      */
     private void InterpreteCode()
     {
-    	InstructionLimitedVirtualMachine ilvm;
+    	new Thread(new Runnable() {
+			
+			@Override
+			public void run()
+			{
+				iT();
+			}
+		}).start();
+    }
+    
+    private void iT() {
     	BotInterpreter bi = null;
     	
     	try
@@ -317,7 +365,7 @@ public class IDE extends Activity {
 	    	botOutput.setText(bi.getBotLog());
 	    	
 	    	ilvm.addInterpreter(bi);
-	    	ilvm.resume(200);
+	    	ilvm.resume(2000);
 		}
     	catch (Exception e)
 		{
@@ -336,7 +384,6 @@ public class IDE extends Activity {
     			botOutput.setText(bi.getBotLog());
     	}
     }
-    
     
 	/*
 	 * creates the Action Item with the defined attributes: 

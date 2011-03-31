@@ -37,9 +37,10 @@ import edu.sru.andgate.bitbot.parser.*;
 public class RunVisitor implements bc1Visitor
 {
 	private HashMap<String, String> vars = new HashMap<String, String>();
-	private int instructionsLeft = 0;
-	private boolean _waiting = true;
-	private boolean _abort = false;
+	
+	private volatile int instructionsLeft = 0;
+	private volatile boolean _waiting = true;
+	private volatile boolean _abort = false;
 	
 	private PipedOutputStream $std_out = new PipedOutputStream();
 	private PrintStream std_out = new PrintStream($std_out, true);
@@ -107,9 +108,9 @@ public class RunVisitor implements bc1Visitor
 	private void NextInstruction()
 	{
 		if (_abort)
-			return;
+			throw new Error();//Exception();
+//			return;
 		
-		Thread.currentThread().stop();
 		
 		// If we have less than 1 instruction left, we need to wait until we're
 		// allowed to do more processing.
@@ -134,6 +135,14 @@ public class RunVisitor implements bc1Visitor
 	}
 	
 	/**
+	 * Pause the machine.  Sets instructionLeft to 0.
+	 */
+	public void pause()
+	{
+		instructionsLeft = 0;		// Pause the machine.
+	}
+	
+	/**
 	 * Cause the interpreters thread to resume.  Executing a set number of instructions
 	 * before waiting to be resumed again.
 	 * @param numberOfInstructions The number of instructions to run.
@@ -146,6 +155,19 @@ public class RunVisitor implements bc1Visitor
 		{
 			this.notify();								// Resume the Interpreting thread.
 			_waiting = false;							// Update the waiting status.
+		}
+	}
+	
+	/**
+	 * Flags this BotInterpreter to abort.  When it's execution thread runs next it will abort
+	 * its execution of interpreted code.
+	 */
+	public void abort()
+	{
+		synchronized (this)
+		{
+			this.notify();
+			_abort = true;
 		}
 	}
 	
@@ -167,14 +189,6 @@ public class RunVisitor implements bc1Visitor
 		$std_in = in;
 	}
 	
-	/**
-	 * Flags this BotInterpreter to abort.  When it's execution thread runs next it will abort
-	 * its execution of interpreted code.
-	 */
-	public void abort()
-	{
-		_abort = true;
-	}
 	
 	
 	//***************************************************

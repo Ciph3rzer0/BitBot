@@ -64,6 +64,7 @@
 		android:layout_above="@+id/tools_bar"
 	    android:id="@+id/edit_bar" 
 	    android:layout_height="wrap_content">
+	    
 	    <EditText 
 	      	android:hint="Enter Code Here"
 			android:id="@+id/editor" 
@@ -72,9 +73,11 @@
 			android:inputType="text|textMultiLine"
 			android:textSize="18dip"
 			android:typeface="monospace"
-			android:gravity="top" android:layout_height="match_parent">
-        </EditText>  
+			android:gravity="top"
+			android:layout_height="match_parent"
+        />
     </LinearLayout>
+    
     <LinearLayout 
 	    android:layout_alignParentBottom="true" 
 	    android:layout_width="match_parent" 
@@ -134,6 +137,7 @@
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout> 
+    
     <SlidingDrawer 
 			android:layout_width="wrap_content" 
 			android:orientation="horizontal" 
@@ -163,8 +167,10 @@
 			    android:id="@+id/tutorial_text" />		
 			</ScrollView>
 		</SlidingDrawer>
-</RelativeLayout>
+		
+	</RelativeLayout>
 
+	<!-- Program Output Page -->
 	<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
@@ -178,7 +184,7 @@
 			android:gravity="bottom"
 			android:layout_alignParentBottom="true"
 			>
-		
+			
 			<Button 
 				android:id="@+id/ide_back_to_code_btn" 
 				android:text="Code"
@@ -187,16 +193,54 @@
 				android:layout_height="wrap_content"
 			/>
 			
+			<Button 
+				android:id="@+id/ide_stop_code_btn" 
+				android:text="Stop"
+				android:color="#cc111100"
+				android:layout_width="0px"
+				android:layout_weight="1" 
+				android:layout_height="wrap_content"
+				android:onClick="StopCode"
+			/>
+			
+			<Button 
+				android:id="@+id/ide_stop_code_btn" 
+				android:text="Pause"
+				android:color="#cc111100"
+				android:layout_width="0px"
+				android:layout_weight="1" 
+				android:layout_height="wrap_content"
+				android:onClick="PauseCode"
+			/>
+			
+			<Button 
+				android:id="@+id/ide_step_code_btn" 
+				android:text="Step"
+				android:color="#cc111100"
+				android:layout_width="0px"
+				android:layout_weight="1" 
+				android:layout_height="wrap_content"
+				android:onClick="StepCode"
+			/>
+			
 		</LinearLayout>
 		
-		<TextView
-			android:id="@+id/ide_std_out"
+		<ScrollView
+			android:id="@+id/ide_std_out_scroll"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:layout_weight="1"
-			android:text="View Flipper?!!"
-			android:layout_alignBottom="@id/crap001"
-		/>
+			android:layout_above="@id/crap001"
+			>
+		
+			<TextView
+				android:id="@+id/ide_std_out"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:text="View Flipper?!!"
+			/>
+		
+		</ScrollView>
 		
 	</RelativeLayout>
 	

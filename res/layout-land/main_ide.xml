@@ -187,6 +187,16 @@
 				android:layout_height="wrap_content"
 			/>
 			
+			<Button 
+				android:id="@+id/ide_stop_code_btn" 
+				android:text="Stop"
+				android:color="#cc111100"
+				android:layout_width="0px"
+				android:layout_weight="1" 
+				android:layout_height="wrap_content"
+				android:onClick="stopInterpretingCode"
+			/>
+			
 		</LinearLayout>
 		
 		<TextView

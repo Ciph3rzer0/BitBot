@@ -55,6 +55,11 @@ public class BotInterpreter
 		rv.abort();
 	}
 	
+	public void pause()
+	{
+		rv.pause();
+	}
+	
 	/**
 	 * Reads text from botOutput into botLog and sends that to the TextView
 	 * set by setOutputTextView().
@@ -234,8 +239,6 @@ public class BotInterpreter
 	 */
 	public void resume(int numberOfInstructionsToExecute)
 	{
-		
-		
 		if (rv != null)
 			rv.resume(numberOfInstructionsToExecute);
 		else
@@ -323,7 +326,14 @@ public class BotInterpreter
 			Log.d("BitBot Interpreter", "Thread '" + this.getName() + "' has started.");
 			
 			// Send the visitor to the first node.
-			root.jjtAccept(rv, null);
+			try
+			{
+				root.jjtAccept(rv, null);
+			}
+			catch (Error e)
+			{
+				Log.w("BitBot Interpreter", "Thread has aborted prematurely.");
+			}
 			
 			Log.d("BitBot Interpreter", "Thread '" + this.getName() + "' has finished.");
 		}

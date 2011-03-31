@@ -412,9 +412,14 @@ public class Main_Tutorial extends Activity {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}  
-		    	return "no file found";
-		    }//end of main
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			
+		    return "no file found";
+		}//end of main
 	 
 	/*
 	 * Method that runs the code through the interpreter

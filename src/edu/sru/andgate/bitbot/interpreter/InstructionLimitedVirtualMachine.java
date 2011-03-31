@@ -62,6 +62,44 @@ public class InstructionLimitedVirtualMachine
 	}
 	
 	/**
+	 * Raises a flag in all threads that causes them to exit.  All data is lost.
+	 */
+	public void stop()
+	{
+		// Resume each thread attached to the VirtualMachine.
+		for (BotInterpreter bi : botThreads)
+		{
+			try
+			{
+				bi.abort();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Raises a flag in all threads that causes them to exit.  All data is lost.
+	 */
+	public void pause()
+	{
+		// Resume each thread attached to the VirtualMachine.
+		for (BotInterpreter bi : botThreads)
+		{
+//			try
+//			{
+				bi.pause();
+//			}
+//			catch(Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+		}
+	}
+	
+	/**
 	 * 
 	 */
 	public void threadFinish(BotInterpreter bot)
