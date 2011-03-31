@@ -26,6 +26,9 @@ public class Tutorial_List extends ListActivity {
         final Hashtable<String, String> tutorials_table = new Hashtable<String, String>();
 	        tutorials_table.put("Getting Started", "getting_started.xml");
 	        tutorials_table.put("Print Statement", "print_tutorial.xml");
+	        tutorials_table.put("Defining Variables", "declaring_vars.xml");
+	        tutorials_table.put("Loops","loops.xml");
+	        tutorials_table.put("Selection Statements", "if_statement.xml");
 	        tutorials_table.put("Back to Main Menu", "");
         
         /*

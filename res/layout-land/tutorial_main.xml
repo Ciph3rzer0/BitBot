@@ -25,6 +25,7 @@
 	                <TextView 
 		                android:id="@+id/tutorial_text" 
 		                android:text="TextView" 
+		                android:textColor="#00FF00"
 		                android:layout_width="match_parent" 
 		                android:layout_height="match_parent">
 	                </TextView>
