@@ -5,12 +5,14 @@
 package edu.sru.andgate.bitbot.graphics;
 
 import edu.sru.andgate.bitbot.R;
+//import edu.sru.andgate.bitbot.graphics.*;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+//import java.io.*;
 
 public class GameEngine extends Activity
 {	
@@ -102,6 +104,9 @@ public class GameEngine extends Activity
         }
         
         testMap = new TileMap();
+        testMap.loadMapFile("testmap.map", this.getBaseContext());
+        gameRenderer.setTileMap(testMap);
+        
         //testMap.addTexture(R.drawable.stone);
         gameRenderer.setTileMap(testMap);
         

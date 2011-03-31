@@ -4,13 +4,13 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	>
-	
+
 	<LinearLayout 
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		>
-		
+
 		<Button android:id="@+id/notifyButton"
 			android:layout_weight="1"
 			android:layout_width="0px"
@@ -18,7 +18,7 @@
 			android:gravity="center_horizontal"
 			android:text="1"
 			/>
-			
+
 		<Button android:id="@+id/notifyButton2" 
 			android:layout_weight="1"
 			android:layout_width="0px"
@@ -26,7 +26,7 @@
 			android:gravity="center_horizontal"
 			android:text="10"
 			/>
-		
+
 		<Button android:id="@+id/notifyButton3"
 			android:layout_weight="1"
 			android:layout_width="0px"
@@ -35,20 +35,20 @@
 			android:text="1000"
 			/>
 	</LinearLayout>
-	
+
 	<ScrollView
 	 android:layout_width="fill_parent"
 	 android:layout_height="fill_parent"
 	 android:scrollbarStyle="outsideOverlay"
 	 android:scrollbarAlwaysDrawVerticalTrack="true"
 	 >
-	 
+
 	 <LinearLayout 
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		>
-		
+
 		<TextView
 			android:id="@+id/txtMain"
 			android:layout_weight="1"
@@ -56,7 +56,7 @@
 			android:layout_height="wrap_content" 
 			android:text="text1"
 		/>
-		
+
 		<TextView
 			android:id="@+id/txtMainRight"
 			android:layout_weight="1" 
@@ -64,7 +64,7 @@
 			android:layout_height="wrap_content" 
 			android:text="text2"
 		/>
-	
+
 	 </LinearLayout>
 	</ScrollView>
 

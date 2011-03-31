@@ -12,6 +12,7 @@ import edu.sru.andgate.bitbot.tutorial.ActionItem;
 import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -260,7 +261,11 @@ public class IDE extends Activity {
 			@Override
 			public void onDrawerOpened() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.closearrow);
+				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_close_arrow);
+		        }else{
+		        	slideHandleButton.setBackgroundResource(R.drawable.closearrow);
+		        }
 			}
 		});
 
@@ -269,26 +274,31 @@ public class IDE extends Activity {
 			@Override
 			public void onDrawerClosed() 
 			{
-				slideHandleButton.setBackgroundResource(R.drawable.openarrow);
+				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_open_arrow);
+		        }else{
+		        	slideHandleButton.setBackgroundResource(R.drawable.openarrow);
+		        }
+				
 			}
 		});
 		
 	}
 	
-    /**
-     * This overrides the default back button behavior to flip back to the first
-     * view of the ViewFlipper before backing out of this activity.
-     */
-    @Override
-    public void onBackPressed() {
-    	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
-    	
-    	
-    	if (vf.getCurrentView().getId() == R.id.ide_vf_firstView)
-    		super.onBackPressed();
-    	else
-    		vf.showPrevious();
-    }
+//    /**
+//     * This overrides the default back button behavior to flip back to the first
+//     * view of the ViewFlipper before backing out of this activity.
+//     */
+//    @Override
+//    public void onBackPressed() {
+//    	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
+//    	
+//    	
+//    	if (vf.getCurrentView().getId() == R.id.ide_vf_firstView)
+//    		super.onBackPressed();
+//    	else
+//    		vf.showPrevious();
+//    }
     
     /**
      * Temporary code to test the VM
@@ -353,6 +363,7 @@ public class IDE extends Activity {
 		editor.getText().replace(Math.min(start, end), Math.max(start, end),
 		       append);
 	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();

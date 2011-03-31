@@ -9,7 +9,7 @@
 		android:layout_height="wrap_content" 
 		android:textSize="15dip" 
 		android:textColor="#00FF00"
-		android:layout_alignParentTop="true"
+		android:layout_above="@+id/bot_base"
 		android:layout_centerHorizontal="true"
 		android:id="@+id/game_modes"
 		android:layout_width="100dip">
@@ -44,7 +44,7 @@
 		android:textSize="15dip" 
 		android:textColor="#00FF00" 
 		android:id="@+id/quit_btn"
-		android:layout_alignParentBottom="true"
+		android:layout_below="@+id/bot_base"
 		android:layout_centerHorizontal="true"
 		 android:layout_width="100dip">
 	</Button>

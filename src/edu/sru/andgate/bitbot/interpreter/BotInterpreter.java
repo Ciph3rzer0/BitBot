@@ -50,6 +50,11 @@ public class BotInterpreter
 	private TextView outTV;
 	
 	
+	public void abort()
+	{
+		rv.abort();
+	}
+	
 	/**
 	 * Reads text from botOutput into botLog and sends that to the TextView
 	 * set by setOutputTextView().

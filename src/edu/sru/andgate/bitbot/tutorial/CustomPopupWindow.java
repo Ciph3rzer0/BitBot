@@ -15,6 +15,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow;
 
 public class CustomPopupWindow {
@@ -40,15 +42,14 @@ public class CustomPopupWindow {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-					CustomPopupWindow.this.window.dismiss();
-					
+						CustomPopupWindow.this.window.dismiss();
+				
 					return true;
 				}
-				
-				return false;
+					return false;
 			}
 		});
-
+		
 		windowManager = (WindowManager) anchor.getContext().getSystemService(Context.WINDOW_SERVICE);
 		
 		onCreate();
@@ -59,7 +60,7 @@ public class CustomPopupWindow {
 	 * child views.
 	 */
 	protected void onCreate() {}
-
+	
 	/**
 	 * In case there is stuff to do right before displaying.
 	 */

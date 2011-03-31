@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Tutorial_List extends ListActivity {
     /** Called when the activity is first created. */
@@ -21,16 +20,17 @@ public class Tutorial_List extends ListActivity {
     {
         super.onCreate(savedInstanceState);
         
-        final Hashtable<String, Integer> tutorials_table = new Hashtable<String, Integer>();
-	        tutorials_table.put("Getting Started", R.raw.getting_started);
-	        tutorials_table.put("Print Statement", R.raw.print_tutorial);
-	        tutorials_table.put("For Loop", R.raw.for_loop_tutorial);
-	        tutorials_table.put("Do Loop", R.raw.do_while_tutorial);
-	        tutorials_table.put("Defining Variables", R.raw.var_declaration_tutorial);
-	        tutorials_table.put("If Statement", R.raw.if_statement_tutorial);
-	        tutorials_table.put("Back to Main Menu", 0);
+        /*
+         * table lookups for selected tutorial 
+         */
+        final Hashtable<String, String> tutorials_table = new Hashtable<String, String>();
+	        tutorials_table.put("Getting Started", "getting_started.xml");
+	        tutorials_table.put("Print Statement", "print_tutorial.xml");
+	        tutorials_table.put("Back to Main Menu", "");
         
-        
+        /*
+         * table look up for tutorial's simulation ability
+         */
         final Hashtable<String, Integer> simulation_table = new Hashtable<String, Integer>();
         	simulation_table.put("Print Statement", 1);
         
@@ -56,6 +56,9 @@ public class Tutorial_List extends ListActivity {
          		  finish();
          	  }else
 	         	  {
+         		  /*
+         		   * start new activity, sending cooresponding tutorial file path, and simulation ability
+         		   */
 	         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
 	         		myIntent.putExtra("File_ID", tutorials_table.get((String)((TextView) view).getText()));
 	         		myIntent.putExtra("Sim_Flag", simulation_table.get((String)((TextView) view).getText()));
