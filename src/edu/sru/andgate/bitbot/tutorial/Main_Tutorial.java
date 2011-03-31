@@ -3,17 +3,30 @@ package edu.sru.andgate.bitbot.tutorial;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -49,8 +62,9 @@ public class Main_Tutorial extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial_main);
 		
-		final int tutorialID = getIntent().getExtras().getInt("File_ID",0);
+		final String tutorialID = getIntent().getExtras().getString("File_ID");
 		final int simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
+		
 			
 		/*
 		 * Action Items for Sequence, Selection, Iteration buttons
@@ -74,11 +88,13 @@ public class Main_Tutorial extends Activity {
 		main_text = (TextView) findViewById(R.id.tutorial_text);
 		
 		try {
-			main_text.setText(readTxt(tutorialID));
+			main_text.setText(readXML(tutorialID,"text"));
 		} catch (IOException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
+	
 		//create the text editor and cabinet button
 		editor = (EditText) this.findViewById(R.id.editor);
 		editor.setTextSize(12.0f);
@@ -170,7 +186,7 @@ public class Main_Tutorial extends Activity {
 			@Override
 			public void onClick(View v) 
 			{
-				if(tutorialID == R.raw.getting_started){
+				if(tutorialID.equals("getting_started.xml")){
 					Toast.makeText(Main_Tutorial.this, "Not available in this Tutorial", Toast.LENGTH_SHORT).show();
 				}else{
 					try
@@ -319,37 +335,29 @@ public class Main_Tutorial extends Activity {
 	 * Output: User input to file, Toast to let user know if they were correct or not
 	 * Method to check if the user input matches the correct tutorial answer
 	 */
-	protected void checkAnswer(File file, int resId) throws IOException 
+	protected void checkAnswer(File file, String file2) throws IOException 
 	{
 		/*
 		 * Temporary - Need to send file(s) to interpreter and compare abstract 
 		 * 				Syntax Tree's
 		 */
 			String line1 = null;
-			String line2 = null;
 			String temp1 = "";
 			String temp2 = "";
 			
+			temp2 = readXML(file2, "answer");
+			
 		  // wrap a BufferedReader around FileReader
-		  InputStream input = getResources().openRawResource(resId);
 		  BufferedReader bufferedReader1 = new BufferedReader(new FileReader(file.getAbsolutePath()));
-		  InputStreamReader inputreader = new InputStreamReader(input);
-		  BufferedReader bufferedReader2 = new BufferedReader(inputreader);
-
-		  // use the readLine method of the BufferedReader to read one line at a time.
+		   // use the readLine method of the BufferedReader to read one line at a time.
 		  // the readLine method returns null when there is nothing else to read.
 		  while ((line1 = bufferedReader1.readLine()) != null)
 		  {
 		    temp1+=line1.toString();
 		  }
-		  while(!bufferedReader2.readLine().equals("----------")) {}
-		  while((line2 = bufferedReader2.readLine()) != null)
-		  {
-			  temp2+=line2.toString();
-		  }
+		
 		  // close the BufferedReader(s) when we're done
 		  bufferedReader1.close();
-		  bufferedReader2.close();
 		
 		  //Let the user know if they are right or not.
 		  if(temp1.equals(temp2))
@@ -366,23 +374,31 @@ public class Main_Tutorial extends Activity {
 			  }
 	}
 	
-	//read in a text file
-	 private String readTxt(int id) throws IOException
-	 {
-		 String line = null;
-		 String temp = "";
-		 
-		 InputStream input = getResources().openRawResource(id);
-		 InputStreamReader inputreader = new InputStreamReader(input);
-		  BufferedReader bufferedReader = new BufferedReader(inputreader);
-		  while((line = bufferedReader.readLine()) != null && !line.equals("----------"))
-		  {
-			  temp+=line.toString() + "\n";
-		  }
-		 bufferedReader.close();
-		  
-		 return temp;
-	    }
+	public String readXML(String my_file, String tag_name) throws IOException{
+	 		InputStream is = getAssets().open(my_file);
+			
+	 		try {
+	       		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+	            DocumentBuilder docBuilder;
+				docBuilder = docBuilderFactory.newDocumentBuilder();
+				Document doc = docBuilder.parse(is);
+	            // normalize text representation
+	            doc.getDocumentElement ().normalize ();
+	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
+	            Element myText = (Element) tutorialText.item(0);
+	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim(); 
+	 		} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+		    	return "no file found";
+		    }//end of main
 	 
 	 private void InterpreteCode()
 	    {
