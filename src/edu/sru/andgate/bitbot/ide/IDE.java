@@ -193,6 +193,32 @@ public class IDE extends Activity {
 			}
 		});
 		
+		ImageButton move_up = (ImageButton) this.findViewById(R.id.move_up);
+		move_up.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try{
+					//move up one line
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		ImageButton move_down = (ImageButton) this.findViewById(R.id.move_down);
+		move_down.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try{
+					//move down one line
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		ImageButton move_left = (ImageButton) this.findViewById(R.id.move_left);
 		move_left.setOnClickListener(new View.OnClickListener() {
 			

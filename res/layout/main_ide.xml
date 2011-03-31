@@ -106,6 +106,20 @@
 	        	android:layout_weight="1" 
 	        	android:layout_height="70dip" >
 			</ImageButton>
+			<ImageButton
+				android:id="@+id/move_up" 
+				android:src="@drawable/move_up"
+				android:layout_width="0px" 
+		        android:layout_weight="1" 
+		        android:layout_height="70dip">
+			</ImageButton>
+			<ImageButton
+				android:id="@+id/move_down" 
+				android:src="@drawable/move_down"
+				android:layout_width="0px" 
+		        android:layout_weight="1" 
+		        android:layout_height="70dip">
+			</ImageButton>
 			<ImageButton 
 				android:layout_width="0px" 
 		        android:layout_weight="1" 
