@@ -87,66 +87,7 @@ public class TileMap
 		textureBuffer.put(texture);
 		textureBuffer.position(0);
 		
-		textureHopper = new ArrayList<Integer>(MAX_TEXTURE_ARRAY_SIZE);
-		
-		//***********************TESTING SETUP**************************
-		/*
-		//Textures
-		this.addTexture(R.drawable.tile2);
-		this.addTexture(R.drawable.grass);
-		this.addTexture(R.drawable.stone);
-		this.addTexture(R.drawable.brick);
-		//Map&Tile Size
-		this.setMapSize(100,100);
-		this.setTileSize(1);
-		
-		//Figure some stuff about the map
-		tileStep = (tileSize*2);
-		rightMapEdge = mapWidth-1;
-		topMapEdge = mapHeight-1;
-		
-		tileLocations = new float[100][100][2];
-		tileTextures = new int[100][100][1];
-
-		drawBuffer = new ArrayList<int[][]>(numTextures);
-		drawBufferCount = new int[numTextures];
-		
-		for(int i=0;i<numTextures;i++)
-		{
-			drawBuffer.add(new int[MAX_TILES_PER_FRAME][2]);
-			drawBufferCount[i] = 0;
-		}
-		
-		int xCount = -102;
-		int yCount = 100;
-		
-		//Set Tile Locations/Textures
-		for(int i=0;i<100;i++)
-		{
-			for(int j=0;j < 100;j++)
-			{
-				tileLocations[j][i][0] = xCount+=tileStep;
-				tileLocations[j][i][1] = yCount;
-				//Texture
-				tileTextures[j][i][0] = 0;
-			}
-			yCount-=tileStep;
-			xCount = -102;
-		}
-		
-		//Set random test textures
-		tileTextures[50][50][0] = 2;
-		tileTextures[51][50][0] = 2;
-		tileTextures[52][50][0] = 2;
-		tileTextures[53][50][0] = 2;
-		tileTextures[54][50][0] = 2;
-		
-		tileTextures[54][52][0] = 1;
-		tileTextures[49][53][0] = 1;
-		tileTextures[51][52][0] = 3;
-		tileTextures[54][55][0] = 3;
-		*/
-		
+		textureHopper = new ArrayList<Integer>(MAX_TEXTURE_ARRAY_SIZE);		
 	}
 	
 	public void loadMapFile(String mapFile, Context context)
@@ -212,7 +153,6 @@ public class TileMap
 	  		//Initialize draw buffer for efficient drawing
 	        for(int i=0;i<nTexturesInMap;i++)
 	        {
-	        	System.out.println("draw buffer setup" + i);
 	        	drawBuffer.add(new int[MAX_TILES_PER_FRAME][2]);
 	        	drawBufferCount[i] = 0;
 	        }
