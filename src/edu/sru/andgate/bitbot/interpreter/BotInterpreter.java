@@ -1,13 +1,12 @@
 package edu.sru.andgate.bitbot.interpreter;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PrintStream;
 
 import android.util.Log;
+import android.widget.TextView;
 import edu.sru.andgate.bitbot.graphics.Bot;
 import edu.sru.andgate.bitbot.parser.Node;
 import edu.sru.andgate.bitbot.parser.SimpleNode;
@@ -35,13 +34,77 @@ public class BotInterpreter
 	 */
 	private Bot bot;
 	
-	
+	/**
+	 * A stream of output from the bot interpreter
+	 */
 	private PipedInputStream botOutput;
-	private StringBuffer botLog;
 	
+	/**
+	 * A log of the bot interpreter's output.
+	 */
+	private StringBuffer botLog = new StringBuffer();;
+	
+	/**
+	 * A textview destined to receive the output of the bot interpreter
+	 */
+	private TextView outTV;
+	
+	
+	public void abort()
+	{
+		rv.abort();
+	}
+	
+	public void pause()
+	{
+		rv.pause();
+	}
+	
+	/**
+	 * Reads text from botOutput into botLog and sends that to the TextView
+	 * set by setOutputTextView().
+	 */
+	public void flush()
+	{
+		try
+		{
+			while (botOutput.available() > 1)
+				botLog.append( (char) botOutput.read() );
+		}
+		catch (IOException e)
+		{
+			Log.e("BitBot Interpreter", "Error reading InputStream.");
+			Log.e("BitBot Interpreter", e.getStackTrace().toString());
+		}
+		
+		flushLogToOutputTextView();
+	}
+	
+	/**
+	 * Sends the botLog to the output TextView set by setOutputTextView() 
+	 */
+	private void flushLogToOutputTextView()
+	{
+		if (outTV != null)
+			outTV.post(new Runnable() {
+				@Override
+				public void run()
+				{
+					outTV.setText(botLog.toString());
+				}
+			});
+	}
+	
+	/**
+	 * Returns a String that contains all output from the interpreter.
+	 * @return botLog or "" if botLog is null
+	 */
 	public String getBotLog()
 	{
-		return botLog.toString();
+		if (botLog != null)
+			return botLog.toString();
+		else
+			return "";
 	}
 	
 	
@@ -51,9 +114,24 @@ public class BotInterpreter
 		rv.setPrintStream(p);
 	}
 	
+	/**
+	 * Sets a TextView to receive the output from this interpreter.  If there is
+	 * anything in the botLog, it gets sent to the textView.
+	 * @param tv
+	 */
+	public void setOutputTextView(TextView tv)
+	{
+		outTV = tv;
+		
+		// When we connect a TextView, send the contents of the botLog to it. 
+		flushLogToOutputTextView();
+	}
+	
 	
 	/**
-	 * Create a BotInterpreter given code as a String.
+	 * Create a BotInterpreter given code as a String.  This constructor creates a
+	 * ByteArrayInputStream out of the <code>code</code> and passes it to
+	 * BotInterpreter(Bot, ByteArrayInputStream).
 	 * @param code the source code to execute.
 	 */
 	public BotInterpreter(Bot b, String code)
@@ -63,51 +141,38 @@ public class BotInterpreter
 	
 	/**
 	 * Create a BotInterpreter given code as a ByteArrayInputStream.
-	 * @param code the source code to execute.
+	 * <p>
+	 * This compiles the code and sets the programs root.  If there is a compile error,
+	 * it will be in the botLog.
+	 * @param isCode the source code to execute.
 	 */
 	public BotInterpreter(Bot b, ByteArrayInputStream isCode)
 	{
 		// Assign the bot
 		this.bot = b;
 		
-		// Create the parser.
-		bc1 parser = new bc1(isCode);
-		
-		// The root node of the AST generated from the isCode
-		SimpleNode rootNode = null;
-		
 		try
 		{
-			rootNode = parser.Start();
+			// Create the parser.
+			bc1 parser = new bc1(isCode);
+			
+			// Start the parser
+			root = parser.Start();
 		}
 		catch (Exception e)
 		{
-			System.out.println("Oops.");
+			System.out.println("Syntax Error.");
 			System.out.println(e.getMessage());
+			
+			botLog.append( "Syntax Error.\n" + e.getMessage() );
+			flushLogToOutputTextView();
 		}
 		
-		root = rootNode;
-		
-		Dump(root);
-		
-		if (root == null)
-			Log.e("BitBot Interpreter", "Error: The code did not compile correctly");
+		if (root != null)
+			Dump(root);
+		else
+			Log.e("BitBot Interpreter", "Error: The code did not compile correctly.  Root is null.");
 	}
-	
-	private void Dump(Node s)
-	{
-		Dump(s, "");
-	}
-	
-	private void Dump(Node s, String space)
-	{
-		
-		System.out.println(space + s.toString() + ": " + ((SimpleNode)s).jjtGetValue());
-		
-		for(int i=0; i < s.jjtGetNumChildren(); i++)
-			Dump(s.jjtGetChild(i), space + "- ");
-	}
-	
 	
 	/**
 	 * Create a BotInterpreter given an AST to execute.
@@ -119,7 +184,34 @@ public class BotInterpreter
 		this.root = root;			// Store the root of the AST to execute.
 		
 		if (root == null)
-			Log.e("BitBot Interpreter", "Error: The code did not compile correctly. root is null.");		
+			Log.e("BitBot Interpreter", "Error: Passed a null root node.");		
+	}
+	
+	/**
+	 * Creates a textual representation of the AST starting at node <code>s</code>.
+	 * @param s the node to dump
+	 */
+	private void Dump(Node s)
+	{
+		Dump(s, "");
+	}
+	
+	/**
+	 * Creates a textual representation of the AST starting at node <code>s</code> with
+	 * <code>prefix</code> in front of it.
+	 * <p>
+	 * This code is recursively called to put <code>"- "</code> on the line a number of
+	 * times equal to the depth of the node.
+	 * @param s the node to dump
+	 * @param prefix the string to prefix to all output at this depth
+	 */
+	private void Dump(Node s, String prefix)
+	{
+		
+		System.out.println(prefix + s.toString() + ": " + ((SimpleNode)s).jjtGetValue());
+		
+		for(int i=0; i < s.jjtGetNumChildren(); i++)
+			Dump(s.jjtGetChild(i), prefix + "- ");
 	}
 	
 	/**
@@ -147,38 +239,27 @@ public class BotInterpreter
 	 */
 	public void resume(int numberOfInstructionsToExecute)
 	{
-		try
-		{
-			int b;
-			
-			while (botOutput.available() > 1)
-			{
-				b = botOutput.read();
-				botLog.append((char)b);
-//				Log.w("botLog", botLog.toString());
-			}
-			Log.i("botLog", botLog.toString());
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
 		if (rv != null)
 			rv.resume(numberOfInstructionsToExecute);
 		else
 			Log.e("BitBot Interpreter", "RunVisitor was null in BotInterpreter.resume()");
 	}
 	
-	
+	/**
+	 * Interface between a BotInterpreter and a Bot.  Subroutines of the form bot_*() get
+	 * handled by this function.
+	 * @param instr The subroutine name.
+	 * @param params Array of parameters
+	 * @return true if evaluated and executed correctly.
+	 */
 	public boolean executeBotInstruction(String instr, String[] params)
 	{
 		System.out.println("Executing bot instruction " + instr);
 		
-		for (int i=0; i<params.length; i++)
-			System.out.println("param[" + i + "] = " + params[i]);
+		// Get parameters if there are any
+		if (params != null)
+			for (int i=0; i<params.length; i++)
+				System.out.println("param[" + i + "] = " + params[i]);
 		
 		
 		if (instr.equalsIgnoreCase("bot_move"))
@@ -220,7 +301,7 @@ public class BotInterpreter
 				
 				try
 				{
-					botLog = new StringBuffer();
+					// Set up a Stream between this and the bot.
 					botOutput = new PipedInputStream(rv.getStdOut());
 				}
 				catch (IOException e)
@@ -228,10 +309,12 @@ public class BotInterpreter
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 			else
 				Log.e("BitBot Interpreter", "Error: two RunThreads running in BotInterpreter.");
+			
+			// Set name so we can identify thread types
+			setName("=RunThread= " + getName());
 		}
 		
 		/**
@@ -240,16 +323,21 @@ public class BotInterpreter
 		 */
 		public void run()
 		{
-			Log.i("BitBot Interpreter", "Thread '" + this.getName() + "' has started.");
+			Log.d("BitBot Interpreter", "Thread '" + this.getName() + "' has started.");
 			
 			// Send the visitor to the first node.
-			root.jjtAccept(rv, null);
+			try
+			{
+				root.jjtAccept(rv, null);
+			}
+			catch (Error e)
+			{
+				Log.w("BitBot Interpreter", "Thread has aborted prematurely.");
+			}
 			
-			Log.i("BitBot Interpreter", "Thread '" + this.getName() + "' has finished.");
+			Log.d("BitBot Interpreter", "Thread '" + this.getName() + "' has finished.");
 		}
 	}
-	
-	
 	
 	
 	/**
@@ -258,8 +346,9 @@ public class BotInterpreter
 	 */
 	public synchronized boolean isWaiting()
 	{
-		return rv.isWaiting();
+		return (rv == null) || rv.isWaiting();
 	}
+
 	
 }
 

@@ -11,73 +11,75 @@ public interface bc1Constants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 7;
+  int INTEGER_LITERAL = 5;
   /** RegularExpression Id. */
-  int DECIMAL_LITERAL = 8;
+  int DECIMAL_LITERAL = 6;
   /** RegularExpression Id. */
-  int HEX_LITERAL = 9;
+  int HEX_LITERAL = 7;
   /** RegularExpression Id. */
-  int OCTAL_LITERAL = 10;
+  int OCTAL_LITERAL = 8;
   /** RegularExpression Id. */
-  int BOOL_OP = 11;
+  int BOOL_OP = 9;
   /** RegularExpression Id. */
-  int EQ_OP = 12;
+  int EQ_OP = 10;
   /** RegularExpression Id. */
-  int REL_OP = 13;
+  int REL_OP = 11;
   /** RegularExpression Id. */
-  int ADD_OP = 14;
+  int ADD_OP = 12;
   /** RegularExpression Id. */
-  int MUL_OP = 15;
+  int MUL_OP = 13;
   /** RegularExpression Id. */
-  int CONCAT = 16;
+  int CONCAT = 14;
   /** RegularExpression Id. */
-  int PRINT = 17;
+  int NL = 15;
   /** RegularExpression Id. */
-  int LET = 18;
+  int PRINT = 16;
   /** RegularExpression Id. */
-  int EQUAL = 19;
+  int LET = 17;
   /** RegularExpression Id. */
-  int DIM = 20;
+  int EQUAL = 18;
   /** RegularExpression Id. */
-  int AS = 21;
+  int DIM = 19;
   /** RegularExpression Id. */
-  int WHILE = 22;
+  int AS = 20;
   /** RegularExpression Id. */
-  int DO = 23;
+  int WHILE = 21;
   /** RegularExpression Id. */
-  int LOOP = 24;
+  int DO = 22;
   /** RegularExpression Id. */
-  int FOR = 25;
+  int LOOP = 23;
   /** RegularExpression Id. */
-  int TO = 26;
+  int FOR = 24;
   /** RegularExpression Id. */
-  int STEP = 27;
+  int TO = 25;
   /** RegularExpression Id. */
-  int NEXT = 28;
+  int STEP = 26;
   /** RegularExpression Id. */
-  int IF = 29;
+  int NEXT = 27;
   /** RegularExpression Id. */
-  int THEN = 30;
+  int IF = 28;
   /** RegularExpression Id. */
-  int ELSE = 31;
+  int THEN = 29;
   /** RegularExpression Id. */
-  int ENDIF = 32;
+  int ELSE = 30;
   /** RegularExpression Id. */
-  int INTEGER = 33;
+  int ENDIF = 31;
   /** RegularExpression Id. */
-  int SUBROUTINE = 34;
+  int INTEGER = 32;
   /** RegularExpression Id. */
-  int CALL = 35;
+  int SUBROUTINE = 33;
   /** RegularExpression Id. */
-  int END = 36;
+  int CALL = 34;
   /** RegularExpression Id. */
-  int IDENTIFIER = 37;
+  int END = 35;
   /** RegularExpression Id. */
-  int LETTER = 38;
+  int IDENTIFIER = 36;
   /** RegularExpression Id. */
-  int DIGIT = 39;
+  int LETTER = 37;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 40;
+  int DIGIT = 38;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 39;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -87,10 +89,8 @@ public interface bc1Constants {
     "<EOF>",
     "\" \"",
     "\"\\t\"",
-    "\"\\n\"",
-    "\"\\r\"",
-    "<token of kind 5>",
-    "<token of kind 6>",
+    "<token of kind 3>",
+    "<token of kind 4>",
     "<INTEGER_LITERAL>",
     "<DECIMAL_LITERAL>",
     "<HEX_LITERAL>",
@@ -101,6 +101,7 @@ public interface bc1Constants {
     "<ADD_OP>",
     "<MUL_OP>",
     "\"&\"",
+    "<NL>",
     "\"print\"",
     "\"let\"",
     "\"=\"",
@@ -125,7 +126,6 @@ public interface bc1Constants {
     "<LETTER>",
     "<DIGIT>",
     "<STRING_LITERAL>",
-    "\";\"",
     "\"(\"",
     "\")\"",
     "\",\"",

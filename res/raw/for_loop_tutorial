@@ -1,4 +1,0 @@
-----------
-FOR I 1 TO N 
-	<executed statement>
-NEXT I

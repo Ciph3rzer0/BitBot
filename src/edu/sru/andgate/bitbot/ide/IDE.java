@@ -168,6 +168,7 @@ public class IDE extends Activity {
 			}
 		});
 		
+
 		sIn_left = AnimationUtils.loadAnimation(this, R.anim.slidein_left);
 		sOut_left = AnimationUtils.loadAnimation(this, R.anim.slideout_left);
 		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
@@ -178,6 +179,7 @@ public class IDE extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -187,7 +189,33 @@ public class IDE extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-					
+				
+			}
+		});
+		
+		ImageButton move_up = (ImageButton) this.findViewById(R.id.move_up);
+		move_up.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try{
+					//move up one line
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		ImageButton move_down = (ImageButton) this.findViewById(R.id.move_down);
+		move_down.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try{
+					//move down one line
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -214,7 +242,6 @@ public class IDE extends Activity {
 				}catch(Exception e){
 					e.printStackTrace();
 				}
-					
 			}
 		});
 		
@@ -292,31 +319,105 @@ public class IDE extends Activity {
 		
 	}
 	
+//    /**
+//     * This overrides the default back button behavior to flip back to the first
+//     * view of the ViewFlipper before backing out of this activity.
+//     */
+//    @Override
+//    public void onBackPressed() {
+//    	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
+//    	
+//    	
+//    	if (vf.getCurrentView().getId() == R.id.ide_vf_firstView)
+//    		super.onBackPressed();
+//    	else
+//    		vf.showPrevious();
+//    }
     
-    private void InterpreteCode()
+    // Temp variable declaration
+    private InstructionLimitedVirtualMachine ilvm;
+    
+    /**
+     * Temporary code to test the VM
+     */
+    public void StepCode(View v)
     {
     	try
+    	{
+    		ilvm.resume(1);
+    	}
+    	catch(Exception e)
+    	{
+    		e.printStackTrace();
+    	}
+    }
+    
+    /**
+     * A way to hard-stop the interpreter.  Good for ending infinite while loops.
+     * @param v Button that activated this.
+     */
+    public void PauseCode(View v)
+    {
+    	if (ilvm != null)
+    		ilvm.pause();
+    }
+    
+    /**
+     * A way to hard-stop the interpreter.  Good for ending infinite while loops.
+     * @param v Button that activated this.
+     */
+    public void StopCode(View v)
+    {
+    	if (ilvm != null)
+    		ilvm.stop();
+    }
+    
+    /**
+     * Temporary code to test the VM
+     */
+    private void InterpreteCode()
+    {
+    	new Thread(new Runnable() {
+			
+			@Override
+			public void run()
+			{
+				iT();
+			}
+		}).start();
+    }
+    
+    private void iT() {
+    	BotInterpreter bi = null;
+    	
+    	try
 		{
-	    	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-	    	BotInterpreter bi = new BotInterpreter(null, editor.getText().toString());
+	    	ilvm = new InstructionLimitedVirtualMachine();
+	    	
+	    	bi = new BotInterpreter(null, editor.getText().toString());
+	    	bi.setOutputTextView(botOutput);
+	    	botOutput.setText(bi.getBotLog());
 	    	
 	    	ilvm.addInterpreter(bi);
-	    	ilvm.resume(10000);
-	    	
+	    	ilvm.resume(2000);
 		}
     	catch (Exception e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			botOutput.setText(e.toString());
+			Log.e("BitBot Interpreter", e.getStackTrace().toString());
+//			botOutput.setText(e.toString());
 		}
     	catch (Error e)
     	{
-    		e.printStackTrace();
-    		botOutput.setText(e.toString());
+    		Log.e("BitBot Interpreter", "ERROR: " + e.getStackTrace().toString());
+//    		botOutput.setText(e.toString());
+    	}
+    	finally
+    	{
+    		if (botOutput != null && bi != null)
+    			botOutput.setText(bi.getBotLog());
     	}
     }
-    
     
 	/*
 	 * creates the Action Item with the defined attributes: 

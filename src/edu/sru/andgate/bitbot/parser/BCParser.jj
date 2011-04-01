@@ -26,8 +26,7 @@ SKIP :
 {
   " "
 | "\t"
-| "\n"
-| "\r"
+//| "\n"//| "\r"
 | < "//" (~[ "\n", "\r" ])*
     (
       "\n"
@@ -66,7 +65,9 @@ TOKEN : /* OPERATIONS */
 
 TOKEN : /* RESERVED WORDS */
 {
-  < PRINT : "print" >
+  < NL : ("\n" | "\r" | "\r\n") >  // Statement Terminator
+
+| < PRINT : "print" >
 | < LET : "let" >
 | < EQUAL : "=" >
 | < DIM : "dim" >
@@ -187,7 +188,10 @@ void ListOfInstructions() :
 {/*@bgen(jjtree) ListOfInstructions */
   try {
 /*@egen*/
-  (Instruction())*/*@bgen(jjtree)*/
+  (
+    Instruction()
+    ( < NL > )+
+  )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -213,15 +217,15 @@ void ListOfInstructions() :
 void Instruction()       :
 {}
 {
-  Expression() ";"
+  Expression()  //";"
   |
-  Assignment() ";"
+  Assignment() //";"
   | 
-  Print() ";"
+  Print() //";"
   |
-  Declaration() ";"
+  Declaration() //";"
   |
-  SubCall() ";"
+  SubCall() //";" 
   |
   SubDecl()
   |
@@ -241,7 +245,7 @@ void WhileLoop() :
 {/*@bgen(jjtree) WhileLoop */
   try {
 /*@egen*/
-  < WHILE > Expression() < DO > ListOfInstructions() < LOOP	>/*@bgen(jjtree)*/
+  < WHILE > Expression() < DO > <NL> ListOfInstructions() < LOOP >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -273,10 +277,10 @@ void IfStatement() :
 {/*@bgen(jjtree) IfStatement */
   try {
 /*@egen*/
-  < IF > Expression() < THEN >
+  < IF > Expression() < THEN > < NL >
   
   ListOfInstructions()
-  ( <ELSE> 
+  ( < ELSE > < NL >
     ListOfInstructions()
   )?
   
@@ -312,7 +316,7 @@ void ForLoop() :
 {/*@bgen(jjtree) ForLoop */
   try {
 /*@egen*/
-  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ?
+  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
     ListOfInstructions()
   < NEXT >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -373,7 +377,9 @@ void SubCall() :
 void ParameterList()       :
 {}
 {
+  (
   Expression() ( "," Expression() )*
+  )?
 }
 
 void SubDecl()                 :
@@ -385,7 +391,9 @@ void SubDecl()                 :
 {/*@bgen(jjtree) SubDeclaration */
   try {
 /*@egen*/
-  < SUBROUTINE > Identifier() ListOfInstructions() < END >/*@bgen(jjtree)*/
+  < SUBROUTINE > Identifier() < NL >
+    ListOfInstructions()
+  < END >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -504,7 +512,14 @@ void Assignment() :
 /*@egen*/
 }
 
-/* ---------- Needs Work ------------- */
+/* ----------------------- */
+
+void Expression()       ://#Expression(>1) :
+{}
+{
+  ConcatExpression() {}
+}
+
 void ConcatExpression()                       :
 {/*@bgen(jjtree) #ConcatExpression(> 1) */
 ASTConcatExpression jjtn000 = new ASTConcatExpression(JJTCONCATEXPRESSION);
@@ -573,13 +588,6 @@ void StringLiteral() :
     }
   }
 /*@egen*/
-}
-/* ----------------------- */
-
-void Expression()       ://#Expression(>1) :
-{}
-{
-  ConcatExpression() {}
 }
 
 void BooleanExpression()                        :

@@ -37,8 +37,10 @@ import edu.sru.andgate.bitbot.parser.*;
 public class RunVisitor implements bc1Visitor
 {
 	private HashMap<String, String> vars = new HashMap<String, String>();
-	private int instructionsLeft = 0;
-	private boolean _waiting = true;
+	
+	private volatile int instructionsLeft = 0;
+	private volatile boolean _waiting = true;
+	private volatile boolean _abort = false;
 	
 	private PipedOutputStream $std_out = new PipedOutputStream();
 	private PrintStream std_out = new PrintStream($std_out, true);
@@ -47,8 +49,18 @@ public class RunVisitor implements bc1Visitor
 	
 	private BotInterpreter bi;
 	
+	/**
+	 * This replaces "this" for all jjtAccept calls.  It functions identically to 
+	 * "this" until the thread has to abort, we then set __this__ to another Visitor
+	 * that will quickly rise back up the stack.
+	 */
+	private RunVisitor __this__;
 	
 	
+	/**
+	 * This can allow you to control where debug output would go.
+	 * Data here comes from the parser itself.
+	 */
 	private PrintStream out = new PrintStream( 
 		new OutputStream()
 		{
@@ -59,7 +71,6 @@ public class RunVisitor implements bc1Visitor
 			}
 		}
 	);
-	
 	public boolean setPrintStream(PrintStream p)
 	{
 		if (p != null)
@@ -96,6 +107,11 @@ public class RunVisitor implements bc1Visitor
 	 */
 	private void NextInstruction()
 	{
+		if (_abort)
+			throw new Error();//Exception();
+//			return;
+		
+		
 		// If we have less than 1 instruction left, we need to wait until we're
 		// allowed to do more processing.
 		if (instructionsLeft <= 0)
@@ -119,6 +135,14 @@ public class RunVisitor implements bc1Visitor
 	}
 	
 	/**
+	 * Pause the machine.  Sets instructionLeft to 0.
+	 */
+	public void pause()
+	{
+		instructionsLeft = 0;		// Pause the machine.
+	}
+	
+	/**
 	 * Cause the interpreters thread to resume.  Executing a set number of instructions
 	 * before waiting to be resumed again.
 	 * @param numberOfInstructions The number of instructions to run.
@@ -131,6 +155,19 @@ public class RunVisitor implements bc1Visitor
 		{
 			this.notify();								// Resume the Interpreting thread.
 			_waiting = false;							// Update the waiting status.
+		}
+	}
+	
+	/**
+	 * Flags this BotInterpreter to abort.  When it's execution thread runs next it will abort
+	 * its execution of interpreted code.
+	 */
+	public void abort()
+	{
+		synchronized (this)
+		{
+			this.notify();
+			_abort = true;
 		}
 	}
 	
@@ -170,7 +207,7 @@ public class RunVisitor implements bc1Visitor
 		out.println(" ");
 		out.println("[--- Root ---]");
 		
-		// Visit Program
+		// ASTProgram
 		node.jjtGetChild(0).jjtAccept(this, null);
 		
 		return null;
@@ -180,7 +217,7 @@ public class RunVisitor implements bc1Visitor
 	{
 		out.println("[= Program =]");
 		
-		// ListOfInstructions
+		// ASTListOfInstructions
 		node.jjtGetChild(0).jjtAccept(this, null);
 		
 		return null;
@@ -194,8 +231,15 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
-		out.println( "[PRINT] " + node.jjtGetChild(0).jjtAccept(this, null).toString() );
-		std_out.println(node.jjtGetChild(0).jjtAccept(this, null).toString() );
+		// ASTExpression
+		String eval = node.jjtGetChild(0).jjtAccept(this, null).toString();
+		
+		// Print the line
+		out.println( "[PRINT] " + eval);
+		std_out.println(eval);
+		
+		// Flush text to TextView
+		bi.flush();
 		
 		return null;
 	}
@@ -204,9 +248,11 @@ public class RunVisitor implements bc1Visitor
 	{
 		//NextInstruction();
 		
+		// ASTIdentifier
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
 		String value = "0";
 		
+		// Store variable in hash
 		vars.put(id, value);
 		
 //		out.println("[Declaration] " + id + " = "  + value);
@@ -217,9 +263,10 @@ public class RunVisitor implements bc1Visitor
 	{
 		NextInstruction();
 		
-		// ID is first child
+		// ASTIdentifier
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
-		// Value is second child
+		
+		// ASTExpression
 		String value = node.jjtGetChild(1).jjtAccept(this, null).toString();
 		
 		// Update the variable
@@ -229,42 +276,6 @@ public class RunVisitor implements bc1Visitor
 		
 		return value;
 	}
-
-	
-	//***************************************************
-	//*  				   STRINGS 						*
-	//***************************************************
-	@Override
-	public Object visit(ASTConcatExpression node, Object data)
-	{
-//		out.println("StringExpression");
-		
-		// Determine the operation
-		String op = node.jjtGetValue().toString();
-		
-		// Visit this nodes children to find out the two operands (v1 and v2)
-		String v1 = "", v2 = "";
-		try
-		{
-			v1 = node.jjtGetChild(0).jjtAccept(this, null).toString();
-			v2 = node.jjtGetChild(1).jjtAccept(this, null).toString();
-		}
-		catch(Exception e){}
-		
-		// Evaluate
-		String result = ":err:";
-		if (op.equalsIgnoreCase("&"))
-			result = v1 + v2;
-		else 
-			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
-
-		// Log
-//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
-		
-		return result;
-	}
-
-	
 	
 	//***************************************************
 	//*  				IDENTIFIERS						*
@@ -304,11 +315,66 @@ public class RunVisitor implements bc1Visitor
 	//*  				EXPRESSIONS						*
 	//***************************************************
 	@Override
+	public Object visit(ASTConcatExpression node, Object data)
+	{
+//		out.println("StringExpression");
+		
+		// Extract the operation
+		String op = node.jjtGetValue().toString();
+		
+		// Visit this nodes children to find out the two operands (v1 and v2)
+		String v1 = "", v2 = "";
+		try
+		{
+			v1 = node.jjtGetChild(0).jjtAccept(this, null).toString();
+			v2 = node.jjtGetChild(1).jjtAccept(this, null).toString();
+		}
+		catch(Exception e){}
+		
+		// Evaluate
+		String result = ":err:";
+		if (op.equalsIgnoreCase("&"))
+			result = v1 + v2;
+		else 
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
+
+		// Log
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+		
+		return result;
+	}
+	
+	@Override
 	public Object visit(ASTBooleanExpression node, Object data)
 	{
-//		out.println("BooleanExpression");
-		// TODO actually return something
-		return "0";
+		NextInstruction();
+		
+		// Determine the operation
+		String op = node.jjtGetValue().toString();
+		out.println("BooleanExpression: " + op);
+		
+		// Visit this nodes children to find out the two operands (v1 and v2)
+		int v1 = 0, v2 = 0;
+		try
+		{
+			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+		}
+		catch(Exception e){}
+		
+		// Evaluate
+		int result = 0;
+		if (op.equalsIgnoreCase("AND"))
+			result = ((v1!=0)&&(v2!=0))?1:0;
+		else if (op.equalsIgnoreCase("OR"))
+			result = ((v1!=0)||(v2!=0))?1:0;
+		else 
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
+
+		// Log
+		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+		
+		return result;
 	}
 	
 	@Override
@@ -433,19 +499,12 @@ public class RunVisitor implements bc1Visitor
 			
 			// Print them out temporarily
 			for (int i=0; i<params.length; i++)
-				out.println(params[i]);
+				out.println(params[i]);;
 		}
 		
 		// Execute bot instructions
-		// TODO: check what this string is
-		Log.e("RV", instr.substring(0, 4));
 		if ( instr.substring(0, 4).equalsIgnoreCase("bot_") )
-		{
-			Log.w("RV", "call began with 'bot_'");
 			bi.executeBotInstruction(instr, params);
-		}
-		else
-			Log.w("RV", "call did not begin with 'bot_'");
 		
 		// TODO Auto-generated method stub
 		return null;
@@ -532,7 +591,8 @@ public class RunVisitor implements bc1Visitor
 		
 		return null;
 	}
-	
+
+
 	
 //	@Override
 //	public Object visit(ASTParameterList node, Object data)

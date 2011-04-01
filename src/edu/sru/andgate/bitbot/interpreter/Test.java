@@ -58,7 +58,7 @@ public class Test extends Activity
 		});
 		
 		tv = (TextView)findViewById(R.id.txtMain);
-		
+		TextView tvR = (TextView)findViewById(R.id.txtMainRight);
 		
 		
 		// TODO: create some JUnit testing
@@ -68,9 +68,12 @@ public class Test extends Activity
 		
 		// Set up a couple BotInterpreters
 		b1 = new BotInterpreter(null, code);
+		b1.setOutputTextView(tv);
 		vm.addInterpreter(b1);
+		tvR.setText(code);
 		
 //		BotInterpreter b2 = new BotInterpreter(null, code2);
+//		b2.setOutputTextView(tvR);
 //		vm.addInterpreter(b2);
 		
 		// Set up data output in textview
@@ -83,7 +86,7 @@ public class Test extends Activity
 	private void Resume(int i)
 	{
 		vm.resume(i);
-		tv.setText(b1.getBotLog());
+//		tv.setText(b1.getBotLog());
 	}
 	
 	
@@ -91,21 +94,28 @@ public class Test extends Activity
 	/**
 	 * Test Code
 	 */
+	String code111 =
+		/*1*/	"PRINT 1 AND 0\n" +
+				"\n" +
+		/*1*/	"PRINT 1 OR 0\n"
+		;
+		
+		
 	String code =
-		/*1*/	"Print \"Hello World\" & \"1\" & \"2\";\n" +
-		/*1*/	"Print \"Test \" & (5-1);\n" +
-		/*1*/	"Dim i as Integer;\n" +
-		/*2*/	"Let i = 16;\n" +
-		/*1*/	"Print \"i = \" & i;\n" +
-		/*3*/	"While i Do\n" + 
-		/*4*/	"  Print i;\n" +
-		/*4*/	"  IF i-1 THEN\n" +
-		/*4*/	"    Print \"Not One! \" & i;\n" +
-		/*4*/	"  ELSE i;\n" +
-		/*4*/	"    Print \"ONE!!!!!!!\";\n" +
-		/*4*/	"  ENDIF\n" +
-		/*5*/	"  Let i = i-1;\n" + 
-		/*6*/	"Loop\n"
+		/*1*/	"Print \"Hello World\" & \"1\" & \"2\"\n" +
+		/*2*/	"Print \"Test \" & (5-1)\n" +
+		/*3*/	"Dim i as Integer\n" +
+		/*4*/	"Let i = 16\n" +
+		/*5*/	"Print \"i = \" & i\n" +
+		/*6*/	"While i Do\n" + 
+		/*7*/	"  Print i\n" +
+		/*8*/	"  IF i-1 THEN\n" +
+		/*9*/	"    Print \"Not One! \" & i\n" +
+		/*0*/	"  ELSE\n" +
+		/*1*/	"    Print \"ONE!!!!!!!\"\n" +
+		/*2*/	"  ENDIF\n" +
+		/*3*/	"  Let i = i-1\n" + 
+		/*4*/	"Loop\n"
 	;
 	
 	
