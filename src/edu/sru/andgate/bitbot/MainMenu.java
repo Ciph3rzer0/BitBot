@@ -95,6 +95,8 @@ public class MainMenu extends Activity {
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, 180);
 				finish();
+				System.runFinalizersOnExit(true);
+				System.exit(0);
 			}
 		});    
     }
