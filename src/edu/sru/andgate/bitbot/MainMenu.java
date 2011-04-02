@@ -3,6 +3,7 @@ package edu.sru.andgate.bitbot;
 import edu.sru.andgate.bitbot.graphics.GameEngine;
 import edu.sru.andgate.bitbot.ide.IDE;
 import edu.sru.andgate.bitbot.interpreter.Test;
+import edu.sru.andgate.bitbot.missonlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
 import android.app.Activity;
 import android.content.Intent;
@@ -70,6 +71,8 @@ public class MainMenu extends Activity {
 			public void onClick(View v) 
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, -60);
+				Intent engineIntent = new Intent(MainMenu.this, MissionListActivity.class);
+				startActivity(engineIntent);
 				
 			}
 		});
