@@ -15,7 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class MainMenu extends Activity {
+public class MainMenu extends Activity
+{
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,8 @@ public class MainMenu extends Activity {
      
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
+               
+        //*
         Button game_modes = (Button) findViewById(R.id.game_modes);
 		game_modes.setOnClickListener(
 				new View.OnClickListener() 
@@ -99,6 +102,7 @@ public class MainMenu extends Activity {
 				System.exit(0);
 			}
 		});    
+        //*/
     }
     
     public void rotateImage(ImageView img, int turret_id, int img_id, int rotate){

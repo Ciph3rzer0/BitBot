@@ -3,6 +3,10 @@
     android:orientation="vertical"
     android:layout_height="fill_parent" android:layout_width="match_parent">
 	
+	<!--
+	<include  layout="@layout/hex_menu" android:id="@+id/hexMenu" />
+	-->
+	
 	<Button 
 		android:background="@drawable/hexbutton" 
 		android:text="Graphics" 
@@ -84,7 +88,8 @@
 		android:layout_alignLeft="@id/scores_btn" 
 		android:layout_alignRight="@id/scores_btn">
 	</Button>
-		<LinearLayout 
+	
+	<LinearLayout 
 		android:id="@+id/linearLayout1" 
 		android:background="@drawable/bit_land"
 		android:paddingBottom="20dip"

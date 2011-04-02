@@ -3,6 +3,10 @@
     android:orientation="vertical"
     android:layout_height="match_parent" android:layout_width="match_parent">
 	
+	<!--
+	<include  layout="@layout/hex_menu" android:id="@+id/hexMenu" />
+	-->
+	
 	<Button 
 		android:id="@+id/game_modes"
 		android:background="@drawable/hexbutton" 
