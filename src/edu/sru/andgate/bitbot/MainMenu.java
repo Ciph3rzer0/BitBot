@@ -1,6 +1,7 @@
 package edu.sru.andgate.bitbot;
 
 import edu.sru.andgate.bitbot.graphics.GameEngine;
+import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.ide.IDE;
 import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
@@ -85,7 +86,7 @@ public class MainMenu extends Activity {
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, -120);
 				//open up IDE for now
-				Intent engineIntent = new Intent(MainMenu.this, IDE.class);
+				Intent engineIntent = new Intent(MainMenu.this, CodeBuilderActivity.class);
 				startActivity(engineIntent);
 			}
 		});
