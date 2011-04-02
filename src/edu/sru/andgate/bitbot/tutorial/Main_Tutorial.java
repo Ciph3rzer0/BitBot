@@ -398,11 +398,15 @@ public class Main_Tutorial extends Activity {
 	       		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 	            DocumentBuilder docBuilder;
 				docBuilder = docBuilderFactory.newDocumentBuilder();
+				
 				Document doc = docBuilder.parse(is);
 	            doc.getDocumentElement ().normalize ();
+	            
 	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
 	            Element myText = (Element) tutorialText.item(0);
-	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim(); 
+	            
+	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
+	            
 	 		} catch (ParserConfigurationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -418,7 +422,7 @@ public class Main_Tutorial extends Activity {
 			}
 			
 			
-		    return "no file found";
+		    return null;
 		}//end of main
 	 
 	/*

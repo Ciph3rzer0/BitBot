@@ -5,14 +5,11 @@
 package edu.sru.andgate.bitbot.graphics;
 
 import edu.sru.andgate.bitbot.R;
-//import edu.sru.andgate.bitbot.graphics.*;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-//import java.io.*;
 
 public class GameEngine extends Activity
 {	
@@ -26,6 +23,7 @@ public class GameEngine extends Activity
 	BotLayer test2Turret;
 	int[][] drawList;
 	int drawListPointer = 0;
+	boolean gameLoop = true;
 	
 	int MAX_OBJECTS = 250;
 	
@@ -40,8 +38,6 @@ public class GameEngine extends Activity
     public void onCreate(Bundle savedInstanceState)
     {		
         super.onCreate(savedInstanceState);
-        
-        Log.v("bitbot", "onCreate called");
         
         testBotArray = new Bot[NUM_TEST_BOTS];
         
@@ -160,7 +156,7 @@ public class GameEngine extends Activity
     
     public void fakeGameLoop()
     {
-    	new Thread(new Runnable()
+    	Runnable gR = new Runnable()
     	{
     		//Proof of concept variables
     		float move = 0.01f;
@@ -171,8 +167,8 @@ public class GameEngine extends Activity
     		//Game Loop
     		public void run()
     		{
-    			while(true)
-    			{
+    			while(gameLoop)
+    			{    				
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -235,7 +231,7 @@ public class GameEngine extends Activity
     	    		*/
     	            
     	            //Renderer Synchronization / Draw Frame Request
-    	    		while(!thisFrameDrawn)
+    	    		while(!thisFrameDrawn && gameLoop)
     	    		{
 	    	    		if(gameRenderer.getFrameDrawn())
 	    	    		{
@@ -248,7 +244,10 @@ public class GameEngine extends Activity
     	    		}
     			}
     		}
-    	}).start();
+    	};
+    	Thread gT = new Thread(gR);
+    	gT.setName("Game Thread: " + gT.getName());
+    	gT.start();
     }
     
 	@Override
@@ -257,6 +256,7 @@ public class GameEngine extends Activity
 		super.onResume();
 		glSurfaceView.onResume();
 		preloadTextures(); //Reload textures on resume to prevent missing texture / white square problem.
+		//gameLoop = true;
 	}
 
 	@Override
@@ -270,6 +270,7 @@ public class GameEngine extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		//Additional Destroy Code Here
+		gameLoop = false;
+		finish();
 	}
 }

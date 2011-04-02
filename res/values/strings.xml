@@ -2,17 +2,14 @@
 <resources>
 	
 	<string name="app_name">Bits-N-Bots</string>
-	
-	<!-- Hamza -->
-		
+			
 	<!-- Nick -->
 	 <string-array name="menu_contents">
 	 	<item>Getting Started</item>
     	<item>Defining Variables</item>
         <item>Print Statement</item>
-        <item>For Loop</item>
-        <item>Do Loop</item>
-        <item>If Statement</item>
+        <item>Loops</item>
+        <item>Selection Statements</item>
         <item>Back to Main Menu</item>
      </string-array>
     

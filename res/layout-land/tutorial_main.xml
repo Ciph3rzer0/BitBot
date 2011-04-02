@@ -25,6 +25,7 @@
 	                <TextView 
 		                android:id="@+id/tutorial_text" 
 		                android:text="TextView" 
+		                android:textColor="#00FF00"
 		                android:layout_width="match_parent" 
 		                android:layout_height="match_parent">
 	                </TextView>
@@ -146,7 +147,7 @@
 			    android:layout_width="fill_parent"
 			    android:layout_height="fill_parent"
 			    android:textColor="#00FF00"
-			    android:id="@+id/tutorial_text"/>		
+			    android:id="@+id/help_text"/>		
 			</ScrollView>
 		</SlidingDrawer>
     </RelativeLayout>
