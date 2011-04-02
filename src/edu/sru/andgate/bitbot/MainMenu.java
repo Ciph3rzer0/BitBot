@@ -22,7 +22,7 @@ public class MainMenu extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-     
+        
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
         Button game_modes = (Button) findViewById(R.id.game_modes);

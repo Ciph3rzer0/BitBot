@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:padding="10dip"
+  >
+  
+  <ImageView
+    android:id="@+id/pic"
+    android:layout_width="60dip"
+    android:layout_height="60dip"
+    android:padding="8dip"
+    android:layout_alignParentLeft="true"
+    android:src="@drawable/adambot"
+  />
+  
+  <TextView
+    android:id="@+id/title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_toRightOf="@id/pic"
+    android:text="Title Line"
+  />
+  
+  <TextView
+    android:id="@+id/summary"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/title"
+    android:layout_toRightOf="@id/pic"
+    android:text="Summary"
+  />
+  
+  
+  
+</RelativeLayout>
