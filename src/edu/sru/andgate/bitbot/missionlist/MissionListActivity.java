@@ -52,7 +52,8 @@ public class MissionListActivity extends ListActivity {
 	              CustomListView mission1 = new CustomListView();
 	              mission1.setMissionName("Arena");
 	              mission1.setMissionDescription("This dont mean shit");
-	              mission1.setFileName(null);
+	              mission1.setFileName("arena.xml");
+	              mission_list.put(mission1.getMissionName(), mission1.getFileName());
 	              CustomListView mission2 = new CustomListView();
 	              mission2.setMissionName("Target Practice");
 	              mission2.setMissionDescription("This dont mean shit");
