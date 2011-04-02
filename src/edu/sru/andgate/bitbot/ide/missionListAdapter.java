@@ -1,8 +1,9 @@
-package edu.sru.andgate.bitbot.missonlist;
+package edu.sru.andgate.bitbot.ide;
 
 import java.util.ArrayList;
 
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.missionlist.CustomListView;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +26,16 @@ public class missionListAdapter extends ArrayAdapter<CustomListView> {
 	       View customView = newView;
            if (customView == null) {
                LayoutInflater layout = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-               customView = layout.inflate(R.layout.mission_row, null);
+               customView = layout.inflate(R.layout.code_row, null);
            }
            CustomListView myView = missionItems.get(position);
            if (myView != null) {
-                   TextView missionName = (TextView) customView.findViewById(R.id.mission);
-                   TextView missionDescription = (TextView) customView.findViewById(R.id.description);
+                   TextView missionName = (TextView) customView.findViewById(R.id.program);
+                   TextView missionDescription = (TextView) customView.findViewById(R.id.summary);
                    if (missionName != null) {
-                         missionName.setText("Name: "+ myView.getMissionName());                            }
+                         missionName.setText("Program Name: "+ myView.getMissionName());                            }
                    if(missionDescription != null){
-                         missionDescription.setText("Status: "+ myView.getMissionDescription());
+                         missionDescription.setText("Summary: "+ myView.getMissionDescription());
                    }
            }
            return customView;
