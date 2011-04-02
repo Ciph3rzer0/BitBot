@@ -22,6 +22,7 @@ import android.widget.TextView;
 import edu.sru.andgate.bitbot.MainMenu;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.graphics.GameEngine;
+import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.tutorial.Main_Tutorial;
 
 public class MissionBriefingActivity extends Activity {
@@ -55,9 +56,8 @@ public class MissionBriefingActivity extends Activity {
 			{
 				@Override
 				public void onClick(View v) {
-					//Intent engineIntent = new Intent(MissionBriefingActivity.this, BotBuilderActivity.class);
-					//startActivity(engineIntent);
-					
+					Intent engineIntent = new Intent(MissionBriefingActivity.this, BotBuilderActivity.class);
+					startActivity(engineIntent);
 				}
 			});
 	        
