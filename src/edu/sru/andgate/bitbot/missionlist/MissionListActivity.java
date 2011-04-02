@@ -1,14 +1,11 @@
-package edu.sru.andgate.bitbot.missonlist;
+package edu.sru.andgate.bitbot.missionlist;
 
 import java.util.ArrayList;
-
 import edu.sru.andgate.bitbot.R;
-
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
 
 public class MissionListActivity extends ListActivity {
 	 private ProgressDialog m_ProgressDialog = null; 

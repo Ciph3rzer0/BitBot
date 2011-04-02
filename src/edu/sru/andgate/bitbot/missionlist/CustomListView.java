@@ -1,4 +1,4 @@
-package edu.sru.andgate.bitbot.missonlist;
+package edu.sru.andgate.bitbot.missionlist;
 
 public class CustomListView {
 	private String missionName;

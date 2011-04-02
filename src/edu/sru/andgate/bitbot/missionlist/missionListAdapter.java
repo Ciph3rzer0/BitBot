@@ -1,4 +1,4 @@
-package edu.sru.andgate.bitbot.missonlist;
+package edu.sru.andgate.bitbot.missionlist;
 
 import java.util.ArrayList;
 
@@ -32,9 +32,9 @@ public class missionListAdapter extends ArrayAdapter<CustomListView> {
                    TextView missionName = (TextView) customView.findViewById(R.id.mission);
                    TextView missionDescription = (TextView) customView.findViewById(R.id.description);
                    if (missionName != null) {
-                         missionName.setText("Name: "+ myView.getMissionName());                            }
+                         missionName.setText("Mission Name: "+ myView.getMissionName());                            }
                    if(missionDescription != null){
-                         missionDescription.setText("Status: "+ myView.getMissionDescription());
+                         missionDescription.setText("Mission Description: "+ myView.getMissionDescription());
                    }
            }
            return customView;

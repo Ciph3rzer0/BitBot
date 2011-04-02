@@ -19,7 +19,7 @@
 		</activity>
 		<activity android:name=".tutorial.Tutorial_List"></activity>
 		<activity android:name=".tutorial.Main_Tutorial" android:windowSoftInputMode="adjustResize"></activity>
-		<activty android:name=".ide.MissionListActivty"></activty>
+		<activity android:name=".missionlist.MissionListActivity"></activity>
 		<activity android:name=".ide.IDE" android:windowSoftInputMode="adjustResize"></activity>
 		
     </application>
