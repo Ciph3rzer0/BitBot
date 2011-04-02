@@ -100,10 +100,14 @@ public class GlRenderer implements Renderer
 					objectList[i].setTextureUpdateFlag(0.0f);
 				}
 			}
-			//Tile Map Textures
-			for(int i=0;i<tileMap.numTextures;i++)
+			
+			if (tileMap != null)
 			{
-				tileMap.loadGLTexture(gl, this.context, i);
+				//Tile Map Textures
+				for(int i=0;i<tileMap.numTextures;i++)
+				{
+					tileMap.loadGLTexture(gl, this.context, i);
+				}
 			}
 			
 			preloadTextures = false;
@@ -116,7 +120,7 @@ public class GlRenderer implements Renderer
 			
 			//Tile map update is a special case and isnt used with drawList
 			gl.glLoadIdentity();
-			tileMap.draw(gl);
+//			tileMap.draw(gl);
 			
 			//Draw all objects in Draw List
 			for(int i=0;i < drawListSize;i++)	//NEEDS CHANGED BACK
@@ -141,8 +145,12 @@ public class GlRenderer implements Renderer
 				gl.glLoadIdentity(); 					//Reset The Projection Matrix
 			   // gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
 			    gl.glOrthof(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) - (aspectRatio * cameraZoom), (cameraY) + (aspectRatio * cameraZoom), 0.01f, 100.0f);
-			    tileMap.setDrawRegion(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) + (aspectRatio * cameraZoom), (cameraY) - (aspectRatio * cameraZoom));
-				gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
+			    
+			    if (tileMap != null)
+			    	tileMap.setDrawRegion(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) + (aspectRatio * cameraZoom), (cameraY) - (aspectRatio * cameraZoom));
+				
+			    
+			    gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
 				gl.glLoadIdentity(); 					//Reset The Modelview Matrix
 			}
 			
@@ -179,6 +187,8 @@ public class GlRenderer implements Renderer
 		//gl.glEnable(GL10.GL_DEPTH_TEST);
 	    //gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
 	    gl.glOrthof(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) - (aspectRatio * cameraZoom), (cameraY) + (aspectRatio * cameraZoom), 0.01f, 100.0f);
+	    
+	    if (tileMap != null)
 	    tileMap.setDrawRegion(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) + (aspectRatio * cameraZoom), (cameraY) - (aspectRatio * cameraZoom));
 
 		gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix

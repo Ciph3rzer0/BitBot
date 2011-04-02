@@ -386,7 +386,7 @@ void Identifier() :
   Token t;
 }
 {
-  t = < IDENTIFIER > { jjtThis.value = t.image; }
+  t = < IDENTIFIER > { jjtThis.value = t.image.toLowerCase(); }
 }
 
 void Integer() #IntegerLiteral :

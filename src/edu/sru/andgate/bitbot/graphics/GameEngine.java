@@ -103,12 +103,12 @@ public class GameEngine extends Activity
         	gameRenderer.addObjectToWorld(testBotArray[i]);
         }
         
-        testMap = new TileMap();
-        testMap.loadMapFile("testmap.map", this.getBaseContext());
-        gameRenderer.setTileMap(testMap);
-        
-        //testMap.addTexture(R.drawable.stone);
-        gameRenderer.setTileMap(testMap);
+//        testMap = new TileMap();
+//        testMap.loadMapFile("testmap.map", this.getBaseContext());
+//        gameRenderer.setTileMap(testMap);
+//        
+//        //testMap.addTexture(R.drawable.stone);
+//        gameRenderer.setTileMap(testMap);
         
         //Add test objects to world
         gameRenderer.addObjectToWorld(testTurret);

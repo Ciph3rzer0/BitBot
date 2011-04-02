@@ -867,7 +867,7 @@ jjtree.openNodeScope(jjtn000);Token t;
       t = jj_consume_token(IDENTIFIER);
                        jjtree.closeNodeScope(jjtn000, true);
                        jjtc000 = false;
-                       jjtn000.value = t.image;
+                       jjtn000.value = t.image.toLowerCase();
     } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);

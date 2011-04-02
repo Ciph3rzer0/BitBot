@@ -351,18 +351,14 @@ public class IDE extends Activity {
      */
     private void InterpreteCode()
     {
-    	new Thread(new Runnable() {
-			
-			@Override
-			public void run()
-			{
-				iT();
-			}
-		}).start();
-    }
-    
-    private void iT() {
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    	Log.i("BitBot Interpreter", "--------------------- Begin Interpreter ------------------");
+    	Log.i("BitBot Interpreter", Thread.currentThread().toString());
+    	Log.i("BitBot Interpreter", "" + Thread.currentThread().getPriority());
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
     	BotInterpreter bi = null;
+    	
+//    	Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
     	
     	try
 		{
@@ -391,6 +387,11 @@ public class IDE extends Activity {
     		if (botOutput != null && bi != null)
     			botOutput.setText(bi.getBotLog());
     	}
+    	
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    	Log.i("BitBot Interpreter", "---------------------- End Interpreter -------------------");
+    	Log.i("BitBot Interpreter", Thread.currentThread().toString());
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
     }
     
 	/*

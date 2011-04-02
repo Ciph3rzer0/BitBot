@@ -315,6 +315,10 @@ public class BotInterpreter
 			
 			// Set name so we can identify thread types
 			setName("=RunThread= " + getName());
+//			setPriority(NORM_PRIORITY);
+			setPriority(NORM_PRIORITY - 1);
+//			setPriority(9);
+//			setPriority(MAX_PRIORITY);
 		}
 		
 		/**
