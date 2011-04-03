@@ -17,7 +17,7 @@ public class GlRenderer implements Renderer
 	private Context context;
 	boolean goinUp = true;
 	int drawList[][];
-	Bot[] objectList;
+	DrawableBot[] objectList;
 	float[] paramList;
 	int objCount = 0;
 	int totalObjCount = 0;
@@ -43,7 +43,7 @@ public class GlRenderer implements Renderer
 	{
 		this.context = context;
 		//List of all objects in game
-		objectList = new Bot[MAX_OBJECTS];
+		objectList = new DrawableBot[MAX_OBJECTS];
 		//Get parameter list of current object
 		paramList = new float[11];
 	}
@@ -68,7 +68,7 @@ public class GlRenderer implements Renderer
 		tileMap = tm;
 	}
 	
-	public void addObjectToWorld(Bot obj)
+	public void addObjectToWorld(DrawableBot obj)
 	{
 		objectList[objCount] = obj;		//Add object to master list
 		obj.ID = objCount;				//Set the object ID to the corresponding index in the master list
