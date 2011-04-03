@@ -16,8 +16,9 @@ public class MissionListActivity extends ListActivity {
 	// private ProgressDialog m_ProgressDialog = null; 
 	 private ArrayList<CustomListView> myMissions = null;
 	 private missionListAdapter mission_adapter;
-	 //private Runnable viewOrders;
 	 final Hashtable<String, String> mission_list = new Hashtable<String, String>();
+	 final Hashtable<String, Integer> mission_icons = new Hashtable<String,Integer>();
+	 
 	 public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_main);
@@ -35,6 +36,7 @@ public class MissionListActivity extends ListActivity {
 	 protected void onListItemClick(ListView l, View v, int position, long id) {
 		 	Intent myIntent = new Intent(MissionListActivity.this, MissionBriefingActivity.class);
         	myIntent.putExtra("Filename",  mission_list.get(v.getTag().toString()));
+        	myIntent.putExtra("Icon",  mission_icons.get(v.getTag().toString()));
         	startActivity(myIntent);
 	 }
 	 
@@ -53,12 +55,16 @@ public class MissionListActivity extends ListActivity {
 	              mission1.setMissionName("Arena");
 	              mission1.setMissionDescription("This dont mean shit");
 	              mission1.setFileName("arena.xml");
+	              mission1.setImageIcon(R.drawable.arena);
 	              mission_list.put(mission1.getMissionName(), mission1.getFileName());
+	              mission_icons.put(mission1.getMissionName(), R.drawable.arena);
 	              CustomListView mission2 = new CustomListView();
 	              mission2.setMissionName("Target Practice");
 	              mission2.setMissionDescription("This dont mean shit");
 	              mission2.setFileName("target_practice.xml");
+	              mission2.setImageIcon(R.drawable.target);
 	              mission_list.put(mission2.getMissionName(), mission2.getFileName());
+	              mission_icons.put(mission2.getMissionName(), R.drawable.target);
 	              myMissions.add(mission1);
 	              myMissions.add(mission2);
 	            } catch (Exception e) { 

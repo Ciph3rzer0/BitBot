@@ -1,10 +1,15 @@
-<RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
-        <RelativeLayout 
-        android:layout_alignParentTop="true" 
-        android:layout_height="wrap_content" 
-        android:layout_above="@+id/button_bar"
-        android:id="@+id/briefing_view" 
-        android:layout_width="match_parent">
+<RelativeLayout 
+	android:id="@+id/relativeLayout1" 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android">
+		<RelativeLayout 
+	        android:layout_alignParentTop="true" 
+	        android:layout_height="wrap_content" 
+	        android:layout_above="@+id/button_bar"
+	        android:layout_below="@+id/title_bar"
+	        android:id="@+id/briefing_view" 
+	        android:layout_width="match_parent">
             <ImageView 
 	            android:id="@+id/mission_icon" 
 	            android:layout_height="wrap_content" 
@@ -13,14 +18,20 @@
 	            android:layout_alignParentLeft="true">
             </ImageView>
             <TextView 
+				android:layout_height="match_parent" 
+				android:text="TextView" 
+				android:layout_toRightOf="@id/mission_icon"
+				android:layout_width="match_parent"
+				android:id="@+id/title_bar">
+			</TextView>
+            <TextView 
 	            android:text="TextView" 
-	            android:layout_toRightOf="@+id/mission_icon" 
 	            android:id="@+id/mission_text" 
-	            android:layout_alignTop="@+id/mission_icon" 
+	            android:layout_below="@id/mission_icon"
 	            android:layout_width="match_parent" android:layout_height="match_parent">
             </TextView>
-        
         </RelativeLayout>
+        
         <LinearLayout
         android:layout_height="wrap_content" 
         android:layout_alignParentBottom="true" 

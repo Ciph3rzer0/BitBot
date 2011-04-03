@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class missionListAdapter extends ArrayAdapter<CustomListView> {
@@ -31,10 +32,14 @@ public class missionListAdapter extends ArrayAdapter<CustomListView> {
            if (myView != null) {
                    TextView missionName = (TextView) customView.findViewById(R.id.mission);
                    TextView missionDescription = (TextView) customView.findViewById(R.id.description);
+                   ImageView missionIcon = (ImageView) customView.findViewById(R.id.icon);
                    if (missionName != null) {
                          missionName.setText("Mission Name: "+ myView.getMissionName());                            }
                    if(missionDescription != null){
                          missionDescription.setText("Mission Description: "+ myView.getMissionDescription());
+                   }
+                   if(missionIcon !=null){
+                	   missionIcon.setImageResource(myView.getImageIcon());
                    }
            }
            customView.setTag(myView.getMissionName());
