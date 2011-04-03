@@ -18,7 +18,11 @@
 			
 		</activity>
 		<activity android:name=".tutorial.Tutorial_List"></activity>
+		<activity android:name=".ide.botbuilder.BotBuilderActivity"></activity>
 		<activity android:name=".tutorial.Main_Tutorial" android:windowSoftInputMode="adjustResize"></activity>
+		<activity android:name=".missionlist.MissionListActivity"></activity>
+		<activity android:name=".ide.CodeBuilderActivity"></activity>
+		<activity android:name=".missionlist.MissionBriefingActivity"></activity>
 		<activity android:name=".ide.IDE" android:windowSoftInputMode="adjustResize"></activity>
 		
     </application>
