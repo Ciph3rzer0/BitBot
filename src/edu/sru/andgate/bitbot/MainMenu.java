@@ -26,9 +26,10 @@ public class MainMenu extends Activity {
         
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
+        
+        /* ******************** Start Game *********************** */
         Button game_modes = (Button) findViewById(R.id.game_modes);
-		game_modes.setOnClickListener(
-				new View.OnClickListener() 
+		game_modes.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
@@ -40,6 +41,7 @@ public class MainMenu extends Activity {
 			}
 		});
 		
+		/* ******************** Tutorials *********************** */
 		Button tutorial_btn = (Button) findViewById(R.id.tutorial_btn);
 		tutorial_btn.setOnClickListener(new View.OnClickListener() 
 		{
@@ -52,6 +54,7 @@ public class MainMenu extends Activity {
 			}
 		});
         
+		/* ******************** Options *********************** */
         Button options_btn = (Button) findViewById(R.id.options_btn);
         options_btn.setOnClickListener(new View.OnClickListener() 
 		{
@@ -65,6 +68,7 @@ public class MainMenu extends Activity {
 			}
 		});
         
+        /* ******************** Scores *********************** */
         Button scores_btn = (Button) findViewById(R.id.scores_btn);
         scores_btn.setOnClickListener(new View.OnClickListener() 
 		{
@@ -78,6 +82,7 @@ public class MainMenu extends Activity {
 			}
 		});
         
+        /* ******************** CodeBuilder *********************** */
         Button puzzle_btn = (Button) findViewById(R.id.puzzle_btn);
         puzzle_btn.setOnClickListener(new View.OnClickListener() 
 		{
@@ -91,6 +96,7 @@ public class MainMenu extends Activity {
 			}
 		});
         
+        /* ******************** Exit *********************** */
         Button quit_btn = (Button) findViewById(R.id.quit_btn);
         quit_btn.setOnClickListener(new View.OnClickListener() 
 		{
@@ -105,7 +111,8 @@ public class MainMenu extends Activity {
 		});    
     }
     
-    public void rotateImage(ImageView img, int turret_id, int img_id, int rotate){
+    public void rotateImage(ImageView img, int turret_id, int img_id, int rotate)
+    {
     	img=(ImageView)findViewById(img_id);
     	Bitmap bmp = BitmapFactory.decodeResource(getResources(), turret_id);
     	// Getting width & height of the given image.

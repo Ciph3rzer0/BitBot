@@ -7,13 +7,15 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
+
+import edu.sru.andgate.bitbot.Bot;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 import java.util.*;
 
-public class Bot
+public class DrawableBot implements Drawable
 {
 	float[] parameters;
 	int ID = 0;
@@ -44,7 +46,7 @@ public class Bot
 	//Texture pointer
 	public int[] textures = new int[MAX_TEXTURE_ARRAY_SIZE];
 
-	public Bot()
+	public DrawableBot()
 	{
 		// a float has 4 bytes so we allocate for each coordinate 4 bytes
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -83,11 +85,27 @@ public class Bot
 		parameters[10] = 1.0f;	//textureUpdateFlag (NO = 0.0, YES = 1.0) (Avoid at all costs)
 	}
 	
+
+	@Override
+	public void attachBot(Bot bot)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#getCurrentParameters()
+	 */
+	@Override
 	public float[] getCurrentParameters()
 	{
 		return parameters;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#setTranslation(float, float, float)
+	 */
+	@Override
 	public void setTranslation(float newTX, float newTY, float newTZ)
 	{
 		parameters[0] = newTX;
@@ -95,6 +113,10 @@ public class Bot
 		parameters[2] = newTZ;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#setRotation(float, float, float, float)
+	 */
+	@Override
 	public void setRotation(float newAngle, float newRX, float newRY, float newRZ)
 	{
 		parameters[3] = newAngle;
@@ -103,15 +125,27 @@ public class Bot
 		parameters[6] = newRZ;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#setRotationAngle(float)
+	 */
+	@Override
 	public void setRotationAngle(float newAngle)
 	{
 		parameters[3] = newAngle;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#move(float, float, float)
+	 */
+	@Override
 	public void move(float angle, float speed, float distance){
 		//
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#move(float, float)
+	 */
+	@Override
 	public void move(float angle, float stepSize)
 	{
 		float rise = (float)(Math.sin(angle) * stepSize) + parameters[1]; //(float)(Math.sin(angle) * stepSize) + parameters[1];
@@ -120,6 +154,10 @@ public class Bot
 		setTranslation(run,rise,parameters[3]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#setScale(float, float, float)
+	 */
+	@Override
 	public void setScale(float newSX, float newSY, float newSZ)
 	{
 		parameters[7] = newSX;
@@ -127,16 +165,28 @@ public class Bot
 		parameters[9] = newSZ;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#setTextureUpdateFlag(float)
+	 */
+	@Override
 	public void setTextureUpdateFlag(float flag)
 	{
 		parameters[10] = flag;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#setSelectedTexture(int)
+	 */
+	@Override
 	public void setSelectedTexture(int selectedTex)
 	{
 		SELECTED_TEXTURE = selectedTex;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#getSelectedTexture()
+	 */
+	@Override
 	public int getSelectedTexture()
 	{
 		return SELECTED_TEXTURE;
@@ -153,11 +203,19 @@ public class Bot
 	}
 	*/
 	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#addTexture(int)
+	 */
+	@Override
 	public void addTexture(int texturePointer)
 	{
 		textureHopper.add(texturePointer);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#loadGLTexture(javax.microedition.khronos.opengles.GL10, android.content.Context, int)
+	 */
+	@Override
 	public void loadGLTexture(GL10 gl, Context context, int curTexPointer)
 	{		
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),textureHopper.get(curTexPointer));
@@ -179,7 +237,11 @@ public class Bot
 		
 		//textureLoaded = true;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see edu.sru.andgate.bitbot.graphics.Drawable#draw(javax.microedition.khronos.opengles.GL10)
+	 */
+	@Override
 	public void draw(GL10 gl)
 	{
 		// bind the previously generated texture
@@ -208,4 +270,5 @@ public class Bot
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}
+
 }

@@ -5,12 +5,12 @@ package edu.sru.andgate.bitbot.graphics;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class BotLayer extends Bot
+public class BotLayer extends DrawableBot
 {
-	Bot masterBotLayer;
+	DrawableBot masterBotLayer;
 	float[] layerParameters;
 	
-	public BotLayer(Bot master)
+	public BotLayer(DrawableBot master)
 	{
 		masterBotLayer = master;
 		layerParameters = new float[11];
