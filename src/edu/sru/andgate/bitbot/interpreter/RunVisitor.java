@@ -235,7 +235,7 @@ public class RunVisitor implements bc1Visitor
 		String eval = node.jjtGetChild(0).jjtAccept(this, null).toString();
 		
 		// Print the line
-		out.println( "[PRINT] " + eval);
+//		out.println( "[PRINT] " + eval);
 		std_out.println(eval);
 		
 		// Flush text to TextView
@@ -530,22 +530,11 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTWhileLoop node, Object data)
 	{
-		out.println("[Begin While Loop]");
+//		out.println("[Begin While Loop]");
 		
-		final long startTime = System.nanoTime();
-		final long endTime;
-		try {
-			// Loop while conditional is not false.  (0 == false, 1 == true)
-			while ( Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
-				node.jjtGetChild(1).jjtAccept(this, null);
-		
-		} finally {
-		  endTime = System.nanoTime();
-		}
-		final long duration = endTime - startTime;
-		
-		out.println("endTime = " + duration);
-		out.println("[/End While Loop]");
+		// Loop while conditional is not false.  (0 == false, 1 == true)
+		while ( Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
+			node.jjtGetChild(1).jjtAccept(this, null);
 		
 		return null;
 	}

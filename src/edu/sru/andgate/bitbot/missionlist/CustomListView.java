@@ -4,6 +4,7 @@ public class CustomListView {
 	private String missionName;
 	private String missionDescription;
 	private String filename;
+	private int image_icon;
 	
 	public String getMissionName(){
 		return missionName;
@@ -29,4 +30,11 @@ public class CustomListView {
 		this.missionDescription = missionDescription;
 	}
 	
+	public int getImageIcon(){
+		return image_icon;
+	}
+	
+	public void setImageIcon(int image){
+		this.image_icon = image;
+	}
 }

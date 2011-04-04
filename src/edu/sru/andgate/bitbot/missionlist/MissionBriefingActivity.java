@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.MainMenu;
 import edu.sru.andgate.bitbot.R;
@@ -29,17 +30,24 @@ public class MissionBriefingActivity extends Activity {
 	 
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
-	        setContentView(R.layout.briefing);
+	        setContentView(R.layout.mission_briefing);
 	        
 	       final String missionFile = getIntent().getExtras().getString("Filename");
-	        
+	       final int missionIcon = getIntent().getExtras().getInt("Icon",0);
+	       
 	        TextView mission_text = (TextView) findViewById(R.id.mission_text);
+	        TextView title_bar = (TextView) findViewById(R.id.title_bar);
 	        try {
 				mission_text.setText(readXML(missionFile, "mission-text"));
+				title_bar.setText("\t" + readXML(missionFile,"mission-name"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+			ImageView mission_icon = (ImageView) findViewById(R.id.mission_icon);
+			mission_icon.setImageResource(missionIcon);		
 			
 			Button back_btn = (Button) findViewById(R.id.back_btn);
 			back_btn.setOnClickListener(new View.OnClickListener() 

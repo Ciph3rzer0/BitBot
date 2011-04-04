@@ -7,7 +7,7 @@ import java.io.PrintStream;
 
 import android.util.Log;
 import android.widget.TextView;
-import edu.sru.andgate.bitbot.graphics.Bot;
+import edu.sru.andgate.bitbot.graphics.Drawable;
 import edu.sru.andgate.bitbot.parser.Node;
 import edu.sru.andgate.bitbot.parser.SimpleNode;
 import edu.sru.andgate.bitbot.parser.bc1;
@@ -32,7 +32,7 @@ public class BotInterpreter
 	 * This is the object we manipulate to cause changes in accordance with
 	 * the interpreted instructions.
 	 */
-	private Bot bot;
+	private Drawable bot;
 	
 	/**
 	 * A stream of output from the bot interpreter
@@ -134,7 +134,7 @@ public class BotInterpreter
 	 * BotInterpreter(Bot, ByteArrayInputStream).
 	 * @param code the source code to execute.
 	 */
-	public BotInterpreter(Bot b, String code)
+	public BotInterpreter(Drawable b, String code)
 	{
 		this( b, new ByteArrayInputStream(code.getBytes()) );
 	}
@@ -146,7 +146,7 @@ public class BotInterpreter
 	 * it will be in the botLog.
 	 * @param isCode the source code to execute.
 	 */
-	public BotInterpreter(Bot b, ByteArrayInputStream isCode)
+	public BotInterpreter(Drawable b, ByteArrayInputStream isCode)
 	{
 		// Assign the bot
 		this.bot = b;
@@ -178,7 +178,7 @@ public class BotInterpreter
 	 * Create a BotInterpreter given an AST to execute.
 	 * @param root The root node of the AST this Interpreter should execute.
 	 */
-	public BotInterpreter(Bot b, SimpleNode root)
+	public BotInterpreter(Drawable b, SimpleNode root)
 	{
 		this.bot = b;
 		this.root = root;			// Store the root of the AST to execute.
@@ -315,6 +315,10 @@ public class BotInterpreter
 			
 			// Set name so we can identify thread types
 			setName("=RunThread= " + getName());
+//			setPriority(NORM_PRIORITY);
+			setPriority(NORM_PRIORITY - 1);
+//			setPriority(9);
+//			setPriority(MAX_PRIORITY);
 		}
 		
 		/**

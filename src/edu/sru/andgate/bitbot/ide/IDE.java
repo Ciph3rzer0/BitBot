@@ -46,7 +46,7 @@ public class IDE extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_ide);
-        
+                        
         /*
 		 * Action Items for Sequence, Selection, Iteration buttons
 		 */
@@ -377,18 +377,14 @@ public class IDE extends Activity {
      */
     private void InterpreteCode()
     {
-    	new Thread(new Runnable() {
-			
-			@Override
-			public void run()
-			{
-				iT();
-			}
-		}).start();
-    }
-    
-    private void iT() {
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    	Log.i("BitBot Interpreter", "--------------------- Begin Interpreter ------------------");
+    	Log.i("BitBot Interpreter", Thread.currentThread().toString());
+    	Log.i("BitBot Interpreter", "" + Thread.currentThread().getPriority());
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
     	BotInterpreter bi = null;
+    	
+//    	Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
     	
     	try
 		{
@@ -417,6 +413,11 @@ public class IDE extends Activity {
     		if (botOutput != null && bi != null)
     			botOutput.setText(bi.getBotLog());
     	}
+    	
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    	Log.i("BitBot Interpreter", "---------------------- End Interpreter -------------------");
+    	Log.i("BitBot Interpreter", Thread.currentThread().toString());
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
     }
     
 	/*
@@ -463,7 +464,7 @@ public class IDE extends Activity {
 	}
 	
 	//read in a text file
-	 private String readTxt(int id) throws IOException
+	 private String readText(int id) throws IOException
 	 {
 		 String line = null;
 		 String temp = "";
@@ -471,7 +472,7 @@ public class IDE extends Activity {
 		 InputStream input = getResources().openRawResource(id);
 		 InputStreamReader inputreader = new InputStreamReader(input);
 		  BufferedReader bufferedReader = new BufferedReader(inputreader);
-		  while((line = bufferedReader.readLine()) != null && !line.equals("----------"))
+		  while((line = bufferedReader.readLine()) != null)
 		  {
 			  temp+=line.toString() + "\n";
 		  }

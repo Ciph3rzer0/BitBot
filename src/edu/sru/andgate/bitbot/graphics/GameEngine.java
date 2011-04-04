@@ -15,10 +15,10 @@ public class GameEngine extends Activity
 {	
 	private GLSurfaceView glSurfaceView;
 	GlRenderer gameRenderer;
-	Bot test;
-	Bot test2;
-	Bot test3;
-	Bot bot4,bot5,bot6,bot7,bot8,bot9,bot10;
+	DrawableBot test;
+	DrawableBot test2;
+	DrawableBot test3;
+	Drawable bot4,bot5,bot6,bot7,bot8,bot9,bot10;
 	BotLayer testTurret;
 	BotLayer test2Turret;
 	int[][] drawList;
@@ -27,7 +27,7 @@ public class GameEngine extends Activity
 	
 	int MAX_OBJECTS = 250;
 	
-	Bot[] testBotArray;
+	DrawableBot[] testBotArray;
 	int NUM_TEST_BOTS = 0;
 	
 	final int TYPE_BOT = 0;
@@ -39,7 +39,7 @@ public class GameEngine extends Activity
     {		
         super.onCreate(savedInstanceState);
         
-        testBotArray = new Bot[NUM_TEST_BOTS];
+        testBotArray = new DrawableBot[NUM_TEST_BOTS];
         
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -53,7 +53,7 @@ public class GameEngine extends Activity
         drawList = new int[2][MAX_OBJECTS];       
         
         //Test Bot 1
-        test = new Bot();
+        test = new DrawableBot();
         test.setTranslation(-3.5f,0.1f,-5.0f);
         test.addTexture(R.drawable.sand);	//TextureID = 0
         
@@ -64,7 +64,7 @@ public class GameEngine extends Activity
         //testTurret.setTranslation(0.0f,0.0f,-6.0f);
         
         //Test Bot 2
-        test2 = new Bot();
+        test2 = new DrawableBot();
         test2.setTranslation(3.5f,0.1f,-5.0f);
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
@@ -75,7 +75,7 @@ public class GameEngine extends Activity
         test2Turret.setRotationAngle(test2.parameters[3]);
         
         //Test Bot 3
-        test3 = new Bot();
+        test3 = new DrawableBot();
         test3.setTranslation(0.0f,0.1f,-5.0f);
         test3.setScale(1.2f,1.2f,1.2f);
         test3.addTexture(R.drawable.red);	//TextureID = 0
@@ -93,18 +93,18 @@ public class GameEngine extends Activity
         //Mass Test Bots
         for(int i=0;i<NUM_TEST_BOTS;i++)
         {
-        	testBotArray[i] = new Bot();
+        	testBotArray[i] = new DrawableBot();
         	testBotArray[i].addTexture(R.drawable.red);
         	testBotArray[i].setTranslation(2.0f,0.0f,-5.0f);
         	gameRenderer.addObjectToWorld(testBotArray[i]);
         }
         
-        testMap = new TileMap();
-        testMap.loadMapFile("testmap.map", this.getBaseContext());
-        gameRenderer.setTileMap(testMap);
-        
-        //testMap.addTexture(R.drawable.stone);
-        gameRenderer.setTileMap(testMap);
+//        testMap = new TileMap();
+//        testMap.loadMapFile("testmap.map", this.getBaseContext());
+//        gameRenderer.setTileMap(testMap);
+//        
+//        //testMap.addTexture(R.drawable.stone);
+//        gameRenderer.setTileMap(testMap);
         
         //Add test objects to world
         gameRenderer.addObjectToWorld(testTurret);

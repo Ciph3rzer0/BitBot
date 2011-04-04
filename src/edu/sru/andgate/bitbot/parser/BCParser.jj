@@ -891,7 +891,7 @@ void Identifier() :
                        jjtree.closeNodeScope(jjtn000, true);
                        jjtc000 = false;
                      }
-/*@egen*/ { jjtn000.value = t.image; }/*@bgen(jjtree)*/
+/*@egen*/ { jjtn000.value = t.image.toLowerCase(); }/*@bgen(jjtree)*/
   } finally {
     if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
