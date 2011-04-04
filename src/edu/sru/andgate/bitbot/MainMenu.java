@@ -3,6 +3,7 @@ package edu.sru.andgate.bitbot;
 import edu.sru.andgate.bitbot.graphics.GameEngine;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.ide.IDE;
+import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
@@ -23,6 +24,8 @@ public class MainMenu extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
