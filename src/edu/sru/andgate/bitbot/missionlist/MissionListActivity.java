@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class MissionListActivity extends ListActivity {
 	// private ProgressDialog m_ProgressDialog = null; 
 	 private ArrayList<CustomListView> myMissions = null;
-	 private missionListAdapter mission_adapter;
+	 private MissionListAdapter mission_adapter;
 	 final Hashtable<String, String> mission_list = new Hashtable<String, String>();
 	 final Hashtable<String, Integer> mission_icons = new Hashtable<String,Integer>();
 	 
@@ -23,13 +23,11 @@ public class MissionListActivity extends ListActivity {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_main);
 	        myMissions = new ArrayList<CustomListView>();
-	        this.mission_adapter = new missionListAdapter(this, R.layout.mission_row, myMissions);
+	        this.mission_adapter = new MissionListAdapter(this, R.layout.mission_row, myMissions);
 	        setListAdapter(this.mission_adapter);
 	       
 	        getMissions();
-	        run();
-	        
-	        
+	        run();    
 	 }
 
 	 @Override
@@ -52,23 +50,24 @@ public class MissionListActivity extends ListActivity {
 	          try{
 	              myMissions = new ArrayList<CustomListView>();
 	              CustomListView mission1 = new CustomListView();
-	              mission1.setMissionName("Arena");
-	              mission1.setMissionDescription("This dont mean shit");
-	              mission1.setFileName("arena.xml");
-	              mission1.setImageIcon(R.drawable.arena);
-	              mission_list.put(mission1.getMissionName(), mission1.getFileName());
-	              mission_icons.put(mission1.getMissionName(), R.drawable.arena);
+	              setAttributes(myMissions,mission1, "Arena", "This dont mean shit", "arena.xml", R.drawable.arena);  
 	              CustomListView mission2 = new CustomListView();
-	              mission2.setMissionName("Target Practice");
-	              mission2.setMissionDescription("This dont mean shit");
-	              mission2.setFileName("target_practice.xml");
-	              mission2.setImageIcon(R.drawable.target);
-	              mission_list.put(mission2.getMissionName(), mission2.getFileName());
-	              mission_icons.put(mission2.getMissionName(), R.drawable.target);
-	              myMissions.add(mission1);
-	              myMissions.add(mission2);
-	            } catch (Exception e) { 
+	              setAttributes(myMissions, mission2, "Target Practice", "This dont mean shit", "target_practice.xml", R.drawable.target);
+	          	} catch (Exception e) { 
 	              Log.e("BACKGROUND_PROC", e.getMessage());
 	            }
 	        }
+	 
+	 private void setAttributes(ArrayList<CustomListView> array, CustomListView mission, String mission_name, String description, String filename, int image){
+		 //set mission attributes
+		 mission.setMissionName(mission_name);
+         mission.setMissionDescription(description);
+         mission.setFileName(filename);
+         mission.setImageIcon(image);
+         
+         //add to file lookup, and image lookup table(s)
+         mission_list.put(mission_name, filename);
+         mission_icons.put(mission_name, image);
+         array.add(mission);
+	 }
 }

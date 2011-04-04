@@ -30,7 +30,7 @@ public class MissionBriefingActivity extends Activity {
 	 
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
-	        setContentView(R.layout.briefing);
+	        setContentView(R.layout.mission_briefing);
 	        
 	       final String missionFile = getIntent().getExtras().getString("Filename");
 	       final int missionIcon = getIntent().getExtras().getInt("Icon",0);

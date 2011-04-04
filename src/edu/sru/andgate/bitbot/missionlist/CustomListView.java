@@ -1,7 +1,5 @@
 package edu.sru.andgate.bitbot.missionlist;
 
-import android.graphics.drawable.Drawable;
-
 public class CustomListView {
 	private String missionName;
 	private String missionDescription;
@@ -39,5 +37,4 @@ public class CustomListView {
 	public void setImageIcon(int image){
 		this.image_icon = image;
 	}
-	
 }

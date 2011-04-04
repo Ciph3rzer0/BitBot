@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class missionListAdapter extends ArrayAdapter<CustomListView> {
-	private ArrayList<CustomListView> missionItems;
+public class CodeListAdapter extends ArrayAdapter<CustomListView> {
+	private ArrayList<CustomListView> codeItems;
 	private Context context;
 	
-	public missionListAdapter(Context context, int textViewID, ArrayList<CustomListView> missionItems){
-		super(context, textViewID, missionItems);
-		this.missionItems = missionItems;
+	public CodeListAdapter(Context context, int textViewID, ArrayList<CustomListView> codeItems){
+		super(context, textViewID, codeItems);
+		this.codeItems = codeItems;
 		this.context = context;
 	}
 
@@ -28,16 +28,17 @@ public class missionListAdapter extends ArrayAdapter<CustomListView> {
                LayoutInflater layout = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                customView = layout.inflate(R.layout.code_row, null);
            }
-           CustomListView myView = missionItems.get(position);
+           CustomListView myView = codeItems.get(position);
            if (myView != null) {
-                   TextView missionName = (TextView) customView.findViewById(R.id.program);
-                   TextView missionDescription = (TextView) customView.findViewById(R.id.summary);
-                   if (missionName != null) {
-                         missionName.setText("Program Name: "+ myView.getMissionName());                            }
-                   if(missionDescription != null){
-                         missionDescription.setText("Summary: "+ myView.getMissionDescription());
+                   TextView codeName = (TextView) customView.findViewById(R.id.program);
+                   TextView codeDescription = (TextView) customView.findViewById(R.id.summary);
+                   if (codeName != null) {
+                         codeName.setText("Program Name: "+ myView.getMissionName());                            }
+                   if(codeDescription != null){
+                         codeDescription.setText("Summary: "+ myView.getMissionDescription());
                    }
            }
+           customView.setTag(myView.getMissionName());
            return customView;
    }
 	

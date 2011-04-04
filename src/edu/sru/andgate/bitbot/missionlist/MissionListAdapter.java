@@ -11,11 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class missionListAdapter extends ArrayAdapter<CustomListView> {
+public class MissionListAdapter extends ArrayAdapter<CustomListView> {
 	private ArrayList<CustomListView> missionItems;
 	private Context context;
 	
-	public missionListAdapter(Context context, int textViewID, ArrayList<CustomListView> missionItems){
+	public MissionListAdapter(Context context, int textViewID, ArrayList<CustomListView> missionItems){
 		super(context, textViewID, missionItems);
 		this.missionItems = missionItems;
 		this.context = context;
