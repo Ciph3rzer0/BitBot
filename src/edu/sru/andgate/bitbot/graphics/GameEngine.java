@@ -10,6 +10,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 public class GameEngine extends Activity
 {	
@@ -38,6 +39,8 @@ public class GameEngine extends Activity
     public void onCreate(Bundle savedInstanceState)
     {		
         super.onCreate(savedInstanceState);
+        
+//        TextView tv = new TextView();
         
         testBotArray = new DrawableBot[NUM_TEST_BOTS];
         

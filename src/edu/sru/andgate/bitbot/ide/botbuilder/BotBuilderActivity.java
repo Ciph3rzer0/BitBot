@@ -14,6 +14,16 @@ public class BotBuilderActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ide_botbuilder_main);
 		
+		BotComponentView c = (BotComponentView)findViewById(R.id.bb_chassis);
+		BotComponentView t = (BotComponentView)findViewById(R.id.bb_turret);
+		
+		c.setTitle("Square Chassis");
+		c.setSummary("A stable base that is fast and sturdy.");
+		c.setPicID(R.drawable.spinnerbase);
+		
+		t.setTitle("Basic Turret");
+		t.setSummary("A turret for shooting stuff.");
+		t.setPicID(R.drawable.spinnerturret);
 	}
 	
 }
