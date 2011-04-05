@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	>
+	
+	<edu.sru.andgate.bitbot.graphics.GameView
+		android:id="@+id/game_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+	/>
+	
+	<ScrollView
+	    android:id="@+id/code_scroll"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    >
+	    
+		<TextView
+			android:id="@+id/code_txt"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Testing\n\n\n\n\none two three\nall eyes on me.\n\n\n\n\n\n\n\n\n\n\n\n\nmiddle?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nend\nI hope."
+			style="@style/CodeFont"
+		/>
+		
+	</ScrollView>
+	
+</RelativeLayout>

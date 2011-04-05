@@ -4,15 +4,20 @@
 
 package edu.sru.andgate.bitbot.graphics;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import edu.sru.andgate.bitbot.R;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class GameEngine extends Activity
+public class GameActivity extends Activity
 {	
 	private GLSurfaceView glSurfaceView;
 	GlRenderer gameRenderer;
@@ -35,23 +40,49 @@ public class GameEngine extends Activity
 	
 	TileMap testMap;
 	
+	TextView codeTxt;
+	ScrollView codeScroll;
+	
     @Override
     public void onCreate(Bundle savedInstanceState)
     {		
         super.onCreate(savedInstanceState);
         
-//        TextView tv = new TextView();
+        // making it full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        // requesting to turn the title OFF
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        // Set the layout.
+        setContentView(R.layout.game_activity);
         
         testBotArray = new DrawableBot[NUM_TEST_BOTS];
         
-        // requesting to turn the title OFF
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // making it full screen
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         // Initiate the Open GL view and create an instance with this activity
-        glSurfaceView = new GLSurfaceView(this);
-        
+//        glSurfaceView = new GLSurfaceView(this);
+        glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
+		codeTxt = (TextView) findViewById(R.id.code_txt);
+		codeScroll = (ScrollView) findViewById(R.id.code_scroll);
+		
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				codeTxt.post(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						codeTxt.append("\nmore code");
+						codeScroll.fullScroll(View.FOCUS_DOWN); 
+					}
+				});
+			}
+		}, 1000, 1000);
+		
+		
         //Declare Draw List
         drawList = new int[2][MAX_OBJECTS];       
         
@@ -91,7 +122,6 @@ public class GameEngine extends Activity
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);
         glSurfaceView.setRenderMode(0); //0 = Render When Dirty
-        setContentView(glSurfaceView);
         
         //Mass Test Bots
         for(int i=0;i<NUM_TEST_BOTS;i++)
@@ -102,12 +132,14 @@ public class GameEngine extends Activity
         	gameRenderer.addObjectToWorld(testBotArray[i]);
         }
         
-//        testMap = new TileMap();
-//        testMap.loadMapFile("testmap.map", this.getBaseContext());
-//        gameRenderer.setTileMap(testMap);
-//        
-//        //testMap.addTexture(R.drawable.stone);
-//        gameRenderer.setTileMap(testMap);
+//        /* Comment out to turn off TileMap()
+        testMap = new TileMap();
+        testMap.loadMapFile("testmap.map", this.getBaseContext());
+        gameRenderer.setTileMap(testMap);
+        
+        //testMap.addTexture(R.drawable.stone);
+        gameRenderer.setTileMap(testMap);
+        //*/
         
         //Add test objects to world
         gameRenderer.addObjectToWorld(testTurret);

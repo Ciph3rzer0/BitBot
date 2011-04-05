@@ -120,7 +120,10 @@ public class GlRenderer implements Renderer
 			
 			//Tile map update is a special case and isnt used with drawList
 			gl.glLoadIdentity();
-//			tileMap.draw(gl);
+			
+			// Draw the background
+			if (tileMap != null)
+				tileMap.draw(gl);
 			
 			//Draw all objects in Draw List
 			for(int i=0;i < drawListSize;i++)	//NEEDS CHANGED BACK

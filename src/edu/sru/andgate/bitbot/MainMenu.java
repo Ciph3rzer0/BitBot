@@ -1,6 +1,6 @@
 package edu.sru.andgate.bitbot;
 
-import edu.sru.andgate.bitbot.graphics.GameEngine;
+import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.ide.IDE;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
@@ -29,9 +29,9 @@ public class MainMenu extends Activity {
         
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
-        // Temporarily for GUI testing - Josh
+        // Temporarily for testing - Josh
 		startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
-        
+//		startActivity(new Intent(MainMenu.this, GameActivity.class));
         
         /* ******************** Start Game *********************** */
         Button game_modes = (Button) findViewById(R.id.game_modes);
@@ -42,7 +42,7 @@ public class MainMenu extends Activity {
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, 0);
 				//open graphics for now
-				Intent engineIntent = new Intent(MainMenu.this, GameEngine.class);
+				Intent engineIntent = new Intent(MainMenu.this, GameActivity.class);
 				startActivity(engineIntent);
 			}
 		});

@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.MainMenu;
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.graphics.GameEngine;
+import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.tutorial.Main_Tutorial;
 

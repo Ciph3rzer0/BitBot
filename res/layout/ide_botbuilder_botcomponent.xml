@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="wrap_content"
@@ -6,12 +7,13 @@
 	android:layout_margin="2dip"
 	android:padding="4dip"
 	android:paddingBottom="10dip"
-	android:background="@android:drawable/btn_default"
 	android:focusable="true"
 	android:clickable="true"
+	android:background="@layout/button_bot_component"
 	>
 	
 	<!-- 
+	android:background="@android:drawable/btn_default"
 	android:background="#cccccc"
 	-->
 	
@@ -34,7 +36,7 @@
 		android:layout_toRightOf="@id/pic"
 		android:text="Title Line"
 		android:textSize="14sp"
-		android:textColor="#000000"
+		android:textColor="@color/green1"
 		android:padding="1dip"
 	/>
 	
@@ -46,7 +48,7 @@
 		android:layout_toRightOf="@id/pic"
 		android:text="Summary"
 		android:textSize="10sp"
-		android:textColor="#000000"
+		android:textColor="@color/green3"
 		android:padding="1dip"
 		android:layout_marginBottom="4dip"
 	/>
