@@ -1,6 +1,7 @@
 <tutorial>
 <title>Print Tutorial</title>
-<text>The PRINT statement in basic is used to 
+<text>
+The PRINT statement in basic is used to 
 output a string, integer, etc. to the console.
 This simple tutorial is to get you used 
 to using this PRINT command. 
@@ -27,7 +28,8 @@ Remember case sensitivity is a must.
 
 Good Luck!</text>
 <answer>PRINT "hello world"</answer>
-<hints>Goal: print the string hello world
+<hints>
+Goal: print the string hello world
 to the console.
 
 Hints:

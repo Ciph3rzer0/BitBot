@@ -16,7 +16,7 @@
     <!-- Sequence, Selection, Iteration-->
     <string name="for_statement">FOR I 1 TO N \n\t&lt;executed statement&gt;\nNEXT I\n</string>
     <string name="if_statement">IF &lt;some condition&gt; THEN GOTO &lt;some line&gt;\n</string>
-    <string name="var_declaration">DIM VAR &lt;variable declaration&gt; as &lt;TYPE&gt;\n</string>
+    <string name="var_declaration">DIM &lt;variable declaration&gt; as &lt;TYPE&gt;\n</string>
     <string name="do_while_statement">DO \n\t&lt;executed statements&gt;\nLOOP UNTIL/WHILE\n</string>
     <string name="print_statement">PRINT &lt;String&gt; ; &lt;variable&gt;\n</string>
    
