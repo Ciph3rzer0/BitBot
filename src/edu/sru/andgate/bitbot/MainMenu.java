@@ -25,7 +25,7 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
+//        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
