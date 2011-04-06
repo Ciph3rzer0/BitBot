@@ -30,7 +30,7 @@ public class MainMenu extends Activity {
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
         
         // Temporarily for testing - Josh
-		startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
+//		startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
 //		startActivity(new Intent(MainMenu.this, GameActivity.class));
         
         /* ******************** Start Game *********************** */

@@ -1,10 +1,15 @@
 package edu.sru.andgate.bitbot;
 
 import edu.sru.andgate.bitbot.graphics.Drawable;
+import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
+import edu.sru.andgate.bitbot.interpreter.SourceCode;
 
 public class Bot
 {
-	private Drawable drawable;
+	private Drawable _drawable;
+	private SourceCode _source;
+	private BotInterpreter _interpreter;
+	
 //	private Physical physical;
 //	private VirtalMachine vm;
 //	private Controller controller;
@@ -13,15 +18,40 @@ public class Bot
 	//Gun
 	//Radar
 	
+	private float _x = 0;
+	private float _y = 0;
+	
 	
 	public Bot()
 	{
 		
 	}
 	
-	public boolean Move()
-	{
 	
+	public void readyInterpreter()
+	{
+		_interpreter = new BotInterpreter(this, _source.getCode());
+	}
+	
+	public void attachSourceCode(SourceCode source)
+	{
+		_source = source;
+	}
+	
+	public BotInterpreter getInterpreter()
+	{
+		return _interpreter;
+	}
+	
+	public boolean Move(String[] params)
+	{
+		float x = (float)Double.parseDouble(params[0]);
+		float y = (float)Double.parseDouble(params[1]);
+		
+		_x += x;
+		_y += y;
+		
+		_drawable.setTranslation(x, y, -10);
 		return true;
 	}
 	
@@ -68,12 +98,12 @@ public class Bot
 	
 	public double GetX()
 	{
-		return 0;
+		return _x;
 	}
 	
 	public double GetY()
 	{
-		return 0;
+		return _y;
 	}
 	
 	public double GetHeading()
@@ -85,7 +115,7 @@ public class Bot
 	{
 		if (d != null)
 		{
-			drawable = d;
+			_drawable = d;
 			d.attachBot(this);
 		}
 		
