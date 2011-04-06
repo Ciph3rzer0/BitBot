@@ -50,9 +50,9 @@ public class MissionListActivity extends ListActivity {
 	          try{
 	              myMissions = new ArrayList<CustomListView>();
 	              CustomListView mission1 = new CustomListView();
-	              setAttributes(myMissions,mission1, "Arena", "This dont mean shit", "arena.xml", R.drawable.arena);  
+	              setAttributes(myMissions,mission1, "Arena", "Navigate through the Arena", "arena.xml", R.drawable.arena);  
 	              CustomListView mission2 = new CustomListView();
-	              setAttributes(myMissions, mission2, "Target Practice", "This dont mean shit", "target_practice.xml", R.drawable.target);
+	              setAttributes(myMissions, mission2, "Target Practice", "Test your shooting skills.", "target_practice.xml", R.drawable.target);
 	          	} catch (Exception e) { 
 	              Log.e("BACKGROUND_PROC", e.getMessage());
 	            }
