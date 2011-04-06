@@ -30,4 +30,21 @@
     <string name="bot_move">call bot_move(int x, int y)\n{\n\t//move code here\n}\n</string>
     <string name="turret_rotate">call turret_rotate(int degree)\n{\n\t//rotation code here\n}\n</string>
     
+    <string name="example_code">
+Print \"Hello World\" &amp; \"1\" &amp; \"2\"\n
+Print \"Test \" &amp; (5-1)\n
+Dim i as Integer
+Let i = 16\n
+Print \"i = \" &amp; i\n
+While i Do\n
+\tPrint i\n
+\tIF i-1 THEN\n
+\t\tPrint \"Not One! \" &amp; i\n
+\tELSE\n
+\t\tPrint \"ONE!!!!!!!\"\n
+\tENDIF\n
+\tLet i = i-1\n
+Loop\n
+    </string>
+    
 </resources>

@@ -35,9 +35,8 @@
 		android:layout_alignParentRight="true"
 		android:layout_toRightOf="@id/pic"
 		android:text="Title Line"
-		android:textSize="14sp"
-		android:textColor="@color/green1"
 		android:padding="1dip"
+		style="@style/Heading2"
 	/>
 	
 	<TextView
@@ -47,10 +46,9 @@
 		android:layout_below="@id/title"
 		android:layout_toRightOf="@id/pic"
 		android:text="Summary"
-		android:textSize="10sp"
-		android:textColor="@color/green3"
 		android:padding="1dip"
 		android:layout_marginBottom="4dip"
+		style="@style/Normal"
 	/>
 	
 	<View

@@ -8,9 +8,11 @@
     <color name="grey05">#DDD</color>
     <color name="blue2">#03C</color>
     <color name="blue25">#03F</color>
+    <color name="green01">#3EF73E</color>
+    <color name="green0">#6FF76F</color>
     <color name="green1">#00EE00</color>
-    <color name="green2">#00CC00</color>
-    <color name="green3">#00EE40</color>
+    <color name="green2">#2DB32D</color>
+    <color name="green3">#009B00</color>
     <color name="black">#090909</color>
     <color name="black_off">#2C2C2C</color>
     <color name="black_full">#ff000000</color>

@@ -68,4 +68,65 @@
         <item name="android:typeface">monospace</item>
     </style>
     
+    
+    
+    <!-- Text Stylings -->
+    <style name="Text"
+    	parent="@android:style/TextAppearance.Medium">
+    	
+        <item name="android:textColor">@color/green0</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:typeface">serif</item>
+    </style>
+    
+    <style name="Normal"
+    	parent="@android:style/TextAppearance.Medium">
+    	
+        <item name="android:textColor">@color/green3</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:typeface">serif</item>
+    </style>
+    
+    <style name="Title"
+    	parent="@android:style/TextAppearance.Medium">
+    	
+        <item name="android:textColor">@color/green3</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="Subtitle"
+    	parent="@android:style/TextAppearance.Medium">
+    	
+        <item name="android:textColor">@color/green2</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+    
+    <style name="Intense"
+    	parent="@android:style/TextAppearance.Medium">
+    	
+        <item name="android:textColor">@color/green2</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+    
+    <style name="Heading"
+    	parent="@android:style/TextAppearance.Medium">
+    	
+        <item name="android:textColor">@color/green1</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:typeface">sans</item>
+    </style>
+    
+    <style name="Heading2"
+    	parent="@android:style/TextAppearance.Medium">
+    	
+        <item name="android:textColor">@color/green2</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:typeface">sans</item>
+    </style>
+    
 </resources>

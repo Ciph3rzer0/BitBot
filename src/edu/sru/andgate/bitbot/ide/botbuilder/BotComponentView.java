@@ -2,12 +2,10 @@ package edu.sru.andgate.bitbot.ide.botbuilder;
 
 import edu.sru.andgate.bitbot.R;
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class BotComponentView extends LinearLayout

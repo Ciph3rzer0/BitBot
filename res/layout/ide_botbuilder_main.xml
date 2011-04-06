@@ -1,18 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:padding="0dip"
 	>
+	
+	<!-- Title Bar -->
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		>
+		
+		<TextView
+			android:id="@+id/title"
+			style="@style/Title"
+			android:textColor="#BBB"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Choose your bot! "
+			android:paddingLeft="6dip"
+			android:layout_alignParentLeft="true"
+		/>
+		
+		<TextView
+			style="@style/Subtitle"
+			android:textColor="#AAA"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Select a bot for battle."
+			android:paddingLeft="6dip"
+			android:layout_alignParentLeft="true"
+			android:layout_below="@id/title"
+		/>
+		
+		<Button
+			android:id="@+id/begin_btn"
+			style="@style/Intense"
+			android:textColor="#BDB"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dip"
+			android:background="@layout/button_bot_component"
+			android:layout_alignParentRight="true"
+			android:padding="6dip"
+			android:text="Begin!"
+		/>
+		
+	</RelativeLayout>
+	
+	<!-- Divider -->
+	<View
+		android:layout_width="wrap_content"
+		android:layout_height="6dip"
+		android:background="@drawable/black_white_gradient"
+		android:padding="10dip"
+		android:layout_marginBottom="4dip"
+	/>
 	
 	<!-- Bot Parts & Stats -->
 	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:padding="0dip"
 		>
 		
 		<!-- Bot Selector -->
@@ -20,87 +73,141 @@
 			android:id="@+id/botSelectorList"
 			android:layout_width="60dip"
 			android:layout_height="fill_parent"
-			android:background="#040433"
+			android:background="#095252"
 		/>
 		
-		<!-- Bot Stats -->
+		<!-- Right Pane -->
 		<LinearLayout
-			android:layout_width="40dip"
-			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
 			android:orientation="vertical"
-			android:layout_weight=".55"
-			android:padding="5dip"
-			android:background="#041104"
 			>
-	
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_column="1"
-				android:text="Kills"
-				android:padding="3dip" />
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:text="45"
-				android:gravity="right"
-				android:padding="3dip" />
-				
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_column="1"
-				android:text="Game Time"
-				android:padding="3dip" />
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:text="3 hours"
-				android:gravity="right"
-				android:padding="3dip" />
-				
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_column="1"
-				android:text="K/D Ratio"
-				android:padding="3dip" />
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:text="0.981"
-				android:gravity="right"
-				android:padding="3dip" />
-		</LinearLayout>
-				
-		<!-- Bot Parts -->
-		<LinearLayout
-			android:layout_width="140dip"
-			android:layout_height="fill_parent"
-			android:layout_weight=".45"
-			android:orientation="vertical"
-			android:background="#110404"
-			android:padding="5dip"
-			>
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Bot Components"
-			/>
 			
-			<edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView
-				android:id="@+id/bb_chassis"
-				android:layout_width="wrap_content"
-				android:layout_height="?android:attr/listPreferredItemHeight"
-			/>
-			<edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView
-				android:id="@+id/bb_turret"
+			<LinearLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-			/>
-		</LinearLayout>
-		
-	</LinearLayout> <!-- End Bot Parts & Stats -->
+				android:orientation="horizontal"
+				>
+				
+				<!-- Name: -->
+				<TextView
+					style="@style/Heading"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Name: "
+					android:paddingLeft="6dip"
+					android:paddingRight="4dip"
+				/>
+				
+				<TextView
+					style="@style/Heading"
+					android:typeface="monospace"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Bot"
+					android:paddingLeft="6dip"
+					android:paddingRight="4dip"
+				/>
+			</LinearLayout>
+			
+			<!-- Bot Stats and Bot Parts -->
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+				
+				<!-- Bot Stats -->
+				<LinearLayout
+					android:layout_width="40dip"
+					android:layout_height="fill_parent"
+					android:orientation="vertical"
+					android:layout_weight=".55"
+					android:padding="5dip"
+					>
+			
+					<TextView
+						style="@style/Text"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_column="1"
+						android:text="Kills"
+						android:padding="3dip" />
+					<TextView
+						style="@style/Text"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:text="45"
+						android:gravity="right"
+						android:padding="3dip" />
+						
+					<TextView
+						style="@style/Text"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_column="1"
+						android:text="Game Time"
+						android:padding="3dip" />
+					<TextView
+						style="@style/Text"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:text="3 hours"
+						android:gravity="right"
+						android:padding="3dip" />
+						
+					<TextView
+						style="@style/Text"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_column="1"
+						android:text="K/D Ratio"
+						android:padding="3dip" />
+					<TextView
+						style="@style/Text"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:text="0.981"
+						android:gravity="right"
+						android:padding="3dip" />
+				</LinearLayout>
+						
+				<!-- Bot Parts -->
+				<LinearLayout
+					android:layout_width="140dip"
+					android:layout_height="fill_parent"
+					android:layout_weight=".45"
+					android:orientation="vertical"
+					android:padding="5dip"
+					>
+					<TextView
+						style="@style/Subtitle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Bot Components"
+					/>
+					
+					<edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView
+						android:id="@+id/bb_chassis"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+					/>
+					<edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView
+						android:id="@+id/bb_turret"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+					/>
+					<edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView
+						android:id="@+id/bb_soft1"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+					/>
+				</LinearLayout>
+				
+			</LinearLayout> <!-- End Bot Parts & Stats -->
+		</LinearLayout> <!-- End Right Pane -->
+	
+	</LinearLayout>
 	
 	<!-- Program Output -->
 	<TextView
@@ -108,18 +215,28 @@
 		android:text="Program Data"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:paddingTop="5dip"
+		android:padding="8dip"
 		android:layout_marginTop="5dip"
-		android:background="#242424"
+		android:background="@layout/button_bot_component"
+		android:textSize="20sp"
+		android:focusable="true"
+		android:clickable="true"
+		
 	/>
+	
+	<!-- 
+		android:background="#242424"
+	 -->
 	
 	<TextView
 		android:id="@+id/program_text"
-		android:text="Program Hello World\n\tPrint 'Hello World'\nEnd "
+		android:text="@string/example_code"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:paddingTop="10dip"
+		android:padding="6dip"
+		android:typeface="monospace"
 		android:background="#333333"
 	/>
 	
 </LinearLayout>
+</ScrollView>
