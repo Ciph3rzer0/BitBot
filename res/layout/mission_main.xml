@@ -23,19 +23,15 @@
 		android:layout_height="wrap_content" 
 		android:id="@+id/button_bar" 
 		android:layout_width="match_parent">
-    	<Button 
-	    	android:text="New" 
-	    	android:id="@+id/new_btn" 
-	    	android:layout_width="0px"
-	    	android:layout_weight="1"
-	    	android:layout_height="70dip">
-    	</Button>
-    	<Button 
-	    	android:text="Old" 
-	    	android:id="@+id/old_btn" 
-	    	android:layout_width="0px" 
-	    	android:layout_weight="1"
-	    	android:layout_height="70dip">
-    	</Button>
+    	<edu.sru.andgate.bitbot.custombutton.CustomButtonView 
+			android:id="@+id/new_btn" 
+			android:layout_height="70dip" 
+			android:layout_width="0px" 
+			android:layout_weight="1"/>
+		<edu.sru.andgate.bitbot.custombutton.CustomButtonView 
+			android:id="@+id/old_btn" 
+			android:layout_height="70dip" 
+			android:layout_width="0px" 
+			android:layout_weight="1"/>
   </LinearLayout>
 </RelativeLayout>

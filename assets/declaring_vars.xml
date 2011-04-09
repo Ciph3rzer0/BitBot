@@ -1,7 +1,7 @@
 <tutorial>
-<title>
-Declaring Variables</title>
-<text>The first tool you will need on your 
+<title>Declaring Variables</title>
+<text>
+The first tool you will need on your 
 way to programming your bot is declaring 
 different types of variables. The following 
 Tutorial will do its best to teach you the
@@ -44,9 +44,7 @@ To get a feel for declaring variables:
 </text>
 <answer>
 Dim i as Integer
-
 Let i = 15
-
 Print i
 </answer>
 <hints>

@@ -36,6 +36,7 @@ public class Tutorial_List extends ListActivity {
          */
         final Hashtable<String, Integer> simulation_table = new Hashtable<String, Integer>();
         	simulation_table.put("Print Statement", 1);
+        	simulation_table.put("Defining Variables", 1);
         
         //set the items in ListView to names of menu_contents string array  
         final String[] menu_items = getResources().getStringArray(R.array.menu_contents);

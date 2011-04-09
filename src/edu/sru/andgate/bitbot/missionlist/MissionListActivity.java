@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.custombutton.CustomButtonView;
+import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +29,28 @@ public class MissionListActivity extends ListActivity {
 	        setListAdapter(this.mission_adapter);
 	       
 	        getMissions();
-	        run();    
+	        run();   
+	        
+	        CustomButtonView new_btn = (CustomButtonView)findViewById(R.id.new_btn);
+	        new_btn.setTitle("New");
+	        new_btn.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v) {
+					
+				}
+			});
+	        
+	        CustomButtonView old_btn = (CustomButtonView)findViewById(R.id.old_btn);
+	        old_btn.setTitle("Old");
+	        old_btn.setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(View v) {
+							
+				}
+			});
+	        
 	 }
 
 	 @Override
