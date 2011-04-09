@@ -148,10 +148,11 @@ public class DrawableBot implements Drawable
 	@Override
 	public void move(float angle, float stepSize)
 	{
-		float rise = (float)(Math.sin(angle) * stepSize) + parameters[1]; //(float)(Math.sin(angle) * stepSize) + parameters[1];
-		float run = (float)(Math.cos(angle) * stepSize) + parameters[0]; //float run = (float)(Math.cos(angle) * stepSize) + parameters[0];
+		float rise = (float)(Math.sin(angle) * stepSize) + parameters[1];
+		float run = (float)(Math.cos(angle) * stepSize) + parameters[0];
 		
-		setTranslation(run,rise,parameters[3]);
+		parameters[0] = run;
+		parameters[1] = rise;;
 	}
 	
 	/* (non-Javadoc)

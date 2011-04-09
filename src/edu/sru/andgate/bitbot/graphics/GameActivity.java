@@ -7,11 +7,13 @@ package edu.sru.andgate.bitbot.graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.interpreter.SourceCode;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ScrollView;
@@ -43,6 +45,9 @@ public class GameActivity extends Activity
 	TextView codeTxt;
 	ScrollView codeScroll;
 	
+	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
+	
+	
     @Override
     public void onCreate(Bundle savedInstanceState)
     {		
@@ -64,23 +69,26 @@ public class GameActivity extends Activity
 		codeTxt = (TextView) findViewById(R.id.code_txt);
 		codeScroll = (ScrollView) findViewById(R.id.code_scroll);
 		
-		Timer t = new Timer();
-		t.schedule(new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				codeTxt.post(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						codeTxt.append("\nmore code");
-						codeScroll.fullScroll(View.FOCUS_DOWN); 
-					}
-				});
-			}
-		}, 1000, 1000);
+//		Timer t = new Timer();
+//		t.schedule(new TimerTask()
+//		{
+//			@Override
+//			public void run()
+//			{
+//				codeTxt.post(new Runnable()
+//				{
+//					@Override
+//					public void run()
+//					{
+//						codeTxt.append("\nmore code");
+//						codeScroll.fullScroll(View.FOCUS_DOWN); 
+//					}
+//				});
+//			}
+//		}, 1000, 1000);
+		
+		
+		
 		
 		
         //Declare Draw List
@@ -90,6 +98,7 @@ public class GameActivity extends Activity
         test = new DrawableBot();
         test.setTranslation(-3.5f,0.1f,-5.0f);
         test.addTexture(R.drawable.sand);	//TextureID = 0
+        
         
         //Test Bot 1 Turret Layer
         testTurret = new BotLayer(test);
@@ -115,6 +124,41 @@ public class GameActivity extends Activity
         test3.addTexture(R.drawable.red);	//TextureID = 0
         test3.addTexture(R.drawable.green);	//TextureID = 1
         test3.setSelectedTexture(0);
+        
+        
+
+		String code =
+			"Let d = -1\n" +
+			"\n" +
+			"While 1 Do\n" + 
+			"  call bot_move(0, d)\n" +
+			"  \n" +
+			"  Let d = d * -1\n" +
+			"Loop\n"
+		;
+        SourceCode source = new SourceCode("Basic", code);
+        
+		Bot b = new Bot();
+		b.attachDrawable(test3);
+		b.attachSourceCode(source);
+		b.readyInterpreter();
+		ilvm.addInterpreter(b.getInterpreter());
+		
+		// Run the vm every second.
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				ilvm.resume(4);
+			}
+		}, 20000, 200);
+		
+		
+        
+        
+        
         
         gameRenderer = new GlRenderer(this.getBaseContext());
         
