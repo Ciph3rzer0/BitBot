@@ -52,8 +52,8 @@ public class MissionBriefingActivity extends Activity {
 			ImageView mission_icon = (ImageView) findViewById(R.id.mission_icon);
 			mission_icon.setImageResource(missionIcon);		
 			
-			CustomButtonView back_btn = (CustomButtonView) findViewById(R.id.back_btn);
-			back_btn.setTitle("Back");
+			Button back_btn = (Button) findViewById(R.id.back_btn);
+			back_btn.setText("Back");
 			back_btn.setOnClickListener(new View.OnClickListener() 
 			{
 				public void onClick(View v) 

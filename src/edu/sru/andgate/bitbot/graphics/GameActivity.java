@@ -55,11 +55,13 @@ public class GameActivity extends Activity
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
-    {		
+    {
         super.onCreate(savedInstanceState);
         
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        // Keep screen from shutting off
+        getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         

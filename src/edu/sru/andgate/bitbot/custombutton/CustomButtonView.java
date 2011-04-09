@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,13 +31,13 @@ public class CustomButtonView extends LinearLayout
 	public CustomButtonView(Context context, AttributeSet attrs) {
 	    super(context, attrs);
 	    this.context = context;
-	    LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        
-	    if(inflater != null)
-	    	inflate(context, R.layout.custom_button, this);
+
+	    setClickable(true);
+	    setFocusable(true);
+	    
+	    inflate(context, R.layout.custom_button, this);
 		  
 		title = (TextView)findViewById(R.id.title);
-
 	}
 	
 	public void setTitle(String s)

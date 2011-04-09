@@ -47,15 +47,32 @@
         android:layout_alignParentBottom="true" 
         android:id="@+id/button_bar" 
         android:layout_width="match_parent">
+        
+        <!-- 
         <edu.sru.andgate.bitbot.custombutton.CustomButtonView 
 			android:id="@+id/back_btn" 
 			android:layout_height="70dip" 
 			android:layout_width="0px" 
-			android:layout_weight="1"/>
+			android:layout_weight="1"
+			android:onClick="back"
+		/>
+         -->
+		<Button
+			style="@style/Heading"
+			android:id="@+id/back_btn"
+			android:layout_width="0px"
+			android:layout_height="70dip"
+			android:layout_weight="1"
+			android:background="@layout/button_bot_component"
+		/>
+		
 		<edu.sru.andgate.bitbot.custombutton.CustomButtonView 
 			android:id="@+id/take_mission" 
 			android:layout_height="70dip" 
 			android:layout_width="0px" 
-			android:layout_weight="1"/>
+			android:layout_weight="1"
+			android:onClick="next"
+		/>
+		
         </LinearLayout>
 </RelativeLayout>

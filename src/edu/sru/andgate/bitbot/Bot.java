@@ -27,7 +27,6 @@ public class Bot
 		
 	}
 	
-	
 	public void readyInterpreter()
 	{
 		_interpreter = new BotInterpreter(this, _source.getCode());
