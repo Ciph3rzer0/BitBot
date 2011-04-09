@@ -1,5 +1,6 @@
 package edu.sru.andgate.bitbot;
 
+import android.util.Log;
 import edu.sru.andgate.bitbot.graphics.Drawable;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
@@ -42,15 +43,19 @@ public class Bot
 		return _interpreter;
 	}
 	
-	public boolean Move(String[] params)
+	public boolean Move(float degrees, float stepSize)
 	{
-		float x = (float)Double.parseDouble(params[0]);
-		float y = (float)Double.parseDouble(params[1]);
+//		_x += x;
+//		_y += y;
+//		_drawable.setTranslation(x, y, -10);
 		
-		_x += x;
-		_y += y;
+		// Convert degrees to radians
+//		degrees = (float)(degrees*(180/Math.PI));
 		
-		_drawable.setTranslation(x, y, -10);
+		// Scale stepSize down since we only have integers to work with
+		stepSize /= 100;
+		
+		_drawable.move(degrees, stepSize);
 		return true;
 	}
 	

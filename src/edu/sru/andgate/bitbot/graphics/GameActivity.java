@@ -157,9 +157,9 @@ public class GameActivity extends Activity
 			"Let d = -1\n" +
 			"\n" +
 			"While 1 Do\n" + 
-			"  call bot_move(0, d)\n" +
+			"  call bot_move(45, 5)\n" +
 			"  \n" +
-			"  Let d = d * -1\n" +
+			"  Let d = d + 1\n" +
 			"Loop\n"
 		;
         SourceCode source = new SourceCode("Basic", code);
@@ -179,7 +179,7 @@ public class GameActivity extends Activity
 			{
 				ilvm.resume(4);
 			}
-		}, 20000, 200);
+		}, 50, 50);
         
         
         gameRenderer = new GlRenderer(this.getBaseContext());
