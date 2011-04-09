@@ -24,6 +24,5 @@
 		<activity android:name=".ide.CodeBuilderActivity"></activity>
 		<activity android:name=".missionlist.MissionBriefingActivity"></activity>
 		<activity android:name=".ide.IDE" android:windowSoftInputMode="adjustResize"></activity>
-		
     </application>
 </manifest>

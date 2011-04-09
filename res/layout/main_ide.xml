@@ -93,15 +93,15 @@
 	            android:layout_height="match_parent" 
 	            android:orientation="horizontal">
 	        <ImageButton
-				android:id="@+id/delete_line"
-				android:src="@drawable/delete_line"
+				android:id="@+id/select_right"
+				android:src="@drawable/select_right"
 				android:layout_width="0px" 
 		        android:layout_weight="1" 
 		        android:layout_height="70dip" >
 			</ImageButton>
 			<ImageButton
-				android:id="@+id/delete_word"
-				android:src="@drawable/delete_word"
+				android:id="@+id/select_left"
+				android:src="@drawable/select_left"
 				android:layout_width="0px" 
 	        	android:layout_weight="1" 
 	        	android:layout_height="70dip" >

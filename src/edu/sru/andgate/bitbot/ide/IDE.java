@@ -194,22 +194,29 @@ public class IDE extends Activity {
 		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
 		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
 		
-		ImageButton delete_line = (ImageButton) this.findViewById(R.id.delete_line);
-		delete_line.setOnClickListener(new View.OnClickListener() {
+		ImageButton highlight_right = (ImageButton) this.findViewById(R.id.select_right);
+		highlight_right.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				try{
+					editor.setSelection(editor.getSelectionStart(), editor.getSelectionEnd()+1);				
+				}catch (Exception e){
+						
+				}
 			}
 		});
 		
-		ImageButton delete_word = (ImageButton) this.findViewById(R.id.delete_word);
-		delete_word.setOnClickListener(new View.OnClickListener() {
+		ImageButton highlight_left = (ImageButton) this.findViewById(R.id.select_left);
+		highlight_left.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
+				try{
+				editor.setSelection(editor.getSelectionStart()- 1, editor.getSelectionEnd());				
+				}catch (Exception e){
+					
+				}
 			}
 		});
 		
@@ -219,7 +226,7 @@ public class IDE extends Activity {
 			@Override
 			public void onClick(View v) {
 				try{
-					//move up one line
+					
 				}catch(Exception e){
 					e.printStackTrace();
 				}

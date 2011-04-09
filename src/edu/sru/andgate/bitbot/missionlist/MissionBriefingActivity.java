@@ -19,11 +19,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.MainMenu;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.custombutton.CustomButtonView;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
+import edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView;
 import edu.sru.andgate.bitbot.tutorial.Main_Tutorial;
 
 public class MissionBriefingActivity extends Activity {
@@ -45,21 +49,21 @@ public class MissionBriefingActivity extends Activity {
 				e.printStackTrace();
 			}
 			
-			
 			ImageView mission_icon = (ImageView) findViewById(R.id.mission_icon);
 			mission_icon.setImageResource(missionIcon);		
 			
-			Button back_btn = (Button) findViewById(R.id.back_btn);
+			CustomButtonView back_btn = (CustomButtonView) findViewById(R.id.back_btn);
+			back_btn.setTitle("Back");
 			back_btn.setOnClickListener(new View.OnClickListener() 
 			{
-				@Override
 				public void onClick(View v) 
 				{
 					finish();
 				}
 			});
 			
-			Button mission_btn = (Button) findViewById(R.id.mission_btn);
+			CustomButtonView mission_btn = (CustomButtonView) findViewById(R.id.take_mission);
+			mission_btn.setTitle("Take Mission");
 			mission_btn.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
@@ -68,7 +72,7 @@ public class MissionBriefingActivity extends Activity {
 					startActivity(engineIntent);
 				}
 			});
-	        
+			
 	 }
 	
 	/*
