@@ -484,7 +484,7 @@ public class RunVisitor implements bc1Visitor
 //		String instr = ((SimpleNode)node.jjtGetChild(0).jjtAccept(this, null)).jjtGetValue().toString();
 		String instr = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
 		
-		out.println("Call Subroutine:  " + instr);
+//		out.println("Call Subroutine:  " + instr);
 //		node.jjtGetChild(0).jjtAccept(this, null);
 		
 		int numP = node.jjtGetNumChildren() - 1;
@@ -497,9 +497,9 @@ public class RunVisitor implements bc1Visitor
 			for (int i=1; i<node.jjtGetNumChildren(); i++)
 				params[i-1] = (String) node.jjtGetChild(i).jjtAccept(this, null);
 			
-			// Print them out temporarily
-			for (int i=0; i<params.length; i++)
-				out.println(params[i]);;
+//			// Print them out temporarily
+//			for (int i=0; i<params.length; i++)
+//				out.println(params[i]);;
 		}
 		
 		// Execute bot instructions
