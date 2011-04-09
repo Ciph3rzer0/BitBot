@@ -22,9 +22,13 @@ public class DrawableBot implements Drawable
 	int textureCount = 0;
 	int MAX_TEXTURE_ARRAY_SIZE = 5;
 	int SELECTED_TEXTURE = 0;
+	float moveAngle = 90.0f;
+	float moveStepSize = 0.03f;
 	ArrayList<Integer> textureHopper;
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
+	
+	float BOUNDING_RADIUS = 0.8f;
 	
 	public FloatBuffer vertexBuffer;	// buffer holding the vertices
 	public float vertices[] = {
@@ -148,8 +152,17 @@ public class DrawableBot implements Drawable
 	@Override
 	public void move(float angle, float stepSize)
 	{
-		float rise = (float)(Math.sin(angle) * stepSize) + parameters[1];
-		float run = (float)(Math.cos(angle) * stepSize) + parameters[0];
+		float rise = (float)(Math.sin(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[1];
+		float run = (float)(Math.cos(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[0];
+		
+		parameters[0] = run;
+		parameters[1] = rise;
+	}
+	
+	public void move()
+	{
+		float rise = (float)(Math.sin(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[1];
+		float run = (float)(Math.cos(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[0];
 		
 		parameters[0] = run;
 		parameters[1] = rise;
@@ -173,6 +186,18 @@ public class DrawableBot implements Drawable
 	public void setTextureUpdateFlag(float flag)
 	{
 		parameters[10] = flag;
+	}
+	
+	public void setBoundingRadius(float radius)
+	{
+		BOUNDING_RADIUS = radius;
+	}
+	
+	public void onBoundaryCollision()
+	{
+		//For now, flip angle and continue
+		moveAngle = 180.0f;
+		parameters[3] = 180.0f;
 	}
 	
 	/* (non-Javadoc)
