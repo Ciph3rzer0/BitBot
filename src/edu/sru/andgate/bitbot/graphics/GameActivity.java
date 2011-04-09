@@ -14,6 +14,8 @@ import edu.sru.andgate.bitbot.interpreter.SourceCode;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ScrollView;
@@ -40,7 +42,10 @@ public class GameActivity extends Activity
 	
 	final int TYPE_BOT = 0;
 	
+	int viewType = 0;
+	
 	TileMap testMap;
+	CollisionManager collisionManager;
 	
 	TextView codeTxt;
 	ScrollView codeScroll;
@@ -59,37 +64,55 @@ public class GameActivity extends Activity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         // Set the layout.
-        setContentView(R.layout.game_activity);
+        //setContentView(R.layout.game_activity);
         
         testBotArray = new DrawableBot[NUM_TEST_BOTS];
         
         // Initiate the Open GL view and create an instance with this activity
-//        glSurfaceView = new GLSurfaceView(this);
-        glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
-		codeTxt = (TextView) findViewById(R.id.code_txt);
-		codeScroll = (ScrollView) findViewById(R.id.code_scroll);
-		
-//		Timer t = new Timer();
-//		t.schedule(new TimerTask()
-//		{
-//			@Override
-//			public void run()
-//			{
-//				codeTxt.post(new Runnable()
-//				{
-//					@Override
-//					public void run()
-//					{
-//						codeTxt.append("\nmore code");
-//						codeScroll.fullScroll(View.FOCUS_DOWN); 
-//					}
-//				});
-//			}
-//		}, 1000, 1000);
-		
-		
-		
-		
+        //glSurfaceView = new GLSurfaceView(this);
+        if(viewType == 0)
+        {
+        	setContentView(R.layout.game_activity);
+        	glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
+        }
+        else if(viewType == 1)
+        {
+        	setContentView(R.layout.game_activity_scrollview);
+        	glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
+        	codeTxt = (TextView) findViewById(R.id.code_txt);
+			codeScroll = (ScrollView) findViewById(R.id.code_scroll);
+        }
+        else if(viewType == 2)
+        {
+        	setContentView(R.layout.game_activity_scrollview);
+        	glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
+        	codeTxt = (TextView) findViewById(R.id.code_txt);
+			codeScroll = (ScrollView) findViewById(R.id.code_scroll);
+			
+    		Timer t = new Timer();
+    		t.schedule(new TimerTask()
+    		{
+    			@Override
+    			public void run()
+    			{
+    				codeTxt.post(new Runnable()
+    				{
+    					@Override
+    					public void run()
+    					{
+    						codeTxt.append("\nmore code");
+    						codeScroll.fullScroll(View.FOCUS_DOWN); 
+    					}
+    				});
+    			}
+    		}, 1000, 1000);
+        }
+        
+        //Declare Tile Map
+        testMap = new TileMap();
+        
+        //Declare Collision Manager
+        collisionManager = new CollisionManager(testMap);		
 		
         //Declare Draw List
         drawList = new int[2][MAX_OBJECTS];       
@@ -111,6 +134,7 @@ public class GameActivity extends Activity
         test2.setTranslation(3.5f,0.1f,-5.0f);
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
+        collisionManager.addCollisionDetectorToBot(test2);
         
         //Test Bot 2 Turret Layer
         test2Turret = new BotLayer(test2);
@@ -154,10 +178,6 @@ public class GameActivity extends Activity
 				ilvm.resume(4);
 			}
 		}, 20000, 200);
-		
-		
-        
-        
         
         
         gameRenderer = new GlRenderer(this.getBaseContext());
@@ -177,12 +197,12 @@ public class GameActivity extends Activity
         }
         
 //        /* Comment out to turn off TileMap()
-        testMap = new TileMap();
+       // testMap = new TileMap();
         testMap.loadMapFile("testmap.map", this.getBaseContext());
         gameRenderer.setTileMap(testMap);
         
         //testMap.addTexture(R.drawable.stone);
-        gameRenderer.setTileMap(testMap);
+        //gameRenderer.setTileMap(testMap);
         //*/
         
         //Add test objects to world
@@ -243,11 +263,18 @@ public class GameActivity extends Activity
     		boolean goinUp = true;
     		boolean thisFrameDrawn = false;
     		
+    		//Testing FPS Only
+    		long startTime = 0;
+    		long endTime = 0;
+    		long timeCount = 0;
+    		int frameCount = 0;
+    		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
-    			{    				
+    			{
+    				startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -266,8 +293,8 @@ public class GameActivity extends Activity
     	    		
     	    		if(goinUp)
     	    		{
-    	    			move += 0.05f;
-    	    			if(move >= 5.0f)
+    	    			move += 0.03f;
+    	    			if(move >= 1.0f)
     	    			{
     	    				goinUp = false;
     	    				test.setRotation(180.0f,0.0f,0.0f,-5.0f);
@@ -278,8 +305,8 @@ public class GameActivity extends Activity
     	    		}
     	    		else
     	    		{
-    	    			move -= 0.05f;
-    	    			if(move <= -5.0f)
+    	    			move -= 0.03f;
+    	    			if(move <= -8.5f)
     	    			{
     	    				goinUp = true;
     	    				test.setRotation(0.0f,0.0f,0.0f,-5.0f);
@@ -288,6 +315,9 @@ public class GameActivity extends Activity
     	    				test3.setSelectedTexture(1);
     	    			}
     	    		}
+    	    		
+    				//Collision Detection Updater
+    				collisionManager.update();
     	    		
     				//Camera Stuff
     				gameRenderer.cameraX = test2.parameters[0];
@@ -321,6 +351,15 @@ public class GameActivity extends Activity
 	    	    			//drawListPointer = 0;
 	    	    		}
     	    		}
+    	    		endTime = System.currentTimeMillis();
+    	    		timeCount += (endTime-startTime);
+    	    		frameCount++;
+    	    		if(timeCount >= 1000.0)
+    	    		{
+    	    			//Log.v("bitbot", "FPS: " + frameCount);
+    	    			frameCount = 0;
+    	    			timeCount = 0;
+    	    		}
     			}
     		}
     	};
@@ -335,7 +374,6 @@ public class GameActivity extends Activity
 		super.onResume();
 		glSurfaceView.onResume();
 		preloadTextures(); //Reload textures on resume to prevent missing texture / white square problem.
-		//gameLoop = true;
 	}
 
 	@Override

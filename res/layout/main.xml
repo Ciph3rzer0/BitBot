@@ -4,7 +4,7 @@
     android:layout_height="match_parent" android:layout_width="match_parent">
 	
 	<Button 
-		android:id="@+id/game_modes"
+		android:id="@+id/game_modes" 
 		android:background="@drawable/hexbutton" 
 		android:text="Graphics" 
 		android:layout_height="wrap_content" 
