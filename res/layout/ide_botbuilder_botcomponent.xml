@@ -25,6 +25,8 @@
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentTop="true"
 		android:src="@drawable/adambot"
+		android:duplicateParentState="false"
+		android:clickable="false"
 	/>
 	
 	<TextView
@@ -37,6 +39,8 @@
 		android:text="Title Line"
 		android:padding="1dip"
 		style="@style/Heading2"
+		android:duplicateParentState="false"
+		android:clickable="false"
 	/>
 	
 	<TextView
@@ -49,6 +53,8 @@
 		android:padding="1dip"
 		android:layout_marginBottom="4dip"
 		style="@style/Normal"
+		android:duplicateParentState="false"
+		android:clickable="false"
 	/>
 	
 	<View
@@ -56,6 +62,8 @@
 		android:layout_height="1dip"
 		android:padding="1dip"
 		android:layout_below="@id/summary"
+		android:duplicateParentState="false"
+		android:clickable="false"
 	/>
 	<!-- 
 		android:layout_alignParentBottom="true"

@@ -4,6 +4,7 @@ import edu.sru.andgate.bitbot.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,9 @@ public class BotComponentView extends LinearLayout
 	    super(context, attrs);
 	    this.context = context;
 		
+	    setClickable(true);
+	    setFocusable(true);
+	    
 	    LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
 	    if(inflater != null)
@@ -57,6 +61,12 @@ public class BotComponentView extends LinearLayout
 //				
 //			}
 //		}   
+	}
+	
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev)
+	{
+		return true;
 	}
 	
 	public void setTitle(String s)

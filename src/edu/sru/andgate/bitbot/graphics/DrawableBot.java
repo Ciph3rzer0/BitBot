@@ -152,8 +152,8 @@ public class DrawableBot implements Drawable
 	@Override
 	public void move(float angle, float stepSize)
 	{
-		float rise = (float)(Math.sin(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[1];
-		float run = (float)(Math.cos(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[0];
+		float rise = (float)(Math.sin(angle * (Math.PI / 180)) * stepSize) + parameters[1];
+		float run = (float)(Math.cos(angle * (Math.PI / 180)) * stepSize) + parameters[0];
 		
 		parameters[0] = run;
 		parameters[1] = rise;
