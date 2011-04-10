@@ -23,12 +23,12 @@ public class DrawableBot implements Drawable
 	int MAX_TEXTURE_ARRAY_SIZE = 5;
 	int SELECTED_TEXTURE = 0;
 	float moveAngle = 90.0f;
-	float moveStepSize = 0.03f;
+	float moveStepSize = 0.05f;
 	ArrayList<Integer> textureHopper;
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
 	
-	float BOUNDING_RADIUS = 0.8f;
+	float BOUNDING_RADIUS = 0.75f;
 	
 	public FloatBuffer vertexBuffer;	// buffer holding the vertices
 	public float vertices[] = {
@@ -196,8 +196,8 @@ public class DrawableBot implements Drawable
 	public void onBoundaryCollision()
 	{
 		//For now, flip angle and continue
-		moveAngle = 180.0f;
-		parameters[3] = 180.0f;
+		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
+		parameters[3] = moveAngle + 90.0f;
 	}
 	
 	/* (non-Javadoc)

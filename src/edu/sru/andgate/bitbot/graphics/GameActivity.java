@@ -134,6 +134,7 @@ public class GameActivity extends Activity
         test2.setTranslation(3.5f,0.1f,-5.0f);
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
+        test2.moveStepSize = 0.08f;
         collisionManager.addCollisionDetectorToBot(test2);
         
         //Test Bot 2 Turret Layer
@@ -150,7 +151,7 @@ public class GameActivity extends Activity
         test3.setSelectedTexture(0);
         
         
-
+        /*
 		String code =
 			"Let d = -1\n" +
 			"\n" +
@@ -177,7 +178,8 @@ public class GameActivity extends Activity
 			{
 				ilvm.resume(4);
 			}
-		}, 20000, 200);
+		}, 200, 200);
+		*/
         
         
         gameRenderer = new GlRenderer(this.getBaseContext());
@@ -198,7 +200,7 @@ public class GameActivity extends Activity
         
 //        /* Comment out to turn off TileMap()
        // testMap = new TileMap();
-        testMap.loadMapFile("testmap.map", this.getBaseContext());
+        testMap.loadMapFile("testarena.map", this.getBaseContext());
         gameRenderer.setTileMap(testMap);
         
         //testMap.addTexture(R.drawable.stone);
@@ -263,18 +265,20 @@ public class GameActivity extends Activity
     		boolean goinUp = true;
     		boolean thisFrameDrawn = false;
     		
+    		/*
     		//Testing FPS Only
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
     		int frameCount = 0;
+    		*/
     		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
     			{
-    				startTime = System.currentTimeMillis();
+    				//startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -287,7 +291,8 @@ public class GameActivity extends Activity
     				
     				//Make some other stuff happen
     	    		test.setTranslation(-3.5f,(0.01f + move),-5.0f);
-    	    		test2.setTranslation(3.5f,(-1*(0.01f + move)),-5.0f);
+    	    		//test2.setTranslation(3.5f,(-1*(0.01f + move)),-5.0f);
+    	    		test2.move();
     	    		//test2.move(45.0f, 0.1f);
     	    		test2Turret.setRotationAngle(rotate);
     	    		
@@ -299,7 +304,7 @@ public class GameActivity extends Activity
     	    				goinUp = false;
     	    				test.setRotation(180.0f,0.0f,0.0f,-5.0f);
     	    				testTurret.setRotationAngle(test.parameters[3]);
-    	    				test2.setRotation(0.0f,0.0f,0.0f,-5.0f);
+    	    				//test2.setRotation(0.0f,0.0f,0.0f,-5.0f);
     	    				test3.setSelectedTexture(0);
     	    			}
     	    		}
@@ -311,7 +316,7 @@ public class GameActivity extends Activity
     	    				goinUp = true;
     	    				test.setRotation(0.0f,0.0f,0.0f,-5.0f);
     	    				testTurret.setRotationAngle(test.parameters[3]);
-    	    				test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
+    	    				//test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
     	    				test3.setSelectedTexture(1);
     	    			}
     	    		}
@@ -351,15 +356,17 @@ public class GameActivity extends Activity
 	    	    			//drawListPointer = 0;
 	    	    		}
     	    		}
+    	    		/*
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
     	    		if(timeCount >= 1000.0)
     	    		{
-    	    			//Log.v("bitbot", "FPS: " + frameCount);
+    	    			Log.v("bitbot", "FPS: " + frameCount);
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
+    	    		*/
     			}
     		}
     	};
