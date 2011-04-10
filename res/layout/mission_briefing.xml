@@ -17,13 +17,7 @@
 	            android:layout_width="wrap_content" 
 	            android:layout_alignParentLeft="true">
             </ImageView>
-            <TextView 
-				android:layout_height="match_parent" 
-				android:text="TextView" 
-				android:layout_toRightOf="@id/mission_icon"
-				android:layout_width="match_parent"
-				android:id="@+id/title_bar">
-			</TextView>
+            <TextView android:textSize="20sp" android:layout_height="wrap_content" android:layout_width="match_parent" android:text="TextView" android:gravity="center_vertical" android:id="@+id/title_bar" android:layout_toRightOf="@+id/mission_icon" android:layout_alignTop="@+id/mission_icon" android:layout_alignBottom="@+id/mission_icon"></TextView>
             <ScrollView 
 	            android:id="@+id/scrollView1" 
 	            android:layout_height="match_parent" 
@@ -35,7 +29,9 @@
 	                android:layout_height="match_parent">
 		            <TextView 
 			            android:text="TextView" 
-			            android:id="@+id/mission_text" 
+			            android:id="@+id/mission_text"
+			            android:typeface="serif"
+			            android:textSize="18sp" 
 			            android:layout_width="match_parent" android:layout_height="match_parent">
             		</TextView>
             	</LinearLayout>
@@ -43,36 +39,32 @@
         </RelativeLayout>
         
         <LinearLayout
-        android:layout_height="wrap_content" 
-        android:layout_alignParentBottom="true" 
-        android:id="@+id/button_bar" 
-        android:layout_width="match_parent">
-        
-        <!-- 
-        <edu.sru.andgate.bitbot.custombutton.CustomButtonView 
-			android:id="@+id/back_btn" 
-			android:layout_height="70dip" 
-			android:layout_width="0px" 
-			android:layout_weight="1"
-			android:onClick="back"
-		/>
-         -->
-		<Button
-			style="@style/Heading"
-			android:id="@+id/back_btn"
-			android:layout_width="0px"
-			android:layout_height="70dip"
-			android:layout_weight="1"
-			android:background="@layout/button_bot_component"
-		/>
-		
-		<edu.sru.andgate.bitbot.custombutton.CustomButtonView 
-			android:id="@+id/take_mission" 
-			android:layout_height="70dip" 
-			android:layout_width="0px" 
-			android:layout_weight="1"
-			android:onClick="next"
-		/>
-		
+	        android:layout_height="wrap_content" 
+	        android:layout_alignParentBottom="true" 
+	        android:id="@+id/button_bar" 
+	        android:layout_width="match_parent">
+			<Button
+				style="@style/Heading"
+				android:id="@+id/back_btn"
+				android:layout_width="0px"
+				android:layout_height="70dip"
+				android:layout_marginBottom="3px"
+				android:layout_marginLeft="3px"
+				android:layout_marginRight="1.5px"
+				android:layout_weight="1"
+				android:background="@layout/button_bot_component"
+			/>
+			
+			<Button
+				style="@style/Heading"
+				android:id="@+id/take_mission"
+				android:layout_width="0px"
+				android:layout_height="70dip"
+				android:layout_marginBottom="3px"
+				android:layout_marginLeft="1.5px"
+				android:layout_marginRight="3px"
+				android:layout_weight="1"
+				android:background="@layout/button_bot_component"
+			/>
         </LinearLayout>
 </RelativeLayout>

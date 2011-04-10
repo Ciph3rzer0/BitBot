@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.MainMenu;
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.custombutton.CustomButtonView;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView;
@@ -62,8 +61,8 @@ public class MissionBriefingActivity extends Activity {
 				}
 			});
 			
-			CustomButtonView mission_btn = (CustomButtonView) findViewById(R.id.take_mission);
-			mission_btn.setTitle("Take Mission");
+			Button mission_btn = (Button) findViewById(R.id.take_mission);
+			mission_btn.setText("Take Mission");
 			mission_btn.setOnClickListener(new View.OnClickListener()
 			{
 				@Override

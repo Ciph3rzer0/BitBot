@@ -25,7 +25,7 @@
 		    android:text="New Program" 
 		    android:layout_height="wrap_content" 
 		    android:id="@+id/create_program"
-		    android:textSize="50px" 
+		    android:textSize="45px" 
 		    android:gravity="center"
 		    android:layout_width="match_parent">
 	    </TextView>

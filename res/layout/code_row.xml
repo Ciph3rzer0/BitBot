@@ -9,19 +9,25 @@
         android:layout_width="0dip"
         android:layout_weight="1"
         android:layout_height="fill_parent">
-        <TextView
+         <TextView
             android:id="@+id/program"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:typeface="serif"
+            android:gravity="top"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            
         />
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1" 
+            android:textSize="14sp"
+            android:typeface="serif"
             android:id="@+id/summary"
-            android:singleLine="true"
+            android:gravity="bottom"
             android:ellipsize="marquee"
         />
     </LinearLayout>
