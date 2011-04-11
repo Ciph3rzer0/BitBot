@@ -134,33 +134,28 @@ public class CodeBuilderActivity extends ListActivity {
 		}//end of readXML()
 	
 	private void createNewProgram(){
-		final EditText input1 = new EditText(getBaseContext());
-		final EditText input2 = new EditText(getBaseContext());
+		String description = setAlertDialog("New Program", "Program Description");
+		String name = setAlertDialog("New Program", "Program Name");
+		System.out.println(name + " " + description);
+	}
+	
+	private String setAlertDialog(String title, String message){
+		final EditText input = new EditText(getBaseContext());
+		
 		new AlertDialog.Builder(CodeBuilderActivity.this)
-	    .setTitle("New Program")
-	    .setMessage("Program Description")
-	    .setView(input2)
+	    .setTitle(title)
+	    .setMessage(message)
+	    .setView(input)
 	    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int whichButton) {
-	            String value2 = input1.getText().toString();
+	        	String value = input.getText().toString();
+	        	//return value;
 	        }
 	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int whichButton) {
-	            // Do nothing.
+	           return;
 	        }
 	    }).show();
-		new AlertDialog.Builder(CodeBuilderActivity.this)
-	    .setTitle("New Program")
-	    .setMessage("Program Name")
-	    .setView(input1)
-	    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	        	String value1 = input1.getText().toString();	            
-	        }
-	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	            // Do nothing.
-	        }
-	    }).show();
+			return "";
 	}
 }

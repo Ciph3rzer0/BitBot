@@ -13,10 +13,10 @@
             android:id="@+id/program"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:singleLine="true"
             android:typeface="serif"
-            android:gravity="top"
+            android:gravity="center_vertical"
             android:layout_weight="1"
             
         />
@@ -24,10 +24,10 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1" 
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:typeface="serif"
             android:id="@+id/summary"
-            android:gravity="bottom"
+            android:gravity="center_vertical"
             android:ellipsize="marquee"
         />
     </LinearLayout>
