@@ -7,16 +7,12 @@ import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
@@ -33,7 +29,6 @@ public class Bot
 	private String base_name;
 	private String turret_name;
 	private String bot_code;
-	private Context context;
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -150,7 +145,7 @@ public class Bot
 	}
 	
 	public void setName(String name){
-		this.base_name = name;
+		this.bot_name = name;
 	}
 	
 	public void setBase(String base){
@@ -162,11 +157,13 @@ public class Bot
 	}
 	
 	public void setCode(String code){
+		_source = new SourceCode("Basic", code);
+		this.attachSourceCode(_source);
 		this.bot_code = code;
 	}
 	
 	public String getName(){
-		return this.base_name;
+		return this.bot_name;
 	}
 	
 	public String getBase(){
@@ -177,77 +174,81 @@ public class Bot
 		return this.turret_name;
 	}
 	
-	public String getCode(){
-		return this.bot_code;
+	public SourceCode getCode(){
+		SourceCode sc = new SourceCode("Basic", this.bot_code);
+		return sc;
 	}
 	
-	public static Bot CreateBotFromXML(Context context, String xmlFile) {
-		//read in bot from xmlFile
-		try{
-			FileInputStream is = context.openFileInput(xmlFile);
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder docBuilder;
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(is);
-	        doc.getDocumentElement ().normalize ();
-	        
-	        String name = readXML(doc, "Bot-Name");
-			System.out.println(name);
+	  public static Bot CreateBotFromXML(Context context, String xmlFile) {
+			//read in bot from xmlFile
+			try{
+				FileInputStream is = context.openFileInput(xmlFile);
+				DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+		        DocumentBuilder docBuilder;
+				docBuilder = docBuilderFactory.newDocumentBuilder();
+				Document doc = docBuilder.parse(is);
+		        doc.getDocumentElement ().normalize ();
+		        
+				Bot b = new Bot();
+				b.setName(readXML(doc, "Bot-Name"));
+				Log.v("BitBot", b.getName());
+				b.setBase(readXML(doc, "Bot-Base"));
+				Log.v("BitBot", b.getBase());
+				b.setTurret(readXML(doc, "Bot-Turret"));
+				Log.v("BitBot", b.getTurret());
+				b.setCode(readXML(doc, "Bot-Code"));
+				Log.v("BitBot", b.getCode().getCode());
+				
+				return b;
+			}catch (Exception e){
+				Log.v("BitBot", "Error reading file");
+				//Log.v("BitBot", e.getStackTrace().toString());
+			}
+			return null;
 			
-			Bot b = new Bot();
 			
-			b.setName(readXML(doc, "Bot-Name"));
-			b.setBase(readXML(doc, "Bot-Base"));
-			b.setTurret(readXML(doc, "Bot-Turret"));
-			b.setCode(readXML(doc, "Bot-Code"));
-			return b;
-		}catch (Exception e){
-			Log.v("BitBot", e.getStackTrace().toString());
 		}
-		return null;
 		
-		
-	}
-	
-	 private void saveBotToXML(String filename){
- 	    XmlSerializer serializer = Xml.newSerializer();
- 	    StringWriter writer = new StringWriter();
- 	    try {
- 	        serializer.setOutput(writer);
- 	        serializer.startDocument("UTF-8", true);
- 	        serializer.startTag("", "Bot");
- 	        	serializer.startTag("", "Bot-Name");
- 	        	serializer.text(this.bot_name);
- 	        	serializer.endTag("", "Bot-Name");
- 	        	serializer.startTag("", "Bot-Base");
- 	        	serializer.text(this.base_name);
- 	        	serializer.endTag("", "Bot-Base");
- 	        	serializer.startTag("", "Bot-Turret");
- 	        	serializer.text(this.turret_name);
- 	        	serializer.endTag("", "Bot-Turret");
- 	        	serializer.startTag("", "Bot-Code");
- 	        	serializer.text(this.bot_code);
- 	        	serializer.endTag("", "Bot-Code");
- 	        serializer.endTag("", "Bot");
- 	        serializer.endDocument();
- 	         	      
- 	       try{
- 	          FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
- 	          fos.write(writer.toString().getBytes());
- 	          fos.close();
-          }catch (IOException e){
-        	  Log.v("BitBot", e.getStackTrace().toString());
-          }
- 	          
- 	    } catch (Exception e) {
- 	        	Log.v("BitBot", e.getStackTrace().toString());
- 	    } 
- 	}
-	  
-		public static String readXML(Document doc, String tag_name) throws IOException{
-				NodeList tutorialText = doc.getElementsByTagName(tag_name);
-	            Element myText = (Element) tutorialText.item(0);
-	            String text = ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
-				 return text;
-		}
+		 public void saveBotToXML(Context context, String filename){
+	 	    XmlSerializer serializer = Xml.newSerializer();
+	 	    StringWriter writer = new StringWriter();
+	 	    try {
+	 	        serializer.setOutput(writer);
+	 	        serializer.startDocument("UTF-8", true);
+	 	        serializer.startTag("", "Bot");
+	 	           	serializer.startTag("", "Bot-Name");
+	 	        	serializer.text(this.getName());
+	 	        	serializer.endTag("", "Bot-Name");
+	 	        	serializer.startTag("", "Bot-Base");
+	 	        	serializer.text(this.getBase());
+	 	        	serializer.endTag("", "Bot-Base");
+	 	        	serializer.startTag("", "Bot-Turret");
+	 	        	serializer.text(this.getTurret());
+	 	        	serializer.endTag("", "Bot-Turret");
+	 	        	serializer.startTag("", "Bot-Code");
+	 	        	serializer.text(this.getCode().getCode());
+	 	        	serializer.endTag("", "Bot-Code");
+	 	        serializer.endTag("", "Bot");
+	 	        serializer.endDocument();    
+	 	    } catch (Exception e) {
+	 	    		Log.v("BitBot", "XML Writer error");
+	 	        	//Log.v("BitBot", e.getStackTrace().toString());
+	 	    } 
+	 	    try{
+	 	          FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
+	 	          Log.v("BitBot", "Success");
+	 	          fos.write(writer.toString().getBytes());
+	 	          fos.close();
+	          }catch(Exception e){
+	        	  Log.v("BitBot", "Output Stream Error");
+	        	  //Log.v("BitBot", e.getStackTrace().toString());
+	          }
+	 	}
+		  
+			public static String readXML(Document doc, String tag_name) throws IOException{
+					NodeList tutorialText = doc.getElementsByTagName(tag_name);
+		            Element myText = (Element) tutorialText.item(0);
+		            String text = ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
+					 return text;
+			}
 }

@@ -2,6 +2,7 @@ package edu.sru.andgate.bitbot.tutorial;
 
 import java.util.Hashtable;
 
+import edu.sru.andgate.bitbot.Constants;
 import edu.sru.andgate.bitbot.R;
 
 import android.app.ListActivity;
@@ -14,30 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class Tutorial_List extends ListActivity {
+	Constants c = new Constants();
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        
-        /*
-         * table lookups for selected tutorial 
-         */
-        final Hashtable<String, String> tutorials_table = new Hashtable<String, String>();
-	        tutorials_table.put("Getting Started", "getting_started.xml");
-	        tutorials_table.put("Print Statement", "print_tutorial.xml");
-	        tutorials_table.put("Defining Variables", "declaring_vars.xml");
-	        tutorials_table.put("Loops","loops.xml");
-	        tutorials_table.put("Selection Statements", "if_statement.xml");
-	        tutorials_table.put("Back to Main Menu", "");
-        
-        /*
-         * table look up for tutorial's simulation ability
-         */
-        final Hashtable<String, Integer> simulation_table = new Hashtable<String, Integer>();
-        	simulation_table.put("Print Statement", 1);
-        	simulation_table.put("Defining Variables", 1);
-        
+                
         //set the items in ListView to names of menu_contents string array  
         final String[] menu_items = getResources().getStringArray(R.array.menu_contents);
         setListAdapter(new ArrayAdapter<String>(this, R.layout.tutorial_list, menu_items));
@@ -64,8 +49,8 @@ public class Tutorial_List extends ListActivity {
          		   * start new activity, sending cooresponding tutorial file path, and simulation ability
          		   */
 	         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
-	         		myIntent.putExtra("File_ID", tutorials_table.get((String)((TextView) view).getText()));
-	         		myIntent.putExtra("Sim_Flag", simulation_table.get((String)((TextView) view).getText()));
+	         		myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
+	         		myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
 	         		startActivity(myIntent);
 	         	  }
         	}

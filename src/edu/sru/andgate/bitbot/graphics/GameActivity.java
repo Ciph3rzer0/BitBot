@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.Constants;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
@@ -151,7 +152,30 @@ public class GameActivity extends Activity
         test3.addTexture(R.drawable.red);	//TextureID = 0
         test3.addTexture(R.drawable.green);	//TextureID = 1
         test3.setSelectedTexture(0);
-                
+       
+        Bot b = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
+        Constants c = new Constants();
+        DrawableBot db = new DrawableBot();
+        db.setTranslation(0.0f,5.0f,-5.0f);
+        db.addTexture(c.base_table.get(b.getBase()));
+        BotLayer bl = new BotLayer(db);
+        bl.addTexture(c.turret_table.get(b.getTurret()));
+		b.attachDrawable(db);
+		Log.v("BitBot", b.getCode().getCode());
+		b.attachSourceCode(b.getCode());
+		b.readyInterpreter();
+		ilvm.addInterpreter(b.getInterpreter());
+		// Run the vm every second.
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				ilvm.resume(4);
+			}
+		}, 50, 50);
+        
         /*
 		String code =
 			"Let d = -1\n" +
@@ -213,6 +237,10 @@ public class GameActivity extends Activity
         gameRenderer.addObjectToWorld(test2);
         gameRenderer.addObjectToWorld(test2Turret);
         gameRenderer.addObjectToWorld(test3);
+        
+        //Nick Test Loaded Bot
+        gameRenderer.addObjectToWorld(db);
+        gameRenderer.addObjectToWorld(bl);
    
         //Connect draw list to Renderer
         gameRenderer.setDrawList(drawList);
@@ -235,6 +263,10 @@ public class GameActivity extends Activity
         addToDrawList(TYPE_BOT,test2.ID);
         addToDrawList(TYPE_BOT,test2Turret.ID);
         addToDrawList(TYPE_BOT,test3.ID);
+       
+        //Nick Test loaded bot
+        addToDrawList(TYPE_BOT, db.ID);
+        addToDrawList(TYPE_BOT, bl.ID);
       
         gameRenderer.drawListSize = drawListPointer+1;
         
