@@ -44,7 +44,6 @@
 	        android:id="@+id/button_bar" 
 	        android:layout_width="match_parent">
 			<Button
-				style="@style/Heading"
 				android:id="@+id/back_btn"
 				android:layout_width="0px"
 				android:layout_height="70dip"
@@ -52,6 +51,7 @@
 				android:layout_marginLeft="3px"
 				android:layout_marginRight="1.5px"
 				android:layout_weight="1"
+				style="@style/Heading"
 				android:background="@layout/button_bot_component"
 			/>
 			

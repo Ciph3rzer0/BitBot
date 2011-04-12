@@ -21,6 +21,8 @@
 	        android:id="@+id/sequence_btn" 
 	        android:textSize="10px"
 	        android:layout_width="0px" 
+	        style="@style/Heading"
+			android:background="@layout/button_bot_component"
 	        android:layout_height="70dip"
 	        android:layout_weight="1">
         </Button>
@@ -28,6 +30,8 @@
 	        android:textSize="10px" 
 	        android:text="Selection" 
 	        android:layout_width="0px" 
+	        style="@style/Heading"
+			android:background="@layout/button_bot_component"
 	        android:layout_weight="1" 
 	        android:layout_height="70dip" 
 	        android:id="@+id/selection_btn">
@@ -37,6 +41,8 @@
 	        android:textSize="10px" 
 	        android:id="@+id/iteration_btn"
 	        android:layout_width="0px" 
+	        style="@style/Heading"
+			android:background="@layout/button_bot_component"
 	   		android:layout_height="70dip"
 	        android:layout_weight="1">
         </Button>
@@ -45,6 +51,8 @@
 	        android:textSize="10px"
 	        android:id="@+id/tools_btn" 
 	        android:layout_width="0px" 
+	        style="@style/Heading"
+			android:background="@layout/button_bot_component"
 	        android:layout_height="70dip"
 	        android:layout_weight="1">
         </Button>
@@ -53,6 +61,8 @@
 	        android:textSize="10px"
 	        android:id="@+id/bot_btn" 
 	        android:layout_width="0px" 
+	        style="@style/Heading"
+			android:background="@layout/button_bot_component"
 	        android:layout_height="70dip"
 	        android:layout_weight="1">
         </Button>
@@ -96,6 +106,8 @@
 				android:id="@+id/select_right"
 				android:src="@drawable/select_right"
 				android:layout_width="0px" 
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 		        android:layout_weight="1" 
 		        android:layout_height="70dip" >
 			</ImageButton>
@@ -104,6 +116,8 @@
 				android:src="@drawable/select_left"
 				android:layout_width="0px" 
 	        	android:layout_weight="1" 
+	        	style="@style/Heading"
+				android:background="@layout/button_bot_component"
 	        	android:layout_height="70dip" >
 			</ImageButton>
 			<ImageButton
@@ -111,18 +125,24 @@
 				android:src="@drawable/move_up"
 				android:layout_width="0px" 
 		        android:layout_weight="1" 
+		        style="@style/Heading"
+				android:background="@layout/button_bot_component"
 		        android:layout_height="70dip">
 			</ImageButton>
 			<ImageButton
 				android:id="@+id/move_down" 
 				android:src="@drawable/move_down"
 				android:layout_width="0px" 
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 		        android:layout_weight="1" 
 		        android:layout_height="70dip">
 			</ImageButton>
 			<ImageButton 
 				android:layout_width="0px" 
 		        android:layout_weight="1" 
+		        style="@style/Heading"
+				android:background="@layout/button_bot_component"
 		        android:layout_height="70dip" 
 				android:src="@drawable/move_left"
 				android:id="@+id/move_left">
@@ -131,12 +151,16 @@
 				android:id="@+id/move_right" 
 				android:src="@drawable/move_right"
 				android:layout_width="0px" 
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 		        android:layout_weight="1" 
 		        android:layout_height="70dip">
 			</ImageButton>
 			<ImageButton
 				android:id="@+id/tab_over" 
 				android:src="@drawable/tab"
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 				android:layout_width="0px" 
 		        android:layout_weight="1" 
 		        android:layout_height="70dip">
@@ -144,6 +168,8 @@
 			<ImageButton 
 				android:layout_width="0px" 
 		        android:layout_weight="1" 
+		        style="@style/Heading"
+				android:background="@layout/button_bot_component"
 		        android:layout_height="70dip" 
 				android:src="@drawable/go"
 				android:id="@+id/send_btn">
@@ -202,6 +228,8 @@
 			<Button 
 				android:id="@+id/ide_back_to_code_btn" 
 				android:text="Code"
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 				android:layout_width="0px"
 				android:layout_weight="1" 
 				android:layout_height="wrap_content"
@@ -211,6 +239,8 @@
 				android:id="@+id/ide_stop_code_btn" 
 				android:text="Stop"
 				android:color="#cc111100"
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 				android:layout_width="0px"
 				android:layout_weight="1" 
 				android:layout_height="wrap_content"
@@ -221,6 +251,8 @@
 				android:id="@+id/ide_pause_code_btn" 
 				android:text="Pause"
 				android:color="#cc111100"
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 				android:layout_width="0px"
 				android:layout_weight="1" 
 				android:layout_height="wrap_content"
@@ -232,6 +264,8 @@
 				android:text="Step"
 				android:color="#cc111100"
 				android:layout_width="0px"
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
 				android:layout_weight="1" 
 				android:layout_height="wrap_content"
 				android:onClick="StepCode"
