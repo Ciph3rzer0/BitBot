@@ -16,7 +16,9 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
+import edu.sru.andgate.bitbot.graphics.BotLayer;
 import edu.sru.andgate.bitbot.graphics.Drawable;
+import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
 
@@ -29,6 +31,9 @@ public class Bot
 	private String base_name;
 	private String turret_name;
 	private String bot_code;
+	private DrawableBot _bot;
+	private BotLayer _layer;
+	private static Constants c = new Constants();
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -172,6 +177,20 @@ public class Bot
 		return this.turret_name;
 	}
 	
+	public void setBotLayer(BotLayer bl){
+		this._layer = bl;
+	}
+	public BotLayer getBotLayer(){
+		return this._layer;
+	}
+	
+	public void setDrawableBot(DrawableBot db){
+		this._bot = db;
+	}
+	public DrawableBot getDrawableBot(){
+		return this._bot;
+	}
+	
 	public SourceCode getCode(){
 		SourceCode sc = new SourceCode("Basic", this.bot_code);
 		return sc;
@@ -189,14 +208,25 @@ public class Bot
 		        
 				Bot b = new Bot();
 				b.setName(readXML(doc, "Bot-Name"));
-				Log.v("BitBot", b.getName());
+				//Log.v("BitBot", b.getName());
 				b.setBase(readXML(doc, "Bot-Base"));
-				Log.v("BitBot", b.getBase());
+				//Log.v("BitBot", b.getBase());
 				b.setTurret(readXML(doc, "Bot-Turret"));
-				Log.v("BitBot", b.getTurret());
+				//Log.v("BitBot", b.getTurret());
 				b.setCode(readXML(doc, "Bot-Code"));
-				Log.v("BitBot", b.getCode().getCode());
+				//Log.v("BitBot", b.getCode().getCode());
 				
+				DrawableBot db = new DrawableBot();
+				b.setDrawableBot(db);
+			    db.setTranslation(0.0f,5.0f,-5.0f);
+			    db.addTexture(c.base_table.get(b.getBase()));
+			    BotLayer bl = new BotLayer(db);
+			    b.setBotLayer(bl);
+			    bl.addTexture(c.turret_table.get(b.getTurret()));
+				b.attachDrawable(db);
+				b.attachSourceCode(b.getCode());
+				//b.readyInterpreter();
+								
 				return b;
 			}catch (Exception e){
 				Log.v("BitBot", "Error reading file");

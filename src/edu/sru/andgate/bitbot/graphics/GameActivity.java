@@ -29,6 +29,7 @@ public class GameActivity extends Activity
 	DrawableBot test;
 	DrawableBot test2;
 	DrawableBot test3;
+	Bot loaded_bot;
 	Drawable bot4,bot5,bot6,bot7,bot8,bot9,bot10;
 	BotLayer testTurret;
 	BotLayer test2Turret;
@@ -153,29 +154,10 @@ public class GameActivity extends Activity
         test3.addTexture(R.drawable.green);	//TextureID = 1
         test3.setSelectedTexture(0);
        
-        Bot b = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
-        Constants c = new Constants();
-        DrawableBot db = new DrawableBot();
-        db.setTranslation(0.0f,5.0f,-5.0f);
-        db.addTexture(c.base_table.get(b.getBase()));
-        BotLayer bl = new BotLayer(db);
-        bl.addTexture(c.turret_table.get(b.getTurret()));
-		b.attachDrawable(db);
-		Log.v("BitBot", b.getCode().getCode());
-		b.attachSourceCode(b.getCode());
-		b.readyInterpreter();
-		ilvm.addInterpreter(b.getInterpreter());
-		// Run the vm every second.
-		Timer t = new Timer();
-		t.schedule(new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				ilvm.resume(4);
-			}
-		}, 50, 50);
         
+        loaded_bot = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
+		
+      
         /*
 		String code =
 			"Let d = -1\n" +
@@ -239,8 +221,8 @@ public class GameActivity extends Activity
         gameRenderer.addObjectToWorld(test3);
         
         //Nick Test Loaded Bot
-        gameRenderer.addObjectToWorld(db);
-        gameRenderer.addObjectToWorld(bl);
+        gameRenderer.addObjectToWorld(loaded_bot.getDrawableBot());
+        gameRenderer.addObjectToWorld(loaded_bot.getBotLayer());
    
         //Connect draw list to Renderer
         gameRenderer.setDrawList(drawList);
@@ -265,8 +247,8 @@ public class GameActivity extends Activity
         addToDrawList(TYPE_BOT,test3.ID);
        
         //Nick Test loaded bot
-        addToDrawList(TYPE_BOT, db.ID);
-        addToDrawList(TYPE_BOT, bl.ID);
+        addToDrawList(TYPE_BOT, loaded_bot.getDrawableBot().ID);
+        addToDrawList(TYPE_BOT, loaded_bot.getBotLayer().ID);
       
         gameRenderer.drawListSize = drawListPointer+1;
         
