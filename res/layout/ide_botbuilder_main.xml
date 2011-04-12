@@ -48,6 +48,7 @@ android:layout_height="match_parent">
 			android:layout_alignParentRight="true"
 			android:padding="6dip"
 			android:text="Begin!"
+			android:onClick="begin" 
 		/>
 		
 	</RelativeLayout>
