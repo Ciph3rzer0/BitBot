@@ -41,6 +41,7 @@ public class RunVisitor implements bc1Visitor
 	private volatile int instructionsLeft = 0;
 	private volatile boolean _waiting = true;
 	private volatile boolean _abort = false;
+	private volatile boolean _interrupt = false;
 	
 	private PipedOutputStream $std_out = new PipedOutputStream();
 	private PrintStream std_out = new PrintStream($std_out, true);
@@ -107,9 +108,8 @@ public class RunVisitor implements bc1Visitor
 	 */
 	private void NextInstruction()
 	{
-		if (_abort)
-			throw new Error();//Exception();
-//			return;
+		if (_interrupt)
+			HandleInterrupt();
 		
 		
 		// If we have less than 1 instruction left, we need to wait until we're
@@ -132,6 +132,14 @@ public class RunVisitor implements bc1Visitor
 		}
 		
 		instructionsLeft--;								// We used one instruction.
+	}
+	
+	public void HandleInterrupt()
+	{
+		if (_abort)
+			throw new Error();
+		
+		
 	}
 	
 	/**
@@ -167,6 +175,7 @@ public class RunVisitor implements bc1Visitor
 		synchronized (this)
 		{
 			this.notify();
+			_interrupt = true;
 			_abort = true;
 		}
 	}

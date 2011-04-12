@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +26,20 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        Bot b = new Bot();
+        b.setName("Nick");
+        b.setBase("square");
+        b.setTurret("basic");
+        b.setCode(
+        	"Let d = -1\n" +
+			"\n" +
+			"While 1 Do\n" + 
+			"  call bot_move(45, 5)\n" +
+			"  \n" +
+			"  Let d = d + 1\n" +
+			"Loop\n");
+        b.saveBotToXML(getBaseContext(),"test_save.xml");
+               
 //        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);

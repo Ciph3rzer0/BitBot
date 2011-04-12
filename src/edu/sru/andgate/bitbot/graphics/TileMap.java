@@ -92,7 +92,6 @@ public class TileMap
 	
 	public void loadMapFile(String mapFile, Context context)
 	{
-		Scanner sc;
 		int nTexturesInMap = 0;
 		
 		Log.v("bitbot", "Loading Map...");
@@ -100,21 +99,18 @@ public class TileMap
 		try
 		{			
 		    InputStream mapFileStream = context.getAssets().open(mapFile);
-			sc = new Scanner(mapFileStream);
-
+			BufferedReader r = new BufferedReader(new InputStreamReader(mapFileStream));
 			//Dump current texture set
 			numTextures = 0;
 			textureHopper.clear();
 		  
 			//Read basic map information
-			mapWidth = Integer.parseInt(sc.next());
-			mapHeight = Integer.parseInt(sc.next());
-		  
-			tileSize = Integer.parseInt(sc.next());
-			tileStep = Integer.parseInt(sc.next());
-		  
-			nTexturesInMap = Integer.parseInt(sc.next());
-		  
+			mapWidth = Integer.parseInt(r.readLine()); 
+			mapHeight =Integer.parseInt(r.readLine()); 
+			tileSize = Integer.parseInt(r.readLine());
+			tileStep = Integer.parseInt(r.readLine());
+			nTexturesInMap = Integer.parseInt(r.readLine());
+					  
 			//Figure some stuff about the map
 			//tileStep = (tileSize*2);
 			rightMapEdge = mapWidth-1;
@@ -136,9 +132,9 @@ public class TileMap
 	  		int yCount = mapHeight;
 	  		
 	  		//Set Tile Locations/Textures
-	  		for(int i=0;i<mapHeight;i++)
+	  		for(int i=0;i<mapHeight-1;i++)
 	  		{
-	  			for(int j=0;j < mapWidth;j++)
+	  			for(int j=0;j < mapWidth-1;j++)
 	  			{
 	  				//Set tile meta info
 	  				tileLocations[j][i][0] = xCount+=tileStep;
@@ -156,28 +152,34 @@ public class TileMap
 	        	drawBuffer.add(new int[MAX_TILES_PER_FRAME][2]);
 	        	drawBufferCount[i] = 0;
 	        }
+	        r.readLine();
 	        //Read textures
 	        for(int i=0;i<mapHeight;i++)
 	        {
-	        	for(int j=0;j<mapWidth;j++)
+	        	String[] temp = r.readLine().split(" ");
+	        	for(int j=0;j<temp.length;j++)
 	        	{
-	        		tileTextures[j][i][0] = Integer.parseInt(sc.next());
+	        		tileTextures[j][i][0] = Integer.parseInt(temp[j]);
 	        	}
 	        }
+	        r.readLine();
 	        //Read boundaries
 	        for(int i=0;i<mapHeight;i++)
 	        {
-	        	for(int j=0;j<mapWidth;j++)
+	        	String[] temp = r.readLine().split(" ");
+	        	for(int j=0;j<temp.length;j++)
 	        	{
-	        		tileBoundaries[j][i][0] = Integer.parseInt(sc.next());
+	        		tileBoundaries[j][i][0] = Integer.parseInt(temp[j]);
 	        	}
 	        }
+	        r.readLine();
 	        //Read Map Codes
 	        for(int i=0;i<mapHeight;i++)
 	        {
-	        	for(int j=0;j<mapWidth;j++)
+	        	String[] temp = r.readLine().split(" ");
+	        	for(int j=0;j<temp.length;j++)
 	        	{
-	        		tileCodes[j][i][0] = Integer.parseInt(sc.next());
+	        		tileCodes[j][i][0] =Integer.parseInt(temp[j]);
 	        	}
 	        }
 	        //Read and load textures ***************************NEEDS FIXED**********************************

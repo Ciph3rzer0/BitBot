@@ -1,3 +1,8 @@
+/*
+ * Custom List View item that has a picture along with
+ * Two Lines of Text for Mission name, and Description.
+ */
+
 package edu.sru.andgate.bitbot.missionlist;
 
 public class CustomListView {

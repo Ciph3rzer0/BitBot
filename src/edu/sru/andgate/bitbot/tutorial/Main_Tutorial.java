@@ -23,6 +23,7 @@ import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -100,8 +101,7 @@ public class Main_Tutorial extends Activity {
 		editor.setTextSize(12.0f);
 		final SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 		final Button slideHandleButton = (Button) findViewById(R.id.slideHandleButton);
-		
-		
+				
 		/*
 		 * sets attributes of the action items in the CustomPopUpWindow
 		 */
@@ -199,7 +199,7 @@ public class Main_Tutorial extends Activity {
 					    writer.write(editor.getText().toString());
 					    writer.flush();
 					    writer.close();
-					    checkAnswer(file, tutorialID);
+					    checkAnswer(editor.getText().toString(), tutorialID);
 					} catch (IOException e) 
 					{
 					   e.printStackTrace();
@@ -304,6 +304,9 @@ public class Main_Tutorial extends Activity {
 		
 	}
 	
+	// Temp variable declaration
+    private InstructionLimitedVirtualMachine ilvm;
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
@@ -348,29 +351,18 @@ public class Main_Tutorial extends Activity {
 	 * Output: User input to file, Toast to let user know if they were correct or not
 	 * Method to check if the user input matches the correct tutorial answer
 	 */
-	protected void checkAnswer(File file, String file2) throws IOException 
+	protected void checkAnswer(String file, String file2) throws IOException 
 	{
 		/*
-		 * Temporary - Need to send file(s) to interpreter and compare abstract 
+		 * Temporary - Need to send strings(s) to interpreter and compare abstract 
 		 * 				Syntax Tree's
 		 */
-			String line1 = null;
+			
 			String temp1 = "";
 			String temp2 = "";
 			
+			temp1 = file;
 			temp2 = readXML(file2, "answer");
-			
-		  // wrap a BufferedReader around FileReader
-		  BufferedReader bufferedReader1 = new BufferedReader(new FileReader(file.getAbsolutePath()));
-		   // use the readLine method of the BufferedReader to read one line at a time.
-		  // the readLine method returns null when there is nothing else to read.
-		  while ((line1 = bufferedReader1.readLine()) != null)
-		  {
-		    temp1+=line1.toString();
-		  }
-		
-		  // close the BufferedReader(s) when we're done
-		  bufferedReader1.close();
 		
 		  //Let the user know if they are right or not.
 		  if(temp1.equals(temp2))
@@ -425,31 +417,51 @@ public class Main_Tutorial extends Activity {
 		    return null;
 		}//end of main
 	 
-	/*
-	 * Method that runs the code through the interpreter
-	 * 	outputs to console view or gives error
-	 */
-	 private void InterpreteCode()
-	    {
-	    	try
-			{
-		    	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-		    	BotInterpreter bi = new BotInterpreter(null, editor.getText().toString());
-		    	
-		    	ilvm.addInterpreter(bi);
-		    	ilvm.resume(10000);
-		    	
-			}
-	    	catch (Exception e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				botOutput.setText(e.toString());
-			}
-	    	catch (Error e)
-	    	{
-	    		e.printStackTrace();
-	    		botOutput.setText(e.toString());
-	    	}
-	    }	 
+	  /**
+     * Temporary code to test the VM
+     */
+    private void InterpreteCode()
+    {
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    	Log.i("BitBot Interpreter", "--------------------- Begin Interpreter ------------------");
+    	Log.i("BitBot Interpreter", Thread.currentThread().toString());
+    	Log.i("BitBot Interpreter", "" + Thread.currentThread().getPriority());
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    	BotInterpreter bi = null;
+    	
+//    	Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+    	
+    	try
+		{
+	    	ilvm = new InstructionLimitedVirtualMachine();
+	    	
+	    	bi = new BotInterpreter(null, editor.getText().toString()+"\n");
+	    	bi.setOutputTextView(botOutput);
+	    	botOutput.setText(bi.getBotLog());
+	    	
+	    	ilvm.addInterpreter(bi);
+	    	ilvm.resume(2000);
+		}
+    	catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			Log.e("BitBot Interpreter", e.getStackTrace().toString());
+//			botOutput.setText(e.toString());
+		}
+    	catch (Error e)
+    	{
+    		Log.e("BitBot Interpreter", "ERROR: " + e.getStackTrace().toString());
+//    		botOutput.setText(e.toString());
+    	}
+    	finally
+    	{
+    		if (botOutput != null && bi != null)
+    			botOutput.setText(bi.getBotLog());
+    	}
+    	
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    	Log.i("BitBot Interpreter", "---------------------- End Interpreter -------------------");
+    	Log.i("BitBot Interpreter", Thread.currentThread().toString());
+    	Log.i("BitBot Interpreter", "----------------------------------------------------------");
+    }
 }
