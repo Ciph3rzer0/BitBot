@@ -157,8 +157,6 @@ public class Bot
 	}
 	
 	public void setCode(String code){
-		_source = new SourceCode("Basic", code);
-		this.attachSourceCode(_source);
 		this.bot_code = code;
 	}
 	

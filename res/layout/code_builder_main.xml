@@ -16,19 +16,22 @@
 			android:layout_width="match_parent" 
 			android:layout_height="match_parent"/>
 	</LinearLayout>
-	<LinearLayout 
+	<RelativeLayout 
 		android:id="@+id/new_program" 
 		android:layout_height="wrap_content" 
 		android:layout_alignParentBottom="true" 
 		android:layout_width="match_parent">
-	    <TextView 
+	    <Button
 		    android:text="New Program" 
 		    android:layout_height="wrap_content" 
 		    android:id="@+id/create_program"
 		    android:textSize="45px" 
 		    android:gravity="center"
-		    android:layout_width="match_parent">
-	    </TextView>
-	</LinearLayout>
+		    android:layout_centerHorizontal="true"
+		    style="@style/Heading"
+		    android:background="@layout/button_bot_component"
+		    android:layout_width="wrap_content">
+	    </Button>
+	</RelativeLayout>
 </RelativeLayout>
 

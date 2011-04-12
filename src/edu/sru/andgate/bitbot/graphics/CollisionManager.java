@@ -1,5 +1,8 @@
 package edu.sru.andgate.bitbot.graphics;
 
+import edu.sru.andgate.bitbot.R;
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 public class CollisionManager
@@ -8,11 +11,12 @@ public class CollisionManager
 	DrawableBot[] botList;
 	TileMap tileMap;
 	int numBots = 0;
-	
+	Context context;
 	int MAX_BOT_OBJECTS = 100;
 	
-	public CollisionManager(TileMap tMap)
+	public CollisionManager(Context context, TileMap tMap)
 	{
+		this.context = context;
 		botList = new DrawableBot[MAX_BOT_OBJECTS];
 		tileMap = tMap;
 	}
@@ -77,6 +81,8 @@ public class CollisionManager
 						botList[i].parameters[1] = tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2) + botList[i].BOUNDING_RADIUS;
 						//Notify bot of boundary collision
 						botList[i].onBoundaryCollision();
+						MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+						mp.start();
 					}
 				}
 				else if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 1)
@@ -91,6 +97,8 @@ public class CollisionManager
 						botList[i].parameters[1] = (tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - botList[i].BOUNDING_RADIUS;
 						//Notify bot of boundary collision
 						botList[i].onBoundaryCollision();
+						MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+						mp.start();
 					}
 				}
 				else if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 2)
@@ -105,6 +113,8 @@ public class CollisionManager
 						botList[i].parameters[0] = (tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) + botList[i].BOUNDING_RADIUS;
 						//Notify bot of boundary collision
 						botList[i].onBoundaryCollision();
+						MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+						mp.start();
 					}
 				}
 				else if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 3)
@@ -119,6 +129,8 @@ public class CollisionManager
 						botList[i].parameters[0] = (tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - botList[i].BOUNDING_RADIUS;
 						//Notify bot of boundary collision
 						botList[i].onBoundaryCollision();
+						MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+						mp.start();
 					}
 				}
 			}
@@ -134,6 +146,8 @@ public class CollisionManager
 					botList[i].parameters[0] = (tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) + botList[i].BOUNDING_RADIUS;
 					//Notify bot of boundary collision
 					botList[i].onBoundaryCollision();
+					MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+					mp.start();
 				}
 			}
 			else if(currentTileX != tileMap.mapWidth && tileMap.tileBoundaries[currentTileX+1][currentTileY][0] == 2)
@@ -148,6 +162,8 @@ public class CollisionManager
 					botList[i].parameters[0] = (tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - botList[i].BOUNDING_RADIUS;
 					//Notify bot of boundary collision
 					botList[i].onBoundaryCollision();
+					MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+					mp.start();
 				}
 			}
 			else if(currentTileY != 0 && tileMap.tileBoundaries[currentTileX][currentTileY-1][0] == 4)
@@ -162,6 +178,8 @@ public class CollisionManager
 					botList[i].parameters[1] = (tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - botList[i].BOUNDING_RADIUS;
 					//Notify bot of boundary collision
 					botList[i].onBoundaryCollision();
+					MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+					mp.start();
 				}
 			}
 			else if(currentTileY != tileMap.mapHeight && tileMap.tileBoundaries[currentTileX][currentTileY+1][0] == 1)
@@ -176,6 +194,8 @@ public class CollisionManager
 					botList[i].parameters[1] = tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2) + botList[i].BOUNDING_RADIUS;
 					//Notify bot of boundary collision
 					botList[i].onBoundaryCollision();
+					MediaPlayer mp = MediaPlayer.create(context, R.raw.bot_wall_collision);
+					mp.start();
 				}
 			}
 		}

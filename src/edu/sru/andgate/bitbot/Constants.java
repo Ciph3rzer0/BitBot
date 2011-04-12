@@ -30,9 +30,7 @@ public class Constants {
 	 
         //simulation table
         simulation_table.put("Print Statement", 1);
-    	simulation_table.put("Defining Variables", 1);
-		 
-		 
+    	simulation_table.put("Defining Variables", 1);	 
 	 }
 	 
 	 

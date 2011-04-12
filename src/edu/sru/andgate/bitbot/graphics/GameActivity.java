@@ -115,7 +115,7 @@ public class GameActivity extends Activity
         testMap = new TileMap();
         
         //Declare Collision Manager
-        collisionManager = new CollisionManager(testMap);		
+        collisionManager = new CollisionManager(getBaseContext(),testMap);		
 		
         //Declare Draw List
         drawList = new int[2][MAX_OBJECTS];       

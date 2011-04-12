@@ -134,28 +134,11 @@ public class CodeBuilderActivity extends ListActivity {
 		}//end of readXML()
 	
 	private void createNewProgram(){
-		String description = setAlertDialog("New Program", "Program Description");
-		String name = setAlertDialog("New Program", "Program Name");
-		System.out.println(name + " " + description);
+		
+			
+		Intent engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
+		engineIntent.putExtra("File", "code_template.xml");
+		startActivity(engineIntent);
 	}
 	
-	private String setAlertDialog(String title, String message){
-		final EditText input = new EditText(getBaseContext());
-		
-		new AlertDialog.Builder(CodeBuilderActivity.this)
-	    .setTitle(title)
-	    .setMessage(message)
-	    .setView(input)
-	    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	        	String value = input.getText().toString();
-	        	//return value;
-	        }
-	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) {
-	           return;
-	        }
-	    }).show();
-			return "";
-	}
 }
