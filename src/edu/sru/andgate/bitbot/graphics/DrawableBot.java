@@ -10,11 +10,14 @@ import javax.microedition.khronos.opengles.GL10;
 
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.SoundManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.opengl.GLUtils;
+import android.util.Log;
+
 import java.util.*;
 
 public class DrawableBot implements Drawable
@@ -29,6 +32,9 @@ public class DrawableBot implements Drawable
 	ArrayList<Integer> textureHopper;
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
+	Context context;
+	SoundManager sm;
+	
 	
 	float BOUNDING_RADIUS = 0.75f;
 	
@@ -51,7 +57,9 @@ public class DrawableBot implements Drawable
 	
 	//Texture pointer
 	public int[] textures = new int[MAX_TEXTURE_ARRAY_SIZE];
-
+	
+	
+	
 	public DrawableBot()
 	{
 		// a float has 4 bytes so we allocate for each coordinate 4 bytes
@@ -92,6 +100,10 @@ public class DrawableBot implements Drawable
 	}
 	
 
+	public void attachSound(Context context, int songID){
+		sm = new SoundManager(context, songID);
+	}
+	
 	@Override
 	public void attachBot(Bot bot)
 	{
@@ -197,6 +209,11 @@ public class DrawableBot implements Drawable
 	
 	public void onBoundaryCollision()
 	{
+		try{
+			sm.playAudio();
+		}catch(Exception e){
+			Log.v("BitBot", "Sound Error");
+		}
 		//For now, flip angle and continue
 		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
 		parameters[3] = moveAngle + 90.0f;

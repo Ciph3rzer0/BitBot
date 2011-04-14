@@ -220,12 +220,13 @@ public class Bot
 				b.setDrawableBot(db);
 			    db.setTranslation(0.0f,5.0f,-5.0f);
 			    db.addTexture(c.base_table.get(b.getBase()));
+			    db.attachSound(context, R.raw.bot_wall_collision);
 			    BotLayer bl = new BotLayer(db);
 			    b.setBotLayer(bl);
 			    bl.addTexture(c.turret_table.get(b.getTurret()));
 				b.attachDrawable(db);
-				b.attachSourceCode(b.getCode());
-				//b.readyInterpreter();
+				b.attachSourceCode(new SourceCode(b.getCode().getName(), b.getCode().getCode()+"\n"));
+				b.readyInterpreter();
 								
 				return b;
 			}catch (Exception e){
