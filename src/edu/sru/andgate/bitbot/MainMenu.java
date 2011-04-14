@@ -1,5 +1,8 @@
 package edu.sru.andgate.bitbot;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.ide.IDE;
@@ -8,6 +11,8 @@ import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,12 +39,38 @@ public class MainMenu extends Activity {
         	"Let d = -1\n" +
 			"\n" +
 			"While 1 Do\n" + 
-			"  call bot_move(45, 5)\n" +
+			"  call bot_move(90, 5)\n" +
 			"  \n" +
 			"  Let d = d + 1\n" +
 			"Loop\n");
         b.saveBotToXML(getBaseContext(),"test_save.xml");
-               
+        
+        String data = "";
+        String data2 = getResources().getString(R.string.example_code);
+    
+        ContextWrapper cw = new ContextWrapper(getBaseContext());
+        File mediaDir = cw.getDir("Code", Context.MODE_PRIVATE);
+       
+        if (mediaDir.exists()){
+        	Log.v("Test", "Directory made");
+        }else{
+        	Log.v("Test", "Directory !exist");
+        }
+        	File f = new File(cw.getDir("Code", Context.MODE_PRIVATE), "Program Code");
+        	File f2 = new File(cw.getDir("Code", Context.MODE_PRIVATE), "test code.txt");
+        	try{
+	        	f.createNewFile();
+	        	f2.createNewFile();
+	        	FileOutputStream fos2 = new FileOutputStream(f2);
+	        	FileOutputStream fos = new FileOutputStream(f);
+	        	fos.write(data.getBytes());
+	        	fos2.write(data2.getBytes());
+	        	fos2.close();
+	        	fos.close();
+        	}catch(Exception e){
+        		Log.v("Test", "Error writing file");
+        	}
+                     
 //        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);

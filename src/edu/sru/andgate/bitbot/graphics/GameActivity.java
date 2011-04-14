@@ -126,7 +126,6 @@ public class GameActivity extends Activity
         test.setTranslation(-3.5f,0.1f,-5.0f);
         test.addTexture(R.drawable.sand);	//TextureID = 0
         
-        
         //Test Bot 1 Turret Layer
         testTurret = new BotLayer(test);
         testTurret.addTexture(R.drawable.sandturret);
@@ -139,6 +138,7 @@ public class GameActivity extends Activity
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
         test2.moveStepSize = 0.08f;
+        test2.attachSound(getBaseContext(), R.raw.bot_wall_collision);
         collisionManager.addCollisionDetectorToBot(test2);
         
         //Test Bot 2 Turret Layer
@@ -156,10 +156,22 @@ public class GameActivity extends Activity
        
         
         loaded_bot = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
-		collisionManager.addCollisionDetectorToBot(loaded_bot.getDrawableBot());
-      
-        /* 
-		String code =
+		/*collisionManager.addCollisionDetectorToBot(loaded_bot.getDrawableBot());
+		ilvm.addInterpreter(loaded_bot.getInterpreter());
+		
+		// Run the vm every second.
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				ilvm.resume(4);
+			}
+		}, 50, 50);*/
+        
+		
+		/*String code =
 			"Let d = -1\n" +
 			"\n" +
 			"While 1 Do\n" + 
@@ -280,20 +292,20 @@ public class GameActivity extends Activity
     		boolean goinUp = true;
     		boolean thisFrameDrawn = false;
     		
-    		/*
+    		
     		//Testing FPS Only
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
     		int frameCount = 0;
-    		*/
+    		
     		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
     			{
-    				//startTime = System.currentTimeMillis();
+    				startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -312,7 +324,7 @@ public class GameActivity extends Activity
     	    		test2Turret.setRotationAngle(rotate);
     	    		
     	    		loaded_bot.getBotLayer().setRotationAngle(rotate);
-    	    		loaded_bot.getDrawableBot().move();
+    	    		//loaded_bot.getDrawableBot().move();
     	    		
     	    		if(goinUp)
     	    		{
@@ -374,7 +386,7 @@ public class GameActivity extends Activity
 	    	    			//drawListPointer = 0;
 	    	    		}
     	    		}
-    	    		/*
+    	    		
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
@@ -384,7 +396,7 @@ public class GameActivity extends Activity
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
-    	    		*/
+    	    		
     			}
     		}
     	};
