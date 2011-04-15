@@ -8,10 +8,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.Constants;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
+import edu.sru.andgate.bitbot.tools.Constants;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;

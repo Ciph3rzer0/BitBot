@@ -1,6 +1,9 @@
-package edu.sru.andgate.bitbot;
+package edu.sru.andgate.bitbot.tools;
 
 import java.util.Hashtable;
+
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.R.drawable;
 
 public class Constants {
 	//save-load bot image table lookups

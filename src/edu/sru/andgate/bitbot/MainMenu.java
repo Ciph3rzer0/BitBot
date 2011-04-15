@@ -25,51 +25,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainMenu extends Activity {
+	Initialization init;
+	ContextWrapper cw;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        Bot b = new Bot();
-        b.setName("Nick");
-        b.setBase("square");
-        b.setTurret("basic");
-        b.setCode(
-        	"Let d = -1\n" +
-			"\n" +
-			"While 1 Do\n" + 
-			"  call bot_move(90, 5)\n" +
-			"  \n" +
-			"  Let d = d + 1\n" +
-			"Loop\n");
-        b.saveBotToXML(getBaseContext(),"test_save.xml");
-        
-        String data = "";
-        String data2 = getResources().getString(R.string.example_code);
-    
-        ContextWrapper cw = new ContextWrapper(getBaseContext());
-        File mediaDir = cw.getDir("Code", Context.MODE_PRIVATE);
-       
-        if (mediaDir.exists()){
-        	Log.v("Test", "Directory made");
-        }else{
-        	Log.v("Test", "Directory !exist");
-        }
-        	File f = new File(cw.getDir("Code", Context.MODE_PRIVATE), "Program Code");
-        	File f2 = new File(cw.getDir("Code", Context.MODE_PRIVATE), "test code.txt");
-        	try{
-	        	f.createNewFile();
-	        	f2.createNewFile();
-	        	FileOutputStream fos2 = new FileOutputStream(f2);
-	        	FileOutputStream fos = new FileOutputStream(f);
-	        	fos.write(data.getBytes());
-	        	fos2.write(data2.getBytes());
-	        	fos2.close();
-	        	fos.close();
-        	}catch(Exception e){
-        		Log.v("Test", "Error writing file");
-        	}
+        //Initialize some things: code text docs, saved bot
+        cw = new ContextWrapper(getBaseContext());
+        init = new Initialization(cw);
+      
                      
 //        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         

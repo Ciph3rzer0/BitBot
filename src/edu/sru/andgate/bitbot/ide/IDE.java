@@ -1,20 +1,5 @@
 package edu.sru.andgate.bitbot.ide;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
@@ -85,13 +70,7 @@ public class IDE extends Activity {
 		
 		//create the text editor and cabinet button
 		editor = (EditText) findViewById(R.id.editor);
-		try 
-		{
-			editor.setText(readXML(file, "program-code").toString());
-		} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-		}
+		editor.setText(file);
 			
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		
@@ -489,42 +468,4 @@ public class IDE extends Activity {
 	    }
 	    return true;
 	}
-	
-	 /*
-	 * Method that recieves an xml file name, and target <tag> 
-	 * 	returns the text in the specified <tag></tag>
-	 */
-	public String readXML(String my_file, String tag_name) throws IOException{
-	 		InputStream is = getAssets().open(my_file);
-			
-	 		try {
-	       		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	            DocumentBuilder docBuilder;
-				docBuilder = docBuilderFactory.newDocumentBuilder();
-				
-				Document doc = docBuilder.parse(is);
-	            doc.getDocumentElement ().normalize ();
-	            
-	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
-	            Element myText = (Element) tutorialText.item(0);
-	            
-	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
-	            
-	 		} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			
-			
-		    return null;
-		}//end of readXML()
 }

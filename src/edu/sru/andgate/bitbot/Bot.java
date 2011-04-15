@@ -21,6 +21,7 @@ import edu.sru.andgate.bitbot.graphics.Drawable;
 import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
+import edu.sru.andgate.bitbot.tools.Constants;
 
 public class Bot
 {
@@ -33,7 +34,7 @@ public class Bot
 	private String bot_code;
 	private DrawableBot _bot;
 	private BotLayer _layer;
-	private static Constants c = new Constants();
+	private static Constants c;
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -49,7 +50,7 @@ public class Bot
 	
 	public Bot()
 	{
-	
+		c = new Constants();
 	}
 	
 	public void readyInterpreter()

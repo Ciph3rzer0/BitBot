@@ -2,8 +2,8 @@ package edu.sru.andgate.bitbot.tutorial;
 
 import java.util.Hashtable;
 
-import edu.sru.andgate.bitbot.Constants;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.tools.Constants;
 
 import android.app.ListActivity;
 import android.content.Intent;

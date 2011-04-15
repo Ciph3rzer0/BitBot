@@ -1,24 +1,13 @@
 package edu.sru.andgate.bitbot.tutorial;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.tools.ReadXML;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -41,7 +30,7 @@ import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class Main_Tutorial extends Activity {
-	
+	private ReadXML read;
 	private boolean canSimulate = false;
 	private EditText editor; 
 	
@@ -56,6 +45,8 @@ public class Main_Tutorial extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial_main);
+		
+		read = new ReadXML(getBaseContext());
 		
 		/*
 		 * recieves content sent from previous view for re-use
@@ -85,13 +76,7 @@ public class Main_Tutorial extends Activity {
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		main_text = (TextView) findViewById(R.id.tutorial_text);
 		
-		//get text in the <text> tag of the tutorial chosen(tutorialID)
-		try {
-			main_text.setText(readXML(tutorialID,"text"));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		main_text.setText(ReadXML.readXML(tutorialID,"text"));
 		
 	
 		/*
@@ -276,13 +261,8 @@ public class Main_Tutorial extends Activity {
 		        }else{
 		        	slideHandleButton.setBackgroundResource(R.drawable.closearrow);
 		        }
-				try {
-					TextView help_text = (TextView) findViewById(R.id.help_text);
-					help_text.setText(readXML(tutorialID, "hints"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				TextView help_text = (TextView) findViewById(R.id.help_text);
+				help_text.setText(ReadXML.readXML(tutorialID, "hints"));
 			}
 		});
 
@@ -362,7 +342,7 @@ public class Main_Tutorial extends Activity {
 			String temp2 = "";
 			
 			temp1 = file;
-			temp2 = readXML(file2, "answer");
+			temp2 = ReadXML.readXML(file2, "answer");
 		
 		  //Let the user know if they are right or not.
 		  if(temp1.equals(temp2))
@@ -379,45 +359,7 @@ public class Main_Tutorial extends Activity {
 			  }
 	}
 	
-	/*
-	 * Method that recieves an xml file name, and target <tag> 
-	 * 	returns the text in the specified <tag></tag>
-	 */
-	public String readXML(String my_file, String tag_name) throws IOException{
-	 		InputStream is = getAssets().open(my_file);
-			
-	 		try {
-	       		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	            DocumentBuilder docBuilder;
-				docBuilder = docBuilderFactory.newDocumentBuilder();
-				
-				Document doc = docBuilder.parse(is);
-	            doc.getDocumentElement ().normalize ();
-	            
-	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
-	            Element myText = (Element) tutorialText.item(0);
-	            
-	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
-	            
-	 		} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			
-			
-		    return null;
-		}//end of main
-	 
-	  /**
+	 /**
      * Temporary code to test the VM
      */
     private void InterpreteCode()
