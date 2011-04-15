@@ -1,5 +1,8 @@
 package edu.sru.andgate.bitbot;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.ide.IDE;
@@ -8,6 +11,8 @@ import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,26 +25,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainMenu extends Activity {
+	Initialization init;
+	ContextWrapper cw;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        Bot b = new Bot();
-        b.setName("Nick");
-        b.setBase("square");
-        b.setTurret("basic");
-        b.setCode(
-        	"Let d = -1\n" +
-			"\n" +
-			"While 1 Do\n" + 
-			"  call bot_move(45, 5)\n" +
-			"  \n" +
-			"  Let d = d + 1\n" +
-			"Loop\n");
-        b.saveBotToXML(getBaseContext(),"test_save.xml");
-               
+        //Initialize some things: code text docs, saved bot
+        cw = new ContextWrapper(getBaseContext());
+        init = new Initialization(cw);
+      
+                     
 //        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         
         final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
@@ -47,7 +45,6 @@ public class MainMenu extends Activity {
         // Temporarily for testing - Josh
 //		startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
 //		startActivity(new Intent(MainMenu.this, GameActivity.class));
-        startActivity(new Intent(MainMenu.this, Test.class));
         
         /* ******************** Start Game *********************** */
         Button game_modes = (Button) findViewById(R.id.game_modes);

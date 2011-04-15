@@ -21,6 +21,7 @@ import edu.sru.andgate.bitbot.graphics.Drawable;
 import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
+import edu.sru.andgate.bitbot.tools.Constants;
 
 public class Bot
 {
@@ -33,7 +34,7 @@ public class Bot
 	private String bot_code;
 	private DrawableBot _bot;
 	private BotLayer _layer;
-	private static Constants c = new Constants();
+	private static Constants c;
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -49,7 +50,7 @@ public class Bot
 	
 	public Bot()
 	{
-	
+		c = new Constants();
 	}
 	
 	public void readyInterpreter()
@@ -218,14 +219,15 @@ public class Bot
 				
 				DrawableBot db = new DrawableBot();
 				b.setDrawableBot(db);
-			    db.setTranslation(0.0f,5.0f,-5.0f);
+			    //db.setTranslation(0.0f,5.0f,-5.0f);
 			    db.addTexture(c.base_table.get(b.getBase()));
+			    db.attachSound(context, R.raw.bot_wall_collision);
 			    BotLayer bl = new BotLayer(db);
 			    b.setBotLayer(bl);
 			    bl.addTexture(c.turret_table.get(b.getTurret()));
 				b.attachDrawable(db);
-				b.attachSourceCode(b.getCode());
-				//b.readyInterpreter();
+				b.attachSourceCode(new SourceCode(b.getCode().getName(), b.getCode().getCode()+"\n"));
+				b.readyInterpreter();
 								
 				return b;
 			}catch (Exception e){

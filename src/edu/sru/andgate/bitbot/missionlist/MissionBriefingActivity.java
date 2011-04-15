@@ -27,31 +27,35 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView;
+import edu.sru.andgate.bitbot.tools.ReadXML;
 import edu.sru.andgate.bitbot.tutorial.Main_Tutorial;
 
-public class MissionBriefingActivity extends Activity {
-	 
+public class MissionBriefingActivity extends Activity
+{
+	private String missionFile;
+	private int missionIcon;
+	private TextView mission_text, title_bar;
+	private ImageView mission_icon;
+	private Button back_btn, mission_btn;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_briefing);
 	        
-	       final String missionFile = getIntent().getExtras().getString("Filename");
-	       final int missionIcon = getIntent().getExtras().getInt("Icon",0);
+	        ReadXML.setContext(getBaseContext());
+	        missionFile = getIntent().getExtras().getString("Filename");
+	        missionIcon = getIntent().getExtras().getInt("Icon",0);
 	       
-	        TextView mission_text = (TextView) findViewById(R.id.mission_text);
-	        TextView title_bar = (TextView) findViewById(R.id.title_bar);
-	        try {
-				mission_text.setText(readXML(missionFile, "mission-text"));
-				title_bar.setText("\t" + readXML(missionFile,"mission-name"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	        mission_text = (TextView) findViewById(R.id.mission_text);
+	        title_bar = (TextView) findViewById(R.id.title_bar);
+	        
+	        mission_text.setText(ReadXML.readXML(missionFile, "mission-text"));
+			title_bar.setText("\t" + ReadXML.readXML(missionFile,"mission-name"));
 			
-			ImageView mission_icon = (ImageView) findViewById(R.id.mission_icon);
+			mission_icon = (ImageView) findViewById(R.id.mission_icon);
 			mission_icon.setImageResource(missionIcon);		
 			
-			Button back_btn = (Button) findViewById(R.id.back_btn);
+			back_btn = (Button) findViewById(R.id.back_btn);
 			back_btn.setText("Back");
 			back_btn.setOnClickListener(new View.OnClickListener() 
 			{
@@ -61,7 +65,7 @@ public class MissionBriefingActivity extends Activity {
 				}
 			});
 			
-			Button mission_btn = (Button) findViewById(R.id.take_mission);
+			mission_btn = (Button) findViewById(R.id.take_mission);
 			mission_btn.setText("Take Mission");
 			mission_btn.setOnClickListener(new View.OnClickListener()
 			{
@@ -73,42 +77,4 @@ public class MissionBriefingActivity extends Activity {
 			});
 			
 	 }
-	
-	/*
-	 * Method that recieves an xml file name, and target <tag> 
-	 * 	returns the text in the specified <tag></tag>
-	 */
-	public String readXML(String my_file, String tag_name) throws IOException{
-	 		InputStream is = getAssets().open(my_file);
-			
-	 		try {
-	       		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	            DocumentBuilder docBuilder;
-				docBuilder = docBuilderFactory.newDocumentBuilder();
-				
-				Document doc = docBuilder.parse(is);
-	            doc.getDocumentElement ().normalize ();
-	            
-	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
-	            Element myText = (Element) tutorialText.item(0);
-	            
-	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
-	            
-	 		} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			
-			
-		    return null;
-		}//end of main
 }

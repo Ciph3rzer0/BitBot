@@ -27,16 +27,20 @@ the string "hello world" all lowercase.
 Remember case sensitivity is a must.
 
 Good Luck!</text>
-<answer>PRINT "hello world"</answer>
-<hints>
-Goal: print the string hello world
-to the console.
+<stage>
+<hint>
+Goal: Print the string "Hello World" to the console
 
-Hints:
-
-1. use the quick buttons to find the syntax
-	for printing to the console.
+The 'Print' command is used to print and expression to the console.
 	
-2. insert the hello world into the shell.
-</hints>
+The syntax of this command is:
+Print [expression]
+
+In this case, replace [expression] with "Hello World"
+
+Your code should look like:
+Print "Hello World"
+</hint>
+<answer>PRINT "hello world"</answer>
+</stage>
 </tutorial>

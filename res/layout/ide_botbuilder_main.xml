@@ -211,7 +211,7 @@ android:layout_height="match_parent">
 	</LinearLayout>
 	
 	<!-- Program Output -->
-	<TextView
+	<Spinner
 		android:id="@+id/program_title"
 		android:text="Program Data"
 		android:layout_width="fill_parent"
@@ -219,10 +219,6 @@ android:layout_height="match_parent">
 		android:padding="8dip"
 		android:layout_marginTop="5dip"
 		android:background="@layout/button_bot_component"
-		android:textSize="20sp"
-		android:focusable="true"
-		android:clickable="true"
-		
 	/>
 	
 	<!-- 

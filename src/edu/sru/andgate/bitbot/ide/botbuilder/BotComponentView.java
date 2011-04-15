@@ -16,6 +16,8 @@ public class BotComponentView extends LinearLayout
 	private ImageView pic;
 	private TextView title;
 	private TextView summary;
+	private String botTitle;
+	private int botPic;
 	
 	public BotComponentView(Context context)
 	{
@@ -41,6 +43,8 @@ public class BotComponentView extends LinearLayout
 		pic = (ImageView)findViewById(R.id.pic);
 		title = (TextView)findViewById(R.id.title);
 		summary = (TextView)findViewById(R.id.summary);
+		botPic = R.drawable.adambot;
+		botTitle="Default";
 		
 //	    // Read in attributes
 //		int attributeCount = attrs.getAttributeCount();
@@ -72,6 +76,7 @@ public class BotComponentView extends LinearLayout
 	public void setTitle(String s)
 	{
 		title.setText(s);
+		this.botTitle = s;
 	}
 	
 	public void setSummary(String s)
@@ -82,5 +87,14 @@ public class BotComponentView extends LinearLayout
 	public void setPicID(int resID)
 	{
 		pic.setImageResource(resID);
+		this.botPic = resID;
+	}
+	
+	public String getTitle(){
+		return this.botTitle;
+	}
+	
+	public int getPicID(){
+		return this.botPic;
 	}
 }

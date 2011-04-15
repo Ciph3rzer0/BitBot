@@ -31,17 +31,17 @@
     <string name="turret_rotate">call turret_rotate(int degree)\n{\n\t//rotation code here\n}\n</string>
     
     <string name="example_code">
-Print \"Hello World\" &amp; \"1\" &amp; \"2\"\n
-Print \"Test \" &amp; (5-1)\n
-Dim i as Integer
+Print \&quot;Hello World\&quot; &amp; \&quot;1\&quot; &amp; \&quot;2\&quot;\n
+Print \&quot;Test \&quot; &amp; (5-1)\n
+Dim i as Integer\n
 Let i = 16\n
-Print \"i = \" &amp; i\n
+Print \&quot;i = \&quot; &amp; i\n
 While i Do\n
 \tPrint i\n
 \tIF i-1 THEN\n
-\t\tPrint \"Not One! \" &amp; i\n
+\t\tPrint \&quot;Not One! \&quot; &amp; i\n
 \tELSE\n
-\t\tPrint \"ONE!!!!!!!\"\n
+\t\tPrint \&quot;ONE!!!!!!!\&quot;\n
 \tENDIF\n
 \tLet i = i-1\n
 Loop\n
