@@ -30,13 +30,13 @@ import edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView;
 import edu.sru.andgate.bitbot.tools.ReadXML;
 import edu.sru.andgate.bitbot.tutorial.Main_Tutorial;
 
-public class MissionBriefingActivity extends Activity {
-	private ReadXML read;
+public class MissionBriefingActivity extends Activity
+{
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_briefing);
 	        
-	        read = new ReadXML(getBaseContext());
+	        ReadXML.setContext(getBaseContext());
 	       final String missionFile = getIntent().getExtras().getString("Filename");
 	       final int missionIcon = getIntent().getExtras().getInt("Icon",0);
 	       

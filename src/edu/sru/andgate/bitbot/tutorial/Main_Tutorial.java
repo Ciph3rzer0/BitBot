@@ -29,8 +29,8 @@ import android.widget.ViewFlipper;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
-public class Main_Tutorial extends Activity {
-	private ReadXML read;
+public class Main_Tutorial extends Activity
+{
 	private boolean canSimulate = false;
 	private EditText editor; 
 	
@@ -46,7 +46,7 @@ public class Main_Tutorial extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial_main);
 		
-		read = new ReadXML(getBaseContext());
+		ReadXML.setContext(getBaseContext());
 		
 		/*
 		 * recieves content sent from previous view for re-use

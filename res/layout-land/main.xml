@@ -23,7 +23,6 @@
 		android:layout_marginBottom="10dip" 
 		android:id="@+id/tutorial_btn" 
 		android:layout_below="@id/game_modes" 
-		android:paddingBottom="15dip"
 		android:layout_toRightOf="@id/game_modes"
 		android:layout_width="100dip">
 	</Button>

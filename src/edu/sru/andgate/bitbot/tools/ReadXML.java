@@ -1,5 +1,8 @@
 package edu.sru.andgate.bitbot.tools;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,8 +18,8 @@ import android.content.Context;
 public class ReadXML {
 	static Context context;
 	
-	public ReadXML(Context context){		
-			ReadXML.context = context;
+	public static void setContext(Context context){
+		ReadXML.context = context;
 	}
 	/*
 	 * Method that recieves an xml file name, and target <tag> 
@@ -24,23 +27,37 @@ public class ReadXML {
 	 */
 	public static String readXML(String my_file, String tag_name)
 	{
-	 		try {
-	 			InputStream is = context.getAssets().open(my_file);
-	       		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	            DocumentBuilder docBuilder;
-				docBuilder = docBuilderFactory.newDocumentBuilder();
-				Document doc = docBuilder.parse(is);
-	            doc.getDocumentElement ().normalize ();
-	           
-	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
-	            Element myText = (Element) tutorialText.item(0);
-	            
-	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
-	            
-	 		} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			 return null;
-		}//end of readXML()
+		try {
+			InputStream is = context.getAssets().open(my_file);
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder;
+			docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(is);
+			doc.getDocumentElement ().normalize ();
+			
+			NodeList tutorialText = doc.getElementsByTagName(tag_name);
+			
+			Element myText = (Element) tutorialText.item(0);
+			
+			return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+		
+	}//end of readXML()
+	
+	public static InputStream readFile(String fileName)
+	{
+		try {
+			return context.getAssets().open(fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

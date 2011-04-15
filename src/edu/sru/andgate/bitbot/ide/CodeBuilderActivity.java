@@ -19,14 +19,12 @@ import android.widget.AdapterView.OnItemClickListener;
 public class CodeBuilderActivity extends ListActivity { 
 		private String[] code_files;
 		private Intent engineIntent;
-		private ReadXML readxml;
-		private ReadText readtxt;
 	 public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.code_builder_main);
 	       
-	        readxml = new ReadXML(getBaseContext());
-	        readtxt = new ReadText(getBaseContext());
+	        ReadXML.setContext(getBaseContext());
+	        new ReadText(getBaseContext());
 	        
 	        code_files = ReadDirectory.getFiles(getDir("Code",Context.MODE_PRIVATE).getPath());
 	        setListAdapter(new ArrayAdapter<String>(this, R.layout.tutorial_list, code_files));
