@@ -18,13 +18,18 @@ public class MissionListActivity extends ListActivity {
 	// private ProgressDialog m_ProgressDialog = null; 
 	 private ArrayList<CustomListView> myMissions = null;
 	 private MissionListAdapter mission_adapter;
-	 final Hashtable<String, String> mission_list = new Hashtable<String, String>();
-	 final Hashtable<String, Integer> mission_icons = new Hashtable<String,Integer>();
+	 private Hashtable<String, String> mission_list;
+	 private Hashtable<String, Integer> mission_icons;
+	 private Button new_btn, old_btn;
 	 
 	 public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_main);
+	        
 	        myMissions = new ArrayList<CustomListView>();
+	        mission_icons= new Hashtable<String,Integer>();
+	        mission_list = new Hashtable<String, String>();
+	       
 	        this.mission_adapter = new MissionListAdapter(this, R.layout.mission_row, myMissions);
 	        setListAdapter(this.mission_adapter);
 	       

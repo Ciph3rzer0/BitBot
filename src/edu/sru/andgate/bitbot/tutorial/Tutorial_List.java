@@ -15,20 +15,23 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class Tutorial_List extends ListActivity {
-	Constants c = new Constants();
+	private Constants c;
+	private String[] tutorial_items;
+	private int endList;
+	private android.widget.ListView list;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-                
+        c = new Constants();
         //set the items in ListView to names of menu_contents string array  
-        final String[] menu_items = getResources().getStringArray(R.array.menu_contents);
-        setListAdapter(new ArrayAdapter<String>(this, R.layout.tutorial_list, menu_items));
-        final int endList = menu_items.length-1;
+        tutorial_items = getResources().getStringArray(R.array.menu_contents);
+        setListAdapter(new ArrayAdapter<String>(this, R.layout.tutorial_list, tutorial_items));
+        endList = tutorial_items.length-1;
         //Filter the text in the list
-        final android.widget.ListView list = getListView();
+        list = getListView();
         list.setTextFilterEnabled(true);
 
         /*
@@ -39,7 +42,7 @@ public class Tutorial_List extends ListActivity {
         {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
         	{
-         	  if(((String)((TextView) view).getText() == menu_items[endList].toString()))
+         	  if(((String)((TextView) view).getText() == tutorial_items[endList].toString()))
          	  {
          		  //go back to main menu a.k.a kill this activity
          		  finish();

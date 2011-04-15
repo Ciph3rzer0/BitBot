@@ -32,24 +32,30 @@ import edu.sru.andgate.bitbot.tutorial.Main_Tutorial;
 
 public class MissionBriefingActivity extends Activity
 {
+	private String missionFile;
+	private int missionIcon;
+	private TextView mission_text, title_bar;
+	private ImageView mission_icon;
+	private Button back_btn, mission_btn;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_briefing);
 	        
 	        ReadXML.setContext(getBaseContext());
-	       final String missionFile = getIntent().getExtras().getString("Filename");
-	       final int missionIcon = getIntent().getExtras().getInt("Icon",0);
+	        missionFile = getIntent().getExtras().getString("Filename");
+	        missionIcon = getIntent().getExtras().getInt("Icon",0);
 	       
-	        TextView mission_text = (TextView) findViewById(R.id.mission_text);
-	        TextView title_bar = (TextView) findViewById(R.id.title_bar);
+	        mission_text = (TextView) findViewById(R.id.mission_text);
+	        title_bar = (TextView) findViewById(R.id.title_bar);
 	        
 	        mission_text.setText(ReadXML.readXML(missionFile, "mission-text"));
 			title_bar.setText("\t" + ReadXML.readXML(missionFile,"mission-name"));
 			
-			ImageView mission_icon = (ImageView) findViewById(R.id.mission_icon);
+			mission_icon = (ImageView) findViewById(R.id.mission_icon);
 			mission_icon.setImageResource(missionIcon);		
 			
-			Button back_btn = (Button) findViewById(R.id.back_btn);
+			back_btn = (Button) findViewById(R.id.back_btn);
 			back_btn.setText("Back");
 			back_btn.setOnClickListener(new View.OnClickListener() 
 			{
@@ -59,7 +65,7 @@ public class MissionBriefingActivity extends Activity
 				}
 			});
 			
-			Button mission_btn = (Button) findViewById(R.id.take_mission);
+			mission_btn = (Button) findViewById(R.id.take_mission);
 			mission_btn.setText("Take Mission");
 			mission_btn.setOnClickListener(new View.OnClickListener()
 			{

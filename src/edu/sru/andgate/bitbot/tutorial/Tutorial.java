@@ -1,12 +1,9 @@
 package edu.sru.andgate.bitbot.tutorial;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,29 +12,35 @@ import org.w3c.dom.Element;
 
 public class Tutorial 
 {
-	private String title, text;
+	private String title, text, hint, answer;
 	private Stage[] stages;
-	private int stageNum = 0;
+	private int stageNum = 0, numStages;
+	private DocumentBuilderFactory docBuilderFactory;
+	private DocumentBuilder docBuilder;
+	private Document doc;
+	private Element root;
+	private NodeList stagesNodeList;
 	
 	public Tutorial(InputStream xml)
 	{
 		try
 		{
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+			docBuilderFactory = DocumentBuilderFactory.newInstance();
+	        docBuilder = docBuilderFactory.newDocumentBuilder();
 	        
-			Document doc = docBuilder.parse(xml);
-			Element root = doc.getDocumentElement();
+			doc = docBuilder.parse(xml);
+			root = doc.getDocumentElement();
 			
 			title = getData(root.getElementsByTagName("title"));
 			text = getData(root.getElementsByTagName("text"));
 			System.out.println("title = " + title);
 			
-			NodeList stagesNodeList = root.getElementsByTagName("stage");
-			int numStages = stagesNodeList.getLength();
+			stagesNodeList = root.getElementsByTagName("stage");
+			numStages = stagesNodeList.getLength();
 			
 			stages = new Stage[numStages];
-			String hint = null, answer = null;
+			hint = null;
+			answer = null;
 			
 			for (int i = 0; i < numStages; i++)
 			{

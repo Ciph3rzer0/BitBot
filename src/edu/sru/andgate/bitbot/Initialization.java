@@ -41,22 +41,6 @@ public class Initialization {
        {
     	   ReadXML.setContext(cw.getBaseContext());
     	   
-    	   InputStream xml = ReadXML.readFile("example.xml");
-    	   Tutorial t = new Tutorial(xml);
-    	   
-    	   System.out.println(t.getStage());
-    	   
-    	   System.out.println(t.getHint() + " \n\n" + t.getAnswer() + "\n\n");
-    	   System.out.println(t.nextStage());
-    	   
-    	   System.out.println(t.getHint() + " \n\n" + t.getAnswer() + "\n\n");
-    	   System.out.println(t.nextStage());
-    	   
-    	   System.out.println(t.getHint() + " \n\n" + t.getAnswer() + "\n\n");
-    	   System.out.println(t.nextStage());
-    	   
-    	   System.out.println(t.getHint() + " \n\n" + t.getAnswer() + "\n\n");
-    	   
         b = new Bot();
         b.setName("Nick");
         b.setBase("square");

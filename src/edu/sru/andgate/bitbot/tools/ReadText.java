@@ -12,7 +12,7 @@ import android.util.Log;
 public class ReadText {
 	private static Context context;
 	
-	public ReadText(Context context){
+	public static void setContext(Context context){
 		ReadText.context = context;
 	}
 	

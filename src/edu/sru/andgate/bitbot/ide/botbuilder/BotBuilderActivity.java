@@ -23,11 +23,14 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class BotBuilderActivity extends Activity
 {
-	private ReadText readtxt;
 	private Bot _currentBot;
 	private Constants constant;
 	private BotComponentView c, t;
 	private TextView tv;
+	private Spinner spinner;
+	private String[] code_files;
+	ArrayAdapter<String> adapter;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -35,7 +38,7 @@ public class BotBuilderActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ide_botbuilder_main);
 		
-		readtxt = new ReadText(getBaseContext());
+		ReadText.setContext(getBaseContext());
 		c = (BotComponentView)findViewById(R.id.bb_chassis);
 		t = (BotComponentView)findViewById(R.id.bb_turret);
 		
@@ -47,10 +50,9 @@ public class BotBuilderActivity extends Activity
 		t.setSummary("A turret for shooting stuff.");
 		t.setPicID(R.drawable.spinnerturret);
 		
-		final String[] code_files = ReadDirectory.getFiles(getDir("Code",Context.MODE_PRIVATE).getPath());
+		code_files = ReadDirectory.getFiles(getDir("Code",Context.MODE_PRIVATE).getPath());
              	
-       	Spinner spinner = (Spinner) findViewById(R.id.program_title);
-       	ArrayAdapter<String> adapter;
+       	spinner = (Spinner) findViewById(R.id.program_title);
        	adapter = new ArrayAdapter<String>(this, R.layout.spinner_line, code_files);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);  

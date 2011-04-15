@@ -5,7 +5,7 @@ Welcome to the Tutorial's section of Bit Bot!
 This is not a tutorial. This section is to introduce 
 you to the environment you will be using for the other tutorials.
 The following text will describe the steps it will take to 
-complete the tutorials. 
+complete the tutorials.
 
 The tutorial text for all tutorials will be displayed in this 
 "Sliding Drawer" where you are reading this now. This is both
@@ -37,6 +37,8 @@ Feel free to "play" around with the buttons and get a feel for how things will w
 Remember, these tutorials will unlock new "parts" for you Bot, so don't forget
 to come back and complete them.
 </text>
+<stage>
+<hint></hint>
 <answer></answer>
-<hints></hints>
+</stage>
 </tutorial>
