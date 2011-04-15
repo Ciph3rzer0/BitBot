@@ -219,7 +219,7 @@ public class Bot
 				
 				DrawableBot db = new DrawableBot();
 				b.setDrawableBot(db);
-			    db.setTranslation(0.0f,5.0f,-5.0f);
+			    //db.setTranslation(0.0f,5.0f,-5.0f);
 			    db.addTexture(c.base_table.get(b.getBase()));
 			    db.attachSound(context, R.raw.bot_wall_collision);
 			    BotLayer bl = new BotLayer(db);

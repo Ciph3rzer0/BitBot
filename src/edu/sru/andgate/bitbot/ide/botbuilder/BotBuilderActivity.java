@@ -2,14 +2,18 @@ package edu.sru.andgate.bitbot.ide.botbuilder;
 
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.graphics.BotLayer;
+import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
+import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.ReadDirectory;
 import edu.sru.andgate.bitbot.tools.ReadText;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +25,9 @@ public class BotBuilderActivity extends Activity
 {
 	private ReadText readtxt;
 	private Bot _currentBot;
-	
+	private Constants constant;
+	private BotComponentView c, t;
+	private TextView tv;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -30,8 +36,8 @@ public class BotBuilderActivity extends Activity
 		setContentView(R.layout.ide_botbuilder_main);
 		
 		readtxt = new ReadText(getBaseContext());
-		BotComponentView c = (BotComponentView)findViewById(R.id.bb_chassis);
-		BotComponentView t = (BotComponentView)findViewById(R.id.bb_turret);
+		c = (BotComponentView)findViewById(R.id.bb_chassis);
+		t = (BotComponentView)findViewById(R.id.bb_turret);
 		
 		c.setTitle("Square Chassis");
 		c.setSummary("A stable base that is fast and sturdy.");
@@ -49,7 +55,7 @@ public class BotBuilderActivity extends Activity
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);  
         
-        final TextView tv = (TextView) findViewById(R.id.program_text);
+        tv = (TextView) findViewById(R.id.program_text);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {               
                	tv.setText(ReadText.readTextFileFromDirectory("Code",((String)((TextView) view).getText().toString())));
@@ -79,6 +85,18 @@ public class BotBuilderActivity extends Activity
 	 */
 	public void begin(View v)
 	{
+		//Save bot to xml before going to graphics - Possible load from xml inside graphics
+		_currentBot = new Bot();
+		_currentBot.setName("Bot"); //for now, need to get the name from the textview?
+		constant = new Constants();
+		_currentBot.setBase(constant.reverse_base_table.get(c.getPicID()));
+		Log.v("BitBot", _currentBot.getBase());
+		_currentBot.setTurret(constant.reverse_turret_table.get(t.getPicID()));
+		Log.v("BitBot", _currentBot.getTurret());
+		_currentBot.setCode(tv.getText().toString());
+		Log.v("BitBot", _currentBot.getCode().getCode());
+		_currentBot.saveBotToXML(getBaseContext(), "test_Bot.xml");
+				
 		// Start up the game engine
 		startActivity(new Intent(BotBuilderActivity.this, GameActivity.class));
 	}

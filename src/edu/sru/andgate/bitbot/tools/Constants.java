@@ -19,9 +19,14 @@ public class Constants {
 	 public Constants(){
 		 //save-load bot lookups
 		 base_table.put("square", R.drawable.adambot);
+		 base_table.put("spinnerbase", R.drawable.spinnerbase);
 		 turret_table.put("basic",R.drawable.adamturret);
+		 turret_table.put("spinnerturret", R.drawable.spinnerturret);
 		 reverse_base_table.put(R.drawable. adambot,"square");
+		 reverse_base_table.put(R.drawable.spinnerbase, "spinnerbase");
 		 reverse_turret_table.put(R.drawable.adamturret, "basic");
+		 reverse_turret_table.put(R.drawable.spinnerturret, "spinnerturret");
+		
 		 
 		//tutorial list
 		tutorials_table.put("Getting Started", "getting_started.xml");
