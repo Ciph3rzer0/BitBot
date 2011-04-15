@@ -47,6 +47,7 @@ public class MainMenu extends Activity {
         // Temporarily for testing - Josh
 //		startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
 //		startActivity(new Intent(MainMenu.this, GameActivity.class));
+        startActivity(new Intent(MainMenu.this, Test.class));
         
         /* ******************** Start Game *********************** */
         Button game_modes = (Button) findViewById(R.id.game_modes);

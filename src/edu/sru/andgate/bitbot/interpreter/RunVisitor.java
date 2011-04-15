@@ -389,17 +389,72 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTEqualityExpression node, Object data)
 	{
-//		out.println("EqualityExpression");
-		// TODO actually return something
-		return "0";
+		NextInstruction();
+		
+		// Determine the operation
+		String op = node.jjtGetValue().toString();
+		out.println("EqualityExpression" + op);
+		
+		// Visit this nodes children to find out the two operands (v1 and v2)
+		int v1 = 0, v2 = 0;
+		try
+		{
+			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+		}
+		catch(Exception e){}
+		
+		// Evaluate
+		int result = 0;
+		if (op.equalsIgnoreCase("=="))
+			result = (v1==v2)?1:0;
+		else if (op.equalsIgnoreCase("!="))
+			result = (v1!=v2)?1:0;
+		else 
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
+
+		// Log
+		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+		
+		return result;
 	}
 	
 	@Override
 	public Object visit(ASTRelationalExpression node, Object data)
 	{
-//		out.println("RelationalExpression");
-		// TODO actually return something
-		return "0";
+		NextInstruction();
+		
+		// Determine the operation
+		String op = node.jjtGetValue().toString();
+		out.println("RelationalExpression" + op);
+		
+		// Visit this nodes children to find out the two operands (v1 and v2)
+		int v1 = 0, v2 = 0;
+		try
+		{
+			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+		}
+		catch(Exception e){}
+		
+		//"<" | ">" | "<=" | ">="
+		// Evaluate
+		int result = 0;
+		if (op.equalsIgnoreCase("<"))
+			result = (v1<v2)?1:0;
+		else if (op.equalsIgnoreCase(">"))
+			result = (v1>v2)?1:0;
+		else if (op.equalsIgnoreCase("<="))
+			result = (v1<=v2)?1:0;
+		else if (op.equalsIgnoreCase(">="))
+			result = (v1>=v2)?1:0;
+		else 
+			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
+
+		// Log
+		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+		
+		return result;
 	}
 	
 	@Override
@@ -520,7 +575,7 @@ public class RunVisitor implements bc1Visitor
 	}
 	
 	@Override
-	public Object visit(ASTSubDeclaration node, Object data)
+	public Object visit(ASTSubDef node, Object data)
 	{
 		// Identifier
 		String name = node.jjtGetChild(0).jjtAccept(this, null).toString();
@@ -571,9 +626,41 @@ public class RunVisitor implements bc1Visitor
 
 
 
+//		< FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
+//		ListOfInstructions()
+//		< NEXT >
 	@Override
 	public Object visit(ASTForLoop node, Object data)
 	{
+		// If five children, then there is an else
+		boolean hasStep = node.jjtGetNumChildren()==5;
+		out.println("numChildren = " + node.jjtGetNumChildren());
+		
+//		String lcv = node.jjtGetChild(0).jjtAccept(this, null).toString();
+		String lcv = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
+		
+		int first = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+		int last = Integer.parseInt(node.jjtGetChild(2).jjtAccept(this, null).toString());
+		int step = 1, instructionsIndex = 3;
+		
+		if (hasStep)
+		{
+			step = Integer.parseInt(node.jjtGetChild(3).jjtAccept(this, null).toString());
+			instructionsIndex = 4;
+		}
+		
+		// Execute the for loop
+		for (int i = first; i < last; i += step)
+		{
+			// Store the lcv
+			this.vars.put(lcv, i + "");
+			node.jjtGetChild(instructionsIndex).jjtAccept(this, null);
+		}
+		
+		node.jjtGetValue();
+		node.jjtSetValue(new Boolean(true));
+		
+		
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -65,7 +65,7 @@ TOKEN : /* RESERVED WORDS */
 
 | < PRINT : "print" >
 | < LET : "let" >
-| < EQUAL : "=" >
+| < EQUAL : "=" | "eq" >
 | < DIM : "dim" >
 | < AS : "as" >
 
@@ -84,6 +84,10 @@ TOKEN : /* RESERVED WORDS */
 | < ENDIF : "endif" >
 
 | < INTEGER : "integer" >
+| < DOUBLE : "double" >
+| < STRING : "string" >
+| < ARRAY : "array" >
+| < PROGRAM : "program" >
 | < SUBROUTINE : "subroutine" | "sub" >
 | < CALL: "call">
 | < END: "end" >
@@ -114,7 +118,18 @@ SimpleNode Start() #Root :
 void Program() :
 {}
 {
+  < PROGRAM > Identifier()
   ListOfInstructions()
+  < END >
+  
+  ( < NL > )+
+  
+  // Subroutines
+  (
+    SubDef()
+    ( < NL > )+
+  )*
+  
   < EOF >
 }
 
@@ -139,8 +154,6 @@ void Instruction() #void :
   Declaration() //";"
   |
   SubCall() //";" 
-  |
-  SubDecl()
   |
   WhileLoop()
   |
@@ -191,7 +204,7 @@ void ParameterList() #void :
   )?
 }
 
-void SubDecl() #SubDeclaration :
+void SubDef() :
 {}
 {
   < SUBROUTINE > Identifier() < NL >

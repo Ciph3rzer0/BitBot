@@ -69,7 +69,7 @@ TOKEN : /* RESERVED WORDS */
 
 | < PRINT : "print" >
 | < LET : "let" >
-| < EQUAL : "=" >
+| < EQUAL : "=" | "eq" >
 | < DIM : "dim" >
 | < AS : "as" >
 
@@ -88,6 +88,10 @@ TOKEN : /* RESERVED WORDS */
 | < ENDIF : "endif" >
 
 | < INTEGER : "integer" >
+| < DOUBLE : "double" >
+| < STRING : "string" >
+| < ARRAY : "array" >
+| < PROGRAM : "program" >
 | < SUBROUTINE : "subroutine" | "sub" >
 | < CALL: "call">
 | < END: "end" >
@@ -155,7 +159,18 @@ void Program() :
 {/*@bgen(jjtree) Program */
   try {
 /*@egen*/
+  < PROGRAM > Identifier()
   ListOfInstructions()
+  < END >
+  
+  ( < NL > )+
+  
+  // Subroutines
+  (
+    SubDef()
+    ( < NL > )+
+  )*
+  
   < EOF >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -226,8 +241,6 @@ void Instruction()       :
   Declaration() //";"
   |
   SubCall() //";" 
-  |
-  SubDecl()
   |
   WhileLoop()
   |
@@ -382,13 +395,13 @@ void ParameterList()       :
   )?
 }
 
-void SubDecl()                 :
-{/*@bgen(jjtree) SubDeclaration */
-  ASTSubDeclaration jjtn000 = new ASTSubDeclaration(JJTSUBDECLARATION);
+void SubDef() :
+{/*@bgen(jjtree) SubDef */
+  ASTSubDef jjtn000 = new ASTSubDef(JJTSUBDEF);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}
-{/*@bgen(jjtree) SubDeclaration */
+{/*@bgen(jjtree) SubDef */
   try {
 /*@egen*/
   < SUBROUTINE > Identifier() < NL >
