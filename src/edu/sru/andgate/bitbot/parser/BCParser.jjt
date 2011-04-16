@@ -91,6 +91,7 @@ TOKEN : /* RESERVED WORDS */
 | < SUBROUTINE : "subroutine" | "sub" >
 | < CALL: "call">
 | < END: "end" >
+| < RETURN: "return" >
 }
 
 TOKEN : /* IDENTIFIERS */
@@ -118,17 +119,23 @@ SimpleNode Start() #Root :
 void Program() :
 {}
 {
-  < PROGRAM > Identifier()
-  ListOfInstructions()
-  < END >
-  
-  ( < NL > )+
-  
-  // Subroutines
   (
-    SubDef()
+    < PROGRAM > Identifier() 
+  )?
+  
+  ListOfInstructions()
+  
+  (
+    < END >
+    
     ( < NL > )+
-  )*
+    
+    // Subroutines
+    (
+      SubDef()
+      ( < NL > )+
+    )*
+  )?
   
   < EOF >
 }
@@ -209,7 +216,7 @@ void SubDef() :
 {
   < SUBROUTINE > Identifier() < NL >
     ListOfInstructions()
-  < END >
+  < RETURN >
 }
 
 void Print() :

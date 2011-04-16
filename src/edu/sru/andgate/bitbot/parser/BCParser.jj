@@ -95,6 +95,7 @@ TOKEN : /* RESERVED WORDS */
 | < SUBROUTINE : "subroutine" | "sub" >
 | < CALL: "call">
 | < END: "end" >
+| < RETURN: "return" >
 }
 
 TOKEN : /* IDENTIFIERS */
@@ -159,17 +160,23 @@ void Program() :
 {/*@bgen(jjtree) Program */
   try {
 /*@egen*/
-  < PROGRAM > Identifier()
-  ListOfInstructions()
-  < END >
-  
-  ( < NL > )+
-  
-  // Subroutines
   (
-    SubDef()
+    < PROGRAM > Identifier() 
+  )?
+  
+  ListOfInstructions()
+  
+  (
+    < END >
+    
     ( < NL > )+
-  )*
+    
+    // Subroutines
+    (
+      SubDef()
+      ( < NL > )+
+    )*
+  )?
   
   < EOF >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -406,7 +413,7 @@ void SubDef() :
 /*@egen*/
   < SUBROUTINE > Identifier() < NL >
     ListOfInstructions()
-  < END >/*@bgen(jjtree)*/
+  < RETURN >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);

@@ -650,7 +650,7 @@ public class RunVisitor implements bc1Visitor
 		}
 		
 		// Execute the for loop
-		for (int i = first; i < last; i += step)
+		for (int i = first; i <= last; i += step)
 		{
 			// Store the lcv
 			this.vars.put(lcv, i + "");

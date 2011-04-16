@@ -81,13 +81,15 @@ public interface bc1Constants {
   /** RegularExpression Id. */
   int END = 39;
   /** RegularExpression Id. */
-  int IDENTIFIER = 40;
+  int RETURN = 40;
   /** RegularExpression Id. */
-  int LETTER = 41;
+  int IDENTIFIER = 41;
   /** RegularExpression Id. */
-  int DIGIT = 42;
+  int LETTER = 42;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 43;
+  int DIGIT = 43;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 44;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -134,6 +136,7 @@ public interface bc1Constants {
     "<SUBROUTINE>",
     "\"call\"",
     "\"end\"",
+    "\"return\"",
     "<IDENTIFIER>",
     "<LETTER>",
     "<DIGIT>",

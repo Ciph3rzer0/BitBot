@@ -13,6 +13,7 @@ import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
 import edu.sru.andgate.bitbot.tools.Constants;
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,7 +54,7 @@ public class GameActivity extends Activity
 	ScrollView codeScroll;
 	
 	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-	
+	MediaPlayer bgMusic;
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -66,6 +67,10 @@ public class GameActivity extends Activity
         getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        bgMusic = MediaPlayer.create(this, R.raw.neverland);
+        bgMusic.start();
+        bgMusic.setLooping(true);
         
         // Set the layout.
         //setContentView(R.layout.game_activity);
