@@ -1,9 +1,7 @@
 package edu.sru.andgate.bitbot.ide;
 
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.tools.ReadDirectory;
-import edu.sru.andgate.bitbot.tools.ReadText;
-import edu.sru.andgate.bitbot.tools.ReadXML;
+import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,11 +25,12 @@ public class CodeBuilderActivity extends ListActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.code_builder_main);
 		   
-		ReadXML.setContext(getBaseContext());
-		ReadText.setContext(getBaseContext());
-		    
-		code_files = ReadDirectory.getFiles(getDir("Code",Context.MODE_PRIVATE).getPath());
+		FileManager.setContext(getBaseContext());
+		
+		// Get file names in "Code" directory
+		code_files = FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath());
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.tutorial_list, code_files));
+		
 		//Filter the text in the list
 		list = getListView();
 		list.setTextFilterEnabled(true);
@@ -40,15 +39,9 @@ public class CodeBuilderActivity extends ListActivity
 		{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
 			{
-				if(position == 0)
-				{
-					//Do Nothing
-				}else
-					{
-					engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
-					engineIntent.putExtra("File", ReadText.readTextFileFromDirectory("Code",(String)((TextView) view).getText().toString()));
-					startActivity(engineIntent);
-					}
+				engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
+				engineIntent.putExtra("File", FileManager.readTextFileFromDirectory("Code",(String)((TextView) view).getText().toString()));
+				startActivity(engineIntent);
 			}
 		});   
 		   
@@ -59,7 +52,7 @@ public class CodeBuilderActivity extends ListActivity
 			public void onClick(View v) {
 				try {
 					engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
-					engineIntent.putExtra("File", ReadXML.readXML("code_template.xml", "program-code"));
+					engineIntent.putExtra("File", FileManager.readXML("code_template.xml", "program-code"));
 					startActivity(engineIntent);
 				} catch (Exception e) {
 						

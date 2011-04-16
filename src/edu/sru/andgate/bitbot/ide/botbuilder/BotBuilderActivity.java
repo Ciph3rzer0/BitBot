@@ -7,8 +7,7 @@ import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
 import edu.sru.andgate.bitbot.tools.Constants;
-import edu.sru.andgate.bitbot.tools.ReadDirectory;
-import edu.sru.andgate.bitbot.tools.ReadText;
+import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +37,7 @@ public class BotBuilderActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ide_botbuilder_main);
 		
-		ReadText.setContext(getBaseContext());
+		FileManager.setContext(getBaseContext());
 		c = (BotComponentView)findViewById(R.id.bb_chassis);
 		t = (BotComponentView)findViewById(R.id.bb_turret);
 		
@@ -50,25 +49,28 @@ public class BotBuilderActivity extends Activity
 		t.setSummary("A turret for shooting stuff.");
 		t.setPicID(R.drawable.spinnerturret);
 		
-		code_files = ReadDirectory.getFiles(getDir("Code",Context.MODE_PRIVATE).getPath());
-             	
-       	spinner = (Spinner) findViewById(R.id.program_title);
-       	adapter = new ArrayAdapter<String>(this, R.layout.spinner_line, code_files);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);  
-        
-        tv = (TextView) findViewById(R.id.program_text);
-        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-        public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {               
-               	tv.setText(ReadText.readTextFileFromDirectory("Code",((String)((TextView) view).getText().toString())));
-        }
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
+		code_files = FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath());
 		
-		}
-		});		
+		spinner = (Spinner) findViewById(R.id.program_title);
+		adapter = new ArrayAdapter<String>(this, R.layout.spinner_line, code_files);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);  
+		
+		tv = (TextView) findViewById(R.id.program_text);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+			public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) 
+			{
+				tv.setText(FileManager.readTextFileFromDirectory("Code",((String)((TextView) view).getText().toString())));
+			}
+			
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+				// TODO Auto-generated method stub
+			}
+		});
+		
 	}
 	
 	/**

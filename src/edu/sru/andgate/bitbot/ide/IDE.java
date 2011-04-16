@@ -460,12 +460,18 @@ public class IDE extends Activity {
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.clear_btn:    editor.setText("");
-	        						break;
-	  
-	    }
-	    return true;
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.clear:
+				editor.setText("");
+				break;
+			
+			case R.id.save:
+				editor.setText("");
+				break;
+		}
+		return true;
 	}
 }

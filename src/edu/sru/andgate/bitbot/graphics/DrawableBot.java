@@ -9,12 +9,10 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.SoundManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.opengl.GLUtils;
 import android.util.Log;
 

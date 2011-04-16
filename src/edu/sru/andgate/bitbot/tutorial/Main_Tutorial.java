@@ -9,7 +9,7 @@ import java.io.InputStream;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
-import edu.sru.andgate.bitbot.tools.ReadXML;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -59,7 +59,7 @@ public class Main_Tutorial extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial_main);
 		
-		ReadXML.setContext(getBaseContext());
+		FileManager.setContext(getBaseContext());
 		
 		/*
 		 * recieves content sent from previous view for re-use
@@ -67,7 +67,7 @@ public class Main_Tutorial extends Activity
 		tutorialID = getIntent().getExtras().getString("File_ID");
 		simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
 		
-		xml = ReadXML.readFile(tutorialID);
+		xml = FileManager.readFile(tutorialID);
    	   	myTutorial = new Tutorial(xml);
 			
 		/*
@@ -90,7 +90,7 @@ public class Main_Tutorial extends Activity
 		
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		main_text = (TextView) findViewById(R.id.tutorial_text);
-		main_text.setText(ReadXML.readXML(tutorialID,"text"));
+		main_text.setText(FileManager.readXML(tutorialID,"text"));
 		
 	
 		/*
@@ -303,23 +303,25 @@ public class Main_Tutorial extends Activity
 	}
 	
 	// Temp variable declaration
-    private InstructionLimitedVirtualMachine ilvm;
+	private InstructionLimitedVirtualMachine ilvm;
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.ide_tutorial_menu, menu);
-	    return true;
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.ide_tutorial_menu, menu);
+		return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.clear_btn:    editor.setText("");
-	        						break;
-	  
-	    }
-	    return true;
+		switch (item.getItemId()) {
+			case R.id.clear:
+				editor.setText("");
+				break;
+				
+		}
+		return true;
 	}
 	
 	/*
@@ -355,35 +357,37 @@ public class Main_Tutorial extends Activity
 		 * Temporary - Need to send strings(s) to interpreter and compare abstract 
 		 * 				Syntax Tree's
 		 */
-			
-			String temp1 = "";
-			String temp2 = "";
-			
-			temp1 = file;
-			temp2 = currTutorial.getAnswer();
 		
-		  //Let the user know if they are right or not.
-		  if(temp1.equalsIgnoreCase(temp2))
-		  {
-			  int currStage = currTutorial.getStage();
-			  currStage++;
-			  String nextStage = "Correct Answer Stage: " + currStage + " Completed, Next Stage Available";
-			  String lastStage = "Correct Anwser, All stages of this Tutorial are finished. Simulation Ready";
-			  if(currTutorial.nextStage() == -1){
-				  Toast.makeText(Main_Tutorial.this, lastStage,Toast.LENGTH_SHORT).show();
-				  canSimulate = true;
-			  }else{
-				  Toast.makeText(Main_Tutorial.this, nextStage,Toast.LENGTH_SHORT).show();
-			  }
-			  /*
-			   * call function to simulate code here if not using sim button...
-			   */
-		  }else
-			  {
-				Toast.makeText(Main_Tutorial.this,"Wrong Answer",Toast.LENGTH_SHORT).show();
-				canSimulate = false;
-			  }
+		String temp1 = "";
+		String temp2 = "";
+		
+		temp1 = file;
+		temp2 = currTutorial.getAnswer();
+		
+		//Let the user know if they are right or not.
+		if(temp1.equalsIgnoreCase(temp2))
+		{
+			int currStage = currTutorial.getStage();
+			currStage++;
+			String nextStage = "Correct Answer Stage: " + currStage + " Completed, Next Stage Available";
+			String lastStage = "Correct Anwser, All stages of this Tutorial are finished. Simulation Ready";
+			if(currTutorial.nextStage() == -1){
+				Toast.makeText(Main_Tutorial.this, lastStage,Toast.LENGTH_SHORT).show();
+				canSimulate = true;
+			}else{
+				Toast.makeText(Main_Tutorial.this, nextStage,Toast.LENGTH_SHORT).show();
+			}
+			/*
+			 * call function to simulate code here if not using sim button...
+			 */
+		}else
+		{
+			Toast.makeText(Main_Tutorial.this,"Wrong Answer",Toast.LENGTH_SHORT).show();
+			canSimulate = false;
+		}
 	}
+	
+	
 	
 	 /**
      * Temporary code to test the VM

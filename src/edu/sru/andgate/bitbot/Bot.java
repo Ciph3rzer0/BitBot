@@ -70,14 +70,6 @@ public class Bot
 	
 	public boolean Move(float degrees, float stepSize)
 	{
-//		_x += x;
-//		_y += y;
-//		_drawable.setTranslation(x, y, -10);
-		
-		// Convert degrees to radians
-//		degrees = (float)(degrees*(180/Math.PI));
-		
-		// Scale stepSize down since we only have integers to work with
 		stepSize /= 100;
 		
 		_drawable.move(degrees, stepSize);
@@ -197,88 +189,97 @@ public class Bot
 		return sc;
 	}
 	
-	  public static Bot CreateBotFromXML(Context context, String xmlFile) {
-			//read in bot from xmlFile
-			try{
-				FileInputStream is = context.openFileInput(xmlFile);
-				DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-		        DocumentBuilder docBuilder;
-				docBuilder = docBuilderFactory.newDocumentBuilder();
-				Document doc = docBuilder.parse(is);
-		        doc.getDocumentElement ().normalize ();
-		        
-				Bot b = new Bot();
-				b.setName(readXML(doc, "Bot-Name"));
-				//Log.v("BitBot", b.getName());
-				b.setBase(readXML(doc, "Bot-Base"));
-				//Log.v("BitBot", b.getBase());
-				b.setTurret(readXML(doc, "Bot-Turret"));
-				//Log.v("BitBot", b.getTurret());
-				b.setCode(readXML(doc, "Bot-Code"));
-				//Log.v("BitBot", b.getCode().getCode());
-				
-				DrawableBot db = new DrawableBot();
-				b.setDrawableBot(db);
-			    //db.setTranslation(0.0f,5.0f,-5.0f);
-			    db.addTexture(c.base_table.get(b.getBase()));
-			    db.attachSound(context, R.raw.bot_wall_collision);
-			    BotLayer bl = new BotLayer(db);
-			    b.setBotLayer(bl);
-			    bl.addTexture(c.turret_table.get(b.getTurret()));
-				b.attachDrawable(db);
-				b.attachSourceCode(new SourceCode(b.getCode().getName(), b.getCode().getCode()+"\n"));
-				b.readyInterpreter();
-								
-				return b;
-			}catch (Exception e){
-				Log.v("BitBot", "Error reading file");
-				//Log.v("BitBot", e.getStackTrace().toString());
-			}
-			return null;
+	/**
+	 * Given an xml file this will take the data and make a Bot object out of it
+	 * @param context a context to open the file
+	 * @param xmlFile the file name
+	 * @return
+	 */
+	public static Bot CreateBotFromXML(Context context, String xmlFile) {
+		//read in bot from xmlFile
+		try{
+			FileInputStream is = context.openFileInput(xmlFile);
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder;
+			docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(is);
+			doc.getDocumentElement ().normalize ();
 			
+			Bot b = new Bot();
+			b.setName(readXML(doc, "Bot-Name"));
+			//Log.v("BitBot", b.getName());
+			b.setBase(readXML(doc, "Bot-Base"));
+			//Log.v("BitBot", b.getBase());
+			b.setTurret(readXML(doc, "Bot-Turret"));
+			//Log.v("BitBot", b.getTurret());
+			b.setCode(readXML(doc, "Bot-Code"));
+			//Log.v("BitBot", b.getCode().getCode());
 			
+			DrawableBot db = new DrawableBot();
+			b.setDrawableBot(db);
+			//db.setTranslation(0.0f,5.0f,-5.0f);
+			db.addTexture(c.base_table.get(b.getBase()));
+			db.attachSound(context, R.raw.bot_wall_collision);
+			BotLayer bl = new BotLayer(db);
+			b.setBotLayer(bl);
+			bl.addTexture(c.turret_table.get(b.getTurret()));
+			b.attachDrawable(db);
+			b.attachSourceCode(new SourceCode(b.getCode().getName(), b.getCode().getCode()+"\n"));
+			b.readyInterpreter();
+							
+			return b;
+		}catch (Exception e){
+			Log.v("BitBot", "Error reading file");
+			//Log.v("BitBot", e.getStackTrace().toString());
 		}
+		return null;
 		
-		 public void saveBotToXML(Context context, String filename){
-	 	    XmlSerializer serializer = Xml.newSerializer();
-	 	    StringWriter writer = new StringWriter();
-	 	    try {
-	 	        serializer.setOutput(writer);
-	 	        serializer.startDocument("UTF-8", true);
-	 	        serializer.startTag("", "Bot");
-	 	           	serializer.startTag("", "Bot-Name");
-	 	        	serializer.text(this.getName());
-	 	        	serializer.endTag("", "Bot-Name");
-	 	        	serializer.startTag("", "Bot-Base");
-	 	        	serializer.text(this.getBase());
-	 	        	serializer.endTag("", "Bot-Base");
-	 	        	serializer.startTag("", "Bot-Turret");
-	 	        	serializer.text(this.getTurret());
-	 	        	serializer.endTag("", "Bot-Turret");
-	 	        	serializer.startTag("", "Bot-Code");
-	 	        	serializer.text(this.getCode().getCode());
-	 	        	serializer.endTag("", "Bot-Code");
-	 	        serializer.endTag("", "Bot");
-	 	        serializer.endDocument();    
-	 	    } catch (Exception e) {
-	 	    		Log.v("BitBot", "XML Writer error");
-	 	        	//Log.v("BitBot", e.getStackTrace().toString());
-	 	    } 
-	 	    try{
-	 	          FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
-	 	          Log.v("BitBot", "Success");
-	 	          fos.write(writer.toString().getBytes());
-	 	          fos.close();
-	          }catch(Exception e){
-	        	  Log.v("BitBot", "Output Stream Error");
-	        	  //Log.v("BitBot", e.getStackTrace().toString());
-	          }
-	 	}
-		  
-			public static String readXML(Document doc, String tag_name) throws IOException{
-					NodeList tutorialText = doc.getElementsByTagName(tag_name);
-		            Element myText = (Element) tutorialText.item(0);
-		            String text = ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
-					 return text;
-			}
+		
+	}
+	
+	public void saveBotToXML(Context context, String filename)
+	{
+		XmlSerializer serializer = Xml.newSerializer();
+		StringWriter writer = new StringWriter();
+		
+		try {
+			serializer.setOutput(writer);
+			serializer.startDocument("UTF-8", true);
+			serializer.startTag("", "Bot");
+			serializer.startTag("", "Bot-Name");
+			serializer.text(this.getName());
+			serializer.endTag("", "Bot-Name");
+			serializer.startTag("", "Bot-Base");
+			serializer.text(this.getBase());
+			serializer.endTag("", "Bot-Base");
+			serializer.startTag("", "Bot-Turret");
+			serializer.text(this.getTurret());
+			serializer.endTag("", "Bot-Turret");
+			serializer.startTag("", "Bot-Code");
+			serializer.text(this.getCode().getCode());
+			serializer.endTag("", "Bot-Code");
+			serializer.endTag("", "Bot");
+			serializer.endDocument();    
+		} catch (Exception e) {
+			Log.v("BitBot", "XML Writer error");
+//			Log.v("BitBot", e.getStackTrace().toString());
+		}
+		try {
+			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
+			Log.v("BitBot", "Success");
+			fos.write(writer.toString().getBytes());
+			fos.close();
+		} catch(Exception e) {
+			Log.v("BitBot", "Output Stream Error");
+			//Log.v("BitBot", e.getStackTrace().toString());
+		}
+	}
+	
+	public static String readXML(Document doc, String tag_name) throws IOException
+	{
+		NodeList tutorialText = doc.getElementsByTagName(tag_name);
+		Element myText = (Element) tutorialText.item(0);
+		String text = ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
+		return text;
+	}
 }
