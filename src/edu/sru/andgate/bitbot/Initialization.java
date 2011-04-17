@@ -36,9 +36,11 @@ public class Initialization
 		
 		b.saveBotToXML(cw.getBaseContext(), "test_save.xml");
 		
-		String data = "";
-		String data2 = cw.getResources().getString(R.string.example_code);
-		
+		String data = "//Place Holder File\n";
+		data.substring(2);
+		String data2 = "//Simple While Loop\n"; 
+		data2 += cw.getResources().getString(R.string.example_code);
+		data2.substring(2);
 		// Is this necessary?
 		// cw = new ContextWrapper(cw.getBaseContext());
 		mediaDir = cw.getDir("Code", Context.MODE_PRIVATE);
@@ -50,8 +52,7 @@ public class Initialization
 		{
 			Log.v("Test", "Directory !exist");
 		}
-		f = new File(cw.getDir("Code", Context.MODE_PRIVATE), "Program Code");
-		
+		f = new File(cw.getDir("Code", Context.MODE_PRIVATE), "Program Code.txt");
 		f2 = new File(cw.getDir("Code", Context.MODE_PRIVATE), "test code.txt");
 		
 		try

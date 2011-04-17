@@ -7,7 +7,7 @@
 		android:background="@drawable/hexbutton" 
 		android:text="Graphics" 
 		android:layout_height="wrap_content" 
-		android:textSize="15dip" 
+		android:textSize="15dip"
 		android:textColor="#00FF00"
 		android:layout_above="@+id/bot_base"
 		android:layout_centerHorizontal="true"

@@ -68,8 +68,7 @@ public class Main_Tutorial extends Activity
 		simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
 		
 		xml = FileManager.readFile(tutorialID);
-   	   	myTutorial = new Tutorial(xml);
-			
+   	   	myTutorial = new Tutorial(xml);	
 		/*
 		 * Action Items for Sequence, Selection, Iteration buttons
 		 */
@@ -91,7 +90,6 @@ public class Main_Tutorial extends Activity
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		main_text = (TextView) findViewById(R.id.tutorial_text);
 		main_text.setText(FileManager.readXML(tutorialID,"text"));
-		
 	
 		/*
 		 * create the text editor and cabinet button
@@ -374,6 +372,7 @@ public class Main_Tutorial extends Activity
 			if(currTutorial.nextStage() == -1){
 				Toast.makeText(Main_Tutorial.this, lastStage,Toast.LENGTH_SHORT).show();
 				canSimulate = true;
+				//currTutorial.setCompletionStatus(true);
 			}else{
 				Toast.makeText(Main_Tutorial.this, nextStage,Toast.LENGTH_SHORT).show();
 			}

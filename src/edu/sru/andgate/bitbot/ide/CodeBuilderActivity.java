@@ -35,7 +35,7 @@ public class CodeBuilderActivity extends ListActivity
   			CustomListView codeOptions[] = new CustomListView[code_files.length];
   			
   			for(int i = 0; i < code_files.length; i++){
-  				codeOptions[i] = new CustomListView(code_files[i].toString(), "Temp Description");
+  				codeOptions[i] = new CustomListView(code_files[i].toString(), FileManager.getFileDescriptionFromFile("Code",code_files[i].toString()).substring(2));
   				code_adapter.add(codeOptions[i]);
    			}
   			     	   			   

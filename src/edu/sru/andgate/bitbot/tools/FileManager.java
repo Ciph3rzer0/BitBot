@@ -28,6 +28,44 @@ public class FileManager
 		_context = context;
 	}
 	
+	public static String getFileDescriptionFromFile(String directory, String filename)
+	{
+		String line = "";
+		// try opening the myfilename.txt
+		try 
+		{
+			// open the file for reading
+			File f = new File(_context.getDir(directory, Context.MODE_PRIVATE), filename);
+			FileInputStream fis = new FileInputStream(f);
+			//InputStream instream = openFileInput();
+			
+			// if file the available for reading
+			if (fis != null)
+			{
+				// prepare the file for reading
+				InputStreamReader inputreader = new InputStreamReader(fis);
+				BufferedReader buffreader = new BufferedReader(inputreader);
+				
+				line = buffreader.readLine();
+				
+			}
+			// close the file again
+			fis.close();
+			return line.toString();
+		}
+		catch (java.io.FileNotFoundException e)
+		{
+			// do something if the myfilename.txt does not exits
+			Log.v("Test", "File Not Found");
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			Log.v("Test", "I/O Error");
+		}
+		
+		return line.toString();
+	}
 	
 	public static String readTextFileFromDirectory(String directory, String filename)
 	{
@@ -139,24 +177,21 @@ public class FileManager
 	}
 	
 	
-//	public static void saveCodeFile()
-//	{
-//
-//		File f2 = new File(_context.getDir("Code", Context.MODE_PRIVATE), "test code.txt");
-//		
-//		try
-//		{
-//			f2.createNewFile();
-//			fos2 = new FileOutputStream(f2);
-//			fos = new FileOutputStream(f);
-//			fos.write(data.getBytes());
-//			fos2.write(data2.getBytes());
-//			fos2.close();
-//			fos.close();
-//		} catch (Exception e)
-//		{
-//			Log.v("Test", "Error writing file");
-//		}
-//	}
+	public static void saveCodeFile(String data, String filename)
+	{
+
+		File f = new File(_context.getDir("Code", Context.MODE_PRIVATE), filename);
+		
+		try
+		{
+			f.createNewFile();
+			FileOutputStream fos = new FileOutputStream(f);
+			fos.write(data.getBytes());
+			fos.close();
+		} catch (Exception e)
+		{
+			Log.v("Test", "Error writing file");
+		}
+	}
 	
 }

@@ -3,10 +3,14 @@ package edu.sru.andgate.bitbot.ide;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.tools.FileManager;
 import edu.sru.andgate.bitbot.tutorial.ActionItem;
 import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +37,6 @@ public class IDE extends Activity {
 	 * Used for sliding the ViewFlipper
 	 */
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
-	
 	private EditText editor;
 	private TextView botOutput;
 	
@@ -469,9 +472,35 @@ public class IDE extends Activity {
 				break;
 			
 			case R.id.save:
-				editor.setText("");
+				promptUser("Code Files (.txt)","Program Name");
 				break;
 		}
 		return true;
 	}
+	
+	public void promptUser(String title, String mesg){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle(title);
+		alert.setMessage(mesg);
+
+		// Set an EditText view to get user input 
+		final EditText input = new EditText(this);
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+			  String value = input.getText().toString();
+			  FileManager.saveCodeFile(editor.getText().toString(), value);
+		}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    // Canceled.
+		  }
+		});
+		
+		alert.show();
+	}	
 }

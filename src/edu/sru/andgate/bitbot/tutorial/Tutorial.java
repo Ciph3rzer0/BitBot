@@ -20,6 +20,7 @@ public class Tutorial
 	private Document doc;
 	private Element root;
 	private NodeList stagesNodeList;
+	private boolean completionStatus;
 	
 	public Tutorial(InputStream xml)
 	{
@@ -105,6 +106,18 @@ public class Tutorial
 		{
 			this.hint = hint;
 			this.answer = answer;
+		}
+	}
+	
+	public void setCompletionStatus(boolean b){
+		this.completionStatus = b;
+	}
+
+	public Boolean isCompleted() {
+		if(this.completionStatus = true){
+			return true;
+		}else{
+			return false;
 		}
 	}
 }
