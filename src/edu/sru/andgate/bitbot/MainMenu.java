@@ -1,17 +1,11 @@
 package edu.sru.andgate.bitbot;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
-import edu.sru.andgate.bitbot.ide.IDE;
-import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
 import android.app.Activity;
-import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,7 +13,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;

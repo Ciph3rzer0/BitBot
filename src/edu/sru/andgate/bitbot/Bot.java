@@ -219,7 +219,7 @@ public class Bot
 			b.setDrawableBot(db);
 			//db.setTranslation(0.0f,5.0f,-5.0f);
 			db.addTexture(c.base_table.get(b.getBase()));
-			db.attachSound(context, R.raw.bot_wall_collision);
+			db.attachCollisionSound(context, R.raw.bot_wall_collision);
 			BotLayer bl = new BotLayer(db);
 			b.setBotLayer(bl);
 			bl.addTexture(c.turret_table.get(b.getTurret()));

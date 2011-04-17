@@ -31,7 +31,7 @@ public class DrawableBot implements Drawable
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
 	Context context;
-	SoundManager sm;
+	SoundManager collisionSound;
 	
 	
 	float BOUNDING_RADIUS = 0.75f;
@@ -98,10 +98,10 @@ public class DrawableBot implements Drawable
 	}
 	
 
-	public void attachSound(Context context, int songID){
-		sm = new SoundManager(context, songID);
+	public void attachCollisionSound(Context context, int soundID){
+		collisionSound = new SoundManager(context, soundID);
 	}
-	
+		
 	@Override
 	public void attachBot(Bot bot)
 	{
@@ -208,7 +208,7 @@ public class DrawableBot implements Drawable
 	public void onBoundaryCollision()
 	{
 		try{
-			sm.playAudio();
+			collisionSound.playAudio();
 		}catch(Exception e){
 			Log.v("BitBot", "Sound Error");
 		}

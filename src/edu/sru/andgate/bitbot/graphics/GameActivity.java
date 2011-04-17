@@ -143,7 +143,7 @@ public class GameActivity extends Activity
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
         test2.moveStepSize = 0.08f;
-        test2.attachSound(getBaseContext(), R.raw.bot_wall_collision);
+        test2.attachCollisionSound(getBaseContext(), R.raw.bot_wall_collision);
         collisionManager.addCollisionDetectorToBot(test2);
         
         //Test Bot 2 Turret Layer
@@ -430,6 +430,7 @@ public class GameActivity extends Activity
 	{
 		super.onDestroy();
 		gameLoop = false;
+		bgMusic.release();
 		finish();
 	}
 }
