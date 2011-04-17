@@ -3,7 +3,6 @@ package edu.sru.andgate.bitbot.ide;
 import java.util.ArrayList;
 
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.missionlist.CustomListView;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,12 +38,12 @@ public class CodeListAdapter extends ArrayAdapter<CustomListView>
 			TextView codeName = (TextView) customView.findViewById(R.id.program);
 			TextView codeDescription = (TextView) customView.findViewById(R.id.summary);
 			if (codeName != null) {
-				codeName.setText("Program Name: "+ myView.getMissionName());                            }
+				codeName.setText("Program Name: "+ myView.getCodeName());                            }
 			if(codeDescription != null){
-				codeDescription.setText("Summary: "+ myView.getMissionDescription());
+				codeDescription.setText("Summary: "+ myView.getCodeDescription());
 			}
 		}
-		customView.setTag(myView.getMissionName());
+		customView.setTag(myView.getCodeName());
 		return customView;
 	}
 }

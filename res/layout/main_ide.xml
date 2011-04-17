@@ -81,7 +81,6 @@
 			android:typeface="monospace"
 			android:gravity="top"
 			android:layout_height="match_parent"
-			android:background="@layout/button_bot_component"
         />
     </LinearLayout>
     

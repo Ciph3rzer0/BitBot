@@ -29,10 +29,9 @@
 		    android:id="@+id/create_program"
 		    android:textSize="45px" 
 		    android:gravity="center"
-		    android:layout_centerHorizontal="true"
 		    style="@style/Heading"
 		    android:background="@layout/button_bot_component"
-		    android:layout_width="wrap_content">
+		    android:layout_width="match_parent">
 	    </Button>
 	</RelativeLayout>
 </RelativeLayout>

@@ -16,7 +16,7 @@ public class Constants {
 	public Hashtable<String, String> tutorials_table = new Hashtable<String, String>();
 	public Hashtable<String, Integer> simulation_table = new Hashtable<String, Integer>();
 	 
-	 public Constants(){
+	public Constants(){
 		 //save-load bot lookups
 		 base_table.put("square", R.drawable.adambot);
 		 base_table.put("spinnerbase", R.drawable.spinnerbase);
