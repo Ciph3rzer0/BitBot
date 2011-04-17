@@ -176,7 +176,11 @@ public class FileManager
 		return items;	
 	}
 	
-	
+	public static void deleteFile(String directory, String filename)
+	{
+		File f = new File(_context.getDir(directory,Context.MODE_PRIVATE), filename);
+		f.delete();
+	}
 	public static void saveCodeFile(String data, String filename)
 	{
 

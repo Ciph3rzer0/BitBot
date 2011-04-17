@@ -3,13 +3,19 @@ package edu.sru.andgate.bitbot.ide;
 import java.util.ArrayList;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.tools.FileManager;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class CodeBuilderActivity extends ListActivity 
 { 
@@ -51,7 +57,16 @@ public class CodeBuilderActivity extends ListActivity
 					} catch (Exception e) {
 							
 					}
-				
+				}
+			});
+			
+			ListView list = getListView();
+			list.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+					promptDelete(view.getTag().toString());
+					Log.v("BitBot", "Long Click Accepted");
+					return true;
 				}
 			});
 		}
@@ -61,5 +76,28 @@ public class CodeBuilderActivity extends ListActivity
 		 engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
 		 engineIntent.putExtra("File", FileManager.readTextFileFromDirectory("Code",v.getTag().toString()));
 		 startActivity(engineIntent);
+	 }
+	 
+	 public void promptDelete(final String file){ 
+		 AlertDialog.Builder deletePrompt = new AlertDialog.Builder(this);
+		 deletePrompt.setMessage("Delete this file?");
+		 deletePrompt.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			 public void onClick(DialogInterface arg0, int arg1) {
+				 //Delete File
+				 FileManager.deleteFile("Code", file);
+				 Intent intent = getIntent();
+				 finish();
+				 startActivity(intent);
+			 }
+		 });
+		 
+		 deletePrompt.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			 public void onClick(DialogInterface arg0, int arg1) {
+				 //Do Nothing
+			 }
+		 });
+
+		 // display box
+		 deletePrompt.show();
 	 }
 }
