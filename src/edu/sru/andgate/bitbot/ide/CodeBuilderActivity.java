@@ -54,6 +54,7 @@ public class CodeBuilderActivity extends ListActivity
 						engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
 						engineIntent.putExtra("File", FileManager.readXML("code_template.xml", "program-code"));
 						startActivity(engineIntent);
+						finish();
 					} catch (Exception e) {
 							
 					}
@@ -76,6 +77,8 @@ public class CodeBuilderActivity extends ListActivity
 		 engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
 		 engineIntent.putExtra("File", FileManager.readTextFileFromDirectory("Code",v.getTag().toString()));
 		 startActivity(engineIntent);
+		 finish();
+		
 	 }
 	 
 	 public void promptDelete(final String file){ 

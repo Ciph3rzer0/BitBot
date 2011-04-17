@@ -51,7 +51,11 @@ public class FileManager
 			}
 			// close the file again
 			fis.close();
-			return line.toString();
+			try{
+				return line.toString();				
+			}catch(Exception e){
+				Log.v("BitBot", "No File Description");
+			}
 		}
 		catch (java.io.FileNotFoundException e)
 		{
@@ -64,7 +68,7 @@ public class FileManager
 			Log.v("Test", "I/O Error");
 		}
 		
-		return line.toString();
+		return "//Not Available";
 	}
 	
 	public static String readTextFileFromDirectory(String directory, String filename)

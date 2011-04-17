@@ -42,9 +42,6 @@ To get a feel for declaring variables:
 
 3. Print the value of the variable to the console.
 </text>
-
-
-<!-- ----------------------------------------------------------- -->
 <stage>
 <hint>
 Goal: Create a variable named 'i' with an Integer data type.
@@ -59,13 +56,8 @@ In this case, replace [var] with 'i' and [type] with 'Integer'
 Your code should look like:
 Dim i as Integer
 </hint>
-
 <answer>Dim i as Integer</answer>
 </stage>
-
-
-
-<!-- ----------------------------------------------------------- -->
 <stage>
 <hint>
 Goal: Assign an integer value to a variable
@@ -85,10 +77,6 @@ Let i = 15
 <answer>Dim i as Integer
 Let i = 15</answer>
 </stage>
-
-
-
-<!-- ----------------------------------------------------------- -->
 <stage>
 <hint>
 Goal: Print the value of a variable to the console
@@ -110,6 +98,4 @@ Print i
 Let i = 15
 Print i</answer>
 </stage>
-
-
 </tutorial>

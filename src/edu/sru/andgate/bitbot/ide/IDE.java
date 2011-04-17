@@ -327,7 +327,13 @@ public class IDE extends Activity {
 		});
 		
 	}
-	
+    
+    @Override
+    public void onBackPressed(){
+		Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
+		startActivity(engineIntent);
+		finish();
+	}
 //    /**
 //     * This overrides the default back button behavior to flip back to the first
 //     * view of the ViewFlipper before backing out of this activity.
