@@ -157,7 +157,9 @@ public class GameActivity extends Activity
         
         loaded_bot = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
 		collisionManager.addCollisionDetectorToBot(loaded_bot.getDrawableBot());
-      
+		ilvm.addInterpreter(loaded_bot.getInterpreter());
+		
+		
         /* 
 		String code =
 			"Let d = -1\n" +
@@ -177,6 +179,8 @@ public class GameActivity extends Activity
         b.attachSourceCode(source);
         b.readyInterpreter();
 		ilvm.addInterpreter(b.getInterpreter());
+		*/
+		
 		
 		// Run the vm every second.
 		Timer t = new Timer();
@@ -187,7 +191,7 @@ public class GameActivity extends Activity
 			{
 				ilvm.resume(4);
 			}
-		}, 50, 50);*/
+		}, 50, 50);
         
         gameRenderer = new GlRenderer(this.getBaseContext());
         
@@ -310,10 +314,10 @@ public class GameActivity extends Activity
     	    		test2.move();
     	    		//test2.move(45.0f, 0.1f);
     	    		test2Turret.setRotationAngle(rotate);
-    	    		
-    	    		loaded_bot.getBotLayer().setRotationAngle(rotate);
-    	    		loaded_bot.getDrawableBot().move();
-    	    		
+//    	    		
+//    	    		loaded_bot.getBotLayer().setRotationAngle(rotate);
+//    	    		loaded_bot.getDrawableBot().move();
+//    	    		
     	    		if(goinUp)
     	    		{
     	    			move += 0.03f;
