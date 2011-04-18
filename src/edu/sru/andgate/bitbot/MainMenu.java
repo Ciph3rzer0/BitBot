@@ -24,6 +24,8 @@ public class MainMenu extends Activity {
 	Initialization init;
 	ContextWrapper cw;
 	Dialog helpDialog;
+	TextView help_text;
+	ImageView bot_turret;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,15 +35,15 @@ public class MainMenu extends Activity {
         //Initialize some things: code text docs, saved bot
         cw = new ContextWrapper(getBaseContext());
         init = new Initialization(cw);
-                     
-//        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         
-        final ImageView bot_turret = (ImageView) findViewById(R.id.bot_turret);
-        
-        // Temporarily for testing - Josh
-//		startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
-//		startActivity(new Intent(MainMenu.this, GameActivity.class));
-        
+        helpDialog = new Dialog(this, R.style.CustomDialogTheme);
+        helpDialog.setContentView(R.layout.floating_help);
+        help_text = (TextView) helpDialog.findViewById(R.id.help_view);
+        FileManager.setContext(getBaseContext());
+        help_text.setText(FileManager.readXML("help.xml", "text"));
+
+        bot_turret = (ImageView) findViewById(R.id.bot_turret);
+                
         /* ******************** Start Game *********************** */
         Button game_modes = (Button) findViewById(R.id.game_modes);
 		game_modes.setOnClickListener(new View.OnClickListener() 
@@ -50,8 +52,7 @@ public class MainMenu extends Activity {
 			public void onClick(View v) 
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, 0);
-				//open graphics for now
-				Intent engineIntent = new Intent(MainMenu.this, GameActivity.class);
+				Intent engineIntent = new Intent(MainMenu.this, MissionListActivity.class);
 				startActivity(engineIntent);
 			}
 		});
@@ -70,16 +71,14 @@ public class MainMenu extends Activity {
 		});
         
 		/* ******************** Options *********************** */
-        Button options_btn = (Button) findViewById(R.id.options_btn);
-        options_btn.setOnClickListener(new View.OnClickListener() 
+        Button help_btn = (Button) findViewById(R.id.help_btn);
+        help_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, 120);
-				//open interpreter for now
-				Intent engineIntent = new Intent(MainMenu.this, Test.class);
-				startActivity(engineIntent);
+				helpDialog.show();
 			}
 		});
         
@@ -90,16 +89,13 @@ public class MainMenu extends Activity {
 			@Override
 			public void onClick(View v) 
 			{
-				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, -60);
-				Intent engineIntent = new Intent(MainMenu.this, MissionListActivity.class);
-				startActivity(engineIntent);
-				
+				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, -60);				
 			}
 		});
         
         /* ******************** CodeBuilder *********************** */
-        Button puzzle_btn = (Button) findViewById(R.id.puzzle_btn);
-        puzzle_btn.setOnClickListener(new View.OnClickListener() 
+        Button ide_btn = (Button) findViewById(R.id.ide_btn);
+        ide_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
@@ -124,23 +120,32 @@ public class MainMenu extends Activity {
 				System.exit(0);
 			}
 		}); 
-        
-        helpDialog = new Dialog(this, R.style.CustomDialogTheme);
-        helpDialog.setContentView(R.layout.floating_help);
-        TextView help_text = (TextView) helpDialog.findViewById(R.id.help_view);
-        FileManager.setContext(getBaseContext());
-        help_text.setText(FileManager.readXML("help.xml", "text"));
-       
+               
         /*
          * temp help button
          */
-        Button help_btn = (Button)findViewById(R.id.help);
-        help_btn.setOnClickListener(new View.OnClickListener() {
+        Button interpreter_btn = (Button)findViewById(R.id.interpreter_btn);
+        interpreter_btn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
-				helpDialog.show();
+				//open interpreter for now
+				Intent engineIntent = new Intent(MainMenu.this, Test.class);
+				startActivity(engineIntent);
+			}
+		});
+        
+        /*
+         * temp graphics button
+         */
+        Button graphics_btn = (Button) findViewById(R.id.graphics_btn);
+        graphics_btn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent engineIntent = new Intent(MainMenu.this, GameActivity.class);
+				startActivity(engineIntent);
 			}
 		});
     }
