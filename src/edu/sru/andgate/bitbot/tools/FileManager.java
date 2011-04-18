@@ -153,8 +153,7 @@ public class FileManager
 		}
 		
 		return null;
-	}
-	
+	}	
 	
 	/**
 	 * This was originally getFiles in ReadDirectory

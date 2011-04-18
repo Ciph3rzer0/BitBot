@@ -4,8 +4,10 @@ import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
+import edu.sru.andgate.bitbot.tools.FileManager;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,10 +18,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainMenu extends Activity {
 	Initialization init;
 	ContextWrapper cw;
+	Dialog helpDialog;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,6 @@ public class MainMenu extends Activity {
         //Initialize some things: code text docs, saved bot
         cw = new ContextWrapper(getBaseContext());
         init = new Initialization(cw);
-      
                      
 //        startActivity(new Intent(MainMenu.this, BotBuilderActivity.class));
         
@@ -120,7 +123,26 @@ public class MainMenu extends Activity {
 				System.runFinalizersOnExit(true);
 				System.exit(0);
 			}
-		});    
+		}); 
+        
+        helpDialog = new Dialog(this, R.style.CustomDialogTheme);
+        helpDialog.setContentView(R.layout.floating_help);
+        TextView help_text = (TextView) helpDialog.findViewById(R.id.help_view);
+        FileManager.setContext(getBaseContext());
+        help_text.setText(FileManager.readXML("help.xml", "text"));
+       
+        /*
+         * temp help button
+         */
+        Button help_btn = (Button)findViewById(R.id.help);
+        help_btn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				helpDialog.show();
+			}
+		});
     }
     
     public void rotateImage(ImageView img, int turret_id, int img_id, int rotate)

@@ -1,0 +1,18 @@
+<help-file>
+<text>BitBot is a game designed for teaching a simple programming language in educational an approach.
+
+The user has the ability to go through tutorials and learn simple programming concepts for the BASIC language.
+
+These tutorials will provide the necessary tools that will be used in programming a BOT. 
+
+With these tools the user will be able to create new or edit pre-existing code in the IDE section of the game.
+
+This code is used to complete MISSIONS available to the user in the game. 
+
+Upon selecting a MISSION the user will be briefed before making final changes to the BOT. 
+
+The user will be able to choose different BOT components along with their desired code for the specific MISSION.
+
+These Selections will be attached to the BOT and sent into the game, where the user will get to see their code in action.
+</text>
+</help-file>
