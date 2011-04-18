@@ -42,7 +42,60 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case PROGRAM:
+        jj_consume_token(PROGRAM);
+        Identifier();
+        break;
+      default:
+        jj_la1[0] = jj_gen;
+        ;
+      }
       ListOfInstructions();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case END:
+        jj_consume_token(END);
+        label_1:
+        while (true) {
+          jj_consume_token(NL);
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case NL:
+            ;
+            break;
+          default:
+            jj_la1[1] = jj_gen;
+            break label_1;
+          }
+        }
+        label_2:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case SUBROUTINE:
+            ;
+            break;
+          default:
+            jj_la1[2] = jj_gen;
+            break label_2;
+          }
+          SubDef();
+          label_3:
+          while (true) {
+            jj_consume_token(NL);
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case NL:
+              ;
+              break;
+            default:
+              jj_la1[3] = jj_gen;
+              break label_3;
+            }
+          }
+        }
+        break;
+      default:
+        jj_la1[4] = jj_gen;
+        ;
+      }
       jj_consume_token(0);
     } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -71,7 +124,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
-      label_1:
+      label_4:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case INTEGER_LITERAL:
@@ -82,19 +135,18 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
         case WHILE:
         case FOR:
         case IF:
-        case SUBROUTINE:
         case CALL:
         case IDENTIFIER:
         case STRING_LITERAL:
-        case 40:
+        case 45:
           ;
           break;
         default:
-          jj_la1[0] = jj_gen;
-          break label_1;
+          jj_la1[5] = jj_gen;
+          break label_4;
         }
         Instruction();
-        label_2:
+        label_5:
         while (true) {
           jj_consume_token(NL);
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -102,8 +154,8 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
             ;
             break;
           default:
-            jj_la1[1] = jj_gen;
-            break label_2;
+            jj_la1[6] = jj_gen;
+            break label_5;
           }
         }
       }
@@ -134,7 +186,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     case ADD_OP:
     case IDENTIFIER:
     case STRING_LITERAL:
-    case 40:
+    case 45:
       Expression();
       break;
     case LET:
@@ -149,9 +201,6 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     case CALL:
       SubCall();
       break;
-    case SUBROUTINE:
-      SubDecl();
-      break;
     case WHILE:
       WhileLoop();
       break;
@@ -162,7 +211,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
       ForLoop();
       break;
     default:
-      jj_la1[2] = jj_gen;
+      jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -219,7 +268,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
         ListOfInstructions();
         break;
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[8] = jj_gen;
         ;
       }
       jj_consume_token(ENDIF);
@@ -262,7 +311,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
         Expression();
         break;
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[9] = jj_gen;
         ;
       }
       jj_consume_token(NL);
@@ -297,9 +346,9 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     try {
       jj_consume_token(CALL);
       Identifier();
-      jj_consume_token(40);
+      jj_consume_token(45);
       ParameterList();
-      jj_consume_token(41);
+      jj_consume_token(46);
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -327,31 +376,31 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     case ADD_OP:
     case IDENTIFIER:
     case STRING_LITERAL:
-    case 40:
+    case 45:
       Expression();
-      label_3:
+      label_6:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case 42:
+        case 47:
           ;
           break;
         default:
-          jj_la1[5] = jj_gen;
-          break label_3;
+          jj_la1[10] = jj_gen;
+          break label_6;
         }
-        jj_consume_token(42);
+        jj_consume_token(47);
         Expression();
       }
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[11] = jj_gen;
       ;
     }
   }
 
-  final public void SubDecl() throws ParseException {
- /*@bgen(jjtree) SubDeclaration */
-  ASTSubDeclaration jjtn000 = new ASTSubDeclaration(JJTSUBDECLARATION);
+  final public void SubDef() throws ParseException {
+ /*@bgen(jjtree) SubDef */
+  ASTSubDef jjtn000 = new ASTSubDef(JJTSUBDEF);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
@@ -359,7 +408,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
       Identifier();
       jj_consume_token(NL);
       ListOfInstructions();
-      jj_consume_token(END);
+      jj_consume_token(RETURN);
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -485,15 +534,15 @@ boolean jjtc000 = true;
 jjtree.openNodeScope(jjtn000);Token t;
     try {
       StringExpression();
-      label_4:
+      label_7:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case CONCAT:
           ;
           break;
         default:
-          jj_la1[7] = jj_gen;
-          break label_4;
+          jj_la1[12] = jj_gen;
+          break label_7;
         }
         t = jj_consume_token(CONCAT);
                      jjtn000.value = t.image;
@@ -525,14 +574,14 @@ jjtree.openNodeScope(jjtn000);Token t;
     case INTEGER_LITERAL:
     case ADD_OP:
     case IDENTIFIER:
-    case 40:
+    case 45:
       BooleanExpression();
       break;
     case STRING_LITERAL:
       StringLiteral();
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -562,15 +611,15 @@ jjtree.openNodeScope(jjtn000);Token t;
   jjtree.openNodeScope(jjtn000);Token t;
     try {
       EqualityExpression();
-      label_5:
+      label_8:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case BOOL_OP:
           ;
           break;
         default:
-          jj_la1[9] = jj_gen;
-          break label_5;
+          jj_la1[14] = jj_gen;
+          break label_8;
         }
         t = jj_consume_token(BOOL_OP);
                       jjtn000.value = t.image;
@@ -604,15 +653,15 @@ jjtree.openNodeScope(jjtn000);Token t;
   jjtree.openNodeScope(jjtn000);Token t;
     try {
       RelationalExpression();
-      label_6:
+      label_9:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case EQ_OP:
           ;
           break;
         default:
-          jj_la1[10] = jj_gen;
-          break label_6;
+          jj_la1[15] = jj_gen;
+          break label_9;
         }
         t = jj_consume_token(EQ_OP);
                     jjtn000.value = t.image;
@@ -646,15 +695,15 @@ jjtree.openNodeScope(jjtn000);Token t;
   jjtree.openNodeScope(jjtn000);Token t;
     try {
       AdditiveExpression();
-      label_7:
+      label_10:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case REL_OP:
           ;
           break;
         default:
-          jj_la1[11] = jj_gen;
-          break label_7;
+          jj_la1[16] = jj_gen;
+          break label_10;
         }
         t = jj_consume_token(REL_OP);
                      jjtn000.value = t.image;
@@ -690,15 +739,15 @@ jjtree.openNodeScope(jjtn000);Token t;
   String op = "err";
     try {
       MultiplicativeExpression();
-      label_8:
+      label_11:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case ADD_OP:
           ;
           break;
         default:
-          jj_la1[12] = jj_gen;
-          break label_8;
+          jj_la1[17] = jj_gen;
+          break label_11;
         }
         t = jj_consume_token(ADD_OP);
                      op = t.image;
@@ -752,15 +801,15 @@ jjtree.openNodeScope(jjtn000);Token t;
   String op = "err";
     try {
       UnaryExpression();
-      label_9:
+      label_12:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case MUL_OP:
           ;
           break;
         default:
-          jj_la1[13] = jj_gen;
-          break label_9;
+          jj_la1[18] = jj_gen;
+          break label_12;
         }
         t = jj_consume_token(MUL_OP);
                      op = t.image;
@@ -807,10 +856,10 @@ jjtree.openNodeScope(jjtn000);Token t;
 
   final public void UnaryExpression() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 40:
-      jj_consume_token(40);
+    case 45:
+      jj_consume_token(45);
       Expression();
-      jj_consume_token(41);
+      jj_consume_token(46);
       break;
     case ADD_OP:
       UnaryPlusOrMinus();
@@ -822,7 +871,7 @@ jjtree.openNodeScope(jjtn000);Token t;
       Integer();
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[19] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -901,7 +950,7 @@ jjtree.openNodeScope(jjtn000);Token t;
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[15];
+  final private int[] jj_la1 = new int[20];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -909,10 +958,10 @@ jjtree.openNodeScope(jjtn000);Token t;
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x112b1020,0x8000,0x112b1020,0x40000000,0x4000000,0x0,0x1020,0x4000,0x1020,0x200,0x400,0x800,0x1000,0x2000,0x1020,};
+      jj_la1_0 = new int[] {0x0,0x8000,0x0,0x8000,0x0,0x112b1020,0x8000,0x112b1020,0x40000000,0x4000000,0x0,0x1020,0x4000,0x1020,0x200,0x400,0x800,0x1000,0x2000,0x1020,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x196,0x0,0x196,0x0,0x0,0x400,0x190,0x0,0x190,0x0,0x0,0x0,0x0,0x0,0x110,};
+      jj_la1_1 = new int[] {0x10,0x0,0x20,0x0,0x80,0x3240,0x0,0x3240,0x0,0x0,0x8000,0x3200,0x0,0x3200,0x0,0x0,0x0,0x0,0x0,0x2200,};
    }
 
   /** Constructor with InputStream. */
@@ -926,7 +975,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -941,7 +990,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -951,7 +1000,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -962,7 +1011,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -971,7 +1020,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -981,7 +1030,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -1032,12 +1081,12 @@ jjtree.openNodeScope(jjtn000);Token t;
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[43];
+    boolean[] la1tokens = new boolean[48];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 20; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1049,7 +1098,7 @@ jjtree.openNodeScope(jjtn000);Token t;
         }
       }
     }
-    for (int i = 0; i < 43; i++) {
+    for (int i = 0; i < 48; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

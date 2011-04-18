@@ -38,10 +38,9 @@
 		        android:layout_width="match_parent">
 	            <Button 
 		            android:text="Begin Coding" 
-		            android:textSize="15px"
 		            android:id="@+id/code_btn" 
 		            style="@style/Heading"
-				android:background="@layout/button_bot_component"
+					android:background="@layout/button_bot_component"
 		            android:layout_width="0px"
 		            android:layout_weight="1" 
 		            android:layout_height="75dip">
@@ -59,9 +58,8 @@
 		    <Button 
 				android:id="@+id/sequence_btn" 
 				android:text="Sequence" 
-				android:layout_width="75dip"
+				android:layout_width="70dip"
 				style="@style/Heading"
-				android:textSize="15px"
 				android:background="@layout/button_bot_component"
 				android:layout_height="0px"
 				android:layout_weight="1">
@@ -69,8 +67,7 @@
 			<Button 
 				android:id="@+id/selection_btn" 
 				android:text=" Selection" 
-				android:layout_width="75dip" 
-				android:textSize="15px"
+				android:layout_width="70dip"
 				style="@style/Heading"
 				android:background="@layout/button_bot_component"
 				android:layout_height="0px"
@@ -79,8 +76,7 @@
 			<Button 
 				android:id="@+id/iteration_btn" 
 				android:text=" Iteration " 
-				android:layout_width="75dip" 
-				android:textSize="15px"
+				android:layout_width="70dip" 
 				style="@style/Heading"
 				android:background="@layout/button_bot_component"
 				android:layout_height="0px"
@@ -111,30 +107,27 @@
 	        android:layout_width="wrap_content" 
 	        android:layout_height="match_parent">
 		    <Button 
-			    android:layout_width="75dip" 
+			    android:layout_width="70dip" 
 			    android:id="@+id/sim_btn" 
-			    android:text="Simulate" 
+			    android:text="Simulate"
 			    style="@style/Heading"
-			    android:textSize="15px"
 				android:background="@layout/button_bot_component"
 			    android:layout_height="0px"
 			    android:layout_weight="1">
 		    </Button>
 			<Button 
-				android:layout_width="75dip" 
+				android:layout_width="70dip" 
 				style="@style/Heading"
 				android:background="@layout/button_bot_component"
-				android:id="@+id/lock_btn" 
-				android:textSize="15px"
+				android:id="@+id/lock_btn"
 				android:text="Lock in Text" 
 				android:layout_height="0px"
 				android:layout_weight="1">
 			</Button>
 			<Button 
-				android:layout_width="75dip" 
+				android:layout_width="70dip" 
 				android:id="@+id/tools_btn" 
 				style="@style/Heading"
-				android:textSize="15px"
 				android:background="@layout/button_bot_component"
 				android:text="Quick Tools" 
 				android:layout_height="0px"

@@ -38,7 +38,6 @@
 		        android:layout_width="match_parent">
 	            <Button 
 		            android:text="Begin Coding" 
-		            android:textSize="15px"
 		            style="@style/Heading"
 					android:background="@layout/button_bot_component"
 		            android:id="@+id/code_btn" 
@@ -111,7 +110,7 @@
 			        android:layout_height="75dip"
 			        android:layout_weight="1" 
 			        style="@style/Heading"
-				android:background="@layout/button_bot_component"
+					android:background="@layout/button_bot_component"
 			        android:id="@+id/tools_btn" 
 			        android:text="Quick Tools">
 		        </Button>
@@ -120,7 +119,7 @@
 					android:layout_height="75dip" 
 					android:layout_weight="1"
 					style="@style/Heading"
-				android:background="@layout/button_bot_component"
+					android:background="@layout/button_bot_component"
 					android:id="@+id/sim_btn" 
 					android:text="Simulate" >
 				</Button>
@@ -129,7 +128,7 @@
 					android:layout_height="75dip"
 					android:layout_weight="1"
 					style="@style/Heading"
-				android:background="@layout/button_bot_component"
+					android:background="@layout/button_bot_component"
 					android:id="@+id/lock_btn" 
 					android:text="Lock in Text">
 				</Button>

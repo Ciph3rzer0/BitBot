@@ -42,20 +42,60 @@ To get a feel for declaring variables:
 
 3. Print the value of the variable to the console.
 </text>
-<answer>
+<stage>
+<hint>
+Goal: Create a variable named 'i' with an Integer data type.
+
+The 'Dim' command is used to declare a variable
+	
+The syntax of this command is:
+Dim [var] as [type]
+
+In this case, replace [var] with 'i' and [type] with 'Integer'
+
+Your code should look like:
+Dim i as Integer
+</hint>
+<answer>Dim i as Integer</answer>
+</stage>
+<stage>
+<hint>
+Goal: Assign an integer value to a variable
+
+The 'Let' command is used to assign values to variables
+	
+The syntax of this command is:
+Let [var] = [value]
+
+In this case, replace [var] with 'i' and [value] with '15'
+
+Your code should look like:
+Dim i as Integer
+Let i = 15
+</hint>
+
+<answer>Dim i as Integer
+Let i = 15</answer>
+</stage>
+<stage>
+<hint>
+Goal: Print the value of a variable to the console
+
+The 'Print' command is used to print things on the screen
+	
+The syntax of this command is:
+Print [expression]
+
+In this case, replace [expression] with 'i'
+
+Your code should look like:
 Dim i as Integer
 Let i = 15
 Print i
-</answer>
-<hints>
-Goal: Learn how to declare variables
+</hint>
 
-Hints:
-
-1. Declare a variable of type Integer.
-	
-2. Assign the variable you just declared to a value.
-
-3. Print the value of the variable to the console.
-</hints>
+<answer>Dim i as Integer
+Let i = 15
+Print i</answer>
+</stage>
 </tutorial>

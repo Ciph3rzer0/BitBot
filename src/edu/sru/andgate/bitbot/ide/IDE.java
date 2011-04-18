@@ -1,27 +1,16 @@
 package edu.sru.andgate.bitbot.ide;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.tools.FileManager;
 import edu.sru.andgate.bitbot.tutorial.ActionItem;
 import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,7 +37,6 @@ public class IDE extends Activity {
 	 * Used for sliding the ViewFlipper
 	 */
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
-	
 	private EditText editor;
 	private TextView botOutput;
 	
@@ -85,13 +73,7 @@ public class IDE extends Activity {
 		
 		//create the text editor and cabinet button
 		editor = (EditText) findViewById(R.id.editor);
-		try 
-		{
-			editor.setText(readXML(file, "program-code").toString());
-		} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-		}
+		editor.setText(file);
 			
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		
@@ -345,7 +327,13 @@ public class IDE extends Activity {
 		});
 		
 	}
-	
+    
+    @Override
+    public void onBackPressed(){
+		Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
+		startActivity(engineIntent);
+		finish();
+	}
 //    /**
 //     * This overrides the default back button behavior to flip back to the first
 //     * view of the ViewFlipper before backing out of this activity.
@@ -481,50 +469,44 @@ public class IDE extends Activity {
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.clear_btn:    editor.setText("");
-	        						break;
-	  
-	    }
-	    return true;
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.clear:
+				editor.setText("");
+				break;
+			
+			case R.id.save:
+				promptUser("Code Files (.txt)","Program Name");
+				break;
+		}
+		return true;
 	}
 	
-	 /*
-	 * Method that recieves an xml file name, and target <tag> 
-	 * 	returns the text in the specified <tag></tag>
-	 */
-	public String readXML(String my_file, String tag_name) throws IOException{
-	 		InputStream is = getAssets().open(my_file);
-			
-	 		try {
-	       		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	            DocumentBuilder docBuilder;
-				docBuilder = docBuilderFactory.newDocumentBuilder();
-				
-				Document doc = docBuilder.parse(is);
-	            doc.getDocumentElement ().normalize ();
-	            
-	            NodeList tutorialText = doc.getElementsByTagName(tag_name);
-	            Element myText = (Element) tutorialText.item(0);
-	            
-	            return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
-	            
-	 		} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			
-			
-		    return null;
-		}//end of readXML()
+	public void promptUser(String title, String mesg){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle(title);
+		alert.setMessage(mesg);
+
+		// Set an EditText view to get user input 
+		final EditText input = new EditText(this);
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+			  String value = input.getText().toString();
+			  FileManager.saveCodeFile(editor.getText().toString(), value);
+		}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    // Canceled.
+		  }
+		});
+		
+		alert.show();
+	}	
 }

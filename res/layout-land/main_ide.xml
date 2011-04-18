@@ -17,8 +17,7 @@
 	       android:layout_height="match_parent">
 	      <Button 
 		        android:text="Sequence" 
-		        android:id="@+id/sequence_btn" 
-		        android:textSize="10px"
+		        android:id="@+id/sequence_btn"
 		        style="@style/Heading"
 				android:background="@layout/button_bot_component"
 		        android:layout_height="0px" 
@@ -26,7 +25,6 @@
 		        android:layout_weight="1">
 	        </Button>
 	        <Button 
-		        android:textSize="10px" 
 		        style="@style/Heading"
 				android:background="@layout/button_bot_component"
 		        android:text="Selection" 
@@ -37,30 +35,27 @@
 	        </Button>
 	        <Button 
 		        android:text="Iteration"
-		        android:textSize="10px" 
 		        android:id="@+id/iteration_btn"
 		        android:layout_height="0px" 
 		   		android:layout_width="70dip"
 		   		style="@style/Heading"
-			android:background="@layout/button_bot_component"
+				android:background="@layout/button_bot_component"
 		        android:layout_weight="1">
 	        </Button>
 	        <Button 
-		        android:text="Quick Tools" 
-		        android:textSize="10px"
+		        android:text="Quick Tools"
 		        android:id="@+id/tools_btn" 
 		        android:layout_height="0px" 
 		        android:layout_width="70dip"
 		        style="@style/Heading"
-			android:background="@layout/button_bot_component"
+				android:background="@layout/button_bot_component"
 		        android:layout_weight="1">
 	        </Button>
 	        <Button 
 		        android:text="Bot Functions" 
-		        android:textSize="10px"
 		        android:id="@+id/bot_btn" 
 		        style="@style/Heading"
-			android:background="@layout/button_bot_component"
+				android:background="@layout/button_bot_component"
 		        android:layout_height="0px" 
 		        android:layout_width="70dip"
 		        android:layout_weight="1">

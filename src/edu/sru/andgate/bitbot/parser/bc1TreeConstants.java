@@ -11,7 +11,7 @@ public interface bc1TreeConstants
   public int JJTIFSTATEMENT = 5;
   public int JJTFORLOOP = 6;
   public int JJTSUBCALL = 7;
-  public int JJTSUBDECLARATION = 8;
+  public int JJTSUBDEF = 8;
   public int JJTPRINT = 9;
   public int JJTDECLARATION = 10;
   public int JJTASSIGNMENT = 11;
@@ -36,7 +36,7 @@ public interface bc1TreeConstants
     "IfStatement",
     "ForLoop",
     "SubCall",
-    "SubDeclaration",
+    "SubDef",
     "Print",
     "Declaration",
     "Assignment",
@@ -52,4 +52,4 @@ public interface bc1TreeConstants
     "IntegerLiteral",
   };
 }
-/* JavaCC - OriginalChecksum=97d341dc1a94a397e0db282b3bde28dc (do not edit this line) */
+/* JavaCC - OriginalChecksum=096e492d2a8ce05cc7c21f4805e1f75e (do not edit this line) */

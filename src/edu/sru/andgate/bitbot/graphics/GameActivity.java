@@ -8,11 +8,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.Constants;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
+import edu.sru.andgate.bitbot.tools.Constants;
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,7 +54,7 @@ public class GameActivity extends Activity
 	ScrollView codeScroll;
 	
 	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-	
+	MediaPlayer bgMusic;
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -66,6 +67,10 @@ public class GameActivity extends Activity
         getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        bgMusic = MediaPlayer.create(this, R.raw.neverland);
+        bgMusic.start();
+        bgMusic.setLooping(true);
         
         // Set the layout.
         //setContentView(R.layout.game_activity);
@@ -126,7 +131,6 @@ public class GameActivity extends Activity
         test.setTranslation(-3.5f,0.1f,-5.0f);
         test.addTexture(R.drawable.sand);	//TextureID = 0
         
-        
         //Test Bot 1 Turret Layer
         testTurret = new BotLayer(test);
         testTurret.addTexture(R.drawable.sandturret);
@@ -139,6 +143,7 @@ public class GameActivity extends Activity
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
         test2.moveStepSize = 0.08f;
+        test2.attachCollisionSound(getBaseContext(), R.raw.bot_wall_collision);
         collisionManager.addCollisionDetectorToBot(test2);
         
         //Test Bot 2 Turret Layer
@@ -156,12 +161,22 @@ public class GameActivity extends Activity
        
         
         loaded_bot = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
-		collisionManager.addCollisionDetectorToBot(loaded_bot.getDrawableBot());
+		/*collisionManager.addCollisionDetectorToBot(loaded_bot.getDrawableBot());
 		ilvm.addInterpreter(loaded_bot.getInterpreter());
 		
+		// Run the vm every second.
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				ilvm.resume(4);
+			}
+		}, 50, 50);*/
+        
 		
-        /* 
-		String code =
+		/*String code =
 			"Let d = -1\n" +
 			"\n" +
 			"While 1 Do\n" + 
@@ -284,20 +299,20 @@ public class GameActivity extends Activity
     		boolean goinUp = true;
     		boolean thisFrameDrawn = false;
     		
-    		/*
+    		
     		//Testing FPS Only
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
     		int frameCount = 0;
-    		*/
+    		
     		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
     			{
-    				//startTime = System.currentTimeMillis();
+    				startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -314,10 +329,10 @@ public class GameActivity extends Activity
     	    		test2.move();
     	    		//test2.move(45.0f, 0.1f);
     	    		test2Turret.setRotationAngle(rotate);
-//    	    		
-//    	    		loaded_bot.getBotLayer().setRotationAngle(rotate);
-//    	    		loaded_bot.getDrawableBot().move();
-//    	    		
+					
+    	    		loaded_bot.getBotLayer().setRotationAngle(rotate);
+    	    		//loaded_bot.getDrawableBot().move();
+    	    		
     	    		if(goinUp)
     	    		{
     	    			move += 0.03f;
@@ -378,7 +393,7 @@ public class GameActivity extends Activity
 	    	    			//drawListPointer = 0;
 	    	    		}
     	    		}
-    	    		/*
+    	    		
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
@@ -388,7 +403,7 @@ public class GameActivity extends Activity
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
-    	    		*/
+    	    		
     			}
     		}
     	};
@@ -417,6 +432,7 @@ public class GameActivity extends Activity
 	{
 		super.onDestroy();
 		gameLoop = false;
+		bgMusic.release();
 		finish();
 	}
 }

@@ -7,7 +7,7 @@
 		android:background="@drawable/hexbutton" 
 		android:text="Graphics" 
 		android:layout_height="wrap_content" 
-		android:textSize="15dip" 
+		android:textSize="15dip"
 		android:textColor="#00FF00"
 		android:layout_above="@+id/bot_base"
 		android:layout_centerHorizontal="true"
@@ -23,7 +23,6 @@
 		android:layout_marginBottom="10dip" 
 		android:id="@+id/tutorial_btn" 
 		android:layout_below="@id/game_modes" 
-		android:paddingBottom="15dip"
 		android:layout_toRightOf="@id/game_modes"
 		android:layout_width="100dip">
 	</Button>
@@ -61,6 +60,19 @@
 		android:layout_toLeftOf="@id/game_modes"
 		android:layout_width="100dip">
 	</Button>
+	<!-- Temporary Help Button -->
+	<Button 
+	android:text="Help" 
+	android:id="@+id/help" 
+	android:background="@drawable/hexbutton"
+	android:textColor="#00FF00" 
+	android:layout_width="wrap_content" 
+	android:layout_above="@+id/scores_btn" 
+	android:layout_height="wrap_content" 
+	android:layout_alignLeft="@+id/scores_btn" 
+	android:layout_alignRight="@+id/scores_btn">
+	</Button>
+	<!-- End Temp Help Button -->
 	<ImageView 
 		android:id="@+id/bot_base" 
 		android:layout_width="wrap_content" 

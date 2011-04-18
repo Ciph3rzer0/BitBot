@@ -66,11 +66,21 @@ public class Test extends Activity
 		
 		vm = new InstructionLimitedVirtualMachine();
 		
+		String forLoop = 
+			"Let i = 5\n" +
+			"for n = 0 to i\n" +
+			"  print n\n" + 
+			"next\n"
+			;
+			
+		
+		
+		
 		// Set up a couple BotInterpreters
-		b1 = new BotInterpreter(null, code);
+		b1 = new BotInterpreter(null, forLoop);
 		b1.setOutputTextView(tv);
 		vm.addInterpreter(b1);
-		tvR.setText(code);
+		tvR.setText(forLoop);
 		
 //		BotInterpreter b2 = new BotInterpreter(null, code2);
 //		b2.setOutputTextView(tvR);
