@@ -2,11 +2,10 @@ package edu.sru.andgate.bitbot.ide;
 
 import java.util.ArrayList;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.customdialog.CustomDialog;
 import edu.sru.andgate.bitbot.tools.FileManager;
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class CodeBuilderActivity extends ListActivity 
 { 
@@ -24,12 +22,15 @@ public class CodeBuilderActivity extends ListActivity
 	 private String[] code_files;
 	 private Intent engineIntent;
 	 private Button new_program;
+	 CustomDialog dlg;
 	 
 	 public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.code_builder_main);
 	       
 	        FileManager.setContext(getBaseContext());
+	        final String[] option_list= {"Save", "Rename", "Delete"};
+	        
 			
 	        botCodeOptions = new ArrayList<CustomListView>();
 	        this.code_adapter = new CodeListAdapter(this, R.layout.code_row, botCodeOptions);
@@ -65,10 +66,12 @@ public class CodeBuilderActivity extends ListActivity
 			list.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-					promptDelete(view.getTag().toString());
 					Log.v("BitBot", "Long Click Accepted");
-					return true;
+					dlg = new CustomDialog(CodeBuilderActivity.this, option_list, view.getTag().toString(),CodeBuilderActivity.this, R.style.CustomDialogTheme);
+			        dlg.show();
+			        return true;
 				}
+				
 			});
 		}
 	  
@@ -79,28 +82,5 @@ public class CodeBuilderActivity extends ListActivity
 		 startActivity(engineIntent);
 		 finish();
 		
-	 }
-	 
-	 public void promptDelete(final String file){ 
-		 AlertDialog.Builder deletePrompt = new AlertDialog.Builder(this);
-		 deletePrompt.setMessage("Delete this file?");
-		 deletePrompt.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-			 public void onClick(DialogInterface arg0, int arg1) {
-				 //Delete File
-				 FileManager.deleteFile("Code", file);
-				 Intent intent = getIntent();
-				 finish();
-				 startActivity(intent);
-			 }
-		 });
-		 
-		 deletePrompt.setNegativeButton("No", new DialogInterface.OnClickListener() {
-			 public void onClick(DialogInterface arg0, int arg1) {
-				 //Do Nothing
-			 }
-		 });
-
-		 // display box
-		 deletePrompt.show();
 	 }
 }

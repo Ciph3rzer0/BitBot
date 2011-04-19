@@ -497,6 +497,9 @@ public class IDE extends Activity {
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
 			  String value = input.getText().toString();
+			  if(value == ""){
+				  value = "New File.txt";
+			  }
 			  FileManager.saveCodeFile(editor.getText().toString(), value);
 		}
 		});
