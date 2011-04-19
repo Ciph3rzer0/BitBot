@@ -405,7 +405,7 @@ public class IDE extends Activity {
 		{
 	    	ilvm = new InstructionLimitedVirtualMachine();
 	    	
-	    	bi = new BotInterpreter(null, editor.getText().toString());
+	    	bi = new BotInterpreter(null, editor.getText().toString() + "\n");
 	    	bi.setOutputTextView(botOutput);
 	    	botOutput.setText(bi.getBotLog());
 	    	

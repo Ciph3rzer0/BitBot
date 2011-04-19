@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_height="fill_parent" android:layout_width="match_parent">
-	
+	<LinearLayout 
+		android:id="@+id/linearLayout1" 
+		android:background="@drawable/bit_land"
+		android:layout_height="match_parent"
+		android:paddingRight="5dip"
+		android:layout_width="0px"
+		android:layout_weight="1">
+	</LinearLayout>
+	<RelativeLayout
+		android:layout_height="match_parent"
+		android:layout_width="0px"
+		android:layout_weight="3">
 	<Button 
 		android:background="@drawable/hexbutton" 
 		android:text="Start Game" 
@@ -111,20 +122,13 @@
 		android:layout_alignLeft="@id/scores_btn" 
 		android:layout_alignRight="@id/scores_btn">
 	</Button>
-		<LinearLayout 
-		android:id="@+id/linearLayout1" 
-		android:background="@drawable/bit_land"
-		android:paddingBottom="20dip"
-		android:layout_alignParentLeft="true" 
-		android:layout_height="match_parent"
-		android:layout_width="75dip">
-	</LinearLayout>
+	</RelativeLayout>
 	<LinearLayout 
 		android:id="@+id/linearLayout2" 
-		android:layout_alignParentRight="true" 
 		android:background="@drawable/bot_land"
 		android:layout_height="match_parent"
-		android:layout_width="75dip">
+		android:paddingLeft="5dip"
+		android:layout_width="0px"
+		android:layout_weight="1">
 	</LinearLayout>
-	
-</RelativeLayout>
+</LinearLayout>
