@@ -184,6 +184,7 @@ public class FileManager
 		File f = new File(_context.getDir(directory,Context.MODE_PRIVATE), filename);
 		f.delete();
 	}
+	
 	public static void saveCodeFile(String data, String filename)
 	{
 
@@ -199,6 +200,12 @@ public class FileManager
 		{
 			Log.v("Test", "Error writing file");
 		}
+	}
+	
+	public static void renameCodeFile(String srcName, String dstName){
+		String data = readTextFileFromDirectory("Code", srcName);
+		saveCodeFile(data, dstName);
+		deleteFile("Code", srcName);
 	}
 	
 }
