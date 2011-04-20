@@ -121,6 +121,7 @@ void Program() :
 {
   (
     < PROGRAM > Identifier() 
+    ( < NL > )+
   )?
   
   ListOfInstructions()

@@ -66,11 +66,19 @@ public class Test extends Activity
 		
 		vm = new InstructionLimitedVirtualMachine();
 		
-		String forLoop = 
+		String forLoop =
+			"Program myProg\n" +
 			"Let i = 5\n" +
 			"for n = 0 to i\n" +
 			"  print n\n" + 
-			"next\n"
+			"next\n" +
+			"\n" +
+			"end\n" +
+			"\n" +
+			"sub sub1\n" +
+			"  print \"In sub1\"\n" +
+			"return\n" +			
+			"\n"
 			;
 			
 		

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_height="fill_parent" android:layout_width="match_parent">
-	
+	<LinearLayout 
+		android:id="@+id/linearLayout1" 
+		android:background="@drawable/bit_land"
+		android:layout_height="match_parent"
+		android:paddingRight="5dip"
+		android:layout_width="0px"
+		android:layout_weight="1">
+	</LinearLayout>
+	<RelativeLayout
+		android:layout_height="match_parent"
+		android:layout_width="0px"
+		android:layout_weight="3">
 	<Button 
 		android:background="@drawable/hexbutton" 
-		android:text="Graphics" 
+		android:text="Start Game" 
 		android:layout_height="wrap_content" 
 		android:textSize="15dip"
 		android:textColor="#00FF00"
@@ -26,11 +37,24 @@
 		android:layout_toRightOf="@id/game_modes"
 		android:layout_width="100dip">
 	</Button>
+	<!-- Temp Graphics Button -->
 	<Button 
-		android:text="Interpreter" 
+		android:text="Graphics"
+		android:background="@drawable/hexbutton" 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
-		android:id="@+id/options_btn" 
+		android:layout_above="@+id/tutorial_btn" 
+		android:textColor="#00FF00"
+		android:id="@+id/graphics_btn" 
+		android:layout_alignLeft="@+id/tutorial_btn" 
+		android:layout_alignRight="@+id/tutorial_btn">
+	</Button>
+	<!-- End Temp Graphics Button -->
+	<Button 
+		android:text="Help" 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:id="@+id/help_btn" 
 		android:background="@drawable/hexbutton"
 		android:layout_below="@id/tutorial_btn"
 		android:textColor="#00FF00"
@@ -60,19 +84,19 @@
 		android:layout_toLeftOf="@id/game_modes"
 		android:layout_width="100dip">
 	</Button>
-	<!-- Temporary Help Button -->
+	<!-- Temp Interpreter Button -->
 	<Button 
-	android:text="Help" 
-	android:id="@+id/help" 
-	android:background="@drawable/hexbutton"
-	android:textColor="#00FF00" 
-	android:layout_width="wrap_content" 
-	android:layout_above="@+id/scores_btn" 
-	android:layout_height="wrap_content" 
-	android:layout_alignLeft="@+id/scores_btn" 
-	android:layout_alignRight="@+id/scores_btn">
+		android:text="Interpreter" 
+		android:id="@+id/interpreter_btn" 
+		android:background="@drawable/hexbutton"
+		android:textColor="#00FF00" 
+		android:layout_width="wrap_content" 
+		android:layout_above="@+id/scores_btn" 
+		android:layout_height="wrap_content" 
+		android:layout_alignLeft="@+id/scores_btn" 
+		android:layout_alignRight="@+id/scores_btn">
 	</Button>
-	<!-- End Temp Help Button -->
+	<!-- End Temp Interpreter Button -->
 	<ImageView 
 		android:id="@+id/bot_base" 
 		android:layout_width="wrap_content" 
@@ -93,25 +117,18 @@
 		android:background="@drawable/hexbutton"
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content"
-		android:id="@+id/puzzle_btn" 
+		android:id="@+id/ide_btn" 
 		android:textColor="#00FF00"
 		android:layout_alignLeft="@id/scores_btn" 
 		android:layout_alignRight="@id/scores_btn">
 	</Button>
-		<LinearLayout 
-		android:id="@+id/linearLayout1" 
-		android:background="@drawable/bit_land"
-		android:paddingBottom="20dip"
-		android:layout_alignParentLeft="true" 
-		android:layout_height="match_parent"
-		android:layout_width="75dip">
-	</LinearLayout>
+	</RelativeLayout>
 	<LinearLayout 
 		android:id="@+id/linearLayout2" 
-		android:layout_alignParentRight="true" 
 		android:background="@drawable/bot_land"
 		android:layout_height="match_parent"
-		android:layout_width="75dip">
+		android:paddingLeft="5dip"
+		android:layout_width="0px"
+		android:layout_weight="1">
 	</LinearLayout>
-	
-</RelativeLayout>
+</LinearLayout>

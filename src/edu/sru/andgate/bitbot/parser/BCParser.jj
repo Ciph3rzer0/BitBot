@@ -162,6 +162,7 @@ void Program() :
 /*@egen*/
   (
     < PROGRAM > Identifier() 
+    ( < NL > )+
   )?
   
   ListOfInstructions()

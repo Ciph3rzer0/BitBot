@@ -39,13 +39,15 @@ public class IDE extends Activity {
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private EditText editor;
 	private TextView botOutput;
+	String file, file_data;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_ide);
             
-        String file = getIntent().getExtras().getString("File");
+        file = getIntent().getExtras().getString("File");
+        file_data = getIntent().getExtras().getString("Data");
        
         /*
 		 * Action Items for Sequence, Selection, Iteration buttons
@@ -73,7 +75,7 @@ public class IDE extends Activity {
 		
 		//create the text editor and cabinet button
 		editor = (EditText) findViewById(R.id.editor);
-		editor.setText(file);
+		editor.setText(file_data);
 			
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		
@@ -330,9 +332,7 @@ public class IDE extends Activity {
     
     @Override
     public void onBackPressed(){
-		Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
-		startActivity(engineIntent);
-		finish();
+    	promptSave();
 	}
 //    /**
 //     * This overrides the default back button behavior to flip back to the first
@@ -405,7 +405,7 @@ public class IDE extends Activity {
 		{
 	    	ilvm = new InstructionLimitedVirtualMachine();
 	    	
-	    	bi = new BotInterpreter(null, editor.getText().toString());
+	    	bi = new BotInterpreter(null, editor.getText().toString() + "\n");
 	    	bi.setOutputTextView(botOutput);
 	    	botOutput.setText(bi.getBotLog());
 	    	
@@ -497,6 +497,9 @@ public class IDE extends Activity {
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
 			  String value = input.getText().toString();
+			  if(value == ""){
+				  value = "New File.txt";
+			  }
 			  FileManager.saveCodeFile(editor.getText().toString(), value);
 		}
 		});
@@ -509,4 +512,32 @@ public class IDE extends Activity {
 		
 		alert.show();
 	}	
+	
+	public void promptSave(){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Save File");
+		alert.setMessage("Do you want to save this file?");
+		alert.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				FileManager.saveCodeFile(FileManager.readTextFileFromDirectory("Code",file), file);
+				Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
+				startActivity(engineIntent);
+				finish();
+			}
+		});
+		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub			
+				Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
+				startActivity(engineIntent);
+				finish();
+			}
+		});
+		alert.show();
+	}
 }

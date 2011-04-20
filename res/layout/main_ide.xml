@@ -71,7 +71,6 @@
 	    android:layout_height="wrap_content">
 	    
 	    <EditText 
-	    	style="@style/CodeFont"
 	      	android:hint="Enter Code Here"
 			android:id="@+id/editor" 
 			android:autoText="false"
@@ -79,6 +78,7 @@
 			android:inputType="text|textMultiLine"
 			android:textSize="18dip"
 			android:typeface="monospace"
+			android:scrollHorizontally="true"
 			android:gravity="top"
 			android:layout_height="match_parent"
         />

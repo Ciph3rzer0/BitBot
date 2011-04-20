@@ -12,6 +12,7 @@ public class SoundManager {
 		this.context = context;
 		this.songID = songID;
 		mp = MediaPlayer.create(context, songID);
+		mp.setVolume(0.25f, 0.25f);
 	}
 	
 	public void playAudio(){
