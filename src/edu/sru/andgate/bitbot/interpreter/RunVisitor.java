@@ -37,6 +37,7 @@ import edu.sru.andgate.bitbot.parser.*;
 public class RunVisitor implements bc1Visitor
 {
 	private HashMap<String, String> vars = new HashMap<String, String>();
+	private HashMap<String, Node> subs = new HashMap<String, Node>();
 	
 	private volatile int instructionsLeft = 0;
 	private volatile boolean _waiting = true;
@@ -138,7 +139,11 @@ public class RunVisitor implements bc1Visitor
 	{
 		if (_abort)
 			throw new Error();
-		
+		else
+		{
+			
+			
+		}
 		
 	}
 	
@@ -225,6 +230,12 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(ASTProgram node, Object data)
 	{
 		out.println("[= Program =]");
+		
+		for (int i = 1; i < node.jjtGetNumChildren(); i++)
+			Log.d("BitBot Interpreter", ((SimpleNode)node.jjtGetChild(i).jjtGetChild(0)).jjtGetValue() + "" );
+		
+		Node n = node.jjtGetChild(0);
+//		if 
 		
 		// ASTListOfInstructions
 		node.jjtGetChild(0).jjtAccept(this, null);
