@@ -78,7 +78,8 @@ public class CodeBuilderActivity extends ListActivity
 	 @Override
 	 protected void onListItemClick(ListView l, View v, int position, long id) {
 		 engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
-		 engineIntent.putExtra("File", FileManager.readTextFileFromDirectory("Code",v.getTag().toString()));
+		 engineIntent.putExtra("File", v.getTag().toString());
+		 engineIntent.putExtra("Data", FileManager.readTextFileFromDirectory("Code",v.getTag().toString()));
 		 startActivity(engineIntent);
 		 finish();
 		

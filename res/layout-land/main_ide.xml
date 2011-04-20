@@ -73,6 +73,7 @@
 	        android:hint="Enter Code Here"
 			android:id="@+id/editor" 
 			android:autoText="false"
+			android:scrollHorizontally="true"
 			android:layout_width="match_parent"
 			android:inputType="text|textMultiLine"
 			android:textSize="18dip"
