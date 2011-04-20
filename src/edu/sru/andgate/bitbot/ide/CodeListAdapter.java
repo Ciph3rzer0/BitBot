@@ -38,9 +38,9 @@ public class CodeListAdapter extends ArrayAdapter<CustomListView>
 			TextView codeName = (TextView) customView.findViewById(R.id.program);
 			TextView codeDescription = (TextView) customView.findViewById(R.id.summary);
 			if (codeName != null) {
-				codeName.setText("Program Name: "+ myView.getCodeName());                            }
+				codeName.setText(myView.getCodeName());                            }
 			if(codeDescription != null){
-				codeDescription.setText("Summary: "+ myView.getCodeDescription());
+				codeDescription.setText(myView.getCodeDescription());
 			}
 		}
 		customView.setTag(myView.getCodeName());
