@@ -208,4 +208,9 @@ public class FileManager
 		deleteFile("Code", srcName);
 	}
 	
+	public static void saveCodeFileAs(String srcName, String dstName){
+		String data = readTextFileFromDirectory("Code", srcName);
+		saveCodeFile(data, dstName);
+	}
+	
 }

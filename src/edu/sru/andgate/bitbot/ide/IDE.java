@@ -478,7 +478,11 @@ public class IDE extends Activity {
 				break;
 			
 			case R.id.save:
-				promptUser("Code Files (.txt)","Program Name");
+				FileManager.saveCodeFile(editor.getText().toString(), file);
+				break;
+			
+			case R.id.saveas:
+				promptUser("Save File As: ", "New File Name: ");
 				break;
 		}
 		return true;
@@ -517,7 +521,7 @@ public class IDE extends Activity {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Save File");
 		alert.setMessage("Do you want to save this file?");
-		alert.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("Save",new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -528,16 +532,24 @@ public class IDE extends Activity {
 				finish();
 			}
 		});
-		alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub			
+				// TODO Auto-generated method stub	
+			}
+		});
+		alert.setNeutralButton("Discard", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
 				Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
 				startActivity(engineIntent);
 				finish();
 			}
 		});
+		
 		alert.show();
 	}
 }

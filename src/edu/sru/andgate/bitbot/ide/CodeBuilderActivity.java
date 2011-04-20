@@ -28,9 +28,7 @@ public class CodeBuilderActivity extends ListActivity
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.code_builder_main);
 	       
-	        FileManager.setContext(getBaseContext());
-	        final String[] option_list= {"Save", "Rename", "Delete"};
-	        
+	        FileManager.setContext(getBaseContext());     
 			
 	        botCodeOptions = new ArrayList<CustomListView>();
 	        this.code_adapter = new CodeListAdapter(this, R.layout.code_row, botCodeOptions);
@@ -67,7 +65,7 @@ public class CodeBuilderActivity extends ListActivity
 
 				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 					Log.v("BitBot", "Long Click Accepted");
-					dlg = new CustomDialog(CodeBuilderActivity.this, option_list, view.getTag().toString(),CodeBuilderActivity.this, R.style.CustomDialogTheme);
+					dlg = new CustomDialog(CodeBuilderActivity.this, view.getTag().toString(),CodeBuilderActivity.this, R.style.CustomDialogTheme);
 			        dlg.show();
 			        return true;
 				}
