@@ -262,6 +262,12 @@
 			
 		</LinearLayout>
 		
+		<ScrollView
+			android:id="@+id/ide_std_out_scroll"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_above="@id/crap001"
+			>
 		<TextView
 			android:id="@+id/ide_std_out"
 			android:layout_width="fill_parent"
@@ -270,7 +276,7 @@
 			android:text="View Flipper?!!"
 			android:layout_alignBottom="@id/crap001"
 		/>
-		
+		</ScrollView>
 	</RelativeLayout>
 	
 </ViewFlipper>
