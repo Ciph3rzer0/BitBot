@@ -21,17 +21,15 @@ import android.widget.TextView;
 
 public class CustomDialog extends Dialog 
 {
-	String[] list;
     TextView selection;
     Context context;
     String file;
     Activity activity;
     
-    public CustomDialog(Activity act, String[] list, String file, Context context, int theme) 
+    public CustomDialog(Activity act, String file, Context context, int theme) 
     {
         super(context, theme);
         this.context = context;
-        this.list = list;
         this.file = file;
         this.activity = act;
         
@@ -43,6 +41,8 @@ public class CustomDialog extends Dialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_popup);
         final ListView lst=(ListView)findViewById(R.id.myList);
+        String[] list = {"Save As...", "Rename", "Delete", "Back"};
+        
         lst.setAdapter(new ArrayAdapter<String>(context,R.layout.custom_popup_row, list));      
         
         lst.setOnItemClickListener(new OnItemClickListener() {
@@ -51,19 +51,48 @@ public class CustomDialog extends Dialog
         	public void onItemClick(AdapterView<?> a, View v, int position, long id) {
         		String clicked = ((TextView) v).getText().toString();
         		Log.v("Test", clicked);
-        		if(clicked.equalsIgnoreCase("Save")){
-        			FileManager.saveCodeFile(FileManager.readTextFileFromDirectory("Code",file), file);
+        		if(clicked.equalsIgnoreCase("Save As...")){
+        			promptSaveAs(activity, file);
         		}else if(clicked.equalsIgnoreCase("Rename")){
         			promptRename(activity, file);
         		}else if (clicked.equalsIgnoreCase("Delete")){
         			FileManager.deleteFile("Code", file);
         			restartActivity();
+        		}else if(clicked.equalsIgnoreCase("Back")){
+        			dismissCustomDialog();
         		}
         		
         		dismissCustomDialog();
            	}
         	});
         
+    }
+    
+    private void promptSaveAs(Activity act, final String srcFileName){
+    	AlertDialog.Builder alert = new AlertDialog.Builder(this.context);
+
+		alert.setTitle("Save file As: ");
+		alert.setMessage("New File Name");
+
+		// Set an EditText view to get user input 
+		final EditText input = new EditText(this.context);
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+			  String dstFileName = input.getText().toString();
+			  FileManager.saveCodeFileAs(srcFileName, dstFileName);
+			  restartActivity();
+		}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    // Canceled.
+		  }
+		});
+		
+		alert.show();
     }
     
     private void promptRename(Activity act, final String srcFileName){
