@@ -30,7 +30,7 @@ public class GameActivity extends Activity
 	DrawableBot test;
 	DrawableBot test2;
 	DrawableBot test3;
-	Bot loaded_bot;
+	Bot loaded_bot, loaded_bot2;
 	Drawable bot4,bot5,bot6,bot7,bot8,bot9,bot10;
 	BotLayer testTurret;
 	BotLayer test2Turret;
@@ -158,23 +158,27 @@ public class GameActivity extends Activity
         test3.addTexture(R.drawable.red);	//TextureID = 0
         test3.addTexture(R.drawable.green);	//TextureID = 1
         test3.setSelectedTexture(0);
-       
         
-        loaded_bot = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
-		/*collisionManager.addCollisionDetectorToBot(loaded_bot.getDrawableBot());
-		ilvm.addInterpreter(loaded_bot.getInterpreter());
-		
-		// Run the vm every second.
-		Timer t = new Timer();
-		t.schedule(new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				ilvm.resume(4);
-			}
-		}, 50, 50);*/
         
+        try{
+        	String botFile = getIntent().getExtras().getString("Bot");
+        	loaded_bot2 = Bot.CreateBotFromXML(this.getBaseContext(), botFile);
+        	loaded_bot2.getDrawableBot().setTranslation(3.5f,0.1f,-5.0f);
+        	collisionManager.addCollisionDetectorToBot(loaded_bot2.getDrawableBot());
+        	ilvm.addInterpreter(loaded_bot2.getInterpreter());
+        	// Run the vm every second.
+        	Timer t = new Timer();
+        	t.schedule(new TimerTask()
+        	{
+        		@Override
+        		public void run()
+        		{
+        			ilvm.resume(4);
+        		}
+        	}, 50, 50);
+	        }catch (Exception e){
+	        	Log.v("BitBot", "Bot not Loaded");
+	        }
 		
 		/*String code =
 			"Let d = -1\n" +
@@ -193,8 +197,9 @@ public class GameActivity extends Activity
 		b.readyInterpreter();
         b.attachSourceCode(source);
         b.readyInterpreter();
+        
 		ilvm.addInterpreter(b.getInterpreter());
-		*/
+		
 		
 		
 		// Run the vm every second.
@@ -206,7 +211,7 @@ public class GameActivity extends Activity
 			{
 				ilvm.resume(4);
 			}
-		}, 50, 50);
+		}, 50, 50);*/
         
         gameRenderer = new GlRenderer(this.getBaseContext());
         
@@ -241,9 +246,14 @@ public class GameActivity extends Activity
         gameRenderer.addObjectToWorld(test3);
         
         //Nick Test Loaded Bot
-        gameRenderer.addObjectToWorld(loaded_bot.getDrawableBot());
-        gameRenderer.addObjectToWorld(loaded_bot.getBotLayer());
-   
+        try{
+        	gameRenderer.addObjectToWorld(loaded_bot2.getDrawableBot());
+            gameRenderer.addObjectToWorld(loaded_bot2.getBotLayer());
+        }catch (Exception e){
+        	Log.v("BitBot", "Add Objects to world failed");
+        }
+        
+        
         //Connect draw list to Renderer
         gameRenderer.setDrawList(drawList);
         
@@ -267,9 +277,12 @@ public class GameActivity extends Activity
         addToDrawList(TYPE_BOT,test3.ID);
        
         //Nick Test loaded bot
-        addToDrawList(TYPE_BOT, loaded_bot.getDrawableBot().ID);
-        addToDrawList(TYPE_BOT, loaded_bot.getBotLayer().ID);
-      
+        try{
+        	addToDrawList(TYPE_BOT, loaded_bot2.getDrawableBot().ID);
+            addToDrawList(TYPE_BOT, loaded_bot2.getBotLayer().ID);
+        }catch (Exception e){
+        	Log.v("BitBot", "Drawlist not added");
+        }
         gameRenderer.drawListSize = drawListPointer+1;
         
         gameRenderer.startSimulation();
@@ -329,10 +342,7 @@ public class GameActivity extends Activity
     	    		test2.move();
     	    		//test2.move(45.0f, 0.1f);
     	    		test2Turret.setRotationAngle(rotate);
-					
-    	    		loaded_bot.getBotLayer().setRotationAngle(rotate);
-    	    		//loaded_bot.getDrawableBot().move();
-    	    		
+					    	    		
     	    		if(goinUp)
     	    		{
     	    			move += 0.03f;

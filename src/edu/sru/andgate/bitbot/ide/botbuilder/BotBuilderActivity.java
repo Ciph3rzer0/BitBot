@@ -116,10 +116,13 @@ public class BotBuilderActivity extends Activity
 		Log.v("BitBot", _currentBot.getTurret());
 		_currentBot.setCode(tv.getText().toString());
 		Log.v("BitBot", _currentBot.getCode().getCode());
-		_currentBot.saveBotToXML(getBaseContext(), "test_Bot.xml");
+		_currentBot.saveBotToXML(this.getBaseContext(), "test_bot.xml");
 				
 		// Start up the game engine
-		startActivity(new Intent(BotBuilderActivity.this, GameActivity.class));
+		Intent engineIntent = new Intent(BotBuilderActivity.this, GameActivity.class);
+		engineIntent.putExtra("Bot", "test_bot.xml");
+		startActivity(engineIntent);
+		
 	}
 	
 }
