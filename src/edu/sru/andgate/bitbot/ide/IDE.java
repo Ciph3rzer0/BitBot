@@ -39,7 +39,16 @@ public class IDE extends Activity {
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private EditText editor;
 	private TextView botOutput;
-	String file, file_data;
+	private String file, file_data;
+	private SlidingDrawer slidingDrawer;
+	private ActionItem[] quick_tools, bot_functions, selection_shells, sequence_shells, iteration_shells;
+	private String[] quick_tools_titles, quick_tools_strings, bot_function_titles, bot_function_strings,
+					 sequence_shell_titles, sequence_shell_strings, selection_shell_titles, selection_shell_strings,
+					 iteration_shell_titles, iteration_shell_strings;
+	private Button slideHandleButton, sequence_btn, iteration_btn, selection_btn, tools_btn, bot_code,
+					back_to_code;
+	private ImageButton highlight_right, highlight_left, move_right, move_left, move_up, move_down, tab_over,
+						send_btn;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,124 +58,137 @@ public class IDE extends Activity {
         file = getIntent().getExtras().getString("File");
         file_data = getIntent().getExtras().getString("Data");
        
-        /*
-		 * Action Items for Sequence, Selection, Iteration buttons
-		 */
-		final ActionItem for_shell = new ActionItem();
-		final ActionItem do_while_shell = new ActionItem();
-		final ActionItem var_decl = new ActionItem();
-		final ActionItem print_shell = new ActionItem();
-		final ActionItem if_shell = new ActionItem();
-		
-		/*
-		 * Action Items for Quick Tools button
-		 */
-		final ActionItem paren_tool = new ActionItem();
-		final ActionItem quote_tool = new ActionItem();
-		final ActionItem brace_tool = new ActionItem();
-		final ActionItem bracket_tool = new ActionItem();
-		
-		/*
-		 * Action Items for Bot Functions button
-		 */
-		final ActionItem move_bot = new ActionItem();
-		final ActionItem rotate_turret = new ActionItem();
-		
-		
 		//create the text editor and cabinet button
 		editor = (EditText) findViewById(R.id.editor);
 		editor.setText(file_data);
 			
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		
-		final SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
-		final Button slideHandleButton = (Button) findViewById(R.id.slideHandleButton);
-		
+		slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
+		slideHandleButton = (Button) findViewById(R.id.slideHandleButton);
 		
 		/*
-		 * sets attributes of the action items in the CustomPopUpWindow
+		 * Action Items for Quick Tools
 		 */
-		setActionItem(var_decl,editor, "Declare Variable", "Variable Declaration Selected", getResources().getString(R.string.var_declaration));
-		setActionItem(print_shell,editor, "Print to console", "Print Statement Selected", getResources().getString(R.string.print_statement));
-		setActionItem(if_shell,editor, "if statement shell", "if statement Selected", getResources().getString(R.string.if_statement));
-		setActionItem(do_while_shell, editor, "do while shell", "do while statement selected", getResources().getString(R.string.do_while_statement));
-		setActionItem(for_shell,editor, "for statement shell", "for statement selected", getResources().getString(R.string.for_statement));
-		setActionItem(paren_tool,editor, "Parenthesis ( )", "Parenthesis Selected", getResources().getString(R.string.parenthesis));
-		setActionItem(quote_tool,editor, "Quotations \" \"", "Quotes Selected", getResources().getString(R.string.quotations));
-		setActionItem(brace_tool,editor,"Braces { }", "Braces Selected", getResources().getString(R.string.braces));
-		setActionItem(bracket_tool, editor, "Brackets [ ]", "Brackets Selected", getResources().getString(R.string.brackets));
-		setActionItem(move_bot,editor,"bot.move()", "Move Function Selected", getResources().getString(R.string.bot_move));
-		setActionItem(rotate_turret, editor, "turret.rotate()", "Turret Rotation Selected", getResources().getString(R.string.turret_rotate));
+		quick_tools_titles = getResources().getStringArray(R.array.quick_tools_titles);
+		quick_tools_strings = getResources().getStringArray(R.array.quick_tools);
+		quick_tools = new ActionItem[quick_tools_titles.length];
+		for(int i  = 0; i < quick_tools.length; i++){
+			quick_tools[i] = new ActionItem();
+			setActionItem(quick_tools[i], editor, quick_tools_titles[i], quick_tools_strings[i]);
+		}
+		
+		/*
+		 * Action Items for Bot Functions button
+		 */
+		bot_function_strings = getResources().getStringArray(R.array.bot_function_strings);
+		bot_function_titles = getResources().getStringArray(R.array.bot_function_titles);
+		bot_functions = new ActionItem[bot_function_titles.length];
+		for(int i = 0; i < bot_functions.length; i++){
+			bot_functions[i] = new ActionItem();
+			setActionItem(bot_functions[i], editor, bot_function_titles[i], bot_function_strings[i]);
+		}
+			
+		  /*
+		 * Action Items for Sequence, Selection, Iteration buttons
+		 */
+		sequence_shell_titles = getResources().getStringArray(R.array.sequence_shell_titles);
+		sequence_shell_strings = getResources().getStringArray(R.array.sequence_shell_strings);
+		sequence_shells = new ActionItem[sequence_shell_titles.length];
+		for(int i = 0; i < sequence_shells.length; i++){
+			sequence_shells[i] = new ActionItem();
+			setActionItem(sequence_shells[i], editor, sequence_shell_titles[i], sequence_shell_strings[i]);
+		}
+		
+		selection_shell_titles = getResources().getStringArray(R.array.selection_shell_titles);
+		selection_shell_strings = getResources().getStringArray(R.array.selection_shell_strings);
+		selection_shells = new ActionItem[selection_shell_titles.length];
+		for(int i = 0; i < selection_shells.length; i++){
+			selection_shells[i] = new ActionItem();
+			setActionItem(selection_shells[i], editor, selection_shell_titles[i], selection_shell_strings[i]);
+		}
+		
+		iteration_shell_titles = getResources().getStringArray(R.array.iteration_shell_titles);
+		iteration_shell_strings = getResources().getStringArray(R.array.iteration_shell_strings);
+		iteration_shells = new ActionItem[iteration_shell_titles.length];
+		for(int i = 0; i < iteration_shells.length; i++){
+			iteration_shells[i] = new ActionItem();
+			setActionItem(iteration_shells[i], editor, iteration_shell_titles[i], iteration_shell_strings[i]);
+		}
 		
 		/*
 		 * Set all the QuickAction buttons onClick() methods 
 		 */
-		Button sequence_btn = (Button) this.findViewById(R.id.sequence_btn);
+		sequence_btn = (Button) this.findViewById(R.id.sequence_btn);
 		sequence_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
-				qa.addActionItem(var_decl);
-				qa.addActionItem(print_shell);
+				for(int i = 0; i < sequence_shells.length; i++){
+					qa.addActionItem(sequence_shells[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
 		});
 								
-		Button selection_btn = (Button) this.findViewById(R.id.selection_btn);
+		selection_btn = (Button) this.findViewById(R.id.selection_btn);
 		selection_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
-				qa.addActionItem(if_shell);
+				for(int i = 0; i < selection_shells.length; i++){
+					qa.addActionItem(selection_shells[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
 		});
 		
-		Button iteration_btn = (Button) this.findViewById(R.id.iteration_btn);
+		iteration_btn = (Button) this.findViewById(R.id.iteration_btn);
 		iteration_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
-				qa.addActionItem(for_shell);
-				qa.addActionItem(do_while_shell);
+				for(int i = 0; i < iteration_shells.length; i++){
+					qa.addActionItem(iteration_shells[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
 		});
 		
-		Button tools_btn = (Button) this.findViewById(R.id.tools_btn);
+		tools_btn = (Button) this.findViewById(R.id.tools_btn);
 		tools_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
-				qa.addActionItem(quote_tool);
-				qa.addActionItem(paren_tool);
-				qa.addActionItem(brace_tool);
-				qa.addActionItem(bracket_tool);
+				for(int i = 0; i < quick_tools.length; i++){
+					qa.addActionItem(quick_tools[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
 		});
 		
-		Button bot_code = (Button) this.findViewById(R.id.bot_btn);
+		bot_code = (Button) this.findViewById(R.id.bot_btn);
 		bot_code.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
-				qa.addActionItem(move_bot);
-				qa.addActionItem(rotate_turret);
+				for(int i = 0; i < bot_functions.length; i++){
+					qa.addActionItem(bot_functions[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
@@ -178,7 +200,7 @@ public class IDE extends Activity {
 		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
 		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
 		
-		ImageButton highlight_right = (ImageButton) this.findViewById(R.id.select_right);
+		highlight_right = (ImageButton) this.findViewById(R.id.select_right);
 		highlight_right.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -191,7 +213,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		ImageButton highlight_left = (ImageButton) this.findViewById(R.id.select_left);
+		highlight_left = (ImageButton) this.findViewById(R.id.select_left);
 		highlight_left.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -204,7 +226,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		ImageButton move_up = (ImageButton) this.findViewById(R.id.move_up);
+		move_up = (ImageButton) this.findViewById(R.id.move_up);
 		move_up.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -217,7 +239,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		ImageButton move_down = (ImageButton) this.findViewById(R.id.move_down);
+		move_down = (ImageButton) this.findViewById(R.id.move_down);
 		move_down.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -230,7 +252,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		ImageButton move_left = (ImageButton) this.findViewById(R.id.move_left);
+		move_left = (ImageButton) this.findViewById(R.id.move_left);
 		move_left.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -243,7 +265,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		ImageButton move_right = (ImageButton) this.findViewById(R.id.move_right);
+		move_right = (ImageButton) this.findViewById(R.id.move_right);
 		move_right.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -256,7 +278,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		ImageButton tab_over = (ImageButton) this.findViewById(R.id.tab_over);
+		tab_over = (ImageButton) this.findViewById(R.id.tab_over);
 		tab_over.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -265,7 +287,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		ImageButton send_btn = (ImageButton) this.findViewById(R.id.send_btn);
+		send_btn = (ImageButton) this.findViewById(R.id.send_btn);
 		send_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
@@ -283,7 +305,7 @@ public class IDE extends Activity {
 			}
 		});
 		
-		Button back_to_code = (Button) this.findViewById(R.id.ide_back_to_code_btn);
+		back_to_code = (Button) this.findViewById(R.id.ide_back_to_code_btn);
 		back_to_code.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
@@ -441,8 +463,8 @@ public class IDE extends Activity {
 	/*
 	 * creates the Action Item with the defined attributes: 
 	 * 		title, message string, text to be added when clicked
-	 */
-	private void setActionItem(ActionItem item, final EditText editor, String title, final String popUpString, final String declaration)
+	 */	
+	private void setActionItem(ActionItem item, final EditText editor, String title, final String declaration)
 	{
 		item.setTitle(title);
 		item.setIcon(getResources().getDrawable(R.drawable.icon));
@@ -451,7 +473,6 @@ public class IDE extends Activity {
 			@Override
 			public void onClick(View v) 
 			{
-				//Toast.makeText(Main_Tutorial.this, popUpString , Toast.LENGTH_SHORT).show();
 				expandEditText(declaration);
 			}
 		});
@@ -467,7 +488,7 @@ public class IDE extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.ide_tutorial_menu, menu);
+	    inflater.inflate(R.menu.ide_menu, menu);
 	    return true;
 	}
 	
