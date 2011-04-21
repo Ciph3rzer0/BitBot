@@ -192,17 +192,25 @@ android:layout_height="match_parent">
 						android:id="@+id/bb_chassis"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-					/>
+					>
+					</edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView>
 					<edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView
 						android:id="@+id/bb_turret"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-					/>
-					<edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView
+					>
+						
+					</edu.sru.andgate.bitbot.ide.botbuilder.BotComponentView>
+					<Button
 						android:id="@+id/bb_soft1"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-					/>
+						android:drawableLeft="@drawable/icon"
+						android:drawablePadding="5px"
+						android:gravity="center_vertical"
+						android:maxLines="2"
+						style="@style/Heading2"
+						android:background="@layout/button_bot_component"
+						android:layout_height="wrap_content" android:layout_width="match_parent">
+					</Button>
 				</LinearLayout>
 				
 			</LinearLayout> <!-- End Bot Parts & Stats -->

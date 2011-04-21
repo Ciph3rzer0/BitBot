@@ -16,8 +16,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class BotBuilderActivity extends Activity
@@ -71,6 +74,20 @@ public class BotBuilderActivity extends Activity
 			}
 		});
 		
+		final Button b = (Button) findViewById(R.id.bb_soft1);
+		b.setTag("Square Chassis");
+		b.setText(b.getTag().toString());
+		b.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.spinnerbase), null, null,null);
+		b.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.v("BitBot", b.getTag().toString());
+			}
+		});
+		
+		
 	}
 	
 	/**
@@ -104,4 +121,5 @@ public class BotBuilderActivity extends Activity
 		// Start up the game engine
 		startActivity(new Intent(BotBuilderActivity.this, GameActivity.class));
 	}
+	
 }
