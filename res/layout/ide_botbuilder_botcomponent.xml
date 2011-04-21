@@ -2,15 +2,14 @@
 
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
 	android:layout_margin="2dip"
 	android:padding="4dip"
 	android:paddingBottom="10dip"
 	android:focusable="true"
 	android:clickable="true"
-	android:background="@layout/button_bot_component"
-	>
+	android:background="@layout/button_bot_component" 
+	android:layout_height="wrap_content">
 	
 	<!-- 
 	android:background="@android:drawable/btn_default"
@@ -41,6 +40,7 @@
 		style="@style/Heading2"
 		android:duplicateParentState="false"
 		android:clickable="false"
+		android:focusable="false"
 	/>
 	
 	<TextView
@@ -55,6 +55,7 @@
 		style="@style/Normal"
 		android:duplicateParentState="false"
 		android:clickable="false"
+		android:focusable="false"
 	/>
 	
 	<View

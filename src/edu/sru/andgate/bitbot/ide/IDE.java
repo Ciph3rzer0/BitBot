@@ -340,8 +340,14 @@ public class IDE extends Activity {
     	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
     	
     	if (vf.getDisplayedChild() == 0)
-    		promptSave();
-//    		super.onBackPressed();
+    		//check if change has been made
+    		if(!file_data.equals(editor.getText().toString())){
+    			promptSave();
+    		}else{
+    			Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
+				startActivity(engineIntent);
+				finish();
+    		}
     	else
     		vf.showPrevious();
     }

@@ -51,8 +51,10 @@ public class CodeBuilderActivity extends ListActivity
 				public void onClick(View v) {
 					try {
 						engineIntent = new Intent(CodeBuilderActivity.this, IDE.class);
-						engineIntent.putExtra("File", FileManager.readXML("code_template.xml", "program-code"));
+						engineIntent.putExtra("File", "code_template.xml");
+						engineIntent.putExtra("Data", FileManager.readXML("code_template.xml", "program-code"));
 						startActivity(engineIntent);
+						FileManager.saveCodeFile(FileManager.readXML("code_template.xml", "program-code"), "New Program.txt");
 						finish();
 					} catch (Exception e) {
 							

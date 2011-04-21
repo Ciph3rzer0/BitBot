@@ -12,8 +12,23 @@
         <item>Selection Statements</item>
         <item>Back to Main Menu</item>
      </string-array>
-    
-    <!-- Sequence, Selection, Iteration-->
+     
+     <string-array name="mission_titles">
+     	<item>Arena</item>
+     	<item>Target Practice</item>
+     </string-array>
+     
+     <string-array name="mission_descriptions">
+     	<item>Navigate through the Arena</item>
+     	<item>Test your Shooting Skills</item>
+     </string-array>
+     
+     <string-array name="mission_files">
+     	<item>arena.xml</item>
+     	<item>target_practice.xml</item>
+	</string-array>
+	
+	<!-- Sequence, Selection, Iteration-->
     <string name="for_statement">FOR I 1 TO N \n\t&lt;executed statement&gt;\nNEXT I\n</string>
     <string name="if_statement">IF &lt;some condition&gt; THEN GOTO &lt;some line&gt;\n</string>
     <string name="var_declaration">DIM &lt;variable declaration&gt; as &lt;TYPE&gt;\n</string>
@@ -46,5 +61,6 @@ While i Do\n
 \tLet i = i-1\n
 Loop\n
     </string>
+    
     
 </resources>

@@ -27,15 +27,33 @@ public class MissionListActivity extends ListActivity {
 	        setContentView(R.layout.mission_main);
 	        
 	        myMissions = new ArrayList<CustomListView>();
-	        mission_icons= new Hashtable<String,Integer>();
+	        mission_icons = new Hashtable<String,Integer>();
 	        mission_list = new Hashtable<String, String>();
-	       
-	        this.mission_adapter = new MissionListAdapter(this, R.layout.mission_row, myMissions);
-	        setListAdapter(this.mission_adapter);
-	       
-	        getMissions();
-	        run();   
 	        
+	        
+	       String[] titles = getResources().getStringArray(R.array.mission_titles);
+           String[] descriptions = getResources().getStringArray(R.array.mission_descriptions);
+	       String[] files = getResources().getStringArray(R.array.mission_files);
+	       int[] images = {R.drawable.arena, R.drawable.target};
+            
+           CustomListView[] clv = new CustomListView[titles.length];
+	       for(int i = 0; i < clv.length; i++){
+	    	   clv[i] = new CustomListView();
+	    	   clv[i].setMissionName(titles[i]);
+	           clv[i].setMissionDescription(descriptions[i]);
+	           clv[i].setFileName(files[i]);
+	           clv[i].setImageIcon(images[i]);
+	           
+	           //add to file lookup, and image lookup table(s)
+	           mission_list.put(titles[i], files[i]);
+	           mission_icons.put(titles[i], images[i]);
+	           
+	           myMissions.add(clv[i]);
+	       }
+	        
+	       this.mission_adapter = new MissionListAdapter(this, R.layout.mission_row, myMissions);
+	       setListAdapter(this.mission_adapter);
+	       	        
 	        Button new_btn = (Button)findViewById(R.id.new_btn);
 	        new_btn.setText("New");
 	        new_btn.setOnClickListener(new View.OnClickListener()
@@ -65,37 +83,5 @@ public class MissionListActivity extends ListActivity {
         	myIntent.putExtra("Icon",  mission_icons.get(v.getTag().toString()));
         	startActivity(myIntent);
 	 }
-	 
-	 public void run() {
-	            if(myMissions != null && myMissions.size() > 0){
-	                mission_adapter.notifyDataSetChanged();
-	                for(int i=0;i<myMissions.size();i++)
-	                mission_adapter.add(myMissions.get(i));
-	            }
-	 }
-	       
-	 private void getMissions(){
-	          try{
-	              myMissions = new ArrayList<CustomListView>();
-	              CustomListView mission1 = new CustomListView();
-	              setAttributes(myMissions,mission1, "Arena", "Navigate through the Arena", "arena.xml", R.drawable.arena);  
-	              CustomListView mission2 = new CustomListView();
-	              setAttributes(myMissions, mission2, "Target Practice", "Test your shooting skills.", "target_practice.xml", R.drawable.target);
-	          	} catch (Exception e) { 
-	              Log.e("BACKGROUND_PROC", e.getMessage());
-	            }
-	        }
-	 
-	 private void setAttributes(ArrayList<CustomListView> array, CustomListView mission, String mission_name, String description, String filename, int image){
-		 //set mission attributes
-		 mission.setMissionName(mission_name);
-         mission.setMissionDescription(description);
-         mission.setFileName(filename);
-         mission.setImageIcon(image);
-         
-         //add to file lookup, and image lookup table(s)
-         mission_list.put(mission_name, filename);
-         mission_icons.put(mission_name, image);
-         array.add(mission);
-	 }
+
 }
