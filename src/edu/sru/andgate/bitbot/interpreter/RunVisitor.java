@@ -242,16 +242,17 @@ public class RunVisitor implements bc1Visitor
 			if (name != null)
 				Log.d("BitBot Interpreter", name);
 		}
-		if (node.jjtGetNumChildren() == 1)
-		{
+		
+//		if (node.jjtGetNumChildren() == 1)
+//		{
 			// ASTListOfInstructions
 			node.jjtGetChild(0).jjtAccept(this, null);
-		}
-		else
-		{
-			// ASTListOfInstructions
-			node.jjtGetChild(1).jjtAccept(this, null);
-		}
+//		}
+//		else
+//		{
+//			// ASTListOfInstructions
+//			node.jjtGetChild(1).jjtAccept(this, null);
+//		}
 		
 		return null;
 	}
