@@ -68,6 +68,9 @@ public class Test extends Activity
 		
 		String forLoop =
 			"Program myProg\n" +
+			"\n" +
+			"call sub1()\n" +
+			"\n" +
 			"Let i = 5\n" +
 			"for n = 0 to i\n" +
 			"  print n\n" + 

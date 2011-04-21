@@ -335,12 +335,13 @@ public class IDE extends Activity {
      * view of the ViewFlipper before backing out of this activity.
      */
     @Override
-    public void onBackPressed(){
+    public void onBackPressed()
+    {
     	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
     	
-    	
-    	if (vf.getCurrentView() == vf.getChildAt(0))
+    	if (vf.getDisplayedChild() == 0)
     		promptSave();
+//    		super.onBackPressed();
     	else
     		vf.showPrevious();
     }
@@ -522,7 +523,7 @@ public class IDE extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				FileManager.saveCodeFile(editor.getText().toString(), file);
+				FileManager.saveCodeFile(FileManager.readTextFileFromDirectory("Code",file), file);
 				Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
 				startActivity(engineIntent);
 				finish();
