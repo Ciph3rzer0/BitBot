@@ -232,13 +232,26 @@ public class RunVisitor implements bc1Visitor
 		out.println("[= Program =]");
 		
 		for (int i = 1; i < node.jjtGetNumChildren(); i++)
-			Log.d("BitBot Interpreter", ((SimpleNode)node.jjtGetChild(i).jjtGetChild(0)).jjtGetValue() + "" );
-		
-		Node n = node.jjtGetChild(0);
-//		if 
-		
-		// ASTListOfInstructions
-		node.jjtGetChild(0).jjtAccept(this, null);
+		{
+			Node n = (SimpleNode)node.jjtGetChild(i);
+			String name = (String) ((SimpleNode)node.jjtGetChild(i).jjtGetChild(0)).jjtGetValue();
+			
+			// Store in a hash
+			subs.put(name, n);
+			
+			if (name != null)
+				Log.d("BitBot Interpreter", name);
+		}
+		if (node.jjtGetNumChildren() == 1)
+		{
+			// ASTListOfInstructions
+			node.jjtGetChild(0).jjtAccept(this, null);
+		}
+		else
+		{
+			// ASTListOfInstructions
+			node.jjtGetChild(1).jjtAccept(this, null);
+		}
 		
 		return null;
 	}
@@ -580,6 +593,17 @@ public class RunVisitor implements bc1Visitor
 		// Execute bot instructions
 		if ( instr.substring(0, 4).equalsIgnoreCase("bot_") )
 			bi.executeBotInstruction(instr, params);
+		else
+		{
+			Node n = subs.get(instr);
+			if (n == null)
+				Log.w("BitBot Interpreter", "Sub '" + instr + "' not declared.");
+			else
+			{
+				Log.d("BitBot Interpreter", "Calling '" + instr + "'");
+				n.jjtAccept(this, null);
+			}
+		}
 		
 		// TODO Auto-generated method stub
 		return null;
@@ -588,16 +612,9 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTSubDef node, Object data)
 	{
-		// Identifier
-		String name = node.jjtGetChild(0).jjtAccept(this, null).toString();
-		out.println("Sub Declaration: " + name);
-		
 		// ListOfInstructions
 		node.jjtGetChild(1).jjtAccept(this, null);
 		
-		out.println("End Sub Declaration:");
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

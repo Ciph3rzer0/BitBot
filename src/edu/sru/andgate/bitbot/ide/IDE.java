@@ -330,24 +330,21 @@ public class IDE extends Activity {
 		
 	}
     
+    /**
+     * This overrides the default back button behavior to flip back to the first
+     * view of the ViewFlipper before backing out of this activity.
+     */
     @Override
-    public void onBackPressed(){
-    	promptSave();
-	}
-//    /**
-//     * This overrides the default back button behavior to flip back to the first
-//     * view of the ViewFlipper before backing out of this activity.
-//     */
-//    @Override
-//    public void onBackPressed() {
-//    	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
-//    	
-//    	
-//    	if (vf.getCurrentView().getId() == R.id.ide_vf_firstView)
+    public void onBackPressed()
+    {
+    	ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
+    	
+    	if (vf.getDisplayedChild() == 0)
+    		promptSave();
 //    		super.onBackPressed();
-//    	else
-//    		vf.showPrevious();
-//    }
+    	else
+    		vf.showPrevious();
+    }
     
     // Temp variable declaration
     private InstructionLimitedVirtualMachine ilvm;
