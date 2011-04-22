@@ -268,7 +268,9 @@ public class BotInterpreter
 			float degrees = Float.parseFloat(params[0]);
 			float stepSize = Float.parseFloat(params[1]);
 			
-			bot.Move(degrees, stepSize);
+			if (bot != null)
+				bot.Move(degrees, stepSize);
+			
 			return true;
 		}
 		else if (instr.equalsIgnoreCase("bot_turn"))

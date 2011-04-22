@@ -592,7 +592,7 @@ public class RunVisitor implements bc1Visitor
 		}
 		
 		// Execute bot instructions
-		if ( instr.substring(0, 4).equalsIgnoreCase("bot_") )
+		if (instr.length() >= 4 && instr.substring(0, 4).equalsIgnoreCase("bot_") )
 			bi.executeBotInstruction(instr, params);
 		else
 		{
@@ -646,18 +646,15 @@ public class RunVisitor implements bc1Visitor
 		if ( conditional != 0)
 			node.jjtGetChild(1).jjtAccept(this, null);
 		else
-			node.jjtGetChild(2).jjtAccept(this, null);
+			// Prevent null pointer when else is not there.
+			if (node.jjtGetChild(2) != null)
+				node.jjtGetChild(2).jjtAccept(this, null);
 		
 //		out.println("[/End IfStatement]");
 		
 		return null;
 	}
-
-
-
-//		< FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
-//		ListOfInstructions()
-//		< NEXT >
+	
 	@Override
 	public Object visit(ASTForLoop node, Object data)
 	{
