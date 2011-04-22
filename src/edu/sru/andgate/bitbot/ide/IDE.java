@@ -550,7 +550,7 @@ public class IDE extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				FileManager.saveCodeFile(FileManager.readTextFileFromDirectory("Code",file), file);
+				FileManager.saveCodeFile(editor.getText().toString(), file);
 				Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
 				startActivity(engineIntent);
 				finish();

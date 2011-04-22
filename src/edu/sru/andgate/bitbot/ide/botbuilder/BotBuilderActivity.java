@@ -43,7 +43,7 @@ public class BotBuilderActivity extends Activity
 		FileManager.setContext(getBaseContext());
 		c = (BotComponentView)findViewById(R.id.bb_chassis);
 		t = (BotComponentView)findViewById(R.id.bb_turret);
-		
+			
 		c.setTitle("Square Chassis");
 		c.setSummary("A stable base that is fast and sturdy.");
 		c.setPicID(R.drawable.spinnerbase);
