@@ -33,9 +33,7 @@ import android.widget.SlidingDrawer.OnDrawerOpenListener;
 public class IDE extends Activity {
     /** Called when the activity is first created. */
 	
-	/**
-	 * Used for sliding the ViewFlipper
-	 */
+	private boolean canSave = true;
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private EditText editor;
 	private TextView botOutput;
@@ -363,7 +361,7 @@ public class IDE extends Activity {
     	
     	if (vf.getDisplayedChild() == 0)
     		//check if change has been made
-    		if(!file_data.equals(editor.getText().toString())){
+    		if(!file_data.equals(editor.getText().toString()) && canSave){
     			promptSave();
     		}else{
     			Intent engineIntent = new Intent(IDE.this, CodeBuilderActivity.class);
@@ -503,10 +501,12 @@ public class IDE extends Activity {
 			
 			case R.id.save:
 				FileManager.saveCodeFile(editor.getText().toString(), file);
+				canSave = false;
 				break;
 			
 			case R.id.saveas:
 				promptUser("Save File As: ", "New File Name: ");
+				canSave = false;
 				break;
 		}
 		return true;
