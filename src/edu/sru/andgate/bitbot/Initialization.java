@@ -21,22 +21,13 @@ public class Initialization
 	{
 		FileManager.setContext(cw.getBaseContext());
 				
-		String data = "//Place Holder File\n";
-		data +="Program myProg\n" +
+		String data = "Let d = -1\n" +
 		"\n" +
-		"call sub1()\n" +
-		"\n" +
-		"Let i = 5\n" +
-		"for n = 0 to i\n" +
-		"  print n\n" + 
-		"next\n" +
-		"\n" +
-		"end\n" +
-		"\n" +
-		"sub sub1\n" +
-		"  print \"In sub1\"\n" +
-		"return\n" +			
-		"\n";
+		"While 1 Do\n" + 
+		"  call bot_move(45, 5)\n" +
+		"  \n" +
+		"  Let d = d + 1\n" +
+		"Loop\n";
 		data.substring(2);
 		String data2 = "//Simple While Loop\n"; 
 		data2 += cw.getResources().getString(R.string.example_code);

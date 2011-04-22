@@ -19,6 +19,7 @@ import android.util.Xml;
 import edu.sru.andgate.bitbot.graphics.BotLayer;
 import edu.sru.andgate.bitbot.graphics.Drawable;
 import edu.sru.andgate.bitbot.graphics.DrawableBot;
+import edu.sru.andgate.bitbot.graphics.DrawableGun;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
 import edu.sru.andgate.bitbot.tools.Constants;
@@ -28,12 +29,10 @@ public class Bot
 	private Drawable _drawable;
 	private SourceCode _source;
 	private BotInterpreter _interpreter;
-	private String bot_name;
-	private String base_name;
-	private String turret_name;
-	private String bot_code;
+	private String bot_name, base_name, turret_name, bullet_name, bot_code;
 	private DrawableBot _bot;
 	private BotLayer _layer;
+	private DrawableGun _gun;
 	private static Constants c;
 	
 //	private Physical physical;
@@ -158,6 +157,10 @@ public class Bot
 		this.bot_code = code;
 	}
 	
+	public void setBullet(String bullet){
+		this.bullet_name = bullet;
+	}
+	
 	public String getName(){
 		return this.bot_name;
 	}
@@ -168,6 +171,10 @@ public class Bot
 	
 	public String getTurret(){
 		return this.turret_name;
+	}
+	
+	public String getBullet(){
+		return this.bullet_name;
 	}
 	
 	public void setBotLayer(BotLayer bl){
@@ -182,6 +189,14 @@ public class Bot
 	}
 	public DrawableBot getDrawableBot(){
 		return this._bot;
+	}
+	
+	public void setDrawableGun(DrawableGun dg){
+		this._gun = dg;
+	}
+	
+	public DrawableGun getDrawableGun(){
+		return this._gun;
 	}
 	
 	public SourceCode getCode(){
@@ -214,7 +229,8 @@ public class Bot
 			//Log.v("BitBot", b.getTurret());
 			b.setCode(readXML(doc, "Bot-Code"));
 			//Log.v("BitBot", b.getCode().getCode());
-				
+			b.setBullet(readXML(doc, "Bot-Bullet"));
+			
 			DrawableBot db = new DrawableBot();
 			b.setDrawableBot(db);
 			//db.setTranslation(0.0f,5.0f,-5.0f);
@@ -223,6 +239,9 @@ public class Bot
 			BotLayer bl = new BotLayer(db);
 			b.setBotLayer(bl);
 			bl.addTexture(c.turret_table.get(b.getTurret()));
+			DrawableGun dg = new DrawableGun(db, bl);
+			b.setDrawableGun(dg);
+			dg.addTexture(c.bullet_table.get(b.getBullet()));
 			b.attachDrawable(db);
 			b.attachSourceCode(new SourceCode(b.getCode().getName(), b.getCode().getCode()+"\n"));
 			b.readyInterpreter();
@@ -236,7 +255,7 @@ public class Bot
 		
 		
 	}
-	
+
 	public void saveBotToXML(Context context, String filename)
 	{
 		XmlSerializer serializer = Xml.newSerializer();
@@ -255,6 +274,9 @@ public class Bot
 			serializer.startTag("", "Bot-Turret");
 			serializer.text(this.getTurret());
 			serializer.endTag("", "Bot-Turret");
+			serializer.startTag("", "Bot-Bullet");
+			serializer.text(this.getBullet());
+			serializer.endTag("", "Bot-Bullet");
 			serializer.startTag("", "Bot-Code");
 			serializer.text(this.getCode().getCode());
 			serializer.endTag("", "Bot-Code");

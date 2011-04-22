@@ -34,9 +34,9 @@ public class MissionListAdapter extends ArrayAdapter<CustomListView> {
                    TextView missionDescription = (TextView) customView.findViewById(R.id.description);
                    ImageView missionIcon = (ImageView) customView.findViewById(R.id.icon);
                    if (missionName != null) {
-                         missionName.setText("Mission Name: "+ myView.getMissionName());                            }
+                         missionName.setText(myView.getMissionName());                            }
                    if(missionDescription != null){
-                         missionDescription.setText("Mission Description: "+ myView.getMissionDescription());
+                         missionDescription.setText(myView.getMissionDescription());
                    }
                    if(missionIcon !=null){
                 	   missionIcon.setImageResource(myView.getImageIcon());

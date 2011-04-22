@@ -7,11 +7,15 @@ package edu.sru.andgate.bitbot.graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.SoundManager;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,6 +27,8 @@ public class GameActivity extends Activity
 	private GLSurfaceView glSurfaceView;
 	GlRenderer gameRenderer;
 	DrawableParticleEmitter particleEmitter;
+	Bot loadedBot;
+	MediaPlayer mp;
 	DrawableBot test;
 	DrawableBot test2;
 	DrawableBot test3;
@@ -66,6 +72,10 @@ public class GameActivity extends Activity
         getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        mp = MediaPlayer.create(this.getBaseContext(), R.raw.neverland);
+        mp.start();
+        mp.setLooping(true);
         
         // Set the layout.
         //setContentView(R.layout.game_activity);
@@ -142,6 +152,7 @@ public class GameActivity extends Activity
         
         //Test Bot 2
         test2 = new DrawableBot();
+        test2.attachCollisionSound(this.getBaseContext(), R.raw.bot_wall_collision);
         test2.setTranslation(3.5f,0.1f,-5.0f);
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
@@ -157,6 +168,7 @@ public class GameActivity extends Activity
         testGun = new DrawableGun(test2,test2Turret);
         testGun.addTexture(R.drawable.bulletnew);
         collisionManager.addCollisionDetector(testGun);
+        
         
         //More test bots
         enemyBot = new DrawableBot();
@@ -241,20 +253,30 @@ public class GameActivity extends Activity
 		Bot b = new Bot();
 		b.attachDrawable(test3);
 		b.attachSourceCode(source);
-		b.readyInterpreter();
-		ilvm.addInterpreter(b.getInterpreter());
-		
-		// Run the vm every second.
-		Timer t = new Timer();
-		t.schedule(new TimerTask()
-		{
-			@Override
-			public void run()
+		b.readyInterpreter();*/
+        
+        try{
+        	String botFile = getIntent().getExtras().getString("Bot");
+        	Log.v("BitBot", botFile);
+	        loadedBot = Bot.CreateBotFromXML(this.getBaseContext(), botFile);
+	        collisionManager.addCollisionDetector(loadedBot.getDrawableBot());
+	        collisionManager.addCollisionDetector(loadedBot.getDrawableGun());
+	        ilvm.addInterpreter(loadedBot.getInterpreter());
+	        Log.v("BitBot", "Got Here 1");
+			
+			// Run the vm every second.
+			Timer t = new Timer();
+			t.schedule(new TimerTask()
 			{
-				ilvm.resume(4);
-			}
-		}, 50, 50);
-        */
+				@Override
+				public void run()
+				{
+					ilvm.resume(4);
+				}
+			}, 50, 50);
+        }catch (Exception e){
+        	Log.v("BitBot", "Bot not loaded");
+        }
         
         gameRenderer = new GlRenderer(this.getBaseContext());
         
@@ -298,9 +320,14 @@ public class GameActivity extends Activity
         //gameRenderer.addObjectToWorld(test3);
         
         //Nick Test Loaded Bot
-        //gameRenderer.addObjectToWorld(db);
-        //gameRenderer.addObjectToWorld(bl);
-   
+        try{
+	        gameRenderer.addObjectToWorld(loadedBot.getDrawableBot());
+	        gameRenderer.addObjectToWorld(loadedBot.getBotLayer());
+	        gameRenderer.addObjectToWorld(loadedBot.getDrawableGun());
+        }catch (Exception e){
+        	Log.v("BitBot", "Add Objects to World Failed");
+        }
+        
         //Connect draw list to Renderer
         //gameRenderer.setDrawList(drawList);
         
@@ -456,8 +483,13 @@ public class GameActivity extends Activity
     		        addToDrawList(TYPE_GUN, testGun.ID);
     		        
     		        //Nick Test loaded bot
-    		        //addToDrawList(TYPE_BOT, db.ID);
-    		        //addToDrawList(TYPE_BOT, bl.ID);
+    		        try{
+    		        	addToDrawList(TYPE_BOT, loadedBot.getDrawableBot().ID);
+    		        	addToDrawList(TYPE_BOT, loadedBot.getBotLayer().ID);
+    		        	addToDrawList(TYPE_BOT, loadedBot.getDrawableGun().ID);
+    		        }catch(Exception e){
+    		        	Log.v("BitBot", "Adding to drawlist failed");
+    		        }
     		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
@@ -518,6 +550,7 @@ public class GameActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		mp.release();
 		gameLoop = false;
 		finish();
 	}
