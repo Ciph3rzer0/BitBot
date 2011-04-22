@@ -20,23 +20,15 @@ public class Initialization
 	public Initialization(ContextWrapper cw)
 	{
 		FileManager.setContext(cw.getBaseContext());
-		
-		b = new Bot();
-		b.setName("Nick");
-		b.setBase("square");
-		b.setTurret("basic");
-		b.setCode(
-			"Let d = -1\n" +
-			"\n" + "While 1 Do\n" +
-			"  call bot_move(90, 5)\n" +
+				
+		String data = "//Place Holder File\n";
+		data +="Let d = -1\n" +
+			"\n" +
+			"While 1 Do\n" + 
+			"  call bot_move(45, 5)\n" +
 			"  \n" +
 			"  Let d = d + 1\n" +
-			"Loop\n"
-		);
-		
-		b.saveBotToXML(cw.getBaseContext(), "test_save.xml");
-		
-		String data = "//Place Holder File\n";
+			"Loop\n";
 		data.substring(2);
 		String data2 = "//Simple While Loop\n"; 
 		data2 += cw.getResources().getString(R.string.example_code);

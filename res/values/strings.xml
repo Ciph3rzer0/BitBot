@@ -3,48 +3,108 @@
 	
 	<string name="app_name">Bits-N-Bots</string>
 			
-	<!-- Nick -->
-	 <string-array name="menu_contents">
-	 	<item>Getting Started</item>
-    	<item>Defining Variables</item>
-        <item>Print Statement</item>
-        <item>Loops</item>
-        <item>Selection Statements</item>
-        <item>Back to Main Menu</item>
-     </string-array>
+	<!-- Tutorial List -->
+		<string-array name="menu_contents">
+		 	<item>Getting Started</item>
+	    	<item>Defining Variables</item>
+	        <item>Print Statement</item>
+	        <item>Loops</item>
+	        <item>Selection Statements</item>
+	        <item>Back to Main Menu</item>
+	     </string-array>
+     <!-- End Tutorial List -->
      
-     <string-array name="mission_titles">
-     	<item>Arena</item>
-     	<item>Target Practice</item>
-     </string-array>
-     
-     <string-array name="mission_descriptions">
-     	<item>Navigate through the Arena</item>
-     	<item>Test your Shooting Skills</item>
-     </string-array>
-     
-     <string-array name="mission_files">
-     	<item>arena.xml</item>
-     	<item>target_practice.xml</item>
-	</string-array>
+     <!-- Mission Stuff -->
+	     <string-array name="mission_titles">
+	     	<item>Arena</item>
+	     	<item>Target Practice</item>
+	     </string-array>
+	     
+	     <string-array name="mission_descriptions">
+	     	<item>Navigate through the Arena</item>
+	     	<item>Test your Shooting Skills</item>
+	     </string-array>
+	     
+	     <string-array name="mission_files">
+	     	<item>arena.xml</item>
+	     	<item>target_practice.xml</item>
+		</string-array>
+	<!-- End Mission Stuff -->
 	
-	<!-- Sequence, Selection, Iteration-->
-    <string name="for_statement">FOR I 1 TO N \n\t&lt;executed statement&gt;\nNEXT I\n</string>
-    <string name="if_statement">IF &lt;some condition&gt; THEN GOTO &lt;some line&gt;\n</string>
-    <string name="var_declaration">DIM &lt;variable declaration&gt; as &lt;TYPE&gt;\n</string>
-    <string name="do_while_statement">DO \n\t&lt;executed statements&gt;\nLOOP UNTIL/WHILE\n</string>
-    <string name="print_statement">PRINT &lt;String&gt; ; &lt;variable&gt;\n</string>
-   
-    <!-- Quick Tools -->
-    <string name="parenthesis">( )\n</string>
-    <string name="quotations">"\" \""\n</string>
-    <string name="braces">{ }\n</string>
-    <string name="brackets">[ ]\n</string>
-    
-    <!-- Bot Functions -->
-    <string name="bot_move">call bot_move(int x, int y)\n{\n\t//move code here\n}\n</string>
-    <string name="turret_rotate">call turret_rotate(int degree)\n{\n\t//rotation code here\n}\n</string>
-    
+	<!-- Quick Action Stuff -->
+		<!-- Sequence tools -->
+			<string-array name="sequence_shell_titles">
+				<item>Declare Variable</item>
+				<item>Let Command</item>
+				<item>Print Statement</item>
+			</string-array>
+			
+			<string-array name="sequence_shell_strings">
+				<item>DIM &lt;variable declaration&gt; as &lt;TYPE&gt;\n</item>
+				<item>Let &lt;variable declaration&gt; = &lt;VALUE&gt;\n</item>
+				<item>PRINT &lt;String&gt; ; &lt;variable&gt;\n</item>
+			</string-array>
+		<!-- End Sequence tools -->
+		
+		<!-- Selection tools -->
+			<string-array name="selection_shell_titles">
+				<item>If Shell</item>
+			</string-array>
+			
+			<string-array name="selection_shell_strings">
+				<item>IF &lt;some condition&gt; THEN GOTO &lt;some line&gt;\n</item>
+			</string-array>
+		<!-- End Selection tools -->
+		
+		<!-- Iteration tools -->
+			<string-array name="iteration_shell_titles">
+				<item>For Shell</item>
+				<item>Do While Shell</item>
+			</string-array>
+			
+			<string-array name="iteration_shell_strings">
+				<item>FOR I 1 TO N \n\t&lt;executed statement&gt;\nNEXT I\n</item>
+				<item>DO \n\t&lt;executed statements&gt;\nLOOP UNTIL/WHILE\n</item>
+			</string-array>
+		<!-- End iteration tools -->
+	  
+	    <!-- Quick Tools -->
+		    <string-array name="quick_tools">
+		    	<item>( )</item>
+		    	<item>\" \"</item>
+		    	<item>[ ]</item>
+		    	<item>= </item>
+		    	<item>&amp;</item>
+		    	<item>- </item>
+		    	<item>+ </item>
+		    	<item>//</item>
+		    </string-array>
+		    
+		    <string-array name="quick_tools_titles">
+			    <item>Parenthesis ( )</item>
+			    <item>Quotations \" \"</item>
+			    <item>Brackets [ ]</item>
+			    <item>Equals =</item>
+			    <item>Ampersand &amp;</item>
+			    <item>Minus -</item>
+			    <item>Plus +</item>
+			    <item>Comment //</item>    
+		    </string-array>
+	    <!-- End Quick tools -->
+	    
+	    <!-- Bot Function tools -->
+		    <string-array name="bot_function_titles">
+		    	<item>Bot.move()</item>
+		    	<item>Turret.rotate()</item>   
+		    </string-array>
+		    
+		    <string-array name="bot_function_strings">
+		    	<item>call bot_move(int x, int y)\n{\n\t//move code here\n}\n</item>
+		    	<item>call turret_rotate(int degree)\n{\n\t//rotation code here\n}\n</item>
+		    </string-array>   
+	    <!-- End Bot Function tools -->  
+    <!-- End Quick Action tools -->
+        
     <string name="example_code">
 Print \&quot;Hello World\&quot; &amp; \&quot;1\&quot; &amp; \&quot;2\&quot;\n
 Print \&quot;Test \&quot; &amp; (5-1)\n
@@ -61,6 +121,5 @@ While i Do\n
 \tLet i = i-1\n
 Loop\n
     </string>
-    
-    
+        
 </resources>

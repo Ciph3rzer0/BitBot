@@ -214,7 +214,7 @@ public class Bot
 			//Log.v("BitBot", b.getTurret());
 			b.setCode(readXML(doc, "Bot-Code"));
 			//Log.v("BitBot", b.getCode().getCode());
-			
+				
 			DrawableBot db = new DrawableBot();
 			b.setDrawableBot(db);
 			//db.setTranslation(0.0f,5.0f,-5.0f);

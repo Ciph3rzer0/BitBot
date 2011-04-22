@@ -40,15 +40,15 @@ public class Main_Tutorial extends Activity
 	private int simulateFlag;
 	private InputStream xml;
 	private Tutorial myTutorial;
-	private ActionItem for_shell, do_while_shell,
-	   				   var_decl, print_shell, if_shell,
-	   				   paren_tool, quote_tool, brace_tool, bracket_tool;
+	private ActionItem[] quick_tools, selection_shells, sequence_shells, iteration_shells;
+	private String[] quick_tools_titles, quick_tools_strings, sequence_shell_titles, 
+					 sequence_shell_strings, selection_shell_titles, selection_shell_strings,
+					 iteration_shell_titles, iteration_shell_strings;
 	private SlidingDrawer slidingDrawer;
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private TextView botOutput, main_text;
 	private Button slideHandleButton, sequence_btn, selection_btn, iteration_btn, 
 				   tools_btn, lock_btn, simulate_btn, to_code_button, back_to_code;
-	private QuickAction qa;
 	private File file;
 	private BufferedWriter writer;
 	private ViewFlipper vf;
@@ -69,24 +69,7 @@ public class Main_Tutorial extends Activity
 		
 		xml = FileManager.readFile(tutorialID);
    	   	myTutorial = new Tutorial(xml);	
-		/*
-		 * Action Items for Sequence, Selection, Iteration buttons
-		 */
-		for_shell = new ActionItem();
-		do_while_shell = new ActionItem();
-		var_decl = new ActionItem();
-		print_shell = new ActionItem();
-		if_shell = new ActionItem();
-		
-		/*
-		 * Action Items for Quick Tools button
-		 */
-		paren_tool = new ActionItem();
-		quote_tool = new ActionItem();
-		brace_tool = new ActionItem();
-		bracket_tool = new ActionItem();
-		
-		
+			
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		main_text = (TextView) findViewById(R.id.tutorial_text);
 		main_text.setText(FileManager.readXML(tutorialID,"text"));
@@ -100,19 +83,6 @@ public class Main_Tutorial extends Activity
 		slideHandleButton = (Button) findViewById(R.id.slideHandleButton);
 				
 		/*
-		 * sets attributes of the action items in the CustomPopUpWindow
-		 */
-		setActionItem(var_decl,editor, "Declare Variable", "Variable Declaration Selected", getResources().getString(R.string.var_declaration));
-		setActionItem(print_shell,editor, "Print to console", "Print Statement Selected", getResources().getString(R.string.print_statement));
-		setActionItem(if_shell,editor, "if statement shell", "if statement Selected", getResources().getString(R.string.if_statement));
-		setActionItem(do_while_shell, editor, "do while shell", "do while statement selected", getResources().getString(R.string.do_while_statement));
-		setActionItem(for_shell,editor, "for statement shell", "for statement selected", getResources().getString(R.string.for_statement));
-		setActionItem(paren_tool,editor, "Parenthesis ( )", "Parenthesis Selected", getResources().getString(R.string.parenthesis));
-		setActionItem(quote_tool,editor, "Quotations \" \"", "Quotes Selected", getResources().getString(R.string.quotations));
-		setActionItem(brace_tool,editor,"Braces { }", "Braces Selected", getResources().getString(R.string.braces));
-		setActionItem(bracket_tool, editor, "Brackets [ ]", "Brackets Selected", getResources().getString(R.string.brackets));
-		
-		/*
 		 * sets the view flipper sider animations
 		 */
 		sIn_left = AnimationUtils.loadAnimation(this, R.anim.slidein_left);
@@ -121,7 +91,45 @@ public class Main_Tutorial extends Activity
 		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
 		
 		/*
-		 * Set all the QuickAction buttons & onClick() methods 
+		 * Action Items for Quick Tools
+		 */
+		quick_tools_titles = getResources().getStringArray(R.array.quick_tools_titles);
+		quick_tools_strings = getResources().getStringArray(R.array.quick_tools);
+		quick_tools = new ActionItem[quick_tools_titles.length];
+		for(int i  = 0; i < quick_tools.length; i++){
+			quick_tools[i] = new ActionItem();
+			setActionItem(quick_tools[i], editor, quick_tools_titles[i], quick_tools_strings[i]);
+		}
+		
+		/*
+		 * Action Items for Sequence, Selection, Iteration buttons
+		 */
+		sequence_shell_titles = getResources().getStringArray(R.array.sequence_shell_titles);
+		sequence_shell_strings = getResources().getStringArray(R.array.sequence_shell_strings);
+		sequence_shells = new ActionItem[sequence_shell_titles.length];
+		for(int i = 0; i < sequence_shells.length; i++){
+			sequence_shells[i] = new ActionItem();
+			setActionItem(sequence_shells[i], editor, sequence_shell_titles[i], sequence_shell_strings[i]);
+		}
+		
+		selection_shell_titles = getResources().getStringArray(R.array.selection_shell_titles);
+		selection_shell_strings = getResources().getStringArray(R.array.selection_shell_strings);
+		selection_shells = new ActionItem[selection_shell_titles.length];
+		for(int i = 0; i < selection_shells.length; i++){
+			selection_shells[i] = new ActionItem();
+			setActionItem(selection_shells[i], editor, selection_shell_titles[i], selection_shell_strings[i]);
+		}
+		
+		iteration_shell_titles = getResources().getStringArray(R.array.iteration_shell_titles);
+		iteration_shell_strings = getResources().getStringArray(R.array.iteration_shell_strings);
+		iteration_shells = new ActionItem[iteration_shell_titles.length];
+		for(int i = 0; i < iteration_shells.length; i++){
+			iteration_shells[i] = new ActionItem();
+			setActionItem(iteration_shells[i], editor, iteration_shell_titles[i], iteration_shell_strings[i]);
+		}
+		
+		/*
+		 * Set all the QuickAction buttons onClick() methods 
 		 */
 		sequence_btn = (Button) this.findViewById(R.id.sequence_btn);
 		sequence_btn.setOnClickListener(new View.OnClickListener() 
@@ -129,9 +137,10 @@ public class Main_Tutorial extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				qa = new QuickAction(v);
-				qa.addActionItem(var_decl);
-				qa.addActionItem(print_shell);
+				QuickAction qa = new QuickAction(v);
+				for(int i = 0; i < sequence_shells.length; i++){
+					qa.addActionItem(sequence_shells[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
@@ -143,8 +152,10 @@ public class Main_Tutorial extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				qa = new QuickAction(v);
-				qa.addActionItem(if_shell);
+				QuickAction qa = new QuickAction(v);
+				for(int i = 0; i < selection_shells.length; i++){
+					qa.addActionItem(selection_shells[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
@@ -156,9 +167,10 @@ public class Main_Tutorial extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				qa = new QuickAction(v);
-				qa.addActionItem(for_shell);
-				qa.addActionItem(do_while_shell);
+				QuickAction qa = new QuickAction(v);
+				for(int i = 0; i < iteration_shells.length; i++){
+					qa.addActionItem(iteration_shells[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
@@ -170,11 +182,10 @@ public class Main_Tutorial extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				qa = new QuickAction(v);
-				qa.addActionItem(quote_tool);
-				qa.addActionItem(paren_tool);
-				qa.addActionItem(brace_tool);
-				qa.addActionItem(bracket_tool);
+				QuickAction qa = new QuickAction(v);
+				for(int i = 0; i < quick_tools.length; i++){
+					qa.addActionItem(quick_tools[i]);
+				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();
 			}
@@ -307,7 +318,7 @@ public class Main_Tutorial extends Activity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.ide_tutorial_menu, menu);
+		inflater.inflate(R.menu.tutorial_menu, menu);
 		return true;
 	}
 	
@@ -326,7 +337,7 @@ public class Main_Tutorial extends Activity
 	 * creates the Action Item with the defined attributes: 
 	 * 		title, message string, text to be added when clicked
 	 */
-	private void setActionItem(ActionItem item, final EditText editor, String title, final String popUpString, final String declaration)
+	private void setActionItem(ActionItem item, final EditText editor, String title, final String declaration)
 	{
 		item.setTitle(title);
 		item.setIcon(getResources().getDrawable(R.drawable.icon));
@@ -335,13 +346,16 @@ public class Main_Tutorial extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				//Toast.makeText(Main_Tutorial.this, popUpString , Toast.LENGTH_SHORT).show();
-				int start = editor.getSelectionStart();
-				int end = editor.getSelectionEnd();
-				editor.getText().replace(Math.min(start, end), Math.max(start, end),
-				       declaration);
+				expandEditText(declaration);
 			}
 		});
+	}
+	
+	public void expandEditText(String append){
+		int start = editor.getSelectionStart();
+		int end = editor.getSelectionEnd();
+		editor.getText().replace(Math.min(start, end), Math.max(start, end),
+		       append);
 	}
 		
 	/*
