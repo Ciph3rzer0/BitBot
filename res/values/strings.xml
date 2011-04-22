@@ -48,7 +48,7 @@
 		
 		<!-- Selection tools -->
 			<string-array name="selection_shell_titles">
-				<item>If Shell</item>
+				<item>If Statement</item>
 			</string-array>
 			
 			<string-array name="selection_shell_strings">
@@ -58,8 +58,8 @@
 		
 		<!-- Iteration tools -->
 			<string-array name="iteration_shell_titles">
-				<item>For Shell</item>
-				<item>Do While Shell</item>
+				<item>For Loop</item>
+				<item>Do While Loop</item>
 			</string-array>
 			
 			<string-array name="iteration_shell_strings">

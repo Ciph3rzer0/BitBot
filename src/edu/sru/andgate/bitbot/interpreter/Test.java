@@ -67,7 +67,7 @@ public class Test extends Activity
 		vm = new InstructionLimitedVirtualMachine();
 		
 		String forLoop =
-			"Program myProg\n" +
+			"//Program myProg\n" +
 			"\n" +
 			"call sub1()\n" +
 			"\n" +
@@ -86,21 +86,21 @@ public class Test extends Activity
 			
 		
 		
-		
+	
 		// Set up a couple BotInterpreters
 		b1 = new BotInterpreter(null, forLoop);
 		b1.setOutputTextView(tv);
 		vm.addInterpreter(b1);
 		tvR.setText(forLoop);
-		
-//		BotInterpreter b2 = new BotInterpreter(null, code2);
-//		b2.setOutputTextView(tvR);
-//		vm.addInterpreter(b2);
-		
+	/*	
+		BotInterpreter b2 = new BotInterpreter(null, code2);
+		b2.setOutputTextView(tvR);
+		vm.addInterpreter(b2);
+	*/	
 		// Set up data output in textview
-//		tv = (TextView) findViewById(R.id.txtMain);
-//		b1.setPrintStream(new PrintStream(ps = new ByteArrayOutputStream(128)));
-//		tv.setText(ps.toString());
+		tv = (TextView) findViewById(R.id.txtMain);
+		b1.setPrintStream(new PrintStream(ps = new ByteArrayOutputStream(128)));
+		tv.setText(ps.toString());
 		
 	}
 	
