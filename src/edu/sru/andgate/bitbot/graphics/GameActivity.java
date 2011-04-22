@@ -7,16 +7,11 @@ package edu.sru.andgate.bitbot.graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
-import edu.sru.andgate.bitbot.interpreter.SourceCode;
-import edu.sru.andgate.bitbot.tools.Constants;
 import android.app.Activity;
-import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,11 +22,14 @@ public class GameActivity extends Activity
 {	
 	private GLSurfaceView glSurfaceView;
 	GlRenderer gameRenderer;
+	DrawableParticleEmitter particleEmitter;
 	DrawableBot test;
 	DrawableBot test2;
 	DrawableBot test3;
-	Bot loaded_bot, loaded_bot2;
-	Drawable bot4,bot5,bot6,bot7,bot8,bot9,bot10;
+	DrawableGun testGun;
+	//Drawable bot4,bot5,bot6,bot7,bot8,bot9,bot10;
+	DrawableBot enemyBot, enemyBot2, enemyBot3, enemyBot4;
+	BotLayer enemyTurret, enemyTurret2, enemyTurret3, enemyTurret4;
 	BotLayer testTurret;
 	BotLayer test2Turret;
 	int[][] drawList;
@@ -44,6 +42,7 @@ public class GameActivity extends Activity
 	int NUM_TEST_BOTS = 0;
 	
 	final int TYPE_BOT = 0;
+	final int TYPE_GUN = 1;
 	
 	int viewType = 0;
 	
@@ -54,7 +53,7 @@ public class GameActivity extends Activity
 	ScrollView codeScroll;
 	
 	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-	MediaPlayer bgMusic;
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -67,10 +66,6 @@ public class GameActivity extends Activity
         getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
-        bgMusic = MediaPlayer.create(this, R.raw.neverland);
-        bgMusic.start();
-        bgMusic.setLooping(true);
         
         // Set the layout.
         //setContentView(R.layout.game_activity);
@@ -121,7 +116,13 @@ public class GameActivity extends Activity
         testMap = new TileMap();
         
         //Declare Collision Manager
-        collisionManager = new CollisionManager(testMap);		
+        collisionManager = new CollisionManager(testMap);
+        
+        //Declare Particle Emitter
+        particleEmitter = new DrawableParticleEmitter();
+        
+        //Attach emitter to CollisionManager
+        collisionManager.setParticleEmitter(particleEmitter);
 		
         //Declare Draw List
         drawList = new int[2][MAX_OBJECTS];       
@@ -130,6 +131,8 @@ public class GameActivity extends Activity
         test = new DrawableBot();
         test.setTranslation(-3.5f,0.1f,-5.0f);
         test.addTexture(R.drawable.sand);	//TextureID = 0
+        collisionManager.addCollisionDetector(test);
+        
         
         //Test Bot 1 Turret Layer
         testTurret = new BotLayer(test);
@@ -142,45 +145,89 @@ public class GameActivity extends Activity
         test2.setTranslation(3.5f,0.1f,-5.0f);
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
-        test2.moveStepSize = 0.08f;
-        test2.attachCollisionSound(getBaseContext(), R.raw.bot_wall_collision);
-        collisionManager.addCollisionDetectorToBot(test2);
+        test2.moveStepSize = 0.10f;
+        collisionManager.addCollisionDetector(test2);        
         
         //Test Bot 2 Turret Layer
         test2Turret = new BotLayer(test2);
         test2Turret.addTexture(R.drawable.adamturret);
         test2Turret.setRotationAngle(test2.parameters[3]);
         
+        //Test gun
+        testGun = new DrawableGun(test2,test2Turret);
+        testGun.addTexture(R.drawable.bulletnew);
+        collisionManager.addCollisionDetector(testGun);
+        
+        //More test bots
+        enemyBot = new DrawableBot();
+        enemyBot.setTranslation(7.5f,3.0f,-5.0f);
+        enemyBot.addTexture(R.drawable.adambot);
+        collisionManager.addCollisionDetector(enemyBot);
+        enemyTurret = new BotLayer(enemyBot);
+        enemyTurret.addTexture(R.drawable.adamturret);
+        enemyTurret.setRotationAngle(enemyBot.parameters[3]);
+        
+        enemyBot2 = new DrawableBot();
+        enemyBot2.setTranslation(5.5f,2.5f,-5.0f);
+        enemyBot2.addTexture(R.drawable.adambot);
+        collisionManager.addCollisionDetector(enemyBot2);
+        enemyTurret2 = new BotLayer(enemyBot2);
+        enemyTurret2.addTexture(R.drawable.adamturret);
+        enemyTurret2.setRotationAngle(enemyBot2.parameters[3]);
+        
+        enemyBot3 = new DrawableBot();
+        enemyBot3.setTranslation(10.5f,-4.5f,-5.0f);
+        enemyBot3.addTexture(R.drawable.adambot);
+        collisionManager.addCollisionDetector(enemyBot3);
+        enemyTurret3 = new BotLayer(enemyBot3);
+        enemyTurret3.addTexture(R.drawable.adamturret);
+        enemyTurret3.setRotationAngle(enemyBot3.parameters[3]);
+        
+        enemyBot4 = new DrawableBot();
+        enemyBot4.setTranslation(-11.5f,4.5f,-5.0f);
+        enemyBot4.addTexture(R.drawable.adambot);
+        collisionManager.addCollisionDetector(enemyBot4);
+        enemyTurret4 = new BotLayer(enemyBot4);
+        enemyTurret4.addTexture(R.drawable.adamturret);
+        enemyTurret4.setRotationAngle(enemyBot4.parameters[3]);
+        
         //Test Bot 3
+        /*
         test3 = new DrawableBot();
         test3.setTranslation(0.0f,0.1f,-5.0f);
         test3.setScale(1.2f,1.2f,1.2f);
         test3.addTexture(R.drawable.red);	//TextureID = 0
         test3.addTexture(R.drawable.green);	//TextureID = 1
         test3.setSelectedTexture(0);
+        */
+       
+        /*
+        Bot b = Bot.CreateBotFromXML(getBaseContext(), "test_save.xml");
+        Constants c = new Constants();
+        DrawableBot db = new DrawableBot();
+        db.setTranslation(0.0f,5.0f,-5.0f);
+        db.addTexture(c.base_table.get(b.getBase()));
+        BotLayer bl = new BotLayer(db);
+        bl.addTexture(c.turret_table.get(b.getTurret()));
+		b.attachDrawable(db);
+		Log.v("BitBot", b.getCode().getCode());
+		b.attachSourceCode(b.getCode());
+		b.readyInterpreter();
+		ilvm.addInterpreter(b.getInterpreter());
+		// Run the vm every second.
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				ilvm.resume(4);
+			}
+		}, 50, 50);
+		*/
         
-        
-        try{
-        	String botFile = getIntent().getExtras().getString("Bot");
-        	loaded_bot2 = Bot.CreateBotFromXML(this.getBaseContext(), botFile);
-        	loaded_bot2.getDrawableBot().setTranslation(3.5f,0.1f,-5.0f);
-        	collisionManager.addCollisionDetectorToBot(loaded_bot2.getDrawableBot());
-        	ilvm.addInterpreter(loaded_bot2.getInterpreter());
-        	// Run the vm every second.
-        	Timer t = new Timer();
-        	t.schedule(new TimerTask()
-        	{
-        		@Override
-        		public void run()
-        		{
-        			ilvm.resume(4);
-        		}
-        	}, 50, 50);
-	        }catch (Exception e){
-	        	Log.v("BitBot", "Bot not Loaded");
-	        }
-		
-		/*String code =
+        /*
+		String code =
 			"Let d = -1\n" +
 			"\n" +
 			"While 1 Do\n" + 
@@ -195,12 +242,7 @@ public class GameActivity extends Activity
 		b.attachDrawable(test3);
 		b.attachSourceCode(source);
 		b.readyInterpreter();
-        b.attachSourceCode(source);
-        b.readyInterpreter();
-        
 		ilvm.addInterpreter(b.getInterpreter());
-		
-		
 		
 		// Run the vm every second.
 		Timer t = new Timer();
@@ -211,14 +253,15 @@ public class GameActivity extends Activity
 			{
 				ilvm.resume(4);
 			}
-		}, 50, 50);*/
+		}, 50, 50);
+        */
         
         gameRenderer = new GlRenderer(this.getBaseContext());
         
         //Set renderer to be the main renderer with the current activity context
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);
-        glSurfaceView.setRenderMode(0); //0 = Render When Dirty
+        glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         
         //Mass Test Bots
         for(int i=0;i<NUM_TEST_BOTS;i++)
@@ -243,22 +286,28 @@ public class GameActivity extends Activity
         gameRenderer.addObjectToWorld(test);
         gameRenderer.addObjectToWorld(test2);
         gameRenderer.addObjectToWorld(test2Turret);
-        gameRenderer.addObjectToWorld(test3);
+        gameRenderer.addObjectToWorld(testGun);
+        gameRenderer.addObjectToWorld(enemyTurret);
+        gameRenderer.addObjectToWorld(enemyBot);
+        gameRenderer.addObjectToWorld(enemyTurret2);
+        gameRenderer.addObjectToWorld(enemyBot2);
+        gameRenderer.addObjectToWorld(enemyTurret3);
+        gameRenderer.addObjectToWorld(enemyBot3);
+        gameRenderer.addObjectToWorld(enemyTurret4);
+        gameRenderer.addObjectToWorld(enemyBot4);
+        //gameRenderer.addObjectToWorld(test3);
         
         //Nick Test Loaded Bot
-        try{
-        	gameRenderer.addObjectToWorld(loaded_bot2.getDrawableBot());
-            gameRenderer.addObjectToWorld(loaded_bot2.getBotLayer());
-        }catch (Exception e){
-        	Log.v("BitBot", "Add Objects to world failed");
-        }
-        
-        
+        //gameRenderer.addObjectToWorld(db);
+        //gameRenderer.addObjectToWorld(bl);
+   
         //Connect draw list to Renderer
-        gameRenderer.setDrawList(drawList);
+        //gameRenderer.setDrawList(drawList);
         
 		//Tell camera to continuously update so it can follow user bot
 		gameRenderer.continuousCameraUpdate = true;
+		
+		gameRenderer.setParticleEmitter(particleEmitter);
         
         preloadTextures();							//Should always be called before game starts
         
@@ -269,24 +318,8 @@ public class GameActivity extends Activity
         	addToDrawList(TYPE_BOT,testBotArray[i].ID);
         }
         
-        //Add objects to draw list (which is cleared by renderer after each frame is drawn)
-        addToDrawList(TYPE_BOT,test.ID);
-        addToDrawList(TYPE_BOT,testTurret.ID);
-        addToDrawList(TYPE_BOT,test2.ID);
-        addToDrawList(TYPE_BOT,test2Turret.ID);
-        addToDrawList(TYPE_BOT,test3.ID);
-       
-        //Nick Test loaded bot
-        try{
-        	addToDrawList(TYPE_BOT, loaded_bot2.getDrawableBot().ID);
-            addToDrawList(TYPE_BOT, loaded_bot2.getBotLayer().ID);
-        }catch (Exception e){
-        	Log.v("BitBot", "Drawlist not added");
-        }
-        gameRenderer.drawListSize = drawListPointer+1;
-        
         gameRenderer.startSimulation();
-        fakeGameLoop();
+        gameLoop();
     }
     
     public void preloadTextures()
@@ -302,30 +335,32 @@ public class GameActivity extends Activity
     	drawListPointer++;							//Increment Draw List Pointer / (Size-1)
     }
     
-    public void fakeGameLoop()
+    public void gameLoop()
     {
     	Runnable gR = new Runnable()
     	{
     		//Proof of concept variables
     		float move = 0.01f;
     		float rotate = 1.0f;
+    		int shotCount = 0;
     		boolean goinUp = true;
     		boolean thisFrameDrawn = false;
     		
     		
     		//Testing FPS Only
+    		/*
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
     		int frameCount = 0;
-    		
+    		*/
     		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
     			{
-    				startTime = System.currentTimeMillis();
+    				//startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -342,68 +377,110 @@ public class GameActivity extends Activity
     	    		test2.move();
     	    		//test2.move(45.0f, 0.1f);
     	    		test2Turret.setRotationAngle(rotate);
-					    	    		
+    	    		
+    	    		testGun.update();
+    	    		if(shotCount >= 10)
+    	    		{
+    	    			testGun.fire();
+    	    			shotCount = 0;
+    	    		}    	    		
+    	    		shotCount++;
+    	    		
     	    		if(goinUp)
     	    		{
     	    			move += 0.03f;
-    	    			if(move >= 1.0f)
+    	    			if(move >= 0.0f)
     	    			{
     	    				goinUp = false;
     	    				test.setRotation(180.0f,0.0f,0.0f,-5.0f);
     	    				testTurret.setRotationAngle(test.parameters[3]);
     	    				//test2.setRotation(0.0f,0.0f,0.0f,-5.0f);
-    	    				test3.setSelectedTexture(0);
+    	    				//test3.setSelectedTexture(0);
     	    			}
     	    		}
     	    		else
     	    		{
     	    			move -= 0.03f;
-    	    			if(move <= -8.5f)
+    	    			if(move <= -5.5f)
     	    			{
     	    				goinUp = true;
     	    				test.setRotation(0.0f,0.0f,0.0f,-5.0f);
     	    				testTurret.setRotationAngle(test.parameters[3]);
     	    				//test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
-    	    				test3.setSelectedTexture(1);
+    	    				//test3.setSelectedTexture(1);
     	    			}
     	    		}
     	    		
     				//Collision Detection Updater
     				collisionManager.update();
+    				
+    				//Particle Emitter Updater
+    				particleEmitter.update();
     	    		
     				//Camera Stuff
     				gameRenderer.cameraX = test2.parameters[0];
     				gameRenderer.cameraY = test2.parameters[1];
-    	    		
-    				/*
-    	            //Add objects to draw list (which is cleared by renderer after each frame is drawn)
-    	            addToDrawList(TYPE_BOT,test.ID);
-    	            addToDrawList(TYPE_BOT,testTurret.ID);
-    	            addToDrawList(TYPE_BOT,test2.ID);
-    	            addToDrawList(TYPE_BOT,test2Turret.ID);
-    	            addToDrawList(TYPE_BOT,test3.ID);
     	            
     	            for(int i=0;i<NUM_TEST_BOTS;i++)
     	            {
     	            	addToDrawList(TYPE_BOT,testBotArray[i].ID);
     	            }
-    	            
-    	            gameRenderer.drawListSize = drawListPointer+1;
-    	    		*/
-    	            
+    				
+    	            if(test.isAlive)
+    	            {
+    	            	addToDrawList(TYPE_BOT,test.ID);
+    	            	addToDrawList(TYPE_BOT,testTurret.ID);
+    	            }
+    	            if(enemyBot.isAlive)
+    	            {
+    	            	addToDrawList(TYPE_BOT,enemyBot.ID);
+    	            	addToDrawList(TYPE_BOT,enemyTurret.ID);
+    	            }
+    	            if(enemyBot2.isAlive)
+    	            {
+    	            	addToDrawList(TYPE_BOT,enemyBot2.ID);
+    	            	addToDrawList(TYPE_BOT,enemyTurret2.ID);
+    	            }
+    	            if(enemyBot3.isAlive)
+    	            {
+    	            	addToDrawList(TYPE_BOT,enemyBot3.ID);
+    	            	addToDrawList(TYPE_BOT,enemyTurret3.ID);
+    	            }
+    	            if(enemyBot4.isAlive)
+    	            {
+    	            	addToDrawList(TYPE_BOT,enemyBot4.ID);
+    	            	addToDrawList(TYPE_BOT,enemyTurret4.ID);
+    	            }
+    		        addToDrawList(TYPE_BOT,test2.ID);
+    		        addToDrawList(TYPE_BOT,test2Turret.ID);
+    		        addToDrawList(TYPE_GUN, testGun.ID);
+    		        
+    		        //Nick Test loaded bot
+    		        //addToDrawList(TYPE_BOT, db.ID);
+    		        //addToDrawList(TYPE_BOT, bl.ID);
+    		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
     	    		{
 	    	    		if(gameRenderer.getFrameDrawn())
 	    	    		{
-	    	    			//gameRenderer.drawListSize = drawListPointer+1;
-	    	    			gameRenderer.setFrameDrawn(false);
+	    	    			gameRenderer.drawListSize = drawListPointer;
+	    	    			for(int i=0;i<2;i++)
+	    	    			{
+	    	    				for(int j=0;j<drawListPointer;j++)
+	    	    				{
+	    	    					gameRenderer.drawList[i][j] = drawList[i][j];
+	    	    				}
+	    	    			}
+	    	    			//gameRenderer.setFrameDrawn(false);
+	    	    			gameRenderer.frameDrawn = false;
 	    	    			glSurfaceView.requestRender();
 	    	    			thisFrameDrawn = true;
-	    	    			//drawListPointer = 0;
+	    	    			drawListPointer = 0;
 	    	    		}
     	    		}
     	    		
+    	    		/*
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
@@ -413,7 +490,7 @@ public class GameActivity extends Activity
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
-    	    		
+    	    		*/
     			}
     		}
     	};
@@ -442,7 +519,6 @@ public class GameActivity extends Activity
 	{
 		super.onDestroy();
 		gameLoop = false;
-		bgMusic.release();
 		finish();
 	}
 }

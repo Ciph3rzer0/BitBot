@@ -10,39 +10,27 @@ import javax.microedition.khronos.opengles.GL10;
 
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.SoundManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.opengl.GLUtils;
-import android.util.Log;
-
 import java.util.*;
 
-public class DrawableBot implements Drawable
+public class DrawableRound implements Drawable
 {
-	SoundManager collisionSound;
 	float[] parameters;
 	int ID = 0;
 	int textureCount = 0;
 	int MAX_TEXTURE_ARRAY_SIZE = 5;
 	int SELECTED_TEXTURE = 0;
-	int numDamageSprites = 0;
-	int currentDamageSprite = 0;
-	int normalSprite = 0;
-	int numLayers = 0;
-	int[][] damageSprites;
-	float moveAngle = 0.0f;
+	float moveAngle = 90.0f;
 	float moveStepSize = 0.05f;	//1.7 MAX before tunneling
 	ArrayList<Integer> textureHopper;
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
-	boolean isAlive = true;
-	BotLayer[] layers;
 	
-	int HEALTH = 100;
-	int MAX_LAYERS = 3;	
+	int MAX_BULLETS = 4;
 	float BOUNDING_RADIUS = 0.75f; //Should be 0.75
 	
 	public FloatBuffer vertexBuffer;	// buffer holding the vertices
@@ -65,7 +53,7 @@ public class DrawableBot implements Drawable
 	//Texture pointer
 	public int[] textures = new int[MAX_TEXTURE_ARRAY_SIZE];
 
-	public DrawableBot()
+	public DrawableRound()
 	{
 		// a float has 4 bytes so we allocate for each coordinate 4 bytes
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -88,10 +76,6 @@ public class DrawableBot implements Drawable
 		
 		parameters = new float[11];
 		
-		damageSprites = new int[MAX_TEXTURE_ARRAY_SIZE][2];
-		
-		layers = new BotLayer[MAX_LAYERS];
-		
 		textureHopper = new ArrayList<Integer>(MAX_TEXTURE_ARRAY_SIZE);
 		
 		//Initialize parameters
@@ -108,9 +92,6 @@ public class DrawableBot implements Drawable
 		parameters[10] = 1.0f;	//textureUpdateFlag (NO = 0.0, YES = 1.0) (Avoid at all costs)
 	}
 	
-	public void attachCollisionSound(Context context, int soundID){
-		collisionSound = new SoundManager(context, soundID);
-	}
 
 	@Override
 	public void attachBot(Bot bot)
@@ -217,13 +198,8 @@ public class DrawableBot implements Drawable
 	
 	public void onBoundaryCollision()
 	{
-		try{
-			collisionSound.playAudio();
-		}catch (Exception e){
-			Log.v("BitBot", "Sound not attached");
-		}
 		//For now, flip angle and continue
-		moveAngle = Math.abs(moveAngle - 180.0f) % 360.0f;
+		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
 		parameters[3] = moveAngle + 90.0f;
 	}
 	
@@ -234,45 +210,6 @@ public class DrawableBot implements Drawable
 	public void setSelectedTexture(int selectedTex)
 	{
 		SELECTED_TEXTURE = selectedTex;
-	}
-	
-	public void addDamageTextureToSequence(int texID, int range)
-	{
-		damageSprites[numDamageSprites][0] = texID;
-		damageSprites[numDamageSprites][1] = range;
-		numDamageSprites++;
-	}
-	
-	public void setNormalSprite(int texID)
-	{
-		normalSprite = texID;
-	}
-	
-	public void onDamage()
-	{
-		int triggerHealth = damageSprites[currentDamageSprite][1];
-		if(HEALTH <= triggerHealth && currentDamageSprite < numDamageSprites)
-		{
-			currentDamageSprite++;
-			SELECTED_TEXTURE = damageSprites[currentDamageSprite][0];
-		}
-	}
-	
-	public void onKill()
-	{
-		isAlive = false;
-		/*
-		parameters[7] = 0.0f;
-		parameters[8] = 0.0f;
-		parameters[9] = 0.0f;
-		for(int i=0;i<numLayers;i++)
-		{
-			layers[i].isAlive = false;
-			layers[i].layerParameters[7] = 0.0f;
-			layers[i].layerParameters[8] = 0.0f;
-			layers[i].layerParameters[9] = 0.0f;
-		}
-		*/
 	}
 	
 	/* (non-Javadoc)
@@ -302,12 +239,6 @@ public class DrawableBot implements Drawable
 	public void addTexture(int texturePointer)
 	{
 		textureHopper.add(texturePointer);
-	}
-	
-	public void attachLayer(BotLayer layer)
-	{
-		layers[numLayers] = layer;
-		numLayers++;
 	}
 
 	/* (non-Javadoc)
@@ -358,7 +289,7 @@ public class DrawableBot implements Drawable
 		
 		//Prepare openGL for drawing
 		gl.glTranslatef(parameters[0],parameters[1], parameters[2]);				//Translate Object
-		gl.glRotatef(parameters[3], parameters[4], parameters[5], parameters[6]);	//Rotate Object
+		//gl.glRotatef(parameters[3], parameters[4], parameters[5], parameters[6]);	//Rotate Object
 		gl.glScalef(parameters[7], parameters[8], parameters[9]);					//Scale Object
 		
 		// Draw the vertices as triangle strip

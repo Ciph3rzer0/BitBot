@@ -11,6 +11,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 //import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 
 public class GlRenderer implements Renderer
 {
@@ -18,8 +19,11 @@ public class GlRenderer implements Renderer
 	boolean goinUp = true;
 	int drawList[][];
 	DrawableBot[] objectList;
+	DrawableGun[] gunList;
+	DrawableParticleEmitter particleEmitter;
 	float[] paramList;
 	int objCount = 0;
+	int gunCount = 0;
 	int totalObjCount = 0;
 	int botCount = 0;
 	int botLayerCount = 0;
@@ -29,6 +33,7 @@ public class GlRenderer implements Renderer
 	float cameraY = 0.0f;
 	float screenWidth;
 	float screenHeight;
+	float drawLeft, drawRight, drawTop, drawBottom;
 	public int drawListSize = 0;
 	boolean frameDrawn = false;
 	boolean startSimulation = false;
@@ -42,10 +47,14 @@ public class GlRenderer implements Renderer
 	public GlRenderer(Context context)
 	{
 		this.context = context;
-		//List of all objects in game
+		//List of all BOTS/TURRETS in game
 		objectList = new DrawableBot[MAX_OBJECTS];
+		//List of guns in game
+		gunList = new DrawableGun[MAX_OBJECTS];
 		//Get parameter list of current object
 		paramList = new float[11];
+		
+		drawList = new int[2][MAX_OBJECTS];
 	}
 	
 	public boolean getFrameDrawn()
@@ -63,6 +72,11 @@ public class GlRenderer implements Renderer
 		drawList = dl;
 	}
 	
+	public void setParticleEmitter(DrawableParticleEmitter emitter)
+	{
+		particleEmitter = emitter;
+	}
+	
 	public void setTileMap(TileMap tm)
 	{
 		tileMap = tm;
@@ -73,6 +87,22 @@ public class GlRenderer implements Renderer
 		objectList[objCount] = obj;		//Add object to master list
 		obj.ID = objCount;				//Set the object ID to the corresponding index in the master list
 		objCount++;						//Increment Total Object Count
+	}
+	
+	public void addObjectToWorld(BotLayer obj)
+	{
+		objectList[objCount] = obj;		//Add object to master list
+		obj.ID = objCount;				//Set the object ID to the corresponding index in the master list
+		obj.masterBotLayer.attachLayer(obj);
+		objCount++;						//Increment Total Object Count
+	}
+	
+	public void addObjectToWorld(DrawableGun gun)
+	{
+		gunList[gunCount] = gun;		//Add object to master list
+		gun.ID = gunCount;				//Set the object ID to the corresponding index in the master list
+		gun.masterBotID = gun.masterBot.ID;
+		gunCount++;						//Increment Total Object Count
 	}
 	
 	public void startSimulation()
@@ -100,13 +130,30 @@ public class GlRenderer implements Renderer
 					objectList[i].setTextureUpdateFlag(0.0f);
 				}
 			}
-			
+			//Tile Map
 			if (tileMap != null)
 			{
 				//Tile Map Textures
 				for(int i=0;i<tileMap.numTextures;i++)
 				{
 					tileMap.loadGLTexture(gl, this.context, i);
+				}
+			}
+			//Gun Objects
+			for(int i=0;i<gunCount;i++)
+			{
+				for(int j=0;j<gunList[i].textureHopper.size();j++)
+				{
+					gunList[i].loadGLTexture(gl, this.context, j);
+					gunList[i].setTextureUpdateFlag(0.0f);
+				}
+			}
+			//Particle Emitter
+			if(particleEmitter != null)
+			{
+				for(int i=0;i<particleEmitter.numTextures;i++)
+				{
+					particleEmitter.loadGLTexture(gl, this.context, i);
 				}
 			}
 			
@@ -136,21 +183,63 @@ public class GlRenderer implements Renderer
 					//Draw object with parameter changes loaded
 					objectList[drawList[1][i]].draw(gl);
 				}
-				//Handle OTHER_OBJECT_TYPES_HERE
+				//Handle Gun Objects
+				if(drawList[0][i] == 1)
+				{
+					//Reset ModelView Matrix
+					//gl.glLoadIdentity();
+					//Draw object with parameter changes loaded
+					gunList[drawList[1][i]].draw(gl);
+				}
 			}
+			
+			//Draw Particles
+			if(particleEmitter != null)
+			{
+				particleEmitter.draw(gl);
+			}
+			
 			//Reset Draw List
-			//drawListSize = 0;
+			drawListSize = 0;
 			
 			//CAMERA MOVEMENT CONTROLLER
 			if(continuousCameraUpdate)
 			{
+				drawLeft = (cameraX - cameraZoom);
+				drawRight = (cameraX + cameraZoom);
+				drawBottom = (cameraY) - (aspectRatio * cameraZoom);
+				drawTop = (cameraY) + (aspectRatio * cameraZoom);
 				gl.glMatrixMode(GL10.GL_PROJECTION); 	//Select The Projection Matrix
 				gl.glLoadIdentity(); 					//Reset The Projection Matrix
 			   // gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
-			    gl.glOrthof(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) - (aspectRatio * cameraZoom), (cameraY) + (aspectRatio * cameraZoom), 0.01f, 100.0f);
+				//Make sure we dont render tiles that dont exist
+				if(drawLeft <= (tileMap.mapWidth*-1))
+				{
+					drawLeft = (tileMap.mapWidth*-1);
+					drawRight = ((tileMap.mapWidth*-1) + (cameraZoom*2));
+				}
+				if(drawRight >= tileMap.mapWidth)
+				{
+					drawRight = tileMap.mapWidth;
+					drawLeft = (tileMap.mapWidth - (cameraZoom*2));
+				}
+				if(drawTop >= tileMap.mapHeight)
+				{
+					drawTop = tileMap.mapHeight;
+					drawBottom = (tileMap.mapHeight - (cameraZoom*2));
+				}
+				if(drawBottom <= (tileMap.mapHeight*-1))
+				{
+					drawBottom = tileMap.mapHeight*-1;
+					drawTop = ((tileMap.mapHeight*-1) + (cameraZoom*2));
+				}
+				
+			    gl.glOrthof(drawLeft, drawRight, drawBottom, drawTop, 0.01f, 100.0f);
 			    
 			    if (tileMap != null)
-			    	tileMap.setDrawRegion(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) + (aspectRatio * cameraZoom), (cameraY) - (aspectRatio * cameraZoom));
+			    {
+			    	tileMap.setDrawRegion(drawLeft, drawRight, drawTop, drawBottom);
+			    }
 				
 			    
 			    gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix

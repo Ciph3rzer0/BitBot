@@ -5,8 +5,6 @@ package edu.sru.andgate.bitbot.graphics;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
-
 public class BotLayer extends DrawableBot
 {
 	DrawableBot masterBotLayer;

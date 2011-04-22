@@ -1,47 +1,213 @@
 package edu.sru.andgate.bitbot.graphics;
 
-import edu.sru.andgate.bitbot.R;
-import android.content.Context;
-import android.media.MediaPlayer;
+import android.util.Log;
 
 public class CollisionManager
 {
 	//Master Variables
 	DrawableBot[] botList;
+	DrawableGun[] gunList;
+	DrawableParticleEmitter particleEmitter;
 	TileMap tileMap;
+	float[][][] bulletTileIndicies;
 	int numBots = 0;
-	Context context;
+	int numGuns = 0;
+	float sparkAngle = 0.0f;
+	
 	int MAX_BOT_OBJECTS = 100;
+	int MAX_GUN_OBJECTS = 100;
+	int MAX_BULLETS_PER_GUN = 8;
+	float FUNNY_ANGLE = 45.0f;
 	
 	public CollisionManager(TileMap tMap)
 	{
 		botList = new DrawableBot[MAX_BOT_OBJECTS];
+		gunList = new DrawableGun[MAX_GUN_OBJECTS];
+		bulletTileIndicies = new float[MAX_GUN_OBJECTS][MAX_BULLETS_PER_GUN][2];	//Gun -> BulletID's -> TileX, TileY
+		for(int i=0;i<MAX_GUN_OBJECTS;i++)
+		{
+			for(int j=0;j<MAX_BULLETS_PER_GUN;j++)
+			{
+				bulletTileIndicies[i][j][0] = -1;
+				bulletTileIndicies[i][j][0] = -1;
+			}
+		}
 		tileMap = tMap;
 	}
 	
-	public void addCollisionDetectorToBot(DrawableBot bot)
+	public void addCollisionDetector(DrawableBot bot)
 	{
 		botList[numBots] = bot;
 		numBots++;
 	}
 	
-	public void onBotCollision(DrawableBot bot)
+	public void addCollisionDetector(DrawableGun gun)
 	{
-		//Code
+		gunList[numGuns] = gun;
+		numGuns++;
 	}
 	
-	public void onBulletCollision()
+	public void setParticleEmitter(DrawableParticleEmitter emitter)
 	{
-		//Code
+		particleEmitter = emitter;
 	}
 	
 	public void update()
 	{
-		//Local Vars
+		//Local vars
 		int currentTileX = 0;
 		int currentTileY = 0;
 		
-		//Do Collision Detection for Bots Hitting a Boundary
+		//BULLETS VS BOTS (Preparation)
+		for(int i=0;i<numGuns;i++)
+		{
+			for(int j=0;j<gunList[i].MAX_BULLETS;j++)
+			{
+				//Determine current tile position for bullet
+				if(gunList[i].bullets[j][0] > 0)
+				{
+					currentTileX = (int)Math.floor((gunList[i].bullets[j][0]+tileMap.mapWidth)/tileMap.tileStep);
+				}
+				else
+				{
+					currentTileX = (int)Math.ceil((gunList[i].bullets[j][0]+tileMap.mapWidth)/tileMap.tileStep);
+				}
+				if(gunList[i].bullets[j][1] <= 0)
+				{
+					currentTileY = (int)Math.floor(Math.abs((gunList[i].bullets[j][1] - tileMap.mapHeight)/tileMap.tileStep));
+				}
+				else
+				{
+					currentTileY = (int)Math.ceil(Math.abs((gunList[i].bullets[j][1] - tileMap.mapHeight)/tileMap.tileStep));
+				}
+				//Add to list
+				bulletTileIndicies[i][j][0] = currentTileX;
+				bulletTileIndicies[i][j][1] = currentTileY;
+				
+				//BULLET V BOUNDARIES
+				//Check surrounding tiles to determine if further calculations are neccessary
+				//Current Tile | Left Tile | Right Tile | Top Tile | Bottom Tile
+				if(currentTileX >= 0 && currentTileX <= tileMap.mapWidth && currentTileY >= 0 && currentTileY <= tileMap.mapHeight)
+				{
+					if(tileMap.tileBoundaries[currentTileX][currentTileY][0] != 0)
+					{
+						//Check possible collision points (Bottom | Top | Left | Right)
+						if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 4)
+						{
+							//Computes distance from the boundary point to the center of the bullet
+							float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2)) - gunList[i].bullets[j][1]);
+							
+							//Check for collision
+							if(distance <= gunList[i].BOUNDING_RADIUS)
+							{
+								//Set position of bullet to collision point
+								gunList[i].bullets[j][1] = tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2) + gunList[i].BOUNDING_RADIUS;
+								//Set lifespan remaining to 0 (kill bullet)
+								gunList[i].bullets[j][2] = 0.0f;
+							}
+						}
+						else if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 1)
+						{
+							//Computes distance from the boundary point to the center of the bot
+							float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - gunList[i].bullets[j][1]);
+							
+							//Check for collision
+							if(distance <= gunList[i].BOUNDING_RADIUS)
+							{
+								gunList[i].bullets[j][1] = (tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - gunList[i].BOUNDING_RADIUS;
+								//Set lifespan remaining to 0 (kill bullet)
+								gunList[i].bullets[j][2] = 0.0f;
+							}
+						}
+						else if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 2)
+						{
+							//Computes distance from the boundary point to the center of the bot
+							float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) - gunList[i].bullets[j][0]);
+							
+							//Check for collision
+							if(distance <= gunList[i].BOUNDING_RADIUS)
+							{
+								gunList[i].bullets[j][0] = (tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) + gunList[i].BOUNDING_RADIUS;
+								//Set lifespan remaining to 0 (kill bullet)
+								gunList[i].bullets[j][2] = 0.0f;
+							}
+						}
+						else if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 3)
+						{
+							//Computes distance from the boundary point to the center of the bot
+							float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - gunList[i].bullets[j][0]);
+							
+							//Check for collision
+							if(distance <= gunList[i].BOUNDING_RADIUS)
+							{
+								gunList[i].bullets[j][0] = (tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - gunList[i].BOUNDING_RADIUS;
+								//Set lifespan remaining to 0 (kill bullet)
+								gunList[i].bullets[j][2] = 0.0f;
+							}
+						}
+					}
+					else if(currentTileX != 0 && tileMap.tileBoundaries[currentTileX-1][currentTileY][0] == 3)
+					{
+						//Computes distance from the boundary point to the center of the bot
+						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) - gunList[i].bullets[j][0]);
+						
+						//Check for collision
+						if(distance <= gunList[i].BOUNDING_RADIUS)
+						{
+							gunList[i].bullets[j][0] = (tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) + gunList[i].BOUNDING_RADIUS;
+							//Set lifespan remaining to 0 (kill bullet)
+							gunList[i].bullets[j][2] = 0.0f;
+						}
+					}
+					else if(currentTileX != tileMap.mapWidth && tileMap.tileBoundaries[currentTileX+1][currentTileY][0] == 2)
+					{
+						//Computes distance from the boundary point to the center of the bot
+						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - gunList[i].bullets[j][0]);
+						
+						//Check for collision
+						if(distance <= gunList[i].BOUNDING_RADIUS)
+						{
+							gunList[i].bullets[j][0] = (tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - gunList[i].BOUNDING_RADIUS;
+							//Set lifespan remaining to 0 (kill bullet)
+							gunList[i].bullets[j][2] = 0.0f;
+						}
+					}
+					else if(currentTileY != 0 && tileMap.tileBoundaries[currentTileX][currentTileY-1][0] == 4)
+					{
+						//Computes distance from the boundary point to the center of the bot
+						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - gunList[i].bullets[j][1]);
+						
+						//Check for collision
+						if(distance <= gunList[i].BOUNDING_RADIUS)
+						{
+							gunList[i].bullets[j][1] = (tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - gunList[i].BOUNDING_RADIUS;
+							//Set lifespan remaining to 0 (kill bullet)
+							gunList[i].bullets[j][2] = 0.0f;
+						}
+					}
+					else if(currentTileY != tileMap.mapHeight && tileMap.tileBoundaries[currentTileX][currentTileY+1][0] == 1)
+					{
+						//Computes distance from the boundary point to the center of the bot
+						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2)) - gunList[i].bullets[j][1]);
+						
+						//Check for collision
+						if(distance <= gunList[i].BOUNDING_RADIUS)
+						{
+							gunList[i].bullets[j][1] = tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2) + gunList[i].BOUNDING_RADIUS;
+							//Set lifespan remaining to 0 (kill bullet)
+							gunList[i].bullets[j][2] = 0.0f;
+						}
+					}
+				}
+			}
+		}
+		
+		
+		//Local Vars
+		currentTileX = 0;
+		currentTileY = 0;
+		
+		//BOTS V BOUNDARIES
 		for(int i=0;i<numBots;i++)
 		{
 			//Determine current tile position for bot
@@ -81,7 +247,6 @@ public class CollisionManager
 						botList[i].onBoundaryCollision();
 					}
 				}
-			}
 				else if(tileMap.tileBoundaries[currentTileX][currentTileY][0] == 1)
 				{
 					//Computes distance from the boundary point to the center of the bot
@@ -123,6 +288,7 @@ public class CollisionManager
 						//Notify bot of boundary collision
 						botList[i].onBoundaryCollision();
 					}
+				}
 			}
 			else if(currentTileX != 0 && tileMap.tileBoundaries[currentTileX-1][currentTileY][0] == 3)
 			{
@@ -178,6 +344,43 @@ public class CollisionManager
 					botList[i].parameters[1] = tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2) + botList[i].BOUNDING_RADIUS;
 					//Notify bot of boundary collision
 					botList[i].onBoundaryCollision();
+				}
+			}
+			
+			//Now check to see if there are any possible bullet collisions
+			for(int k=0;k<numGuns;k++)
+			{
+				for(int l=0;l<MAX_BULLETS_PER_GUN;l++)
+				{
+					if((bulletTileIndicies[k][l][0] >= currentTileX-1 && bulletTileIndicies[k][l][0] <= currentTileX+1) && (bulletTileIndicies[k][l][1] >= currentTileY-1 && bulletTileIndicies[k][l][1] <= currentTileY+1) && bulletTileIndicies[k][l][0] != -1 && bulletTileIndicies[k][l][1] != -1 && botList[i].ID != gunList[k].masterBotID && botList[i].isAlive && gunList[k].bullets[l][2] > 0)
+					{
+						float a = Math.abs(gunList[k].bullets[l][1] - botList[i].parameters[1]); 		//(y-leg)
+						float b = Math.abs(gunList[k].bullets[l][0] - botList[i].parameters[0]); 		//(x-leg)
+						float distance = (float)Math.sqrt((float)Math.pow(a,2) + (float)Math.pow(b,2)); //hypotenuse
+						
+						if(distance <= (gunList[k].BOUNDING_RADIUS + botList[i].BOUNDING_RADIUS))
+						{
+							//Log.v("bitbot","BOT HIT! GunID: " + k + " BulletID: " + l);
+							//Kill Bullet
+							gunList[k].bullets[l][2] = 0.0f;
+							//Decrement Bot Health
+							botList[i].HEALTH -= gunList[k].DAMAGE;
+							if(botList[i].HEALTH <= 0)
+							{
+								botList[i].onKill();
+								particleEmitter.fireExplosion(sparkAngle, botList[i].parameters[0], botList[i].parameters[1]);
+							}
+							else
+							{
+								//botList[i].onDamage();
+								if(particleEmitter != null)
+								{
+									sparkAngle = (sparkAngle+FUNNY_ANGLE)%360;
+									particleEmitter.fireSparks(sparkAngle, botList[i].parameters[0], botList[i].parameters[1]);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
