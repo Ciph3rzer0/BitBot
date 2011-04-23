@@ -288,6 +288,10 @@ public class RunVisitor implements bc1Visitor
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
 		String value = "0";
 		
+		// If the user put in the optional assignment
+		if (node.jjtGetNumChildren() == 2)
+			value = ((SimpleNode)node.jjtGetChild(1)).jjtGetValue().toString();
+		
 		// Store variable in hash
 		vars.put(id, value);
 		
@@ -604,7 +608,8 @@ public class RunVisitor implements bc1Visitor
 			else
 			{
 				Log.d("BitBot Interpreter", "Calling '" + instr + "'");
-				n.jjtAccept(this, null);
+//				n.jjtAccept(this, null);
+				n.jjtAccept(this, params);
 			}
 		}
 		
@@ -615,8 +620,19 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTSubDef node, Object data)
 	{
+//		// ListOfInstructions
+//		node.jjtGetChild(1).jjtAccept(this, null);
+		
+		// TODO: THIS IS GOING TO BE INEFFICIENT
+		String[] localVars = (String[]) data;
+		
+//		for (int i = 0; i < node.jjtGetNumChildren()-1; i++)
+		if (localVars != null)
+			for (int i = 0; i < localVars.length; i++)
+				Log.v("BitBot Interpreter", localVars[i]);
+		
 		// ListOfInstructions
-		node.jjtGetChild(1).jjtAccept(this, null);
+		node.jjtGetChild(node.jjtGetNumChildren()-1).jjtAccept(this, null);
 		
 		return null;
 	}

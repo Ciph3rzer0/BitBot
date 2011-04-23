@@ -152,7 +152,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
         case CALL:
         case IDENTIFIER:
         case STRING_LITERAL:
-        case 40:
+        case 41:
           ;
           break;
         default:
@@ -212,7 +212,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     case ADD_OP:
     case IDENTIFIER:
     case STRING_LITERAL:
-    case 40:
+    case 41:
       Expression();
       break;
     case LET:
@@ -327,7 +327,14 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     try {
       jj_consume_token(FOR);
       Identifier();
-      jj_consume_token(EQUAL);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case EQUAL:
+        jj_consume_token(EQUAL);
+        break;
+      default:
+        jj_la1[9] = jj_gen;
+        ;
+      }
       Expression();
       jj_consume_token(TO);
       Expression();
@@ -337,7 +344,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
         Expression();
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[10] = jj_gen;
         ;
       }
       jj_consume_token(NL);
@@ -372,9 +379,9 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     try {
       jj_consume_token(CALL);
       Identifier();
-      jj_consume_token(40);
-      ParameterList();
       jj_consume_token(41);
+      ParameterList();
+      jj_consume_token(42);
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -402,24 +409,24 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     case ADD_OP:
     case IDENTIFIER:
     case STRING_LITERAL:
-    case 40:
+    case 41:
       Expression();
       label_7:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case 42:
+        case 43:
           ;
           break;
         default:
-          jj_la1[10] = jj_gen;
+          jj_la1[11] = jj_gen;
           break label_7;
         }
-        jj_consume_token(42);
+        jj_consume_token(43);
         Expression();
       }
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
       ;
     }
   }
@@ -432,6 +439,15 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     try {
       jj_consume_token(SUBROUTINE);
       Identifier();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case WITH:
+        jj_consume_token(WITH);
+        break;
+      default:
+        jj_la1[13] = jj_gen;
+        ;
+      }
+      ParameterList();
       jj_consume_token(NL);
       ListOfInstructions();
       jj_consume_token(RETURN);
@@ -495,6 +511,27 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
       Identifier();
       jj_consume_token(AS);
       jj_consume_token(INTEGER);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case NUMBER:
+      case ADD_OP:
+      case EQUAL:
+      case IDENTIFIER:
+      case STRING_LITERAL:
+      case 41:
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case EQUAL:
+          jj_consume_token(EQUAL);
+          break;
+        default:
+          jj_la1[14] = jj_gen;
+          ;
+        }
+        Expression();
+        break;
+      default:
+        jj_la1[15] = jj_gen;
+        ;
+      }
     } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -524,7 +561,14 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     try {
       jj_consume_token(LET);
       Identifier();
-      jj_consume_token(EQUAL);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case EQUAL:
+        jj_consume_token(EQUAL);
+        break;
+      default:
+        jj_la1[16] = jj_gen;
+        ;
+      }
       Expression();
     } catch (Throwable jjte000) {
      if (jjtc000) {
@@ -568,7 +612,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
           ;
           break;
         default:
-          jj_la1[12] = jj_gen;
+          jj_la1[17] = jj_gen;
           break label_8;
         }
         t = jj_consume_token(CONCAT);
@@ -603,14 +647,14 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     case NUMBER:
     case ADD_OP:
     case IDENTIFIER:
-    case 40:
+    case 41:
       BooleanExpression();
       break;
     case STRING_LITERAL:
       StringLiteral();
       break;
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[18] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -648,7 +692,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
           ;
           break;
         default:
-          jj_la1[14] = jj_gen;
+          jj_la1[19] = jj_gen;
           break label_9;
         }
         t = jj_consume_token(BOOL_OP);
@@ -693,7 +737,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
           ;
           break;
         default:
-          jj_la1[15] = jj_gen;
+          jj_la1[20] = jj_gen;
           break label_10;
         }
         t = jj_consume_token(EQ_OP);
@@ -738,7 +782,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
           ;
           break;
         default:
-          jj_la1[16] = jj_gen;
+          jj_la1[21] = jj_gen;
           break label_11;
         }
         t = jj_consume_token(REL_OP);
@@ -783,7 +827,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
           ;
           break;
         default:
-          jj_la1[17] = jj_gen;
+          jj_la1[22] = jj_gen;
           break label_12;
         }
         t = jj_consume_token(ADD_OP);
@@ -828,7 +872,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
           ;
           break;
         default:
-          jj_la1[18] = jj_gen;
+          jj_la1[23] = jj_gen;
           break label_13;
         }
         t = jj_consume_token(MUL_OP);
@@ -860,10 +904,10 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
 
   final public void UnaryExpression() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 40:
-      jj_consume_token(40);
-      Expression();
+    case 41:
       jj_consume_token(41);
+      Expression();
+      jj_consume_token(42);
       break;
     case ADD_OP:
       UnaryPlusOrMinus();
@@ -875,7 +919,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
       Integer();
       break;
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[24] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -954,7 +998,7 @@ jjtree.openNodeScope(jjtn000);Token t;
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[20];
+  final private int[] jj_la1 = new int[25];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -962,10 +1006,10 @@ jjtree.openNodeScope(jjtn000);Token t;
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x800,0x0,0x800,0x0,0x112b908,0x800,0x800,0x112b108,0x4000000,0x400000,0x0,0x108,0x400,0x108,0x20,0x40,0x80,0x100,0x200,0x108,};
+      jj_la1_0 = new int[] {0x800,0x0,0x800,0x0,0x112b908,0x800,0x800,0x112b108,0x4000000,0x4000,0x400000,0x0,0x108,0x0,0x4000,0x4108,0x4000,0x400,0x108,0x20,0x40,0x80,0x100,0x200,0x108,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x1,0x0,0x4,0x192,0x0,0x0,0x192,0x0,0x0,0x400,0x190,0x0,0x190,0x0,0x0,0x0,0x0,0x0,0x110,};
+      jj_la1_1 = new int[] {0x0,0x1,0x0,0x8,0x324,0x0,0x0,0x324,0x0,0x0,0x0,0x800,0x320,0x2,0x0,0x320,0x0,0x0,0x320,0x0,0x0,0x0,0x0,0x0,0x220,};
    }
 
   /** Constructor with InputStream. */
@@ -979,7 +1023,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -994,7 +1038,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -1004,7 +1048,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1015,7 +1059,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -1024,7 +1068,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1034,7 +1078,7 @@ jjtree.openNodeScope(jjtn000);Token t;
     jj_ntk = -1;
     jjtree.reset();
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 25; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -1085,12 +1129,12 @@ jjtree.openNodeScope(jjtn000);Token t;
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[43];
+    boolean[] la1tokens = new boolean[44];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 25; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1102,7 +1146,7 @@ jjtree.openNodeScope(jjtn000);Token t;
         }
       }
     }
-    for (int i = 0; i < 43; i++) {
+    for (int i = 0; i < 44; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
