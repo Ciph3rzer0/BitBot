@@ -24,7 +24,6 @@
             android:typeface="serif"
             android:gravity="center_vertical"
             android:layout_weight="1"
-            
         />
         <TextView
             android:layout_width="fill_parent"
