@@ -8,6 +8,8 @@ package edu.sru.andgate.bitbot.graphics;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import edu.sru.andgate.bitbot.Bot;
 import android.content.Context;
 //import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
@@ -103,6 +105,23 @@ public class GlRenderer implements Renderer
 		gun.ID = gunCount;				//Set the object ID to the corresponding index in the master list
 		gun.masterBotID = gun.masterBot.ID;
 		gunCount++;						//Increment Total Object Count
+	}
+	
+	public void addObjectToWorld(Bot bot)
+	{
+		objectList[objCount] = bot.getDrawableBot();	//Add object to master list
+		bot.getDrawableBot().ID = objCount;				//Set the object ID to the corresponding index in the master list
+		objCount++;										//Increment Total Object Count
+		
+		objectList[objCount] = bot.getBotLayer();		//Add object to master list
+		bot.getBotLayer().ID = objCount;				//Set the object ID to the corresponding index in the master list
+		bot.getBotLayer().masterBotLayer.attachLayer(bot.getBotLayer());
+		objCount++;						//Increment Total Object Count
+		
+		gunList[gunCount] = bot.getDrawableGun();		//Add object to master list
+		bot.getDrawableGun().ID = gunCount;				//Set the object ID to the corresponding index in the master list
+		bot.getDrawableGun().masterBotID = bot.getDrawableGun().masterBot.ID;
+		gunCount++;										//Increment Total Object Count
 	}
 	
 	public void startSimulation()

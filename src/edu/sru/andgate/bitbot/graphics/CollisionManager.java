@@ -1,5 +1,6 @@
 package edu.sru.andgate.bitbot.graphics;
 
+import edu.sru.andgate.bitbot.Bot;
 import android.util.Log;
 
 public class CollisionManager
@@ -44,6 +45,15 @@ public class CollisionManager
 	public void addCollisionDetector(DrawableGun gun)
 	{
 		gunList[numGuns] = gun;
+		numGuns++;
+	}
+	
+	public void addCollisionDetector(Bot bot)
+	{
+		botList[numBots] = bot.getDrawableBot();
+		numBots++;
+		
+		gunList[numGuns] = bot.getDrawableGun();
 		numGuns++;
 	}
 	

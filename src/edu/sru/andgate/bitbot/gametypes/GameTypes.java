@@ -7,8 +7,9 @@ import android.content.Context;
 import android.util.Log;
 
 public abstract class GameTypes {
-	private int mapHeight, mapWidth;
+	public int mapHeight, mapWidth;
 	private int[][][] spawnPoints;
+	private int spawnCode;
 	
 	public abstract void Initialize(); 
 
@@ -27,6 +28,7 @@ public abstract class GameTypes {
 			BufferedReader r = new BufferedReader(new InputStreamReader(mapFileStream));
 		  
 			//Read basic map information
+			spawnCode = 1;
 			mapWidth = Integer.parseInt(r.readLine()); 
 			mapHeight = Integer.parseInt(r.readLine());
 			
@@ -43,7 +45,12 @@ public abstract class GameTypes {
 		        	String[] codes = r.readLine().split(" ");
 		        	for(int j=0;j<codes.length;j++)
 		        	{
-		        		spawnPoints[j][i][0] = Integer.parseInt(codes[j]);
+		        		if(Integer.parseInt(codes[j]) == spawnCode){
+		        			spawnPoints[j][i][0] = Integer.parseInt(codes[j]);
+		        			Log.v("GameTypes", "Spawn Point Found at: " + i + "," + j);
+		        		}else{
+		        			Log.v("GameTypes", "No Spawn Point Found");
+		        		}
 		        	}
 		        }
 				mapFileStream.close();
