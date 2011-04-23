@@ -266,7 +266,9 @@ public class RunVisitor implements bc1Visitor
 		NextInstruction();
 		
 		// ASTExpression
-		String eval = node.jjtGetChild(0).jjtAccept(this, null).toString();
+//		String eval = node.jjtGetChild(0).jjtAccept(this, null).toString();
+		Node n = node.jjtGetChild(0);
+		String eval = n.jjtAccept(this, null).toString();
 		
 		// Print the line
 //		out.println( "[PRINT] " + eval);
@@ -319,7 +321,10 @@ public class RunVisitor implements bc1Visitor
 	{
 		String key = node.jjtGetValue().toString();
 		String result = vars.get(key);
-
+		
+		if (result == null)
+			result = "0";
+		
 //		out.println(key + ":" + result);
 		
 		return result;
@@ -329,7 +334,7 @@ public class RunVisitor implements bc1Visitor
 	//*  				  LITERALS 						*
 	//***************************************************
 	@Override
-	public Object visit(ASTIntegerLiteral node, Object data)
+	public Object visit(ASTNumberLiteral node, Object data)
 	{
 		//out.println("(" + node.jjtGetValue().toString() + ")");
 		return node.jjtGetValue().toString();
@@ -388,11 +393,11 @@ public class RunVisitor implements bc1Visitor
 		out.println("BooleanExpression: " + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
-		int v1 = 0, v2 = 0;
+		double v1 = 0, v2 = 0;
 		try
 		{
-			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
-			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+			v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Double.parseDouble(node.jjtGetChild(1).jjtAccept(this, null).toString());
 		}
 		catch(Exception e){}
 		
@@ -421,11 +426,11 @@ public class RunVisitor implements bc1Visitor
 		out.println("EqualityExpression" + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
-		int v1 = 0, v2 = 0;
+		double v1 = 0, v2 = 0;
 		try
 		{
-			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
-			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+			v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Double.parseDouble(node.jjtGetChild(1).jjtAccept(this, null).toString());
 		}
 		catch(Exception e){}
 		
@@ -454,11 +459,11 @@ public class RunVisitor implements bc1Visitor
 		out.println("RelationalExpression" + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
-		int v1 = 0, v2 = 0;
+		double v1 = 0, v2 = 0;
 		try
 		{
-			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
-			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+			v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Double.parseDouble(node.jjtGetChild(1).jjtAccept(this, null).toString());
 		}
 		catch(Exception e){}
 		
@@ -493,19 +498,17 @@ public class RunVisitor implements bc1Visitor
 		//out.println("AdditiveExpression: " + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
-		int v1 = 0, v2 = 0;
+		double v1 = 0, v2 = 0, result = 0;
 		try
 		{
-			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
-			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+			v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Double.parseDouble(node.jjtGetChild(1).jjtAccept(this, null).toString());
 		}
 		catch(Exception e){}
 		
 		// Evaluate
-		int result = 0;
-		if (op.equalsIgnoreCase("+"))			result = v1 + v2;
-		else if (op.equalsIgnoreCase("-"))		result = v1 - v2;
-		else 
+		if (op.equalsIgnoreCase("+"))	result = v1 + v2;	else
+		if (op.equalsIgnoreCase("-"))	result = v1 - v2;	else 
 			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 
 		// Log
@@ -526,19 +529,18 @@ public class RunVisitor implements bc1Visitor
 		//out.println("MultiplicativeExpression: " + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
-		int v1 = 0, v2 = 0;
+		double v1 = 0, v2 = 0, result = 0;
 		try
 		{
-			v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
-			v2 = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
+			v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
+			v2 = Double.parseDouble(node.jjtGetChild(1).jjtAccept(this, null).toString());
 		}
 		catch(Exception e){}
 		
 		// Evaluate
-		int result = 0;
-		if (op.equalsIgnoreCase("*"))			result = v1 * v2;
-		else if (op.equalsIgnoreCase("/"))		result = v1 / v2;
-		else 
+		if (op.equalsIgnoreCase("*"))		result = v1 * v2;	else
+		if (op.equalsIgnoreCase("/"))		result = v1 / v2;	else
+		if (op.equalsIgnoreCase("%"))		result = v1 % v2;	else
 			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 		
 		// Log
@@ -555,7 +557,7 @@ public class RunVisitor implements bc1Visitor
 		// Get operation
 		String op = node.jjtGetValue().toString();
 		// Get operand
-		int v1 = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
+		double v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
 		
 		// Log
 //		out.println("UnaryExpression: " + op);
@@ -626,7 +628,7 @@ public class RunVisitor implements bc1Visitor
 //		out.println("[Begin While Loop]");
 		
 		// Loop while conditional is not false.  (0 == false, 1 == true)
-		while ( Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
+		while ( Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
 			node.jjtGetChild(1).jjtAccept(this, null);
 		
 		return null;
@@ -640,7 +642,7 @@ public class RunVisitor implements bc1Visitor
 //		out.println("[Begin IfStatement]");
 		
 		// Evaluate the conditional expression of the if statement
-		int conditional = Integer.parseInt(node.jjtGetChild(0).jjtAccept(this, null).toString());
+		double conditional = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
 		
 		// Execute if conditional is not false.  (0 == false, 1 == true)
 		if ( conditional != 0)
@@ -665,18 +667,25 @@ public class RunVisitor implements bc1Visitor
 //		String lcv = node.jjtGetChild(0).jjtAccept(this, null).toString();
 		String lcv = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
 		
-		int first = Integer.parseInt(node.jjtGetChild(1).jjtAccept(this, null).toString());
-		int last = Integer.parseInt(node.jjtGetChild(2).jjtAccept(this, null).toString());
-		int step = 1, instructionsIndex = 3;
+		double first = 0, last = 0, step = 1;
+		int instructionsIndex = 3;
 		
-		if (hasStep)
+		// Try to parse parameters
+		try
 		{
-			step = Integer.parseInt(node.jjtGetChild(3).jjtAccept(this, null).toString());
-			instructionsIndex = 4;
+			first = Double.parseDouble(node.jjtGetChild(1).jjtAccept(this, null).toString());
+			last = Double.parseDouble(node.jjtGetChild(2).jjtAccept(this, null).toString());
+			
+			if (hasStep)
+			{
+				step = Double.parseDouble(node.jjtGetChild(3).jjtAccept(this, null).toString());
+				instructionsIndex = 4;
+			}
 		}
+		catch (Exception e){}
 		
 		// Execute the for loop
-		for (int i = first; i <= last; i += step)
+		for (double i = first; i <= last; i += step)
 		{
 			// Store the lcv
 			this.vars.put(lcv, i + "");
@@ -702,20 +711,5 @@ public class RunVisitor implements bc1Visitor
 		
 		return null;
 	}
-
-
-	
-//	@Override
-//	public Object visit(ASTParameterList node, Object data)
-//	{
-//		out.println("[Parameter List]");
-//		
-//		for (int i=0; i<node.jjtGetNumChildren(); i++)
-//			node.jjtGetChild(i).jjtAccept(this, null);
-//		
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
 	
 }

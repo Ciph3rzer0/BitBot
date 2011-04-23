@@ -24,7 +24,7 @@ public interface bc1TreeConstants
   public int JJTMULTIPLICATIVEEXPRESSION = 18;
   public int JJTUNARYEXPRESSION = 19;
   public int JJTIDENTIFIER = 20;
-  public int JJTINTEGERLITERAL = 21;
+  public int JJTNUMBERLITERAL = 21;
 
 
   public String[] jjtNodeName = {
@@ -49,7 +49,7 @@ public interface bc1TreeConstants
     "MultiplicativeExpression",
     "UnaryExpression",
     "Identifier",
-    "IntegerLiteral",
+    "NumberLiteral",
   };
 }
-/* JavaCC - OriginalChecksum=096e492d2a8ce05cc7c21f4805e1f75e (do not edit this line) */
+/* JavaCC - OriginalChecksum=f4c8cae2cce169780429cae38571d474 (do not edit this line) */

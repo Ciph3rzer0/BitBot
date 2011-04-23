@@ -15,10 +15,35 @@ options
 PARSER_BEGIN(bc1)
 package edu.sru.andgate.bitbot.parser;
 
-public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants/*@egen*/ {/*@bgen(jjtree)*/
+public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants/*@egen*/
+{/*@bgen(jjtree)*/
   protected JJTbc1State jjtree = new JJTbc1State();
 
-/*@egen*/}
+/*@egen*/
+
+
+  // This code is key to imitating the left recursiveness that expressions
+  // exhibit, but JavaCC disallows us from using.
+  public void NodeMagic(SimpleNode newN, String op)
+  {
+    Node n;
+    
+    newN.value = op;
+    
+    // Pop and add the first operand from the stack
+    n = jjtree.popNode();
+    newN.jjtAddChild(n, 1);
+    n.jjtSetParent(newN);
+    
+    // Pop and add the second operand from the stack
+    n = jjtree.popNode();
+    newN.jjtAddChild(n, 0);
+    n.jjtSetParent(newN);
+    
+    // Push the new node back on the stack
+    jjtree.pushNode(newN);
+  }
+}
 PARSER_END(bc1)
 
 /* Skip Whitespace & comments */
@@ -26,30 +51,39 @@ SKIP :
 {
   " "
 | "\t"
-//| "\n"//| "\r"
-| < "//" (~[ "\n", "\r" ])*
-    (
-      "\n"
-    | "\r"
-    | "\r\n"
-    ) >
-| < "/*" (~[ "*" ])* "*"
-    (
-      ~[ "/" ] (~[ "*" ])* "*"
-    )*
-    "/" >
+// Multi-line comments cause problems with error reporting, giving incorrect line numbers.
+//| < "/*" (~[ "*" ])* "*"//    (//      ~[ "/" ] (~[ "*" ])* "*"//    )*//    "/" >
 }
 
-TOKEN : /* LITERALS */
+TOKEN : /* NUMBER LITERAL */
 {
-  < INTEGER_LITERAL :
-    < DECIMAL_LITERAL > ([ "l", "L" ])?
-  | < HEX_LITERAL > ([ "l", "L" ])?
-  | < OCTAL_LITERAL > ([ "l", "L" ])? 
-    >
-| < #DECIMAL_LITERAL : [ "1"-"9" ] ([ "0"-"9" ])* >
-| < #HEX_LITERAL : "0" [ "x", "X" ] ([ "0"-"9", "a"-"f", "A"-"F" ])+ >
-| < #OCTAL_LITERAL : "0" ([ "0"-"7" ])* >
+ < NUMBER :
+  < NUMBER_EL >
+  (
+   ("e" | "E")
+   < NUMBER_EL >
+  )?
+ >
+ 
+|< #NUMBER_EL :
+  ( "+" | "-" )?
+  
+  (
+    ( <DIGIT> )+
+    |
+    (
+      ( <DIGIT> )*
+      ( "." )
+      ( <DIGIT> )+
+    )
+    |
+    (
+      ( <DIGIT> )+
+      ( "." )
+      ( <DIGIT> )*
+    )
+  )
+ >
 }
 
 TOKEN : /* OPERATIONS */
@@ -65,7 +99,15 @@ TOKEN : /* OPERATIONS */
 
 TOKEN : /* RESERVED WORDS */
 {
-  < NL : ("\n" | "\r" | "\r\n") >  // Statement Terminator
+  < NL : ("\n" | "\r" | "\r\n"
+  // A comment must be counted as a newline
+  | "//" (~[ "\n", "\r" ])*
+    (
+      "\n"
+    | "\r"
+    | "\r\n"
+    )
+  ) >  // Statement Terminator
 
 | < PRINT : "print" >
 | < LET : "let" >
@@ -91,7 +133,6 @@ TOKEN : /* RESERVED WORDS */
 | < DOUBLE : "double" >
 | < STRING : "string" >
 | < ARRAY : "array" >
-| < PROGRAM : "program" >
 | < SUBROUTINE : "subroutine" | "sub" >
 | < CALL: "call">
 | < END: "end" >
@@ -160,11 +201,6 @@ void Program() :
 {/*@bgen(jjtree) Program */
   try {
 /*@egen*/
-  (
-    < PROGRAM > Identifier() 
-    ( < NL > )+
-  )?
-  
   ListOfInstructions()
   
   (
@@ -212,6 +248,7 @@ void ListOfInstructions() :
   try {
 /*@egen*/
   (
+  	( < NL > )*
     Instruction()
     ( < NL > )+
   )*/*@bgen(jjtree)*/
@@ -240,15 +277,15 @@ void ListOfInstructions() :
 void Instruction()       :
 {}
 {
-  Expression()  //";"
+  Expression()
   |
-  Assignment() //";"
+  Assignment()
   | 
-  Print() //";"
+  Print()
   |
-  Declaration() //";"
+  Declaration()
   |
-  SubCall() //";" 
+  SubCall() 
   |
   WhileLoop()
   |
@@ -535,7 +572,7 @@ void Assignment() :
 
 /* ----------------------- */
 
-void Expression()       ://#Expression(>1) :
+void Expression()       :
 {}
 {
   ConcatExpression() {}
@@ -543,20 +580,25 @@ void Expression()       ://#Expression(>1) :
 
 void ConcatExpression()                       :
 {/*@bgen(jjtree) #ConcatExpression(> 1) */
-ASTConcatExpression jjtn000 = new ASTConcatExpression(JJTCONCATEXPRESSION);
-boolean jjtc000 = true;
-jjtree.openNodeScope(jjtn000);
+  ASTConcatExpression jjtn000 = new ASTConcatExpression(JJTCONCATEXPRESSION);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
 /*@egen*/
-Token t;
+  Token t;
+  String op = "err";
 }
 {/*@bgen(jjtree) #ConcatExpression(> 1) */
   try {
 /*@egen*/
   StringExpression()
   (
-    t = < CONCAT > { jjtn000.value = t.image; }
+    t = < CONCAT > { op = t.image; }
     
     StringExpression()
+    {
+      ASTConcatExpression newN = new ASTConcatExpression(bc1TreeConstants.JJTCONCATEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -618,15 +660,20 @@ void BooleanExpression()                        :
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
   Token t;
+  String op = "err";
 }
 {/*@bgen(jjtree) #BooleanExpression(> 1) */
   try {
 /*@egen*/
   EqualityExpression()
   (
-    t = < BOOL_OP > { jjtn000.value = t.image; }
+    t = < BOOL_OP > { op = t.image; }
     
     EqualityExpression()
+    {
+      ASTBooleanExpression newN = new ASTBooleanExpression(bc1TreeConstants.JJTBOOLEANEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -657,15 +704,20 @@ void EqualityExpression()                         :
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
   Token t;
+  String op = "err";
 }
 {/*@bgen(jjtree) #EqualityExpression(> 1) */
   try {
 /*@egen*/
   RelationalExpression()
   (
-    t = < EQ_OP > { jjtn000.value = t.image; }
+    t = < EQ_OP > { op = t.image; }
     
     RelationalExpression()
+    {
+      ASTEqualityExpression newN = new ASTEqualityExpression(bc1TreeConstants.JJTEQUALITYEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -696,15 +748,20 @@ void RelationalExpression()                           :
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
   Token t;
+  String op = "err";
 }
 {/*@bgen(jjtree) #RelationalExpression(> 1) */
   try {
 /*@egen*/
   AdditiveExpression()
   (
-    t = < REL_OP > { jjtn000.value = t.image; }
+    t = < REL_OP > { op = t.image; }
     
     AdditiveExpression()
+    {
+      ASTRelationalExpression newN = new ASTRelationalExpression(bc1TreeConstants.JJTRELATIONALEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -734,7 +791,6 @@ void AdditiveExpression()                         :
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
-  Node n; 
   Token t;
   String op = "err";
 }
@@ -748,24 +804,8 @@ void AdditiveExpression()                         :
     
     MultiplicativeExpression()
     {
-      /* This code is key to imitating the left recursiveness that expressions
-         exibit, but JavaCC disallows us from using.
-       */
       ASTAdditiveExpression newN = new ASTAdditiveExpression(bc1TreeConstants.JJTADDITIVEEXPRESSION);
-      newN.value = op;
-      
-      // Pop and add the first operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 1);
-      n.jjtSetParent(newN);
-      
-      // Pop and add the second operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 0);
-      n.jjtSetParent(newN);
-      
-      // Push the new node back on the stack
-      jjtree.pushNode(newN);
+      NodeMagic(newN, op);
     }
   )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -797,7 +837,6 @@ void MultiplicativeExpression()                               :
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
-  Node n; 
   Token t;
   String op = "err";
 }
@@ -810,24 +849,8 @@ void MultiplicativeExpression()                               :
     
     UnaryExpression()
     {
-      /* This code is key to imitating the left recursiveness that expressions
-         exibit, but JavaCC disallows us from using.
-       */
       ASTMultiplicativeExpression newN = new ASTMultiplicativeExpression(bc1TreeConstants.JJTMULTIPLICATIVEEXPRESSION);
-      newN.value = op;
-      
-      // Pop and add the first operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 1);
-      n.jjtSetParent(newN);
-      
-      // Pop and add the second operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 0);
-      n.jjtSetParent(newN);
-      
-      // Push the new node back on the stack
-      jjtree.pushNode(newN);
+      NodeMagic(newN, op);
     }
   )*/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -921,22 +944,22 @@ void Identifier() :
 /*@egen*/
 }
 
-void Integer()                 :
-{/*@bgen(jjtree) IntegerLiteral */
-  ASTIntegerLiteral jjtn000 = new ASTIntegerLiteral(JJTINTEGERLITERAL);
+void Integer()                :
+{/*@bgen(jjtree) NumberLiteral */
+  ASTNumberLiteral jjtn000 = new ASTNumberLiteral(JJTNUMBERLITERAL);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
   Token t;
 }
-{/*@bgen(jjtree) IntegerLiteral */
+{/*@bgen(jjtree) NumberLiteral */
   try {
 /*@egen*/
-  t = < INTEGER_LITERAL >/*@bgen(jjtree)*/
-                          {
-                            jjtree.closeNodeScope(jjtn000, true);
-                            jjtc000 = false;
-                          }
+  t = < NUMBER >/*@bgen(jjtree)*/
+                 {
+                   jjtree.closeNodeScope(jjtn000, true);
+                   jjtc000 = false;
+                 }
 /*@egen*/ { jjtn000.value = t.image; }/*@bgen(jjtree)*/
   } finally {
     if (jjtc000) {

@@ -24,6 +24,6 @@ public interface bc1Visitor
   public Object visit(ASTMultiplicativeExpression node, Object data);
   public Object visit(ASTUnaryExpression node, Object data);
   public Object visit(ASTIdentifier node, Object data);
-  public Object visit(ASTIntegerLiteral node, Object data);
+  public Object visit(ASTNumberLiteral node, Object data);
 }
-/* JavaCC - OriginalChecksum=fb81d0d53dfcd2b4caf386c8cbf6e1a9 (do not edit this line) */
+/* JavaCC - OriginalChecksum=da5b257649f19bc0789cdfc3e0bc4c56 (do not edit this line) */

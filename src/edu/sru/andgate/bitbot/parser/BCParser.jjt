@@ -14,7 +14,32 @@ options
 PARSER_BEGIN(bc1)
 package edu.sru.andgate.bitbot.parser;
 
-public class bc1 {}
+public class bc1
+{
+
+
+  // This code is key to imitating the left recursiveness that expressions
+  // exhibit, but JavaCC disallows us from using.
+  public void NodeMagic(SimpleNode newN, String op)
+  {
+    Node n;
+    
+    newN.value = op;
+    
+    // Pop and add the first operand from the stack
+    n = jjtree.popNode();
+    newN.jjtAddChild(n, 1);
+    n.jjtSetParent(newN);
+    
+    // Pop and add the second operand from the stack
+    n = jjtree.popNode();
+    newN.jjtAddChild(n, 0);
+    n.jjtSetParent(newN);
+    
+    // Push the new node back on the stack
+    jjtree.pushNode(newN);
+  }
+}
 PARSER_END(bc1)
 
 /* Skip Whitespace & comments */
@@ -22,30 +47,39 @@ SKIP :
 {
   " "
 | "\t"
-//| "\n"//| "\r"
-| < "//" (~[ "\n", "\r" ])*
-    (
-      "\n"
-    | "\r"
-    | "\r\n"
-    ) >
-| < "/*" (~[ "*" ])* "*"
-    (
-      ~[ "/" ] (~[ "*" ])* "*"
-    )*
-    "/" >
+// Multi-line comments cause problems with error reporting, giving incorrect line numbers.
+//| < "/*" (~[ "*" ])* "*"//    (//      ~[ "/" ] (~[ "*" ])* "*"//    )*//    "/" >
 }
 
-TOKEN : /* LITERALS */
+TOKEN : /* NUMBER LITERAL */
 {
-  < INTEGER_LITERAL :
-    < DECIMAL_LITERAL > ([ "l", "L" ])?
-  | < HEX_LITERAL > ([ "l", "L" ])?
-  | < OCTAL_LITERAL > ([ "l", "L" ])? 
-    >
-| < #DECIMAL_LITERAL : [ "1"-"9" ] ([ "0"-"9" ])* >
-| < #HEX_LITERAL : "0" [ "x", "X" ] ([ "0"-"9", "a"-"f", "A"-"F" ])+ >
-| < #OCTAL_LITERAL : "0" ([ "0"-"7" ])* >
+ < NUMBER :
+  < NUMBER_EL >
+  (
+   ("e" | "E")
+   < NUMBER_EL >
+  )?
+ >
+ 
+|< #NUMBER_EL :
+  ( "+" | "-" )?
+  
+  (
+    ( <DIGIT> )+
+    |
+    (
+      ( <DIGIT> )*
+      ( "." )
+      ( <DIGIT> )+
+    )
+    |
+    (
+      ( <DIGIT> )+
+      ( "." )
+      ( <DIGIT> )*
+    )
+  )
+ >
 }
 
 TOKEN : /* OPERATIONS */
@@ -61,7 +95,15 @@ TOKEN : /* OPERATIONS */
 
 TOKEN : /* RESERVED WORDS */
 {
-  < NL : ("\n" | "\r" | "\r\n") >  // Statement Terminator
+  < NL : ("\n" | "\r" | "\r\n"
+  // A comment must be counted as a newline
+  | "//" (~[ "\n", "\r" ])*
+    (
+      "\n"
+    | "\r"
+    | "\r\n"
+    )
+  ) >  // Statement Terminator
 
 | < PRINT : "print" >
 | < LET : "let" >
@@ -87,7 +129,6 @@ TOKEN : /* RESERVED WORDS */
 | < DOUBLE : "double" >
 | < STRING : "string" >
 | < ARRAY : "array" >
-| < PROGRAM : "program" >
 | < SUBROUTINE : "subroutine" | "sub" >
 | < CALL: "call">
 | < END: "end" >
@@ -119,11 +160,6 @@ SimpleNode Start() #Root :
 void Program() :
 {}
 {
-  (
-    < PROGRAM > Identifier() 
-    ( < NL > )+
-  )?
-  
   ListOfInstructions()
   
   (
@@ -145,6 +181,7 @@ void ListOfInstructions() :
 {}
 {
   (
+  	( < NL > )*
     Instruction()
     ( < NL > )+
   )*
@@ -153,15 +190,15 @@ void ListOfInstructions() :
 void Instruction() #void :
 {}
 {
-  Expression()  //";"
+  Expression()
   |
-  Assignment() //";"
+  Assignment()
   | 
-  Print() //";"
+  Print()
   |
-  Declaration() //";"
+  Declaration()
   |
-  SubCall() //";" 
+  SubCall() 
   |
   WhileLoop()
   |
@@ -240,7 +277,7 @@ void Assignment() :
 
 /* ----------------------- */
 
-void Expression() #void ://#Expression(>1) :
+void Expression() #void :
 {}
 {
   ConcatExpression() {}
@@ -248,14 +285,19 @@ void Expression() #void ://#Expression(>1) :
 
 void ConcatExpression() #ConcatExpression(>1) :
 {
-Token t;
+  Token t;
+  String op = "err";
 }
 {
   StringExpression()
   (
-    t = < CONCAT > { jjtThis.value = t.image; }
+    t = < CONCAT > { op = t.image; }
     
     StringExpression()
+    {
+      ASTConcatExpression newN = new ASTConcatExpression(bc1TreeConstants.JJTCONCATEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*
 }
 
@@ -276,45 +318,59 @@ void StringLiteral() :
 void BooleanExpression() #BooleanExpression(>1) :
 {
   Token t;
+  String op = "err";
 }
 {
   EqualityExpression()
   (
-    t = < BOOL_OP > { jjtThis.value = t.image; }
+    t = < BOOL_OP > { op = t.image; }
     
     EqualityExpression()
+    {
+      ASTBooleanExpression newN = new ASTBooleanExpression(bc1TreeConstants.JJTBOOLEANEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*
 }
 
 void EqualityExpression() #EqualityExpression(>1) :
 {
   Token t;
+  String op = "err";
 }
 {
   RelationalExpression()
   (
-    t = < EQ_OP > { jjtThis.value = t.image; }
+    t = < EQ_OP > { op = t.image; }
     
     RelationalExpression()
+    {
+      ASTEqualityExpression newN = new ASTEqualityExpression(bc1TreeConstants.JJTEQUALITYEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*
 }
 
 void RelationalExpression() #RelationalExpression(>1) :
 {
   Token t;
+  String op = "err";
 }
 {
   AdditiveExpression()
   (
-    t = < REL_OP > { jjtThis.value = t.image; }
+    t = < REL_OP > { op = t.image; }
     
     AdditiveExpression()
+    {
+      ASTRelationalExpression newN = new ASTRelationalExpression(bc1TreeConstants.JJTRELATIONALEXPRESSION);
+      NodeMagic(newN, op);
+    }
   )*
 }
 
 void AdditiveExpression() #AdditiveExpression(>1) :
 {
-  Node n; 
   Token t;
   String op = "err";
 }
@@ -326,24 +382,8 @@ void AdditiveExpression() #AdditiveExpression(>1) :
     
     MultiplicativeExpression()
     {
-      /* This code is key to imitating the left recursiveness that expressions
-         exibit, but JavaCC disallows us from using.
-       */
       ASTAdditiveExpression newN = new ASTAdditiveExpression(bc1TreeConstants.JJTADDITIVEEXPRESSION);
-      newN.value = op;
-      
-      // Pop and add the first operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 1);
-      n.jjtSetParent(newN);
-      
-      // Pop and add the second operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 0);
-      n.jjtSetParent(newN);
-      
-      // Push the new node back on the stack
-      jjtree.pushNode(newN);
+      NodeMagic(newN, op);
     }
   )*
   
@@ -351,7 +391,6 @@ void AdditiveExpression() #AdditiveExpression(>1) :
 
 void MultiplicativeExpression() #MultiplicativeExpression(>1) :
 {
-  Node n; 
   Token t;
   String op = "err";
 }
@@ -362,24 +401,8 @@ void MultiplicativeExpression() #MultiplicativeExpression(>1) :
     
     UnaryExpression()
     {
-      /* This code is key to imitating the left recursiveness that expressions
-         exibit, but JavaCC disallows us from using.
-       */
       ASTMultiplicativeExpression newN = new ASTMultiplicativeExpression(bc1TreeConstants.JJTMULTIPLICATIVEEXPRESSION);
-      newN.value = op;
-      
-      // Pop and add the first operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 1);
-      n.jjtSetParent(newN);
-      
-      // Pop and add the second operand from the stack
-      n = jjtree.popNode();
-      newN.jjtAddChild(n, 0);
-      n.jjtSetParent(newN);
-      
-      // Push the new node back on the stack
-      jjtree.pushNode(newN);
+      NodeMagic(newN, op);
     }
   )*
   
@@ -410,10 +433,10 @@ void Identifier() :
   t = < IDENTIFIER > { jjtThis.value = t.image.toLowerCase(); }
 }
 
-void Integer() #IntegerLiteral :
+void Integer() #NumberLiteral :
 {
   Token t;
 }
 {
-  t = < INTEGER_LITERAL > { jjtThis.value = t.image; }
+  t = < NUMBER > { jjtThis.value = t.image; }
 }

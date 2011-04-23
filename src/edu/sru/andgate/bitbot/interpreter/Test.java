@@ -67,8 +67,6 @@ public class Test extends Activity
 		vm = new InstructionLimitedVirtualMachine();
 		
 		String forLoop =
-			"//Program myProg\n" +
-			"\n" +
 			"call sub1()\n" +
 			"\n" +
 			"Let i = 5\n" +
@@ -84,24 +82,25 @@ public class Test extends Activity
 			"\n"
 			;
 			
-		
-		
+//		boolean j = 3==4==5;
+//		
 	
 		// Set up a couple BotInterpreters
 		b1 = new BotInterpreter(null, forLoop);
 		b1.setOutputTextView(tv);
 		vm.addInterpreter(b1);
 		tvR.setText(forLoop);
-	/*	
+		
+		/*
 		BotInterpreter b2 = new BotInterpreter(null, code2);
 		b2.setOutputTextView(tvR);
 		vm.addInterpreter(b2);
-	*/	
+		
 		// Set up data output in textview
 		tv = (TextView) findViewById(R.id.txtMain);
 		b1.setPrintStream(new PrintStream(ps = new ByteArrayOutputStream(128)));
 		tv.setText(ps.toString());
-		
+		*/
 	}
 	
 	private void Resume(int i)
