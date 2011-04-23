@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.SoundManager;
+import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -65,7 +66,7 @@ public class GameActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+               
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Keep screen from shutting off
@@ -296,7 +297,7 @@ public class GameActivity extends Activity
         
 //        /* Comment out to turn off TileMap()
        // testMap = new TileMap();
-        testMap.loadMapFile("testarena.map", this.getBaseContext());
+        testMap.loadMapFile("testarena.map", this.getBaseContext());     
         gameRenderer.setTileMap(testMap);
         
         //testMap.addTexture(R.drawable.stone);

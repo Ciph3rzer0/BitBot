@@ -7,7 +7,8 @@ import android.content.Context;
 import android.util.Log;
 
 public abstract class GameTypes {
-	public int mapHeight, mapWidth;
+	private int mapHeight, mapWidth;
+	private int[][][] spawnPoints;
 	
 	public abstract void Initialize(); 
 
@@ -15,9 +16,8 @@ public abstract class GameTypes {
 	
 	public abstract void Finalize();
    
-	public int[][][] getSpawnPoints(String mapFile, Context context)
+	public void setSpawnPoints(String mapFile, Context context)
 	{
-		int[][][] temp = null;
 		int spawnArrayLoc = 160; //line the spawn location starts
 		Log.v("bitbot", "Loading Spawn Points...");
 	
@@ -30,7 +30,7 @@ public abstract class GameTypes {
 			mapWidth = Integer.parseInt(r.readLine()); 
 			mapHeight = Integer.parseInt(r.readLine());
 			
-			temp = new int[mapWidth][mapHeight][1];
+			spawnPoints = new int[mapWidth][mapHeight][1];
 			
 			//move reader down to begining of spawnPoints array (will be same in all maps)
 			for(int i = 0; i < spawnArrayLoc; i++){
@@ -43,17 +43,28 @@ public abstract class GameTypes {
 		        	String[] codes = r.readLine().split(" ");
 		        	for(int j=0;j<codes.length;j++)
 		        	{
-		        		temp[j][i][0] = Integer.parseInt(codes[j]);
+		        		spawnPoints[j][i][0] = Integer.parseInt(codes[j]);
 		        	}
 		        }
 				mapFileStream.close();
 	          Log.v("bitbot", "Spawn Points loading complete.");
-	          return temp; //return for manipulation
+	          
 		}
 		catch(Exception e)
 		{
 			System.out.println("Error loading Spawn Points: " + e.toString());
 		}
-		return null;
+	}
+	
+	public int[][][] getSpawnPoints(){
+		return this.spawnPoints;
+	}
+	
+	public int getMapHeight(){
+		return this.mapHeight;
+	}
+	
+	public int getMapWidth(){
+		return this.mapWidth;
 	}
 }

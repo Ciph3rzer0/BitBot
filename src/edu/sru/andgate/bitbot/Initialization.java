@@ -13,14 +13,15 @@ import android.util.Log;
 
 public class Initialization
 {
-	Bot b;
+	Bot enemy;
 	File mediaDir, f, f2;
 	FileOutputStream fos, fos2;
 	
 	public Initialization(ContextWrapper cw)
 	{
 		FileManager.setContext(cw.getBaseContext());
-				
+			
+		
 		String data = "Let d = -1\n" +
 		"\n" +
 		"While 1 Do\n" + 
@@ -28,6 +29,15 @@ public class Initialization
 		"  \n" +
 		"  Let d = d + 1\n" +
 		"Loop\n";
+		
+		enemy = new Bot();
+		enemy.setName("Generic Enemy");
+		enemy.setBase("square");
+		enemy.setTurret("basic");
+		enemy.setBullet("new");
+		enemy.setCode(data);
+		enemy.saveBotToXML(cw, "enemy_bot.xml");
+		
 		data.substring(2);
 		String data2 = "//Simple While Loop\n"; 
 		data2 += cw.getResources().getString(R.string.example_code);

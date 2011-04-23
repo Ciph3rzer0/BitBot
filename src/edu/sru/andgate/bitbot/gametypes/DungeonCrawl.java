@@ -1,39 +1,39 @@
 package edu.sru.andgate.bitbot.gametypes;
 
-import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import android.content.Context;
+import android.util.Log;
+import edu.sru.andgate.bitbot.Bot;
 
 public class DungeonCrawl extends GameTypes{
-	protected int[][][] spawnPoints;
-	protected Context context;
-	protected int totalBots;
-	protected String mapFile;
-	protected Bot[] bots;
+	private int[][][] spawnPoints;
+	private Context context;
+	private int totalBots;
+	private String mapFile;
+	private Bot[] bots;
 	
 	public DungeonCrawl(Context context, int numOfBots, String mapFile){
 		this.context = context;
 		this.totalBots = numOfBots;
 		this.mapFile = mapFile;
 		bots = new Bot[numOfBots];
+		setSpawnPoints(mapFile, context);
+		this.spawnPoints = getSpawnPoints();
 	}
 	
 	
 	@Override
 	public void Initialize() {
-		//Get Spawn Points
-		spawnPoints = getSpawnPoints(mapFile, context);
-		
-		//create number of bots for game
+		Log.v("GameTypes", "GameType Accepted");
+		//create number of bots for game from enemy bot file
 		for(int i = 0; i < totalBots; i++){
-			bots[i] = new Bot();
-			//do some other stuff to set up bots have to talk to adam for how gun works etc.
+			bots[i] = Bot.CreateBotFromXML(context, "enemy_bot.xml");
 		}
+		Log.v("GameTypes", bots.length + " Bots Created");
 		
 		/*
 		 * select random spawn points from those that are available
 		 *set bots starting position to it
-		 *put the spawn point array in a temp array
+		 *
 		*/
 				
 	}
