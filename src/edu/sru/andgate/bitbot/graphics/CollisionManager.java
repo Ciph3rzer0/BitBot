@@ -372,7 +372,7 @@ public class CollisionManager
 							}
 							else
 							{
-								//botList[i].onDamage();
+								botList[i].onDamage();
 								if(particleEmitter != null)
 								{
 									sparkAngle = (sparkAngle+FUNNY_ANGLE)%360;

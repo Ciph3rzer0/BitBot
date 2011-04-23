@@ -20,6 +20,6 @@
 		android:paddingLeft="5dip"
 		android:paddingRight="10dip"
 		android:text="Chart"
-		android:textColor="#fff"/>
+		android:textColor="#fff"/> 
 									         
 </LinearLayout>         
