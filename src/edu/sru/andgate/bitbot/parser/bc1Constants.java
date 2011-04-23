@@ -71,19 +71,21 @@ public interface bc1Constants {
   /** RegularExpression Id. */
   int SUBROUTINE = 32;
   /** RegularExpression Id. */
-  int CALL = 33;
+  int WITH = 33;
   /** RegularExpression Id. */
-  int END = 34;
+  int CALL = 34;
   /** RegularExpression Id. */
-  int RETURN = 35;
+  int END = 35;
   /** RegularExpression Id. */
-  int IDENTIFIER = 36;
+  int RETURN = 36;
   /** RegularExpression Id. */
-  int LETTER = 37;
+  int IDENTIFIER = 37;
   /** RegularExpression Id. */
-  int DIGIT = 38;
+  int LETTER = 38;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 39;
+  int DIGIT = 39;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 40;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -123,6 +125,7 @@ public interface bc1Constants {
     "\"string\"",
     "\"array\"",
     "<SUBROUTINE>",
+    "\"with\"",
     "\"call\"",
     "\"end\"",
     "\"return\"",

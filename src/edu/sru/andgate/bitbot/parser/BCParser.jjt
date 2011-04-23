@@ -130,6 +130,7 @@ TOKEN : /* RESERVED WORDS */
 | < STRING : "string" >
 | < ARRAY : "array" >
 | < SUBROUTINE : "subroutine" | "sub" >
+| < WITH : "with" >
 | < CALL: "call">
 | < END: "end" >
 | < RETURN: "return" >
@@ -198,8 +199,6 @@ void Instruction() #void :
   |
   Declaration()
   |
-  SubCall() 
-  |
   WhileLoop()
   |
   IfStatement()
@@ -229,7 +228,7 @@ void IfStatement() :
 void ForLoop() :
 {}
 {
-  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
+  < FOR > Identifier() ( < EQUAL > )? Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
     ListOfInstructions()
   < NEXT >
 }
@@ -252,7 +251,7 @@ void ParameterList() #void :
 void SubDef() :
 {}
 {
-  < SUBROUTINE > Identifier() < NL >
+  < SUBROUTINE > Identifier() ( < WITH > )? ParameterList() < NL >
     ListOfInstructions()
   < RETURN >
 }
@@ -266,13 +265,13 @@ void Print() :
 void Declaration() :
 {}
 {
-  < DIM > Identifier() < AS > < INTEGER >
+  < DIM > Identifier() < AS > < INTEGER > ( ( < EQUAL > )? Expression() )?
 }
 
 void Assignment() :
 {}
 {
-   < LET > Identifier() < EQUAL >  Expression()
+   < LET > Identifier() ( < EQUAL > )?  Expression()
 }
 
 /* ----------------------- */
@@ -280,7 +279,7 @@ void Assignment() :
 void Expression() #void :
 {}
 {
-  ConcatExpression() {}
+  ConcatExpression()
 }
 
 void ConcatExpression() #ConcatExpression(>1) :
@@ -415,6 +414,7 @@ void UnaryExpression() #void :
 | UnaryPlusOrMinus()
 | Identifier()
 | Integer()
+| SubCall()
 }
 
 void UnaryPlusOrMinus() #UnaryExpression :

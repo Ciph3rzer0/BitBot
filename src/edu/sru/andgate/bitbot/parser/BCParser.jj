@@ -134,6 +134,7 @@ TOKEN : /* RESERVED WORDS */
 | < STRING : "string" >
 | < ARRAY : "array" >
 | < SUBROUTINE : "subroutine" | "sub" >
+| < WITH : "with" >
 | < CALL: "call">
 | < END: "end" >
 | < RETURN: "return" >
@@ -285,8 +286,6 @@ void Instruction()       :
   |
   Declaration()
   |
-  SubCall() 
-  |
   WhileLoop()
   |
   IfStatement()
@@ -374,7 +373,7 @@ void ForLoop() :
 {/*@bgen(jjtree) ForLoop */
   try {
 /*@egen*/
-  < FOR > Identifier() < EQUAL > Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
+  < FOR > Identifier() ( < EQUAL > )? Expression() < TO > Expression() ( < STEP > Expression() ) ? < NL >
     ListOfInstructions()
   < NEXT >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -449,7 +448,7 @@ void SubDef() :
 {/*@bgen(jjtree) SubDef */
   try {
 /*@egen*/
-  < SUBROUTINE > Identifier() < NL >
+  < SUBROUTINE > Identifier() ( < WITH > )? ParameterList() < NL >
     ListOfInstructions()
   < RETURN >/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
@@ -515,7 +514,7 @@ void Declaration() :
 {/*@bgen(jjtree) Declaration */
   try {
 /*@egen*/
-  < DIM > Identifier() < AS > < INTEGER >/*@bgen(jjtree)*/
+  < DIM > Identifier() < AS > < INTEGER > ( ( < EQUAL > )? Expression() )?/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
       jjtree.clearNodeScope(jjtn000);
@@ -547,7 +546,7 @@ void Assignment() :
 {/*@bgen(jjtree) Assignment */
    try {
 /*@egen*/
-   < LET > Identifier() < EQUAL >  Expression()/*@bgen(jjtree)*/
+   < LET > Identifier() ( < EQUAL > )?  Expression()/*@bgen(jjtree)*/
    } catch (Throwable jjte000) {
      if (jjtc000) {
        jjtree.clearNodeScope(jjtn000);
@@ -575,7 +574,7 @@ void Assignment() :
 void Expression()       :
 {}
 {
-  ConcatExpression() {}
+  ConcatExpression()
 }
 
 void ConcatExpression()                       :
@@ -883,6 +882,7 @@ void UnaryExpression()       :
 | UnaryPlusOrMinus()
 | Identifier()
 | Integer()
+| SubCall()
 }
 
 void UnaryPlusOrMinus()                  :

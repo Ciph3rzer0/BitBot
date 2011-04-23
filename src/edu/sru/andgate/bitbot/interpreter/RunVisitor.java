@@ -7,6 +7,7 @@ import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Stack;
 
 import android.util.Log;
 
@@ -36,7 +37,9 @@ import edu.sru.andgate.bitbot.parser.*;
  */
 public class RunVisitor implements bc1Visitor
 {
-	private HashMap<String, String> vars = new HashMap<String, String>();
+	private Stack<HashMap<String, String>> varStack = new Stack<HashMap<String,String>>();
+	
+	//private HashMap<String, String> vars = new HashMap<String, String>();
 	private HashMap<String, Node> subs = new HashMap<String, Node>();
 	
 	private volatile int instructionsLeft = 0;
@@ -93,6 +96,10 @@ public class RunVisitor implements bc1Visitor
 	public RunVisitor(BotInterpreter bi)
 	{
 		this.bi = bi;
+		
+		// Put the first var hash on the stack.
+		HashMap<String, String> vars = new HashMap<String, String>();
+		varStack.push(vars);
 	}
 	
 	/**
@@ -288,8 +295,12 @@ public class RunVisitor implements bc1Visitor
 		String id = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
 		String value = "0";
 		
+		// If the user put in the optional assignment
+		if (node.jjtGetNumChildren() == 2)
+			value = ((SimpleNode)node.jjtGetChild(1)).jjtGetValue().toString();
+		
 		// Store variable in hash
-		vars.put(id, value);
+		varStack.peek().put(id, value);
 		
 //		out.println("[Declaration] " + id + " = "  + value);
 		return null;
@@ -306,7 +317,7 @@ public class RunVisitor implements bc1Visitor
 		String value = node.jjtGetChild(1).jjtAccept(this, null).toString();
 		
 		// Update the variable
-		vars.put(id, value);
+		varStack.peek().put(id, value);
 		
 //		out.println("[/Assignment: " + id + "=" + value + "]");
 		
@@ -320,7 +331,7 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(ASTIdentifier node, Object data)
 	{
 		String key = node.jjtGetValue().toString();
-		String result = vars.get(key);
+		String result = varStack.peek().get(key);
 		
 		if (result == null)
 			result = "0";
@@ -390,7 +401,7 @@ public class RunVisitor implements bc1Visitor
 		
 		// Determine the operation
 		String op = node.jjtGetValue().toString();
-		out.println("BooleanExpression: " + op);
+//		out.println("BooleanExpression: " + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
 		double v1 = 0, v2 = 0;
@@ -411,7 +422,7 @@ public class RunVisitor implements bc1Visitor
 			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 
 		// Log
-		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
 		
 		return result;
 	}
@@ -423,7 +434,7 @@ public class RunVisitor implements bc1Visitor
 		
 		// Determine the operation
 		String op = node.jjtGetValue().toString();
-		out.println("EqualityExpression" + op);
+//		out.println("EqualityExpression" + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
 		double v1 = 0, v2 = 0;
@@ -444,7 +455,7 @@ public class RunVisitor implements bc1Visitor
 			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 
 		// Log
-		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
 		
 		return result;
 	}
@@ -456,7 +467,7 @@ public class RunVisitor implements bc1Visitor
 		
 		// Determine the operation
 		String op = node.jjtGetValue().toString();
-		out.println("RelationalExpression" + op);
+//		out.println("RelationalExpression" + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
 		double v1 = 0, v2 = 0;
@@ -482,7 +493,7 @@ public class RunVisitor implements bc1Visitor
 			Log.e("BitBot Interpreter", "Unknown Operation: '" + op + "'");
 
 		// Log
-		out.println(v1 + " " + op + " " + v2 + " -> " + result);
+//		out.println(v1 + " " + op + " " + v2 + " -> " + result);
 		
 		return result;
 	}
@@ -495,7 +506,7 @@ public class RunVisitor implements bc1Visitor
 		// Determine the operation
 		String op = node.jjtGetValue().toString();
 		
-		//out.println("AdditiveExpression: " + op);
+//		out.println("AdditiveExpression: " + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
 		double v1 = 0, v2 = 0, result = 0;
@@ -526,7 +537,7 @@ public class RunVisitor implements bc1Visitor
 		String op = node.jjtGetValue().toString();
 		
 		// Output for debug
-		//out.println("MultiplicativeExpression: " + op);
+//		out.println("MultiplicativeExpression: " + op);
 		
 		// Visit this nodes children to find out the two operands (v1 and v2)
 		double v1 = 0, v2 = 0, result = 0;
@@ -560,8 +571,7 @@ public class RunVisitor implements bc1Visitor
 		double v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
 		
 		// Log
-//		out.println("UnaryExpression: " + op);
-//		out.println(op + v1);
+//		out.println("UnaryExpression: " + op + " " + v1);
 		
 		// Negate if necessary
 		if (op.equals("-")) return -v1;
@@ -586,7 +596,7 @@ public class RunVisitor implements bc1Visitor
 			
 			// Parameters start at 1, id is first.
 			for (int i=1; i<node.jjtGetNumChildren(); i++)
-				params[i-1] = (String) node.jjtGetChild(i).jjtAccept(this, null);
+				params[i-1] = node.jjtGetChild(i).jjtAccept(this, null).toString();
 			
 //			// Print them out temporarily
 //			for (int i=0; i<params.length; i++)
@@ -599,24 +609,55 @@ public class RunVisitor implements bc1Visitor
 		else
 		{
 			Node n = subs.get(instr);
-			if (n == null)
-				Log.w("BitBot Interpreter", "Sub '" + instr + "' not declared.");
-			else
-			{
-				Log.d("BitBot Interpreter", "Calling '" + instr + "'");
-				n.jjtAccept(this, null);
+			if (n != null)
+				n.jjtAccept(this, params);
+		}
+		
+		if (instr.equalsIgnoreCase("pow"))
+		{
+			double v1 = 0, v2 = 0;
+			
+			try {
+				v1 = Double.parseDouble(params[0]);
+				v2 = Double.parseDouble(params[1]);
 			}
+			catch(Exception e){}
+			
+			return Math.pow(v1, v2);
 		}
 		
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 	
 	@Override
 	public Object visit(ASTSubDef node, Object data)
 	{
+		Log.d("BitBot Interpreter", "In Sub Def");
+		
+//		// ListOfInstructions
+//		node.jjtGetChild(1).jjtAccept(this, null);
+		
+		HashMap<String, String> hm = new HashMap<String, String>();
+		// TODO: THIS IS GOING TO BE INEFFICIENT
+		String[] localVars = (String[]) data;
+		
+		// Assign local variables
+		if (localVars != null)
+			for (int i = 0; (i < localVars.length) && (i < node.jjtGetNumChildren()-2); i++)
+			{
+				Log.v("BitBot Interpreter", localVars[i]);
+				hm.put(((SimpleNode)node.jjtGetChild(i+1)).jjtGetValue().toString(), localVars[i]);
+			}
+		
+		// Push local variables
+		varStack.push(hm);
+		
 		// ListOfInstructions
-		node.jjtGetChild(1).jjtAccept(this, null);
+		node.jjtGetChild(node.jjtGetNumChildren()-1).jjtAccept(this, null);
+		
+		// Pop local variables
+		varStack.pop();
 		
 		return null;
 	}
@@ -649,7 +690,7 @@ public class RunVisitor implements bc1Visitor
 			node.jjtGetChild(1).jjtAccept(this, null);
 		else
 			// Prevent null pointer when else is not there.
-			if (node.jjtGetChild(2) != null)
+			if (node.jjtGetNumChildren() == 3)
 				node.jjtGetChild(2).jjtAccept(this, null);
 		
 //		out.println("[/End IfStatement]");
@@ -662,7 +703,7 @@ public class RunVisitor implements bc1Visitor
 	{
 		// If five children, then there is an else
 		boolean hasStep = node.jjtGetNumChildren()==5;
-		out.println("numChildren = " + node.jjtGetNumChildren());
+//		out.println("numChildren = " + node.jjtGetNumChildren());
 		
 //		String lcv = node.jjtGetChild(0).jjtAccept(this, null).toString();
 		String lcv = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
@@ -688,7 +729,7 @@ public class RunVisitor implements bc1Visitor
 		for (double i = first; i <= last; i += step)
 		{
 			// Store the lcv
-			this.vars.put(lcv, i + "");
+			this.varStack.peek().put(lcv, i + "");
 			node.jjtGetChild(instructionsIndex).jjtAccept(this, null);
 		}
 		
