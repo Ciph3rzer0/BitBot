@@ -178,6 +178,10 @@ public class GameActivity extends Activity
         enemyTurret = new BotLayer(enemyBot);
         enemyTurret.addTexture(R.drawable.adamturret);
         enemyTurret.setRotationAngle(enemyBot.parameters[3]);
+        enemyBot.addTexture(R.drawable.adambotd1);	//1
+        enemyBot.addTexture(R.drawable.adambotd2);	//2
+        enemyBot.addDamageTextureToSequence(1, 50);
+        enemyBot.addDamageTextureToSequence(2, 25);
         
         enemyBot2 = new DrawableBot();
         enemyBot2.setTranslation(5.5f,2.5f,-5.0f);
@@ -186,6 +190,10 @@ public class GameActivity extends Activity
         enemyTurret2 = new BotLayer(enemyBot2);
         enemyTurret2.addTexture(R.drawable.adamturret);
         enemyTurret2.setRotationAngle(enemyBot2.parameters[3]);
+        enemyBot2.addTexture(R.drawable.adambotd1);	//1
+        enemyBot2.addTexture(R.drawable.adambotd2);	//2
+        enemyBot2.addDamageTextureToSequence(1, 50);
+        enemyBot2.addDamageTextureToSequence(2, 25);
         
         enemyBot3 = new DrawableBot();
         enemyBot3.setTranslation(10.5f,-4.5f,-5.0f);
@@ -194,6 +202,10 @@ public class GameActivity extends Activity
         enemyTurret3 = new BotLayer(enemyBot3);
         enemyTurret3.addTexture(R.drawable.adamturret);
         enemyTurret3.setRotationAngle(enemyBot3.parameters[3]);
+        enemyBot3.addTexture(R.drawable.adambotd1);	//1
+        enemyBot3.addTexture(R.drawable.adambotd2);	//2
+        enemyBot3.addDamageTextureToSequence(1, 50);
+        enemyBot3.addDamageTextureToSequence(2, 25);
         
         enemyBot4 = new DrawableBot();
         enemyBot4.setTranslation(-11.5f,4.5f,-5.0f);
@@ -202,6 +214,10 @@ public class GameActivity extends Activity
         enemyTurret4 = new BotLayer(enemyBot4);
         enemyTurret4.addTexture(R.drawable.adamturret);
         enemyTurret4.setRotationAngle(enemyBot4.parameters[3]);
+        enemyBot4.addTexture(R.drawable.adambotd1);	//1
+        enemyBot4.addTexture(R.drawable.adambotd2);	//2
+        enemyBot4.addDamageTextureToSequence(1, 50);
+        enemyBot4.addDamageTextureToSequence(2, 25);
         
         //Test Bot 3
         /*
@@ -375,19 +391,19 @@ public class GameActivity extends Activity
     		
     		
     		//Testing FPS Only
-    		/*
+    		
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
     		int frameCount = 0;
-    		*/
+    		
     		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
     			{
-    				//startTime = System.currentTimeMillis();
+    				startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -482,6 +498,7 @@ public class GameActivity extends Activity
     		        addToDrawList(TYPE_BOT,test2Turret.ID);
     		        addToDrawList(TYPE_GUN, testGun.ID);
     		        
+    		        /*
     		        //Nick Test loaded bot
     		        try{
     		        	addToDrawList(TYPE_BOT, loadedBot.getDrawableBot().ID);
@@ -490,6 +507,7 @@ public class GameActivity extends Activity
     		        }catch(Exception e){
     		        	Log.v("BitBot", "Adding to drawlist failed");
     		        }
+    		        */
     		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
@@ -512,7 +530,7 @@ public class GameActivity extends Activity
 	    	    		}
     	    		}
     	    		
-    	    		/*
+    	    		
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
@@ -522,7 +540,7 @@ public class GameActivity extends Activity
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
-    	    		*/
+    	    		
     			}
     		}
     	};
