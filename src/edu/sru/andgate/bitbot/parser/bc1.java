@@ -210,6 +210,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMBER:
     case ADD_OP:
+    case CALL:
     case IDENTIFIER:
     case STRING_LITERAL:
     case 41:
@@ -223,9 +224,6 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
       break;
     case DIM:
       Declaration();
-      break;
-    case CALL:
-      SubCall();
       break;
     case WHILE:
       WhileLoop();
@@ -407,6 +405,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMBER:
     case ADD_OP:
+    case CALL:
     case IDENTIFIER:
     case STRING_LITERAL:
     case 41:
@@ -515,6 +514,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
       case NUMBER:
       case ADD_OP:
       case EQUAL:
+      case CALL:
       case IDENTIFIER:
       case STRING_LITERAL:
       case 41:
@@ -594,7 +594,6 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
 /* ----------------------- */
   final public void Expression() throws ParseException {
     ConcatExpression();
-
   }
 
   final public void ConcatExpression() throws ParseException {
@@ -646,6 +645,7 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMBER:
     case ADD_OP:
+    case CALL:
     case IDENTIFIER:
     case 41:
       BooleanExpression();
@@ -918,6 +918,9 @@ public class bc1/*@bgen(jjtree)*/implements bc1TreeConstants, bc1Constants {/*@b
     case NUMBER:
       Integer();
       break;
+    case CALL:
+      SubCall();
+      break;
     default:
       jj_la1[24] = jj_gen;
       jj_consume_token(-1);
@@ -1009,7 +1012,7 @@ jjtree.openNodeScope(jjtn000);Token t;
       jj_la1_0 = new int[] {0x800,0x0,0x800,0x0,0x112b908,0x800,0x800,0x112b108,0x4000000,0x4000,0x400000,0x0,0x108,0x0,0x4000,0x4108,0x4000,0x400,0x108,0x20,0x40,0x80,0x100,0x200,0x108,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x1,0x0,0x8,0x324,0x0,0x0,0x324,0x0,0x0,0x0,0x800,0x320,0x2,0x0,0x320,0x0,0x0,0x320,0x0,0x0,0x0,0x0,0x0,0x220,};
+      jj_la1_1 = new int[] {0x0,0x1,0x0,0x8,0x324,0x0,0x0,0x324,0x0,0x0,0x0,0x800,0x324,0x2,0x0,0x324,0x0,0x0,0x324,0x0,0x0,0x0,0x0,0x0,0x224,};
    }
 
   /** Constructor with InputStream. */

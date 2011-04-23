@@ -199,8 +199,6 @@ void Instruction() #void :
   |
   Declaration()
   |
-  SubCall() 
-  |
   WhileLoop()
   |
   IfStatement()
@@ -281,7 +279,7 @@ void Assignment() :
 void Expression() #void :
 {}
 {
-  ConcatExpression() {}
+  ConcatExpression()
 }
 
 void ConcatExpression() #ConcatExpression(>1) :
@@ -416,6 +414,7 @@ void UnaryExpression() #void :
 | UnaryPlusOrMinus()
 | Identifier()
 | Integer()
+| SubCall()
 }
 
 void UnaryPlusOrMinus() #UnaryExpression :

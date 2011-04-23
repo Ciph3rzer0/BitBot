@@ -433,7 +433,7 @@ public class IDE extends Activity {
 	    	botOutput.setText(bi.getBotLog());
 	    	
 	    	ilvm.addInterpreter(bi);
-	    	ilvm.resume(2000);
+	    	ilvm.resume(100000);
 		}
     	catch (Exception e)
 		{

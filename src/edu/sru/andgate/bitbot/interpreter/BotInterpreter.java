@@ -6,6 +6,7 @@ import java.io.PipedInputStream;
 import java.io.PrintStream;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.parser.Node;
@@ -91,6 +92,7 @@ public class BotInterpreter
 				public void run()
 				{
 					outTV.setText(botLog.toString());
+					// TODO: Scroll down
 				}
 			});
 	}
