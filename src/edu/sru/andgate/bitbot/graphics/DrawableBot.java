@@ -253,8 +253,8 @@ public class DrawableBot implements Drawable
 		int triggerHealth = damageSprites[currentDamageSprite][1];
 		if(HEALTH <= triggerHealth && currentDamageSprite < numDamageSprites)
 		{
-			currentDamageSprite++;
 			SELECTED_TEXTURE = damageSprites[currentDamageSprite][0];
+			currentDamageSprite++;
 		}
 	}
 	
