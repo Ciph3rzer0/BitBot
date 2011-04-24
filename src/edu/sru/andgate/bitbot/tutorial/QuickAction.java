@@ -32,6 +32,7 @@ public class QuickAction extends CustomPopupWindow {
 	private final ImageView mArrowDown;
 	private final LayoutInflater inflater;
 	private final Context context;
+	private final TextView quick_title;
 	
 	protected static final int ANIM_GROW_FROM_LEFT = 1;
 	protected static final int ANIM_GROW_FROM_RIGHT = 2;
@@ -61,6 +62,8 @@ public class QuickAction extends CustomPopupWindow {
 		mArrowDown 	= (ImageView) root.findViewById(R.id.arrow_down);
 		mArrowUp 	= (ImageView) root.findViewById(R.id.arrow_up);
 		
+		quick_title	= (TextView) root.findViewById(R.id.quick_title);
+		
 		setContentView(root);
 	    
 		mTrack 			= (ViewGroup) root.findViewById(R.id.tracks);
@@ -75,6 +78,13 @@ public class QuickAction extends CustomPopupWindow {
 	 */
 	public void setAnimStyle(int animStyle) {
 		this.animStyle = animStyle;
+	}
+	
+	/*
+	 * set quick title text
+	 */
+	public void setQuickTitle(String title) {
+		this.quick_title.setText(title);
 	}
 
 	/**

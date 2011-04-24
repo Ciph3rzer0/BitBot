@@ -55,33 +55,30 @@
 		        android:id="@+id/quick_bar" 
 		        android:layout_height="wrap_content" 
 		        android:layout_width="match_parent">
-		    <Button 
-				android:id="@+id/sequence_btn" 
-				android:text="Sequence" 
-				style="@style/Heading"
+		    <ImageButton 
+				android:id="@+id/sequence_btn"
+				android:src="@drawable/sequence"
 				android:background="@layout/button_bot_component"
 				android:layout_width="0px"
 				android:layout_weight="1" 
 				android:layout_height="75dip">
-			</Button>
-			<Button 
-				android:id="@+id/selection_btn" 
-				android:text=" Selection" 
+			</ImageButton>
+			<ImageButton 
+				android:id="@+id/selection_btn"
+				android:src="@drawable/selection" 
 				android:layout_width="0px" 
-				style="@style/Heading"
 				android:background="@layout/button_bot_component"
 				android:layout_weight="1"
 				android:layout_height="75dip">
-			</Button>
-			<Button 
+			</ImageButton>
+			<ImageButton 
 				android:id="@+id/iteration_btn" 
-				android:text=" Iteration" 
+				android:src="@drawable/iteration"
 				android:layout_width="0px"
-				style="@style/Heading"
 				android:background="@layout/button_bot_component"
 				android:layout_weight="1"
 				android:layout_height="75dip">
-			</Button>
+			</ImageButton>
 	        </LinearLayout>
 	        <LinearLayout 
 		        android:id="@+id/edit_bar" 
@@ -105,15 +102,14 @@
 			        android:id="@+id/tools_bar" 
 			        android:layout_height="wrap_content" 
 			        android:layout_width="match_parent">
-		        <Button 
+		        <ImageButton 
 			        android:layout_width="0px" 
 			        android:layout_height="75dip"
+			        android:src="@drawable/tools"
 			        android:layout_weight="1" 
-			        style="@style/Heading"
 					android:background="@layout/button_bot_component"
-			        android:id="@+id/tools_btn" 
-			        android:text="Quick Tools">
-		        </Button>
+			        android:id="@+id/tools_btn"> 
+		        </ImageButton>
 				<Button 
 					android:layout_width="0px" 
 					android:layout_height="75dip" 

@@ -24,6 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,8 +48,8 @@ public class Main_Tutorial extends Activity
 	private SlidingDrawer slidingDrawer;
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private TextView botOutput, main_text;
-	private Button slideHandleButton, sequence_btn, selection_btn, iteration_btn, 
-				   tools_btn, lock_btn, simulate_btn, to_code_button, back_to_code;
+	private Button slideHandleButton, lock_btn, simulate_btn, to_code_button, back_to_code;
+	private ImageButton sequence_btn, selection_btn, iteration_btn, tools_btn;
 	private File file;
 	private BufferedWriter writer;
 	private ViewFlipper vf;
@@ -131,13 +132,14 @@ public class Main_Tutorial extends Activity
 		/*
 		 * Set all the QuickAction buttons onClick() methods 
 		 */
-		sequence_btn = (Button) this.findViewById(R.id.sequence_btn);
+		sequence_btn = (ImageButton) this.findViewById(R.id.sequence_btn);
 		sequence_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Sequence");
 				for(int i = 0; i < sequence_shells.length; i++){
 					qa.addActionItem(sequence_shells[i]);
 				}
@@ -146,13 +148,14 @@ public class Main_Tutorial extends Activity
 			}
 		});
 								
-		selection_btn = (Button) this.findViewById(R.id.selection_btn);
+		selection_btn = (ImageButton) this.findViewById(R.id.selection_btn);
 		selection_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Selection");
 				for(int i = 0; i < selection_shells.length; i++){
 					qa.addActionItem(selection_shells[i]);
 				}
@@ -161,13 +164,14 @@ public class Main_Tutorial extends Activity
 			}
 		});
 		
-		iteration_btn = (Button) this.findViewById(R.id.iteration_btn);
+		iteration_btn = (ImageButton) this.findViewById(R.id.iteration_btn);
 		iteration_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Iteration");
 				for(int i = 0; i < iteration_shells.length; i++){
 					qa.addActionItem(iteration_shells[i]);
 				}
@@ -176,13 +180,14 @@ public class Main_Tutorial extends Activity
 			}
 		});
 		
-		tools_btn = (Button) this.findViewById(R.id.tools_btn);
+		tools_btn = (ImageButton) this.findViewById(R.id.tools_btn);
 		tools_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Quick Tools");
 				for(int i = 0; i < quick_tools.length; i++){
 					qa.addActionItem(quick_tools[i]);
 				}

@@ -55,33 +55,30 @@
 	        android:layout_alignParentLeft="true" 
 	        android:layout_width="wrap_content" 
 	        android:layout_height="match_parent">
-		    <Button 
+		    <ImageButton 
 				android:id="@+id/sequence_btn" 
-				android:text="Sequence" 
 				android:layout_width="70dip"
-				style="@style/Heading"
+				android:src="@drawable/sequence"
 				android:background="@layout/button_bot_component"
 				android:layout_height="0px"
 				android:layout_weight="1">
-			</Button>
-			<Button 
+			</ImageButton>
+			<ImageButton 
 				android:id="@+id/selection_btn" 
-				android:text=" Selection" 
+				android:src="@drawable/selection"
 				android:layout_width="70dip"
-				style="@style/Heading"
 				android:background="@layout/button_bot_component"
 				android:layout_height="0px"
 				android:layout_weight="1">
-			</Button>
-			<Button 
+			</ImageButton>
+			<ImageButton 
 				android:id="@+id/iteration_btn" 
-				android:text=" Iteration " 
+				android:src="@drawable/iteration"
 				android:layout_width="70dip" 
-				style="@style/Heading"
 				android:background="@layout/button_bot_component"
 				android:layout_height="0px"
 				android:layout_weight="1">
-			</Button>
+			</ImageButton>
         </TableLayout>
            <TableLayout 
 	        android:id="@+id/edit_bar" 
@@ -124,15 +121,14 @@
 				android:layout_height="0px"
 				android:layout_weight="1">
 			</Button>
-			<Button 
+			<ImageButton 
 				android:layout_width="70dip" 
 				android:id="@+id/tools_btn" 
-				style="@style/Heading"
+				android:src="@drawable/tools"
 				android:background="@layout/button_bot_component"
-				android:text="Quick Tools" 
 				android:layout_height="0px"
 				android:layout_weight="1">
-			</Button>
+			</ImageButton>
 			</TableLayout>
 		<SlidingDrawer 
 			android:layout_width="wrap_content" 

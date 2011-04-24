@@ -15,51 +15,46 @@
 	       android:id="@+id/quick_bar" 
 	       android:layout_width="wrap_content" 
 	       android:layout_height="match_parent">
-	      <Button 
-		        android:text="Sequence" 
+	      <ImageButton 
+		        android:src="@drawable/sequence"
 		        android:id="@+id/sequence_btn"
-		        style="@style/Heading"
 				android:background="@layout/button_bot_component"
 		        android:layout_height="0px" 
 		        android:layout_width="70dip"
 		        android:layout_weight="1">
-	        </Button>
-	        <Button 
-		        style="@style/Heading"
+	        </ImageButton>
+	        <ImageButton 
+		        android:src="@drawable/selection"
 				android:background="@layout/button_bot_component"
-		        android:text="Selection" 
 		        android:layout_height="0px" 
 		        android:layout_weight="1" 
 		        android:layout_width="70dip" 
 		        android:id="@+id/selection_btn">
-	        </Button>
-	        <Button 
-		        android:text="Iteration"
+	        </ImageButton>
+	        <ImageButton 
+		         android:src="@drawable/iteration"
 		        android:id="@+id/iteration_btn"
 		        android:layout_height="0px" 
 		   		android:layout_width="70dip"
-		   		style="@style/Heading"
 				android:background="@layout/button_bot_component"
 		        android:layout_weight="1">
-	        </Button>
-	        <Button 
-		        android:text="Quick Tools"
+	        </ImageButton>
+	        <ImageButton 
 		        android:id="@+id/tools_btn" 
+		        android:src="@drawable/tools"
 		        android:layout_height="0px" 
 		        android:layout_width="70dip"
-		        style="@style/Heading"
 				android:background="@layout/button_bot_component"
 		        android:layout_weight="1">
-	        </Button>
-	        <Button 
-		        android:text="Bot Functions" 
+	        </ImageButton>
+	        <ImageButton 
+		        android:src="@drawable/bot_functions"
 		        android:id="@+id/bot_btn" 
-		        style="@style/Heading"
 				android:background="@layout/button_bot_component"
 		        android:layout_height="0px" 
 		        android:layout_width="70dip"
 		        android:layout_weight="1">
-	        </Button>
+	        </ImageButton>
       </TableLayout>
       
       <TableLayout 

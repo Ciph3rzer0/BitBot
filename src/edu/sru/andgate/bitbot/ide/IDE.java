@@ -43,10 +43,9 @@ public class IDE extends Activity {
 	private String[] quick_tools_titles, quick_tools_strings, bot_function_titles, bot_function_strings,
 					 sequence_shell_titles, sequence_shell_strings, selection_shell_titles, selection_shell_strings,
 					 iteration_shell_titles, iteration_shell_strings;
-	private Button slideHandleButton, sequence_btn, iteration_btn, selection_btn, tools_btn, bot_code,
-					back_to_code;
+	private Button slideHandleButton, back_to_code;
 	private ImageButton highlight_right, highlight_left, move_right, move_left, move_up, move_down, tab_over,
-						send_btn;
+						send_btn, tools_btn,sequence_btn, iteration_btn, selection_btn, bot_code;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,13 +116,14 @@ public class IDE extends Activity {
 		/*
 		 * Set all the QuickAction buttons onClick() methods 
 		 */
-		sequence_btn = (Button) this.findViewById(R.id.sequence_btn);
+		sequence_btn = (ImageButton) this.findViewById(R.id.sequence_btn);
 		sequence_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Sequence");
 				for(int i = 0; i < sequence_shells.length; i++){
 					qa.addActionItem(sequence_shells[i]);
 				}
@@ -132,13 +132,14 @@ public class IDE extends Activity {
 			}
 		});
 								
-		selection_btn = (Button) this.findViewById(R.id.selection_btn);
+		selection_btn = (ImageButton) this.findViewById(R.id.selection_btn);
 		selection_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Selection");
 				for(int i = 0; i < selection_shells.length; i++){
 					qa.addActionItem(selection_shells[i]);
 				}
@@ -147,13 +148,14 @@ public class IDE extends Activity {
 			}
 		});
 		
-		iteration_btn = (Button) this.findViewById(R.id.iteration_btn);
+		iteration_btn = (ImageButton) this.findViewById(R.id.iteration_btn);
 		iteration_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Iteration");
 				for(int i = 0; i < iteration_shells.length; i++){
 					qa.addActionItem(iteration_shells[i]);
 				}
@@ -162,13 +164,14 @@ public class IDE extends Activity {
 			}
 		});
 		
-		tools_btn = (Button) this.findViewById(R.id.tools_btn);
+		tools_btn = (ImageButton) this.findViewById(R.id.tools_btn);
 		tools_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Quick Tools");
 				for(int i = 0; i < quick_tools.length; i++){
 					qa.addActionItem(quick_tools[i]);
 				}
@@ -177,13 +180,14 @@ public class IDE extends Activity {
 			}
 		});
 		
-		bot_code = (Button) this.findViewById(R.id.bot_btn);
+		bot_code = (ImageButton) this.findViewById(R.id.bot_btn);
 		bot_code.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Bot Functions");
 				for(int i = 0; i < bot_functions.length; i++){
 					qa.addActionItem(bot_functions[i]);
 				}
