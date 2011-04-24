@@ -22,7 +22,7 @@ public class Initialization
 		FileManager.setContext(cw.getBaseContext());
 			
 		
-		String data = "Let d = -1\n" +
+		String data = "//Place Holder File\n" + "Let d = -1\n" +
 		"\n" +
 		"While 1 Do\n" + 
 		"  call bot_move(45, 5)\n" +

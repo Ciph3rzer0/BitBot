@@ -110,24 +110,22 @@
 					android:background="@layout/button_bot_component"
 			        android:id="@+id/tools_btn"> 
 		        </ImageButton>
-				<Button 
+				<ImageButton 
 					android:layout_width="0px" 
 					android:layout_height="75dip" 
+					android:src="@drawable/simulate"
 					android:layout_weight="1"
-					style="@style/Heading"
 					android:background="@layout/button_bot_component"
-					android:id="@+id/sim_btn" 
-					android:text="Simulate" >
-				</Button>
-				<Button 
+					android:id="@+id/sim_btn">
+				</ImageButton> 
+				<ImageButton 
 					android:layout_width="0px" 
 					android:layout_height="75dip"
 					android:layout_weight="1"
-					style="@style/Heading"
+					android:src="@drawable/lock"
 					android:background="@layout/button_bot_component"
-					android:id="@+id/lock_btn" 
-					android:text="Lock in Text">
-				</Button>
+					android:id="@+id/lock_btn">
+				</ImageButton>
 	        </LinearLayout>
 	        <SlidingDrawer 
 				android:layout_width="wrap_content" 

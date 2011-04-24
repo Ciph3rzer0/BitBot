@@ -48,8 +48,8 @@ public class Main_Tutorial extends Activity
 	private SlidingDrawer slidingDrawer;
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private TextView botOutput, main_text;
-	private Button slideHandleButton, lock_btn, simulate_btn, to_code_button, back_to_code;
-	private ImageButton sequence_btn, selection_btn, iteration_btn, tools_btn;
+	private Button slideHandleButton, to_code_button, back_to_code;
+	private ImageButton sequence_btn, selection_btn, iteration_btn, tools_btn, lock_btn, simulate_btn;
 	private File file;
 	private BufferedWriter writer;
 	private ViewFlipper vf;
@@ -196,7 +196,7 @@ public class Main_Tutorial extends Activity
 			}
 		});
 				
-		lock_btn = (Button) this.findViewById(R.id.lock_btn);
+		lock_btn = (ImageButton) this.findViewById(R.id.lock_btn);
 		lock_btn.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -221,7 +221,7 @@ public class Main_Tutorial extends Activity
 			}
 		});
 		
-		simulate_btn = (Button) this.findViewById(R.id.sim_btn);
+		simulate_btn = (ImageButton) this.findViewById(R.id.sim_btn);
 		simulate_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override

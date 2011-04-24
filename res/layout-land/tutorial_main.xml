@@ -103,24 +103,22 @@
 	        android:layout_alignParentRight="true" 
 	        android:layout_width="wrap_content" 
 	        android:layout_height="match_parent">
-		    <Button 
+		    <ImageButton 
 			    android:layout_width="70dip" 
 			    android:id="@+id/sim_btn" 
-			    android:text="Simulate"
-			    style="@style/Heading"
+			    android:src="@drawable/simulate"
 				android:background="@layout/button_bot_component"
 			    android:layout_height="0px"
 			    android:layout_weight="1">
-		    </Button>
-			<Button 
+		    </ImageButton>
+			<ImageButton 
 				android:layout_width="70dip" 
-				style="@style/Heading"
+				android:src="@drawable/lock"
 				android:background="@layout/button_bot_component"
 				android:id="@+id/lock_btn"
-				android:text="Lock in Text" 
 				android:layout_height="0px"
 				android:layout_weight="1">
-			</Button>
+			</ImageButton>
 			<ImageButton 
 				android:layout_width="70dip" 
 				android:id="@+id/tools_btn" 
