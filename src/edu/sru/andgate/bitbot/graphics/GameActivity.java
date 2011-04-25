@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 public class GameActivity extends Activity
 {	
-	private GLSurfaceView glSurfaceView;
+	private GameView glSurfaceView;
 	GlRenderer gameRenderer;
 	DrawableParticleEmitter particleEmitter;
 	Bot loadedBot;
@@ -43,6 +43,13 @@ public class GameActivity extends Activity
 	int drawListPointer = 0;
 	boolean gameLoop = true;
 	String botFile;
+	boolean touchEventFired = false;
+	float touchX = 0;
+	float touchY = 0;
+	float previousTouchX = 0;
+	float previousTouchY = 0;
+	float touchXLoc = 0;
+	float touchYLoc = 0;
 	
 	int MAX_OBJECTS = 250;
 	
@@ -89,19 +96,19 @@ public class GameActivity extends Activity
         if(viewType == 0)
         {
         	setContentView(R.layout.game_activity);
-        	glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
+        	glSurfaceView = (GameView) findViewById(R.id.game_view);
         }
         else if(viewType == 1)
         {
         	setContentView(R.layout.game_activity_scrollview);
-        	glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
+        	glSurfaceView = (GameView) findViewById(R.id.game_view);
         	codeTxt = (TextView) findViewById(R.id.code_txt);
 			codeScroll = (ScrollView) findViewById(R.id.code_scroll);
         }
         else if(viewType == 2)
         {
         	setContentView(R.layout.game_activity_scrollview);
-        	glSurfaceView = (GLSurfaceView) findViewById(R.id.game_view);
+        	glSurfaceView = (GameView) findViewById(R.id.game_view);
         	codeTxt = (TextView) findViewById(R.id.code_txt);
 			codeScroll = (ScrollView) findViewById(R.id.code_scroll);
 			
@@ -372,6 +379,17 @@ public class GameActivity extends Activity
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
+    				//Handle touch events
+    				touchX = glSurfaceView.touchX;
+    				touchY = glSurfaceView.touchY;
+    				if(touchX != previousTouchX || touchY != previousTouchY)
+    				{
+    					touchEventFired = true;
+    					Log.v("bitbot", Float.toString(touchX) + " , " + Float.toString(touchY));
+    				}
+    				previousTouchX = touchX;
+    				previousTouchY = touchY;
+    				
     				//Handle 360 Degree Turret Rotation
     				rotate += 1.0f;
     				if(rotate >= 360)
@@ -464,12 +482,14 @@ public class GameActivity extends Activity
     		        addToDrawList(TYPE_BOT,test2Turret.ID);
     		        addToDrawList(TYPE_GUN, testGun.ID); 	
     		        
+    		        /*
     		        //Nick loaded bot
     		        try{
     		        	addToDrawList(loadedBot);
     		        }catch (Exception e){
     		        	Log.v("BitBot", "Adding to drawlist failed");
     		        }
+    		        */
     		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
