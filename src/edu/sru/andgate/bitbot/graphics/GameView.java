@@ -6,10 +6,13 @@ import android.content.DialogInterface.OnKeyListener;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 
 public class GameView extends GLSurfaceView implements OnKeyListener
 {
 	final private Context _context;
+	float touchX = 0;
+	float touchY = 0;
 	
 	public GameView(Context context)
 	{
@@ -32,4 +35,16 @@ public class GameView extends GLSurfaceView implements OnKeyListener
 		return false;
 	}
 	
+    public boolean onTouchEvent(final MotionEvent event)
+    {
+        queueEvent(new Runnable()
+        {
+            public void run()
+            {
+                touchX = event.getX();
+                touchY = event.getY();
+            }
+        });
+            return true;
+    }
 }
