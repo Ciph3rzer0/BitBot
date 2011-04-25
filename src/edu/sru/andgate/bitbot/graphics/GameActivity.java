@@ -493,6 +493,11 @@ public class GameActivity extends Activity
     		        }
     		        */
     		        
+    		        if(2<1)
+    		        {
+    		        	Log.v("bitbot", "YOULL NEVER SEE THIS!");
+    		        }
+    		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
     	    		{
