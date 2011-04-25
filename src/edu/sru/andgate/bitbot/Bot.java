@@ -34,7 +34,6 @@ public class Bot
 	private DrawableBot _bot;
 	private BotLayer _layer;
 	private DrawableGun _gun;
-	private static Constants c;
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -50,7 +49,7 @@ public class Bot
 	
 	public Bot()
 	{
-		c = new Constants();
+		
 	}
 	
 	public void readyInterpreter()

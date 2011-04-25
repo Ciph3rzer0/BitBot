@@ -482,14 +482,14 @@ public class GameActivity extends Activity
     		        addToDrawList(TYPE_BOT,test2Turret.ID);
     		        addToDrawList(TYPE_GUN, testGun.ID); 	
     		        
-    		        /*
+    		      
     		        //Nick loaded bot
     		        try{
     		        	addToDrawList(loadedBot);
     		        }catch (Exception e){
     		        	Log.v("BitBot", "Adding to drawlist failed");
     		        }
-    		        */
+    		        
     		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
