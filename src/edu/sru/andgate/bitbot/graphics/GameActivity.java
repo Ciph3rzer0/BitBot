@@ -485,12 +485,12 @@ public class GameActivity extends Activity
     		        addToDrawList(TYPE_GUN, testGun.ID); 	
     		        
     		        /*
-    		        //Nick loaded bot
-    		        try{
-    		        	addToDrawList(loadedBot);
-    		        }catch (Exception e){
-    		        	Log.v("BitBot", "Adding to drawlist failed");
-    		        }
+//    		        //Nick loaded bot
+//    		        try{
+//    		        	addToDrawList(loadedBot);
+//    		        }catch (Exception e){
+//    		        	Log.v("BitBot", "Adding to drawlist failed");
+//    		        }
     		        */
     		        
     		        if(2<1)
