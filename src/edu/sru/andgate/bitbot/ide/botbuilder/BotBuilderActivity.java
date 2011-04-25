@@ -110,16 +110,9 @@ public class BotBuilderActivity extends Activity
 		_currentBot = new Bot();
 		_currentBot.setName("Bot"); //for now, need to get the name from the textview?
 		constant = new Constants();
-		_currentBot.setBase(constant.reverse_base_table.get(c.getPicID()));
-		Log.v("BitBot", _currentBot.getBase());
-		_currentBot.setTurret(constant.reverse_turret_table.get(t.getPicID()));
-		Log.v("BitBot", _currentBot.getTurret());
-		
-		//for now -- Are we going to have diff bullets?
-		_currentBot.setBullet(constant.reverse_bullet_table.get(R.drawable.bulletnew));
-		Log.v("BitBot", _currentBot.getBullet());
-		
-		
+		_currentBot.setBase(c.getPicID());
+		_currentBot.setTurret(t.getPicID());
+		_currentBot.setBullet(R.drawable.bulletnew);
 		_currentBot.setCode(tv.getText().toString());
 		Log.v("BitBot", _currentBot.getCode().getCode());
 		_currentBot.saveBotToXML(this.getBaseContext(), "test_bot.xml");

@@ -42,6 +42,7 @@ public class GameActivity extends Activity
 	int[][] drawList;
 	int drawListPointer = 0;
 	boolean gameLoop = true;
+	String botFile;
 	
 	int MAX_OBJECTS = 250;
 	
@@ -66,7 +67,7 @@ public class GameActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-               
+                 
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Keep screen from shutting off
@@ -223,14 +224,11 @@ public class GameActivity extends Activity
         gameRenderer = new GlRenderer(this.getBaseContext());
 
         try{
-        	String botFile = getIntent().getExtras().getString("Bot");
+        	botFile = getIntent().getExtras().getString("Bot");
         	Log.v("BitBot", botFile);
 	        loadedBot = Bot.CreateBotFromXML(this.getBaseContext(), botFile);
 	        addBotToWorld(loadedBot);
-	        addToDrawList(loadedBot);
-	        ilvm.addInterpreter(loadedBot.getInterpreter());
-	        Log.v("BitBot", "Got Here 1");
-			
+	        ilvm.addInterpreter(loadedBot.getInterpreter());			
 			// Run the vm every second.
 			Timer t = new Timer();
 			t.schedule(new TimerTask()
@@ -265,7 +263,7 @@ public class GameActivity extends Activity
         testMap.loadMapFile("testarena.map", this.getBaseContext());  
         
         //game types test
-        dc = new DungeonCrawl(this.getBaseContext(), 4, "testarena.map", "enemy_bot.zml");
+        dc = new DungeonCrawl(this.getBaseContext(), 8, "testarena.map", "enemy_bot.xml");
         dc.Initialize();
         
         gameRenderer.setTileMap(testMap);
