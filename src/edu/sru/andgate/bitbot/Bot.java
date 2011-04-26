@@ -29,11 +29,12 @@ public class Bot
 	private Drawable _drawable;
 	private SourceCode _source;
 	private BotInterpreter _interpreter;
-	private String bot_name, base_name, turret_name, bullet_name, bot_code;
+	private String bot_name, bot_code;
+	private int base_image, turret_image, bullet_image;
 	private DrawableBot _bot;
 	private BotLayer _layer;
 	private DrawableGun _gun;
-	private static Constants c;
+	private static Constants constants;
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -49,7 +50,7 @@ public class Bot
 	
 	public Bot()
 	{
-		c = new Constants();
+		constants = new Constants();
 	}
 	
 	public void readyInterpreter()
@@ -145,36 +146,36 @@ public class Bot
 		this.bot_name = name;
 	}
 	
-	public void setBase(String base){
-		this.base_name = base;
+	public void setBase(int base){
+		this.base_image = base;
 	}
 	
-	public void setTurret(String turret){
-		this.turret_name = turret;
+	public void setTurret(int turret){
+		this.turret_image = turret;
 	}
 	
 	public void setCode(String code){
 		this.bot_code = code;
 	}
 	
-	public void setBullet(String bullet){
-		this.bullet_name = bullet;
+	public void setBullet(int bullet){
+		this.bullet_image = bullet;
 	}
 	
 	public String getName(){
 		return this.bot_name;
 	}
 	
-	public String getBase(){
-		return this.base_name;
+	public int getBase(){
+		return this.base_image;
 	}
 	
-	public String getTurret(){
-		return this.turret_name;
+	public int getTurret(){
+		return this.turret_image;
 	}
 	
-	public String getBullet(){
-		return this.bullet_name;
+	public int getBullet(){
+		return this.bullet_image;
 	}
 	
 	public void setBotLayer(BotLayer bl){
@@ -222,26 +223,25 @@ public class Bot
 			
 			Bot b = new Bot();
 			b.setName(readXML(doc, "Bot-Name"));
-			//Log.v("BitBot", b.getName());
-			b.setBase(readXML(doc, "Bot-Base"));
-			//Log.v("BitBot", b.getBase());
-			b.setTurret(readXML(doc, "Bot-Turret"));
-			//Log.v("BitBot", b.getTurret());
+			b.setBase(Integer.parseInt(readXML(doc, "Bot-Base")));
+			b.setTurret(Integer.parseInt(readXML(doc, "Bot-Turret")));
 			b.setCode(readXML(doc, "Bot-Code"));
-			//Log.v("BitBot", b.getCode().getCode());
-			b.setBullet(readXML(doc, "Bot-Bullet"));
+			b.setBullet(Integer.parseInt(readXML(doc, "Bot-Bullet")));
 			
 			DrawableBot db = new DrawableBot();
 			b.setDrawableBot(db);
-			//db.setTranslation(0.0f,5.0f,-5.0f);
-			db.addTexture(c.base_table.get(b.getBase()));
+			db.addTexture(b.getBase());
+			db.addTexture(constants.damage1.get(b.getBase()));	
+			db.addTexture(constants.damage2.get(b.getBase()));
+			db.addDamageTextureToSequence(1, 50);
+		    db.addDamageTextureToSequence(2, 25);
 			db.attachCollisionSound(context, R.raw.bot_wall_collision);
 			BotLayer bl = new BotLayer(db);
 			b.setBotLayer(bl);
-			bl.addTexture(c.turret_table.get(b.getTurret()));
+			bl.addTexture(b.getTurret());
 			DrawableGun dg = new DrawableGun(db, bl);
 			b.setDrawableGun(dg);
-			dg.addTexture(c.bullet_table.get(b.getBullet()));
+			dg.addTexture(b.getBullet());
 			b.attachDrawable(db);
 			b.attachSourceCode(new SourceCode(b.getCode().getName(), b.getCode().getCode()+"\n"));
 			b.readyInterpreter();
@@ -249,7 +249,6 @@ public class Bot
 			return b;
 		}catch (Exception e){
 			Log.v("BitBot", "Error reading file");
-			//Log.v("BitBot", e.getStackTrace().toString());
 		}
 		return null;
 		
@@ -269,13 +268,13 @@ public class Bot
 			serializer.text(this.getName());
 			serializer.endTag("", "Bot-Name");
 			serializer.startTag("", "Bot-Base");
-			serializer.text(this.getBase());
+			serializer.text(""+this.getBase());
 			serializer.endTag("", "Bot-Base");
 			serializer.startTag("", "Bot-Turret");
-			serializer.text(this.getTurret());
+			serializer.text(""+this.getTurret());
 			serializer.endTag("", "Bot-Turret");
 			serializer.startTag("", "Bot-Bullet");
-			serializer.text(this.getBullet());
+			serializer.text(""+this.getBullet());
 			serializer.endTag("", "Bot-Bullet");
 			serializer.startTag("", "Bot-Code");
 			serializer.text(this.getCode().getCode());
@@ -284,7 +283,6 @@ public class Bot
 			serializer.endDocument();    
 		} catch (Exception e) {
 			Log.v("BitBot", "XML Writer error");
-//			Log.v("BitBot", e.getStackTrace().toString());
 		}
 		try {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
@@ -293,7 +291,6 @@ public class Bot
 			fos.close();
 		} catch(Exception e) {
 			Log.v("BitBot", "Output Stream Error");
-			//Log.v("BitBot", e.getStackTrace().toString());
 		}
 	}
 	

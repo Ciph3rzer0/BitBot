@@ -9,14 +9,20 @@ import edu.sru.andgate.bitbot.interpreter.SourceCode;
 import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +36,7 @@ public class BotBuilderActivity extends Activity
 	private BotComponentView c, t;
 	private TextView tv;
 	private Spinner spinner;
+	private Button b;
 	private String[] code_files;
 	ArrayAdapter<String> adapter;
 	
@@ -46,11 +53,11 @@ public class BotBuilderActivity extends Activity
 			
 		c.setTitle("Square Chassis");
 		c.setSummary("A stable base that is fast and sturdy.");
-		c.setPicID(R.drawable.spinnerbase);
+		c.setPicID(R.drawable.adambot);
 		
 		t.setTitle("Basic Turret");
 		t.setSummary("A turret for shooting stuff.");
-		t.setPicID(R.drawable.spinnerturret);
+		t.setPicID(R.drawable.adamturret);
 		
 		code_files = FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath());
 		
@@ -74,10 +81,10 @@ public class BotBuilderActivity extends Activity
 			}
 		});
 		
-		final Button b = (Button) findViewById(R.id.bb_soft1);
-		b.setTag("Square Chassis");
+		b = (Button) findViewById(R.id.bb_soft1);
+		b.setTag(R.drawable.bulletnew);
 		b.setText(b.getTag().toString());
-		b.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.spinnerbase), null, null,null);
+		b.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bulletnew), null, null,null);
 		b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -88,6 +95,24 @@ public class BotBuilderActivity extends Activity
 		});
 		
 		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.botbuilder_menu, menu);
+	    return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.saveas:
+				promptSaveBot();
+				break;
+				
+		}
+		return true;
 	}
 	
 	/**
@@ -107,28 +132,53 @@ public class BotBuilderActivity extends Activity
 	public void begin(View v)
 	{
 		//Save bot to xml before going to graphics - Possible load from xml inside graphics
-		_currentBot = new Bot();
-		_currentBot.setName("Bot"); //for now, need to get the name from the textview?
-		constant = new Constants();
-		_currentBot.setBase(constant.reverse_base_table.get(c.getPicID()));
-		Log.v("BitBot", _currentBot.getBase());
-		_currentBot.setTurret(constant.reverse_turret_table.get(t.getPicID()));
-		Log.v("BitBot", _currentBot.getTurret());
-		
-		//for now -- Are we going to have diff bullets?
-		_currentBot.setBullet(constant.reverse_bullet_table.get(R.drawable.bulletnew));
-		Log.v("BitBot", _currentBot.getBullet());
-		
-		
-		_currentBot.setCode(tv.getText().toString());
-		Log.v("BitBot", _currentBot.getCode().getCode());
-		_currentBot.saveBotToXML(this.getBaseContext(), "test_bot.xml");
+		saveBot("test_bot.xml");
 				
 		// Start up the game engine
 		Intent engineIntent = new Intent(BotBuilderActivity.this, GameActivity.class);
 		engineIntent.putExtra("Bot", "test_bot.xml");
 		startActivity(engineIntent);
 		
+	}
+	
+	public void promptSaveBot(){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle("Save Bot As...");
+		alert.setMessage("Bot Filename:");
+
+		// Set an EditText view to get user input 
+		final EditText input = new EditText(this);
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+			  String value = input.getText().toString();
+			  if(value != null)
+				  saveBot(value);
+		}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    // Canceled.
+		  }
+		});
+		
+		alert.show();
+	}	
+	
+	public void saveBot(String filename){
+		//Save bot to xml before going to graphics - Possible load from xml inside graphics
+		_currentBot = new Bot();
+		_currentBot.setName("Bot"); //for now, need to get the name from the textview?
+		constant = new Constants();
+		_currentBot.setBase(c.getPicID());
+		_currentBot.setTurret(t.getPicID()); 
+		_currentBot.setBullet(R.drawable.bulletnew);
+		_currentBot.setCode(tv.getText().toString());
+		Log.v("BitBot", _currentBot.getCode().getCode());
+		_currentBot.saveBotToXML(this.getBaseContext(), filename);
 	}
 	
 }

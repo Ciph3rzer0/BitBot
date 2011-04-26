@@ -42,6 +42,7 @@ public class GameActivity extends Activity
 	int[][] drawList;
 	int drawListPointer = 0;
 	boolean gameLoop = true;
+	String botFile;
 	boolean touchEventFired = false;
 	float touchX = 0;
 	float touchY = 0;
@@ -73,7 +74,7 @@ public class GameActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-               
+                 
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Keep screen from shutting off
@@ -230,14 +231,11 @@ public class GameActivity extends Activity
         gameRenderer = new GlRenderer(this.getBaseContext());
 
         try{
-        	String botFile = getIntent().getExtras().getString("Bot");
+        	botFile = getIntent().getExtras().getString("Bot");
         	Log.v("BitBot", botFile);
 	        loadedBot = Bot.CreateBotFromXML(this.getBaseContext(), botFile);
 	        addBotToWorld(loadedBot);
-	        addToDrawList(loadedBot);
-	        ilvm.addInterpreter(loadedBot.getInterpreter());
-	        Log.v("BitBot", "Got Here 1");
-			
+	        ilvm.addInterpreter(loadedBot.getInterpreter());			
 			// Run the vm every second.
 			Timer t = new Timer();
 			t.schedule(new TimerTask()
@@ -272,8 +270,12 @@ public class GameActivity extends Activity
         testMap.loadMapFile("testarena.map", this.getBaseContext());  
         
         //game types test
-        dc = new DungeonCrawl(this.getBaseContext(), 4, "testarena.map", "enemy_bot.zml");
-        dc.Initialize();
+        try{
+        	dc = new DungeonCrawl(this.getBaseContext(), 8, "testarena.map", "enemy_bot.xml");
+        	dc.Initialize();
+        }catch(Exception e){
+        	Log.v("BitBot", "will not need this when get rid of quick graphics button");
+        }
         
         gameRenderer.setTileMap(testMap);
         
@@ -484,14 +486,16 @@ public class GameActivity extends Activity
     		        addToDrawList(TYPE_BOT,test2Turret.ID);
     		        addToDrawList(TYPE_GUN, testGun.ID); 	
     		        
-    		        /*
+    		      
     		        //Nick loaded bot
-    		        try{
-    		        	addToDrawList(loadedBot);
-    		        }catch (Exception e){
-    		        	Log.v("BitBot", "Adding to drawlist failed");
-    		        }
-    		        */
+	    		        try{
+	    		        	if(loadedBot.getDrawableBot().isAlive)
+	    		        		addToDrawList(loadedBot);
+	    		        }catch (Exception e){
+	    		        	Log.v("BitBot", "Adding to drawlist failed");
+	    		        }
+    		     
+    		        
     		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)

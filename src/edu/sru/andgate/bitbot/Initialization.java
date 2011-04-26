@@ -32,9 +32,9 @@ public class Initialization
 		
 		enemy = new Bot();
 		enemy.setName("Generic Enemy");
-		enemy.setBase("square");
-		enemy.setTurret("basic");
-		enemy.setBullet("new");
+		enemy.setBase(R.drawable.adambot);
+		enemy.setTurret(R.drawable.adamturret);
+		enemy.setBullet(R.drawable.bulletnew);
 		enemy.setCode(data);
 		enemy.saveBotToXML(cw, "enemy_bot.xml");
 		
