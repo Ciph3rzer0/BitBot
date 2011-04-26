@@ -307,8 +307,6 @@ public class DrawableBot implements Drawable
 		}
 		
 		parameters[3] = 360 - (90+moveAngle);
-		
-		Log.v("bitbot", "Distance Remaining: " + distanceRemaining + " Move Angle: " + moveAngle + "Rotation Angle: " + parameters[3]);
 	}
 	
 	public void onBotFocus(DrawableBot bot)

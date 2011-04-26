@@ -41,7 +41,7 @@ public class DrawableGun implements Drawable
 	int DAMAGE = 20; //35
 	float SPEED = 0.4f;
 	float LIFESPAN = 6.0f;
-	float BARREL_LENGTH = 1.0f;
+	float BARREL_LENGTH = 0.8f;
 	
 	public FloatBuffer vertexBuffer;	// buffer holding the vertices
 	public float vertices[] = {
