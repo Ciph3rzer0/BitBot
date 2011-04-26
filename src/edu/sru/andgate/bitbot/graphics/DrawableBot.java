@@ -286,7 +286,7 @@ public class DrawableBot implements Drawable
 	}
 	
 	public void onTouchEvent(float touchX, float touchY)
-	{
+	{		
 		distanceRemaining = (float)Math.sqrt((Math.pow((touchX-parameters[0]), 2) + Math.pow((touchY-parameters[1]), 2)));
 		
 		if((touchX-parameters[0]) >= 0.0f && (touchY-parameters[1]) >= 0)
@@ -306,11 +306,9 @@ public class DrawableBot implements Drawable
 			moveAngle = (180.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 180.0f;
 		}
 		
-		//moveAngle = (moveAngle+30.0f)%360;
+		parameters[3] = 360 - (90+moveAngle);
 		
-		//parameters[3] = moveAngle;
-		
-		Log.v("bitbot", "Distance Remaining: " + distanceRemaining + " Move Angle: " + moveAngle);
+		Log.v("bitbot", "Distance Remaining: " + distanceRemaining + " Move Angle: " + moveAngle + "Rotation Angle: " + parameters[3]);
 	}
 	
 	public void onBotFocus(DrawableBot bot)

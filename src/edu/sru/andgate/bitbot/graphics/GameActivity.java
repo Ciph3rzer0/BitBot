@@ -432,7 +432,7 @@ public class GameActivity extends Activity
     	    		//test2.setTranslation(3.5f,(-1*(0.01f + move)),-5.0f);
     	    		test2.moveByTouch(0.1f);
     	    		//test2.move(0.0f, 0.05f);
-    	    		test2Turret.setRotationAngle(0.0f);
+    	    		test2Turret.setRotationAngle(test2.moveAngle-90);
     	    		
     	    		testGun.update();
     	    		if(shotCount >= 10)
