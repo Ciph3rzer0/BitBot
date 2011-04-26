@@ -409,8 +409,6 @@ public class GameActivity extends Activity
     					xWaypoint = (gameRenderer.drawLeft - (xPercentage * (gameRenderer.drawLeft - gameRenderer.drawRight)));
     					yWaypoint = (gameRenderer.drawTop - (yPercentage * (gameRenderer.drawTop - gameRenderer.drawBottom)));
     					
-    					Log.v("bitbot", Float.toString(xWaypoint) + " , " + Float.toString(yWaypoint));
-    					
     					//Notify bots that require it
     					for(int i=0;i<notifyOnTouchList.size();i++)
     					{
