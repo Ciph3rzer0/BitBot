@@ -261,18 +261,6 @@ public class DrawableBot implements Drawable
 	public void onKill()
 	{
 		isAlive = false;
-		/*
-		parameters[7] = 0.0f;
-		parameters[8] = 0.0f;
-		parameters[9] = 0.0f;
-		for(int i=0;i<numLayers;i++)
-		{
-			layers[i].isAlive = false;
-			layers[i].layerParameters[7] = 0.0f;
-			layers[i].layerParameters[8] = 0.0f;
-			layers[i].layerParameters[9] = 0.0f;
-		}
-		*/
 	}
 	
 	/* (non-Javadoc)

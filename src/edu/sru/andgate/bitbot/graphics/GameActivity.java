@@ -184,7 +184,7 @@ public class GameActivity extends Activity
         enemyBot.addTexture(R.drawable.adambot);
         collisionManager.addCollisionDetector(enemyBot);
         enemyTurret = new BotLayer(enemyBot);
-        enemyTurret.addTexture(R.drawable.adamturret);
+        enemyTurret.addTexture(R.drawable.adamturret); //0
         enemyTurret.setRotationAngle(enemyBot.parameters[3]);
         enemyBot.addTexture(R.drawable.adambotd1);	//1
         enemyBot.addTexture(R.drawable.adambotd2);	//2
