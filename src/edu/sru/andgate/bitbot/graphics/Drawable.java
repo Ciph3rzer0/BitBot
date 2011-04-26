@@ -16,7 +16,9 @@ public interface Drawable
 	
 	public abstract void setRotationAngle(float newAngle);
 	
-	public abstract void move(float angle, float speed, float distance);
+	public abstract void moveByTouch(float speed);
+	
+	public abstract void move();
 	
 	public abstract void move(float angle, float stepSize);
 	

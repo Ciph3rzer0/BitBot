@@ -31,6 +31,9 @@ public class DrawableBot implements Drawable
 	int numDamageSprites = 0;
 	int currentDamageSprite = 0;
 	int normalSprite = 0;
+	float distanceRemaining = 0;
+	float rise = 0;
+	float run = 0;
 	int numLayers = 0;
 	int[][] damageSprites;
 	float moveAngle = 0.0f;
@@ -41,6 +44,7 @@ public class DrawableBot implements Drawable
 	boolean isAlive = true;
 	BotLayer[] layers;
 	
+	int BOT_TYPE = 0; //0=Enemy 1=User
 	int HEALTH = 100;
 	int MAX_LAYERS = 3;	
 	float BOUNDING_RADIUS = 0.75f; //Should be 0.75
@@ -164,8 +168,21 @@ public class DrawableBot implements Drawable
 	 * @see edu.sru.andgate.bitbot.graphics.Drawable#move(float, float, float)
 	 */
 	@Override
-	public void move(float angle, float speed, float distance){
-		//
+	public void moveByTouch(float speed)
+	{
+		if(speed > distanceRemaining && distanceRemaining > 0)
+		{
+			speed = distanceRemaining;
+		}
+		if(distanceRemaining > 0)
+		{
+			rise = (float)(Math.sin(moveAngle * (Math.PI/180)) * speed) + parameters[1];
+			run = (float)(Math.cos(moveAngle * (Math.PI/180)) * speed) + parameters[0];
+		
+			parameters[0] = run;
+			parameters[1] = rise;
+		}
+		distanceRemaining -= speed;
 	}
 	
 	/* (non-Javadoc)
@@ -210,6 +227,11 @@ public class DrawableBot implements Drawable
 		parameters[10] = flag;
 	}
 	
+	public void setBotType(int TYPE)
+	{
+		BOT_TYPE = TYPE;
+	}
+	
 	public void setBoundingRadius(float radius)
 	{
 		BOUNDING_RADIUS = radius;
@@ -223,8 +245,8 @@ public class DrawableBot implements Drawable
 			Log.v("BitBot", "Sound not attached");
 		}
 		//For now, flip angle and continue
-		moveAngle = Math.abs(moveAngle - 180.0f) % 360.0f;
-		parameters[3] = moveAngle + 90.0f;
+		//moveAngle = Math.abs(moveAngle - 180.0f) % 360.0f;
+		//parameters[3] = moveAngle + 90.0f;
 	}
 	
 	/* (non-Javadoc)
@@ -261,6 +283,39 @@ public class DrawableBot implements Drawable
 	public void onKill()
 	{
 		isAlive = false;
+	}
+	
+	public void onTouchEvent(float touchX, float touchY)
+	{
+		distanceRemaining = (float)Math.sqrt((Math.pow((touchX-parameters[0]), 2) + Math.pow((touchY-parameters[1]), 2)));
+		
+		if((touchX-parameters[0]) >= 0.0f && (touchY-parameters[1]) >= 0)
+		{
+			moveAngle = (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360);
+		}
+		else if((touchX-parameters[0]) < 0.0f && (touchY-parameters[1]) >= 0)
+		{
+			moveAngle = (90.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 90.0f;
+		}
+		else if((touchX-parameters[0]) < 0.0f && (touchY-parameters[1]) < 0)
+		{
+			moveAngle = (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360) + 180.0f;
+		}
+		else
+		{
+			moveAngle = (180.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 180.0f;
+		}
+		
+		//moveAngle = (moveAngle+30.0f)%360;
+		
+		//parameters[3] = moveAngle;
+		
+		Log.v("bitbot", "Distance Remaining: " + distanceRemaining + " Move Angle: " + moveAngle);
+	}
+	
+	public void onBotFocus(DrawableBot bot)
+	{
+		//code
 	}
 	
 	/* (non-Javadoc)

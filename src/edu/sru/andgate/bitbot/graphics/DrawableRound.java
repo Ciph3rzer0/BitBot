@@ -145,7 +145,7 @@ public class DrawableRound implements Drawable
 	 * @see edu.sru.andgate.bitbot.graphics.Drawable#move(float, float, float)
 	 */
 	@Override
-	public void move(float angle, float speed, float distance){
+	public void moveByTouch(float speed){
 		//
 	}
 	

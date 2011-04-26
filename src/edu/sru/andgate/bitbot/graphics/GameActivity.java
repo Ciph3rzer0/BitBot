@@ -4,6 +4,7 @@
 
 package edu.sru.andgate.bitbot.graphics;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,6 +51,7 @@ public class GameActivity extends Activity
 	float previousTouchY = 0;
 	float touchXLoc = 0;
 	float touchYLoc = 0;
+	ArrayList<DrawableBot> notifyOnTouchList;
 	
 	int MAX_OBJECTS = 250;
 	
@@ -58,6 +60,8 @@ public class GameActivity extends Activity
 	
 	final int TYPE_BOT = 0;
 	final int TYPE_GUN = 1;
+	final int USER_BOT = 1;
+	final int ENEMY_BOT = 0;
 	
 	int viewType = 0;
 	
@@ -90,6 +94,8 @@ public class GameActivity extends Activity
         //setContentView(R.layout.game_activity);
         
         testBotArray = new DrawableBot[NUM_TEST_BOTS];
+        
+        notifyOnTouchList = new ArrayList<DrawableBot>(MAX_OBJECTS);
         
         // Initiate the Open GL view and create an instance with this activity
         //glSurfaceView = new GLSurfaceView(this);
@@ -166,6 +172,8 @@ public class GameActivity extends Activity
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
         test2.moveStepSize = 0.10f;
+        test2.setBotType(USER_BOT);
+        notifyOnTouchList.add(test2);
         collisionManager.addCollisionDetector(test2);        
         
         //Test Bot 2 Turret Layer
@@ -402,6 +410,12 @@ public class GameActivity extends Activity
     					yWaypoint = (gameRenderer.drawTop - (yPercentage * (gameRenderer.drawTop - gameRenderer.drawBottom)));
     					
     					Log.v("bitbot", Float.toString(xWaypoint) + " , " + Float.toString(yWaypoint));
+    					
+    					//Notify bots that require it
+    					for(int i=0;i<notifyOnTouchList.size();i++)
+    					{
+    						notifyOnTouchList.get(i).onTouchEvent(xWaypoint, yWaypoint);
+    					}
     				}
     				previousTouchX = touchX;
     				previousTouchY = touchY;
@@ -416,9 +430,9 @@ public class GameActivity extends Activity
     				//Make some other stuff happen
     	    		test.setTranslation(-3.5f,(0.01f + move),-5.0f);
     	    		//test2.setTranslation(3.5f,(-1*(0.01f + move)),-5.0f);
-    	    		test2.move();
-    	    		//test2.move(45.0f, 0.1f);
-    	    		test2Turret.setRotationAngle(rotate);
+    	    		test2.moveByTouch(0.1f);
+    	    		//test2.move(0.0f, 0.05f);
+    	    		test2Turret.setRotationAngle(0.0f);
     	    		
     	    		testGun.update();
     	    		if(shotCount >= 10)
@@ -536,7 +550,7 @@ public class GameActivity extends Activity
     	    		frameCount++;
     	    		if(timeCount >= 1000.0)
     	    		{
-    	    			Log.v("bitbot", "FPS: " + frameCount);
+    	    			//Log.v("bitbot", "FPS: " + frameCount);
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
