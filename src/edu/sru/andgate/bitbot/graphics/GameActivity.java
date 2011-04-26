@@ -358,6 +358,12 @@ public class GameActivity extends Activity
     {
     	Runnable gR = new Runnable()
     	{
+    		//Touch Event Vars
+    		float xWaypoint = 0.0f;
+    		float yWaypoint = 0.0f;
+    		float xPercentage = 0.0f;
+    		float yPercentage = 0.0f;
+    		
     		//Proof of concept variables
     		float move = 0.01f;
     		float rotate = 1.0f;
@@ -365,9 +371,7 @@ public class GameActivity extends Activity
     		boolean goinUp = true;
     		boolean thisFrameDrawn = false;
     		
-    		
     		//Testing FPS Only
-    		
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
@@ -389,7 +393,15 @@ public class GameActivity extends Activity
     				if(touchX != previousTouchX || touchY != previousTouchY)
     				{
     					touchEventFired = true;
-    					Log.v("bitbot", Float.toString(touchX) + " , " + Float.toString(touchY));
+    					
+    					//Convert to game world waypoints
+    					xPercentage = (touchX/gameRenderer.screenWidth);
+    					yPercentage = ((touchY/gameRenderer.screenHeight));
+    					
+    					xWaypoint = (gameRenderer.drawLeft - (xPercentage * (gameRenderer.drawLeft - gameRenderer.drawRight)));
+    					yWaypoint = (gameRenderer.drawTop - (yPercentage * (gameRenderer.drawTop - gameRenderer.drawBottom)));
+    					
+    					Log.v("bitbot", Float.toString(xWaypoint) + " , " + Float.toString(yWaypoint));
     				}
     				previousTouchX = touchX;
     				previousTouchY = touchY;
