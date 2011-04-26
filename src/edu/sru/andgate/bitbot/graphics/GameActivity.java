@@ -270,8 +270,12 @@ public class GameActivity extends Activity
         testMap.loadMapFile("testarena.map", this.getBaseContext());  
         
         //game types test
-        dc = new DungeonCrawl(this.getBaseContext(), 8, "testarena.map", "enemy_bot.xml");
-        dc.Initialize();
+        try{
+        	dc = new DungeonCrawl(this.getBaseContext(), 8, "testarena.map", "enemy_bot.xml");
+        	dc.Initialize();
+        }catch(Exception e){
+        	Log.v("BitBot", "will not need this when get rid of quick graphics button");
+        }
         
         gameRenderer.setTileMap(testMap);
         
@@ -484,11 +488,13 @@ public class GameActivity extends Activity
     		        
     		      
     		        //Nick loaded bot
-    		        try{
-    		        	addToDrawList(loadedBot);
-    		        }catch (Exception e){
-    		        	Log.v("BitBot", "Adding to drawlist failed");
-    		        }
+	    		        try{
+	    		        	if(loadedBot.getDrawableBot().isAlive)
+	    		        		addToDrawList(loadedBot);
+	    		        }catch (Exception e){
+	    		        	Log.v("BitBot", "Adding to drawlist failed");
+	    		        }
+    		     
     		        
     		        
     	            //Renderer Synchronization / Draw Frame Request

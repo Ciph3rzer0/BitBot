@@ -34,6 +34,7 @@ public class Bot
 	private DrawableBot _bot;
 	private BotLayer _layer;
 	private DrawableGun _gun;
+	private static Constants constants;
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -49,7 +50,7 @@ public class Bot
 	
 	public Bot()
 	{
-		
+		constants = new Constants();
 	}
 	
 	public void readyInterpreter()
@@ -230,10 +231,10 @@ public class Bot
 			DrawableBot db = new DrawableBot();
 			b.setDrawableBot(db);
 			db.addTexture(b.getBase());
-			//db.addTexture(R.drawable.adambotd1);	
-		   // db.addTexture(R.drawable.adambotd2);
-		   // db.addDamageTextureToSequence(1, 50);
-		    //db.addDamageTextureToSequence(2, 25);
+			db.addTexture(constants.damage1.get(b.getBase()));	
+			db.addTexture(constants.damage2.get(b.getBase()));
+			db.addDamageTextureToSequence(1, 50);
+		    db.addDamageTextureToSequence(2, 25);
 			db.attachCollisionSound(context, R.raw.bot_wall_collision);
 			BotLayer bl = new BotLayer(db);
 			b.setBotLayer(bl);

@@ -46,11 +46,11 @@ public class BotBuilderActivity extends Activity
 			
 		c.setTitle("Square Chassis");
 		c.setSummary("A stable base that is fast and sturdy.");
-		c.setPicID(R.drawable.spinnerbase);
+		c.setPicID(R.drawable.adambot);
 		
 		t.setTitle("Basic Turret");
 		t.setSummary("A turret for shooting stuff.");
-		t.setPicID(R.drawable.spinnerturret);
+		t.setPicID(R.drawable.adamturret);
 		
 		code_files = FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath());
 		
@@ -77,7 +77,7 @@ public class BotBuilderActivity extends Activity
 		final Button b = (Button) findViewById(R.id.bb_soft1);
 		b.setTag("Square Chassis");
 		b.setText(b.getTag().toString());
-		b.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.spinnerbase), null, null,null);
+		b.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bulletnew), null, null,null);
 		b.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

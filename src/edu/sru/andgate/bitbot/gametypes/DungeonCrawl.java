@@ -1,8 +1,6 @@
 package edu.sru.andgate.bitbot.gametypes;
 
-import java.util.ArrayList;
 import java.util.Random;
-
 import android.content.Context;
 import android.util.Log;
 import edu.sru.andgate.bitbot.Bot;
