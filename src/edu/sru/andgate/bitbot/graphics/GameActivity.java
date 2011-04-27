@@ -279,7 +279,7 @@ public class GameActivity extends Activity
         
         //game types test
         try{
-        	dc = new DungeonCrawl(this.getBaseContext(), 8, "testarena.map", "enemy_bot.xml");
+        	dc = new DungeonCrawl(this.getBaseContext(), 8, testMap, "testarena.map", "enemy_bot.xml");
         	dc.Initialize();
         }catch(Exception e){
         	Log.v("BitBot", "will not need this when get rid of quick graphics button");

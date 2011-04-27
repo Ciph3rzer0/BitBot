@@ -40,6 +40,8 @@ public class TileMap
 	int[] drawBufferCount;
 	ArrayList<Integer> textureHopper;
 	ArrayList<int[][]> drawBuffer;
+	public ArrayList<Float> enemySpawnPointsX ,enemySpawnPointsY, userSpawnPointsX, userSpawnPointsY;
+	
 	boolean textureLoaded = false;
 	
 	int MAX_TILES_PER_FRAME = 200;	//IMPORTANT WHEN PINCH TO ZOOM COMES INTO PLAY
@@ -68,6 +70,11 @@ public class TileMap
 
 	public TileMap()
 	{
+		enemySpawnPointsX = new ArrayList<Float>();
+		enemySpawnPointsY = new ArrayList<Float>();
+		userSpawnPointsX = new ArrayList<Float>();
+		userSpawnPointsY = new ArrayList<Float>();
+		
 		// a float has 4 bytes so we allocate for each coordinate 4 bytes
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
@@ -353,4 +360,32 @@ public class TileMap
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}
+	
+	public void setSpawnPoints(){
+		//Read basic map information
+		int enemySpawnCode = 1;
+		int userSpawnCode = 2;
+		
+		//put the spawn point array in a temp array
+		int enemyCounter = 0;
+		int userCounter = 0;
+		 for(int i=0;i<mapHeight;i++)
+		 {
+        	for(int j=0;j<mapWidth;j++)
+        	{
+        		if(tileCodes[j][i][0] == enemySpawnCode){
+        			Log.v("GameTypes", "Enemy Spawn Point Found at: " + tileLocations[j][i][0] + "," + tileLocations[j][i][1] + "," + -5.0f);
+        			enemySpawnPointsX.add(enemyCounter,tileLocations[j][j][0]);
+       				enemySpawnPointsY.add(enemyCounter,tileLocations[j][j][1]);
+       				enemyCounter++;
+        		}else if(tileCodes[j][i][0] == userSpawnCode){
+        			Log.v("GameTypes", "User Spawn Point Found at: " + tileLocations[j][i][0] + "," + tileLocations[j][i][1]);
+        			userSpawnPointsX.add(userCounter, tileLocations[j][j][0]);
+        			userSpawnPointsY.add(userCounter, tileLocations[j][i][1]);
+        			userCounter++;
+        		}
+        		
+        	}
+        }		
+	}	
 }
