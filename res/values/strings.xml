@@ -70,7 +70,7 @@
 	  
 	    <!-- Quick Tools -->
 		    <string-array name="quick_tools">
-		    	<item>Sub &lt;id&gt;\n\t&lt;list of commands&gt;\nReturn</item>
+		    	<item>Sub &lt;id&gt;\n\t&lt;list of commands&gt;\nReturn\n</item>
 		    	<item>( )</item>
 		    	<item>\" \"</item>
 		    	<item>[ ]</item>
