@@ -510,7 +510,7 @@ public class GameActivity extends Activity
     		        addToDrawList(TYPE_BOT,test2Turret.ID);
     		        addToDrawList(TYPE_GUN, testGun.ID); 	
     		        
-    		      
+    		      /*
     		        //Nick loaded bot
 	    		        try{
 	    		        	if(loadedBot.getDrawableBot().isAlive)
@@ -518,7 +518,7 @@ public class GameActivity extends Activity
 	    		        }catch (Exception e){
 	    		        	Log.v("BitBot", "Adding to drawlist failed");
 	    		        }
-    		     
+    		     */
     		        
     		        
     	            //Renderer Synchronization / Draw Frame Request
@@ -548,7 +548,7 @@ public class GameActivity extends Activity
     	    		frameCount++;
     	    		if(timeCount >= 1000.0)
     	    		{
-    	    			//Log.v("bitbot", "FPS: " + frameCount);
+    	    			Log.v("bitbot", "FPS: " + frameCount);
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}

@@ -127,14 +127,14 @@ public class TileMap
 	  		tileCodes = new int[mapWidth][mapHeight][1];
 	          
 	        //Generate meta tiles
-	  		int xCount = (((mapWidth * tileStep)/2) * -1) - tileStep;
+	  		int xCount = (((mapWidth * tileStep)/2) * -1) - (tileStep/2);
 	  		int storedXCount = xCount;
-	  		int yCount = mapHeight;
+	  		int yCount = mapHeight-1;
 	  		
 	  		//Set Tile Locations/Textures
-	  		for(int i=0;i<mapHeight-1;i++)
+	  		for(int i=0;i<mapHeight;i++)
 	  		{
-	  			for(int j=0;j < mapWidth-1;j++)
+	  			for(int j=0;j < mapWidth;j++)
 	  			{
 	  				//Set tile meta info
 	  				tileLocations[j][i][0] = xCount+=tileStep;
@@ -277,19 +277,19 @@ public class TileMap
 		LDrawPoint = (int)Math.floor(drawX1);
 		if((LDrawPoint%tileStep) !=0)
 		{
-			LDrawPoint++;
+			LDrawPoint--;
 		}
 		//Right Draw Bound
 		RDrawPoint = (int)Math.ceil(drawX2);
 		if((RDrawPoint%tileStep) !=0)
 		{
-			RDrawPoint--;
+			RDrawPoint++;
 		}
 		//Top Draw Bound
 		TDrawPoint = (int)Math.ceil(drawY1);
 		if((TDrawPoint%tileStep) != 0)
 		{
-			TDrawPoint--;	//NOTE: ORIGINALL WORKING AS TDrawPoint++ !
+			TDrawPoint++;	//NOTE: ORIGINALL WORKING AS TDrawPoint++ !
 		}
 		//Bottom Draw Bound
 		BDrawPoint = (int)Math.floor(drawY2);

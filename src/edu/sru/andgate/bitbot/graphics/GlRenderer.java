@@ -245,12 +245,12 @@ public class GlRenderer implements Renderer
 				if(drawTop >= tileMap.mapHeight)
 				{
 					drawTop = tileMap.mapHeight;
-					drawBottom = (tileMap.mapHeight - (cameraZoom*2));
+					drawBottom = (tileMap.mapHeight - ((aspectRatio * cameraZoom)*2));
 				}
 				if(drawBottom <= (tileMap.mapHeight*-1))
 				{
 					drawBottom = tileMap.mapHeight*-1;
-					drawTop = ((tileMap.mapHeight*-1) + (cameraZoom*2));
+					drawTop = ((tileMap.mapHeight*-1) + ((aspectRatio * cameraZoom)*2));
 				}
 				
 			    gl.glOrthof(drawLeft, drawRight, drawBottom, drawTop, 0.01f, 100.0f);

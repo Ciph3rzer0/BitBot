@@ -76,19 +76,19 @@ public class CollisionManager
 				//Determine current tile position for bullet
 				if(gunList[i].bullets[j][0] > 0)
 				{
-					currentTileX = (int)Math.floor((gunList[i].bullets[j][0]+tileMap.mapWidth)/tileMap.tileStep);
+					currentTileX = (int)Math.floor((gunList[i].bullets[j][0]+tileMap.mapWidth)/tileMap.tileStep);	//FLOOR
 				}
 				else
 				{
-					currentTileX = (int)Math.ceil((gunList[i].bullets[j][0]+tileMap.mapWidth)/tileMap.tileStep);
+					currentTileX = (int)Math.floor((gunList[i].bullets[j][0]+tileMap.mapWidth)/tileMap.tileStep);	//CEIL?
 				}
 				if(gunList[i].bullets[j][1] <= 0)
 				{
-					currentTileY = (int)Math.floor(Math.abs((gunList[i].bullets[j][1] - tileMap.mapHeight)/tileMap.tileStep));
+					currentTileY = (int)Math.floor(Math.abs((gunList[i].bullets[j][1] - tileMap.mapHeight)/tileMap.tileStep)); //FLOOR
 				}
 				else
 				{
-					currentTileY = (int)Math.ceil(Math.abs((gunList[i].bullets[j][1] - tileMap.mapHeight)/tileMap.tileStep));
+					currentTileY = (int)Math.floor(Math.abs((gunList[i].bullets[j][1] - tileMap.mapHeight)/tileMap.tileStep)); //CEIL?
 				}
 				//Add to list
 				bulletTileIndicies[i][j][0] = currentTileX;
@@ -97,7 +97,7 @@ public class CollisionManager
 				//BULLET V BOUNDARIES
 				//Check surrounding tiles to determine if further calculations are neccessary
 				//Current Tile | Left Tile | Right Tile | Top Tile | Bottom Tile
-				if(currentTileX >= 0 && currentTileX <= tileMap.mapWidth && currentTileY >= 0 && currentTileY <= tileMap.mapHeight)
+				if(currentTileX >= 0 && currentTileX <= (tileMap.mapWidth-1) && currentTileY >= 0 && currentTileY <= (tileMap.mapHeight-1))
 				{
 					if(tileMap.tileBoundaries[currentTileX][currentTileY][0] != 0)
 					{
@@ -156,7 +156,7 @@ public class CollisionManager
 							}
 						}
 					}
-					else if(currentTileX != 0 && tileMap.tileBoundaries[currentTileX-1][currentTileY][0] == 3)
+					if(currentTileX != 0 && tileMap.tileBoundaries[currentTileX-1][currentTileY][0] == 3)
 					{
 						//Computes distance from the boundary point to the center of the bot
 						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) - gunList[i].bullets[j][0]);
@@ -169,7 +169,7 @@ public class CollisionManager
 							gunList[i].bullets[j][2] = 0.0f;
 						}
 					}
-					else if(currentTileX != tileMap.mapWidth && tileMap.tileBoundaries[currentTileX+1][currentTileY][0] == 2)
+					if((currentTileX != tileMap.mapWidth-1) && tileMap.tileBoundaries[currentTileX+1][currentTileY][0] == 2)
 					{
 						//Computes distance from the boundary point to the center of the bot
 						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - gunList[i].bullets[j][0]);
@@ -182,7 +182,7 @@ public class CollisionManager
 							gunList[i].bullets[j][2] = 0.0f;
 						}
 					}
-					else if(currentTileY != 0 && tileMap.tileBoundaries[currentTileX][currentTileY-1][0] == 4)
+					if(currentTileY != 0 && tileMap.tileBoundaries[currentTileX][currentTileY-1][0] == 4)
 					{
 						//Computes distance from the boundary point to the center of the bot
 						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - gunList[i].bullets[j][1]);
@@ -195,7 +195,7 @@ public class CollisionManager
 							gunList[i].bullets[j][2] = 0.0f;
 						}
 					}
-					else if(currentTileY != tileMap.mapHeight && tileMap.tileBoundaries[currentTileX][currentTileY+1][0] == 1)
+					if((currentTileY != tileMap.mapHeight-1) && tileMap.tileBoundaries[currentTileX][currentTileY+1][0] == 1)
 					{
 						//Computes distance from the boundary point to the center of the bot
 						float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2)) - gunList[i].bullets[j][1]);
@@ -227,7 +227,7 @@ public class CollisionManager
 			}
 			else
 			{
-				currentTileX = (int)Math.ceil((botList[i].parameters[0]+tileMap.mapWidth)/tileMap.tileStep);
+				currentTileX = (int)Math.floor((botList[i].parameters[0]+tileMap.mapWidth)/tileMap.tileStep);
 			}
 			if(botList[i].parameters[1] <= 0)
 			{
@@ -235,9 +235,14 @@ public class CollisionManager
 			}
 			else
 			{
-				currentTileY = (int)Math.ceil(Math.abs((botList[i].parameters[1] - tileMap.mapHeight)/tileMap.tileStep));
+				currentTileY = (int)Math.floor(Math.abs((botList[i].parameters[1] - tileMap.mapHeight)/tileMap.tileStep));
 			}
-			
+			/*
+			if(botList[i].BOT_TYPE == 1)
+			{
+				Log.v("bitbot", "Current Tile Pos: " + currentTileX + " , " + currentTileY);
+			}
+			*/
 			//Check surrounding tiles to determine if further calculations are neccessary
 			//Current Tile | Left Tile | Right Tile | Top Tile | Bottom Tile
 			if(tileMap.tileBoundaries[currentTileX][currentTileY][0] != 0)
@@ -300,7 +305,7 @@ public class CollisionManager
 					}
 				}
 			}
-			else if(currentTileX != 0 && tileMap.tileBoundaries[currentTileX-1][currentTileY][0] == 3)
+			if(currentTileX != 0 && tileMap.tileBoundaries[currentTileX-1][currentTileY][0] == 3)
 			{
 				//Computes distance from the boundary point to the center of the bot
 				float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]-(tileMap.tileStep/2)) - botList[i].parameters[0]);
@@ -314,7 +319,7 @@ public class CollisionManager
 					botList[i].onBoundaryCollision();
 				}
 			}
-			else if(currentTileX != tileMap.mapWidth && tileMap.tileBoundaries[currentTileX+1][currentTileY][0] == 2)
+			if(currentTileX != (tileMap.mapWidth-1) && tileMap.tileBoundaries[currentTileX+1][currentTileY][0] == 2)
 			{
 				//Computes distance from the boundary point to the center of the bot
 				float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][0]+(tileMap.tileStep/2)) - botList[i].parameters[0]);
@@ -328,7 +333,7 @@ public class CollisionManager
 					botList[i].onBoundaryCollision();
 				}
 			}
-			else if(currentTileY != 0 && tileMap.tileBoundaries[currentTileX][currentTileY-1][0] == 4)
+			if(currentTileY != 0 && tileMap.tileBoundaries[currentTileX][currentTileY-1][0] == 4)
 			{
 				//Computes distance from the boundary point to the center of the bot
 				float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]+(tileMap.tileStep/2)) - botList[i].parameters[1]);
@@ -342,7 +347,7 @@ public class CollisionManager
 					botList[i].onBoundaryCollision();
 				}
 			}
-			else if(currentTileY != tileMap.mapHeight && tileMap.tileBoundaries[currentTileX][currentTileY+1][0] == 1)
+			if(currentTileY != (tileMap.mapHeight-1) && tileMap.tileBoundaries[currentTileX][currentTileY+1][0] == 1)
 			{
 				//Computes distance from the boundary point to the center of the bot
 				float distance = Math.abs((tileMap.tileLocations[currentTileX][currentTileY][1]-(tileMap.tileStep/2)) - botList[i].parameters[1]);
