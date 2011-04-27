@@ -6,10 +6,11 @@
 	<!-- Tutorial List -->
 		<string-array name="menu_contents">
 		 	<item>Getting Started</item>
+		 	<item>Print Statement</item>
 	    	<item>Defining Variables</item>
-	        <item>Print Statement</item>
 	        <item>Loops</item>
 	        <item>Selection Statements</item>
+	        <item>Sub Routines</item>
 	        <item>Back to Main Menu</item>
 	     </string-array>
      <!-- End Tutorial List -->

@@ -1,16 +1,16 @@
 <tutorial>
 <title>Declaring Variables</title>
 <text>
-The first tool you will need on your 
-way to programming your bot is declaring 
+The next tool you will need on your 
+way to programming your BOT is declaring 
 different types of variables. The following 
 Tutorial will do its best to teach you the
 basics.
 
-As you already know, the language your bot 
-can interpret is BASIC. Therefore, you must
+As you already know, the language your BOT 
+can interpret is BitBot BASIC. Therefore, you must
 learn the basics of this language for 
-maneuvering your bot around, and handling 
+maneuvering your BOT around, and handling 
 interactions. The most basic tool you will
 need to learn is declaring, and setting values
 to variables. The following is an example of the

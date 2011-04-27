@@ -1,8 +1,42 @@
 <tutorial>
 <title>Selection Statements</title>
-<text></text>
+<text>
+There is only one selection type statement available to you in the BotBasic Language.
+This statement is the If Statement.
+
+In computer science, conditional statements, conditional expressions and conditional constructs are features of a programming language which perform different computations or actions depending on whether a programmer-specified boolean condition evaluates to true or false. Apart from the case of branch predication, this is always achieved by selectively altering the control flow based on some condition.
+
+The BotBasic if statement looks like:
+
+if &lt;expr&gt; then
+	&lt;list of commands&gt;
+endif
+
+</text>
 <stage>
-<hint></hint>
-<answer></answer>
+<hint>
+Goal: Create an if statement that executes the internal commands.
+
+The 'If Statement' is used to execute a list of commands if the expression is true.
+	
+The syntax of this command is:
+
+If [expr] then
+    [list of commands]
+endif
+
+Create an if statement that tests whether a variable i is equal to 5.
+Then executes a command that prints out the string "expression was true"
+
+Your Code should look like this:
+1. Let i = 5
+2: If i = 5 then
+	print "expression was true"
+   endif
+</hint>
+<answer>Let i = 5
+if i = 5 then
+	print "expression was true"
+endif</answer>
 </stage>
 </tutorial>

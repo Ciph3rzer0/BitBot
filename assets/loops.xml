@@ -1,8 +1,89 @@
 <tutorial>
 <title>Loops</title>
-<text></text>
+<text>
+The BotBasic Language has two loops that you will be able to utilize. These loops are the for loop, and the while loop. 
+Each of these loops will aide in the programming of your BOT for mastering missions, and other challenges you will encounter. 
+
+The For Loop:
+
+In computer science a for loop is a programming language statement which allows code to be repeatedly executed. 
+A for loop is classified as an iteration statement. Unlike many other kinds of loops, such as the while loop, the for loop is often distinguished by an explicit loop counter or loop variable. 
+This allows the body of the for loop (the code that is being repeatedly executed) to know about the sequencing of each iteration. 
+For loops are also typically used when the number of iterations is known before entering the loop. 
+For loops are shorthand way to make loops when the number of iterations is known, as a for loop can be written as a while loop.
+
+BotBasic For loop structure:
+
+For &lt;lcv&gt; = &lt;start&gt; to &lt;end&gt;
+    &lt;list of commands&gt;
+Next
+
+The While Loop:
+
+In most computer programming languages, a while loop is a control flow statement that allows code to be executed repeatedly based on a given boolean condition. 
+The while loop can be thought of as a repeating if statement. The while construct consists of a block of code and a condition. 
+The condition is evaluated, and if the condition is true, the code within the block is executed. This repeats until the condition becomes false. 
+Because while loops check the condition before the block is executed, the control structure is often also known as a pre-test loop. 
+Compare with the do while loop, which tests the condition after the loop has executed.
+
+BotBasic While loop structure:
+
+While &lt;expr&gt; Do
+    &lt;list of commands&gt;
+Loop
+
+</text>
+<!-- first stage = For loop -->
 <stage>
-<hint></hint>
-<answer></answer>
+<hint>
+Goal: Create a for loop that iterates 5 times, and prints out the value of the loop control variable.
+
+The 'For loop' is used to run a segment of code n times.
+	
+The syntax of this command is:
+
+For [lcv] = [start] to [end]
+    [list of commands]
+Next
+
+Use the shell code for the for loop and replace the place holders with
+the correct values.
+
+*[start] to [end] are both inclusive
+</hint>
+<answer>For i = 0 to 4
+	Print i
+Next</answer>
+</stage>
+<!-- second stage = While Loop -->
+<stage>
+<hint>
+Goal: Create a while loop that prints out a loop counter 'i' 5 times.
+
+The 'While loop' runs until [expr] equals zero
+	
+The syntax of this command is:
+
+While [expr] Do
+    [list of commands]
+Loop
+
+to accomplish this you will need to:
+1: Set the variable i equal to 5
+2: execute a while loop, printing out the
+   value of i each iteration through.
+   
+*to get the value of i to reach zero, 
+ you must decrement the value of i by 1 
+ before continuing back up to the top of the loop.   
+</hint>
+<answer>For i = 0 to 4
+	Print i
+Next
+Let i = 5
+While i Do
+	print i
+	Let i = i - 1
+Loop</answer>
 </stage>
 </tutorial>

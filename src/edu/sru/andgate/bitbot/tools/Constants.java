@@ -26,12 +26,16 @@ public class Constants {
         tutorials_table.put("Print Statement", "print_tutorial.xml");
         tutorials_table.put("Defining Variables", "declaring_vars.xml");
         tutorials_table.put("Loops","loops.xml");
+        tutorials_table.put("Sub Routines", "sub_routines.xml");
         tutorials_table.put("Selection Statements", "if_statement.xml");
         tutorials_table.put("Back to Main Menu", "");
 	 
         //simulation table
         simulation_table.put("Print Statement", 1);
     	simulation_table.put("Defining Variables", 1);	 
+        simulation_table.put("Loops", 1);
+        simulation_table.put("Sub Routines", 1);
+        simulation_table.put("Selection Statements", 1);
 	 }
 	 
 	 
