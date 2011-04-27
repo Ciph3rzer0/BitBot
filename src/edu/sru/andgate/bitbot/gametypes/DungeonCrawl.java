@@ -3,6 +3,7 @@ package edu.sru.andgate.bitbot.gametypes;
 import java.util.Random;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 
@@ -14,6 +15,7 @@ public class DungeonCrawl extends GameTypes{
 	private Bot userBot;
 	private float defaultZ;
 	private TileMap tileMap;
+	public boolean victory;
 	Random generator;
 
 	
@@ -25,6 +27,7 @@ public class DungeonCrawl extends GameTypes{
 		this.tileMap = tileMap;
 		this.context = context;
 		this.generator = new Random();
+		victory = false;
 		defaultZ = -5.0f;
 	}
 	
@@ -44,11 +47,9 @@ public class DungeonCrawl extends GameTypes{
 			bots[i] = Bot.CreateBotFromXML(context, "enemy_bot.xml");
 			randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size());
 			bots[i].getDrawableBot().setTranslation(tileMap.enemySpawnPointsX.get(randomIndex), tileMap.enemySpawnPointsY.get(randomIndex), defaultZ);  
-			Log.v("GameTypes", "Bot Location[" + i + "] is: " + tileMap.enemySpawnPointsX.get(randomIndex) + "," + tileMap.enemySpawnPointsY.get(randomIndex) + "," + defaultZ);
 			tileMap.enemySpawnPointsX.remove(randomIndex);
 			tileMap.enemySpawnPointsY.remove(randomIndex);
 		}
-		Log.v("GameTypes", bots.length + " Bots Created");	
 		
 		/*
 		 * create users bot
@@ -57,29 +58,47 @@ public class DungeonCrawl extends GameTypes{
 		userBot = Bot.CreateBotFromXML(context, userBotFile);
 		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size());
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
-		Log.v("GameTypes", "User Bot Location is: " + tileMap.userSpawnPointsX.get(randomIndex) + "," + tileMap.userSpawnPointsY.get(randomIndex) + "," + defaultZ);
-		
-		/*
-		 * set victory conditions
-		 */
-			
-		/*
-		 * send all info to game engine to run
-		 */
-				
 	}
 
 	@Override
 	public void Update() {
+		int botsLeft = bots.length;
 		//check if victory conditions have been met, etc
+		for(int i = 0; i < bots.length;i++){
+			if(!bots[i].getDrawableBot().isAlive()){
+				botsLeft--;
+			}
+		}
 		
+		if(botsLeft == 0){
+			victory = true;
+		}
 		
 	}
 
 	@Override
 	public void Finalize() {
 		// Not sure here yet
-		
+		Log.v("GameTypes", "Victory is Yours");
 	}
-
+	
+	@Override
+	public TileMap getMap(){
+		return this.tileMap;
+	}
+	
+	@Override
+	public Bot[] getBots(){
+		return this.bots;
+	}
+	
+	@Override
+	public Bot getBot(){
+		return this.userBot;
+	}
+	
+	@Override
+	public boolean hasVictory(){
+		return this.victory;
+	}
 }

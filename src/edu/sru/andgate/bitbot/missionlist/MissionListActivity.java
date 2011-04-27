@@ -29,8 +29,7 @@ public class MissionListActivity extends ListActivity {
 	        myMissions = new ArrayList<CustomListView>();
 	        mission_icons = new Hashtable<String,Integer>();
 	        mission_list = new Hashtable<String, String>();
-	        
-	        
+	 	        
 	       String[] titles = getResources().getStringArray(R.array.mission_titles);
            String[] descriptions = getResources().getStringArray(R.array.mission_descriptions);
 	       String[] files = getResources().getStringArray(R.array.mission_files);

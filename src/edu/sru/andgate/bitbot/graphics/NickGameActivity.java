@@ -11,6 +11,7 @@ import java.util.TimerTask;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
+import edu.sru.andgate.bitbot.gametypes.GameTypes;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -23,13 +24,12 @@ import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class GameActivity extends Activity
+public class NickGameActivity extends Activity
 {	
 	private GameView glSurfaceView;
 	GlRenderer gameRenderer;
 	DrawableParticleEmitter particleEmitter;
 	Bot loadedBot;
-	DungeonCrawl dc;
 	MediaPlayer mp;
 	DrawableBot test;
 	DrawableBot test2;
@@ -53,6 +53,9 @@ public class GameActivity extends Activity
 	float touchYLoc = 0;
 	ArrayList<DrawableBot> notifyOnTouchList;
 	
+	GameTypes gt;
+	DungeonCrawl dc;
+	
 	int MAX_OBJECTS = 250;
 	
 	DrawableBot[] testBotArray;
@@ -62,7 +65,7 @@ public class GameActivity extends Activity
 	final int TYPE_GUN = 1;
 	final int USER_BOT = 1;
 	final int ENEMY_BOT = 0;
-	
+	String missionType;
 	int viewType = 0;
 	
 	TileMap testMap;
@@ -72,13 +75,19 @@ public class GameActivity extends Activity
 	ScrollView codeScroll;
 	
 	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-	
-	
+		
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-                 
+         
+        //figure out what type of Game this is
+        missionType = getIntent().getExtras().getString("GameType");
+        botFile = getIntent().getExtras().getString("Bot");
+        if(missionType.equalsIgnoreCase("Dungeon Crawl")){
+        	gt = new DungeonCrawl(this.getBaseContext(), 3, testMap, "testarena.map", botFile);
+        }
+             
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Keep screen from shutting off
@@ -93,9 +102,12 @@ public class GameActivity extends Activity
         // Set the layout.
         //setContentView(R.layout.game_activity);
         
-        testBotArray = new DrawableBot[NUM_TEST_BOTS];
-        
         notifyOnTouchList = new ArrayList<DrawableBot>(MAX_OBJECTS);
+        
+        //game types test
+        gt.Initialize();
+        testMap = gt.getMap();
+        notifyOnTouchList.add(gt.getBot().getDrawableBot());
         
         // Initiate the Open GL view and create an instance with this activity
         //glSurfaceView = new GLSurfaceView(this);
@@ -136,13 +148,10 @@ public class GameActivity extends Activity
     			}
     		}, 1000, 1000);
         }
-        
-        //Declare Tile Map
-        testMap = new TileMap();
-        
+               
         //Declare Collision Manager
         collisionManager = new CollisionManager(testMap);
-        
+                
         //Declare Particle Emitter
         particleEmitter = new DrawableParticleEmitter();
         
@@ -152,98 +161,15 @@ public class GameActivity extends Activity
         //Declare Draw List
         drawList = new int[2][MAX_OBJECTS];       
         
-        //Test Bot 1
-        test = new DrawableBot();
-        test.setTranslation(-3.5f,0.1f,-5.0f);
-        test.addTexture(R.drawable.sand);	//TextureID = 0
-        collisionManager.addCollisionDetector(test);
-        
-        
-        //Test Bot 1 Turret Layer
-        testTurret = new BotLayer(test);
-        testTurret.addTexture(R.drawable.sandturret);
-        testTurret.setRotationAngle(test.parameters[3]);
-        //testTurret.setTranslation(0.0f,0.0f,-6.0f);
-        
-        //Test Bot 2
-        test2 = new DrawableBot();
-        test2.attachCollisionSound(this.getBaseContext(), R.raw.bot_wall_collision);
-        test2.setTranslation(3.5f,0.1f,-5.0f);
-        test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
-        test2.addTexture(R.drawable.adambot);	//TextureID = 0
-        test2.moveStepSize = 0.10f;
-        test2.setBotType(USER_BOT);
-        notifyOnTouchList.add(test2);
-        collisionManager.addCollisionDetector(test2);        
-        
-        //Test Bot 2 Turret Layer
-        test2Turret = new BotLayer(test2);
-        test2Turret.addTexture(R.drawable.adamturret);
-        test2Turret.setRotationAngle(test2.parameters[3]);
-        
-        //Test gun
-        testGun = new DrawableGun(test2,test2Turret);
-        testGun.addTexture(R.drawable.bulletnew);
-        collisionManager.addCollisionDetector(testGun);
-        
-        
-        //More test bots
-        enemyBot = new DrawableBot();
-        enemyBot.setTranslation(7.5f,3.0f,-5.0f);
-        enemyBot.addTexture(R.drawable.adambot);
-        collisionManager.addCollisionDetector(enemyBot);
-        enemyTurret = new BotLayer(enemyBot);
-        enemyTurret.addTexture(R.drawable.adamturret); //0
-        enemyTurret.setRotationAngle(enemyBot.parameters[3]);
-        enemyBot.addTexture(R.drawable.adambotd1);	//1
-        enemyBot.addTexture(R.drawable.adambotd2);	//2
-        enemyBot.addDamageTextureToSequence(1, 50);
-        enemyBot.addDamageTextureToSequence(2, 25);
-        
-        enemyBot2 = new DrawableBot();
-        enemyBot2.setTranslation(5.5f,2.5f,-5.0f);
-        enemyBot2.addTexture(R.drawable.adambot);
-        collisionManager.addCollisionDetector(enemyBot2);
-        enemyTurret2 = new BotLayer(enemyBot2);
-        enemyTurret2.addTexture(R.drawable.adamturret);
-        enemyTurret2.setRotationAngle(enemyBot2.parameters[3]);
-        enemyBot2.addTexture(R.drawable.adambotd1);	//1
-        enemyBot2.addTexture(R.drawable.adambotd2);	//2
-        enemyBot2.addDamageTextureToSequence(1, 50);
-        enemyBot2.addDamageTextureToSequence(2, 25);
-        
-        enemyBot3 = new DrawableBot();
-        enemyBot3.setTranslation(10.5f,-4.5f,-5.0f);
-        enemyBot3.addTexture(R.drawable.adambot);
-        collisionManager.addCollisionDetector(enemyBot3);
-        enemyTurret3 = new BotLayer(enemyBot3);
-        enemyTurret3.addTexture(R.drawable.adamturret);
-        enemyTurret3.setRotationAngle(enemyBot3.parameters[3]);
-        enemyBot3.addTexture(R.drawable.adambotd1);	//1
-        enemyBot3.addTexture(R.drawable.adambotd2);	//2
-        enemyBot3.addDamageTextureToSequence(1, 50);
-        enemyBot3.addDamageTextureToSequence(2, 25);
-        
-        enemyBot4 = new DrawableBot();
-        enemyBot4.setTranslation(-11.5f,4.5f,-5.0f);
-        enemyBot4.addTexture(R.drawable.adambot);
-        collisionManager.addCollisionDetector(enemyBot4);
-        enemyTurret4 = new BotLayer(enemyBot4);
-        enemyTurret4.addTexture(R.drawable.adamturret);
-        enemyTurret4.setRotationAngle(enemyBot4.parameters[3]);
-        enemyBot4.addTexture(R.drawable.adambotd1);	//1
-        enemyBot4.addTexture(R.drawable.adambotd2);	//2
-        enemyBot4.addDamageTextureToSequence(1, 50);
-        enemyBot4.addDamageTextureToSequence(2, 25);
-              
+                   
         gameRenderer = new GlRenderer(this.getBaseContext());
-
-        try{
+        
+       /* try{
         	botFile = getIntent().getExtras().getString("Bot");
         	Log.v("BitBot", botFile);
 	        loadedBot = Bot.CreateBotFromXML(this.getBaseContext(), botFile);
 	        addBotToWorld(loadedBot);
-	        ilvm.addInterpreter(loadedBot.getInterpreter());			
+	        ilvm.addInterpreter(dc.getBot().getInterpreter());			
 			// Run the vm every second.
 			Timer t = new Timer();
 			t.schedule(new TimerTask()
@@ -254,53 +180,22 @@ public class GameActivity extends Activity
 					ilvm.resume(4);
 				}
 			}, 50, 50);
-        }catch (Exception e){
-        	Log.v("BitBot", "Bot not loaded");
-        }
+       */
         
         
         //Set renderer to be the main renderer with the current activity context
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-        
-        //Mass Test Bots
-        for(int i=0;i<NUM_TEST_BOTS;i++)
-        {
-        	testBotArray[i] = new DrawableBot();
-        	testBotArray[i].addTexture(R.drawable.red);
-        	testBotArray[i].setTranslation(2.0f,0.0f,-5.0f);
-        	gameRenderer.addObjectToWorld(testBotArray[i]);
-        }
-        
-//        /* Comment out to turn off TileMap()
-       // testMap = new TileMap();
-        testMap.loadMapFile("testarena.map", this.getBaseContext());  
-        
+ 
         gameRenderer.setTileMap(testMap);
         
-        //testMap.addTexture(R.drawable.stone);
-        //gameRenderer.setTileMap(testMap);
-        //*/
+        //Nick
+        for(int i = 0; i < gt.getBots().length; i++){
+        	addBotToWorld(gt.getBots()[i]);
+        }
         
-        //Add test objects to world
-        gameRenderer.addObjectToWorld(testTurret);
-        gameRenderer.addObjectToWorld(test);
-        gameRenderer.addObjectToWorld(test2);
-        gameRenderer.addObjectToWorld(test2Turret);
-        gameRenderer.addObjectToWorld(testGun);
-        gameRenderer.addObjectToWorld(enemyTurret);
-        gameRenderer.addObjectToWorld(enemyBot);
-        gameRenderer.addObjectToWorld(enemyTurret2);
-        gameRenderer.addObjectToWorld(enemyBot2);
-        gameRenderer.addObjectToWorld(enemyTurret3);
-        gameRenderer.addObjectToWorld(enemyBot3);
-        gameRenderer.addObjectToWorld(enemyTurret4);
-        gameRenderer.addObjectToWorld(enemyBot4);
-        //gameRenderer.addObjectToWorld(test3);
-                
-        //Connect draw list to Renderer
-        //gameRenderer.setDrawList(drawList);
+        addBotToWorld(gt.getBot());
         
 		//Tell camera to continuously update so it can follow user bot
 		gameRenderer.continuousCameraUpdate = true;
@@ -323,7 +218,7 @@ public class GameActivity extends Activity
     public void addBotToWorld(Bot bot)
     {
     	gameRenderer.addObjectToWorld(bot);
-    	collisionManager.addCollisionDetector(loadedBot);
+    	collisionManager.addCollisionDetector(bot);
     }
     
     public void preloadTextures()
@@ -365,10 +260,7 @@ public class GameActivity extends Activity
     		float yPercentage = 0.0f;
     		
     		//Proof of concept variables
-    		float move = 0.01f;
-    		float rotate = 1.0f;
     		int shotCount = 0;
-    		boolean goinUp = true;
     		boolean thisFrameDrawn = false;
     		
     		//Testing FPS Only
@@ -410,52 +302,24 @@ public class GameActivity extends Activity
     				previousTouchX = touchX;
     				previousTouchY = touchY;
     				
-    				//Handle 360 Degree Turret Rotation
-    				rotate += 1.0f;
-    				if(rotate >= 360)
-    				{
-    					rotate = 0.0f;
+    				//check victory conditions
+    				gt.Update();
+    				if(gt.hasVictory()){
+    					finish();
+    					gt.Finalize();
     				}
     				
-    				//Make some other stuff happen
-    	    		test.setTranslation(-3.5f,(0.01f + move),-5.0f);
-    	    		//test2.setTranslation(3.5f,(-1*(0.01f + move)),-5.0f);
-    	    		test2.moveByTouch(0.1f);
-    	    		//test2.move(0.0f, 0.05f);
-    	    		test2Turret.setRotationAngle(test2.moveAngle-90);
-    	    		
-    	    		testGun.update();
+    				gt.getBot().getDrawableBot().moveByTouch(0.1f);
+    				//test2.move(0.0f, 0.05f);
+    	    		gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
+    				
+    	    		gt.getBot().getDrawableGun().update();
     	    		if(shotCount >= 10)
     	    		{
-    	    			testGun.fire();
+    	    			gt.getBot().getDrawableGun().fire();
     	    			shotCount = 0;
     	    		}    	    		
     	    		shotCount++;
-    	    		
-    	    		if(goinUp)
-    	    		{
-    	    			move += 0.03f;
-    	    			if(move >= 0.0f)
-    	    			{
-    	    				goinUp = false;
-    	    				test.setRotation(180.0f,0.0f,0.0f,-5.0f);
-    	    				testTurret.setRotationAngle(test.parameters[3]);
-    	    				//test2.setRotation(0.0f,0.0f,0.0f,-5.0f);
-    	    				//test3.setSelectedTexture(0);
-    	    			}
-    	    		}
-    	    		else
-    	    		{
-    	    			move -= 0.03f;
-    	    			if(move <= -5.5f)
-    	    			{
-    	    				goinUp = true;
-    	    				test.setRotation(0.0f,0.0f,0.0f,-5.0f);
-    	    				testTurret.setRotationAngle(test.parameters[3]);
-    	    				//test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
-    	    				//test3.setSelectedTexture(1);
-    	    			}
-    	    		}
     	    		
     				//Collision Detection Updater
     				collisionManager.update();
@@ -464,44 +328,26 @@ public class GameActivity extends Activity
     				particleEmitter.update();
     	    		
     				//Camera Stuff
-    				gameRenderer.cameraX = test2.parameters[0];
-    				gameRenderer.cameraY = test2.parameters[1];
-    	            
-    	            for(int i=0;i<NUM_TEST_BOTS;i++)
-    	            {
-    	            	addToDrawList(TYPE_BOT,testBotArray[i].ID);
-    	            }
-    				
-    	            if(test.isAlive)
-    	            {
-    	            	addToDrawList(TYPE_BOT,test.ID);
-    	            	addToDrawList(TYPE_BOT,testTurret.ID);
-    	            }
-    	            if(enemyBot.isAlive)
-    	            {
-    	            	addToDrawList(TYPE_BOT,enemyBot.ID);
-    	            	addToDrawList(TYPE_BOT,enemyTurret.ID);
-    	            }
-    	            if(enemyBot2.isAlive)
-    	            {
-    	            	addToDrawList(TYPE_BOT,enemyBot2.ID);
-    	            	addToDrawList(TYPE_BOT,enemyTurret2.ID);
-    	            }
-    	            if(enemyBot3.isAlive)
-    	            {
-    	            	addToDrawList(TYPE_BOT,enemyBot3.ID);
-    	            	addToDrawList(TYPE_BOT,enemyTurret3.ID);
-    	            }
-    	            if(enemyBot4.isAlive)
-    	            {
-    	            	addToDrawList(TYPE_BOT,enemyBot4.ID);
-    	            	addToDrawList(TYPE_BOT,enemyTurret4.ID);
-    	            }
-    	            
-    		        addToDrawList(TYPE_BOT,test2.ID);
-    		        addToDrawList(TYPE_BOT,test2Turret.ID);
-    		        addToDrawList(TYPE_GUN, testGun.ID); 	
-    		      
+    				gameRenderer.cameraX = gt.getBot().getDrawableBot().parameters[0];
+    				gameRenderer.cameraY = gt.getBot().getDrawableBot().parameters[1];
+    	            	        
+    		        //Nick
+    		        for(int i = 0; i < gt.getBots().length; i++){
+    		        	if(gt.getBots()[i].getDrawableBot().isAlive)
+    		        		addToDrawList(gt.getBots()[i]);
+    		        }
+    		        if(gt.getBot().getDrawableBot().isAlive)
+		        		addToDrawList(gt.getBot());
+    		        
+    		      /*
+    		        //Nick loaded bot
+	    		        try{
+	    		        	if(loadedBot.getDrawableBot().isAlive)
+	    		        		addToDrawList(loadedBot);
+	    		        }catch (Exception e){
+	    		        	Log.v("BitBot", "Adding to drawlist failed");
+	    		        }
+    		     */
     		        
     		        
     	            //Renderer Synchronization / Draw Frame Request

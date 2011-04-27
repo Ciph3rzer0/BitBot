@@ -369,18 +369,19 @@ public class TileMap
 		//put the spawn point array in a temp array
 		int enemyCounter = 0;
 		int userCounter = 0;
+		
 		 for(int i=0;i<mapHeight;i++)
 		 {
         	for(int j=0;j<mapWidth;j++)
         	{
         		if(tileCodes[j][i][0] == enemySpawnCode){
         			Log.v("GameTypes", "Enemy Spawn Point Found at: " + tileLocations[j][i][0] + "," + tileLocations[j][i][1] + "," + -5.0f);
-        			enemySpawnPointsX.add(enemyCounter,tileLocations[j][j][0]);
-       				enemySpawnPointsY.add(enemyCounter,tileLocations[j][j][1]);
+        			enemySpawnPointsX.add(enemyCounter,tileLocations[j][i][0]);
+       				enemySpawnPointsY.add(enemyCounter,tileLocations[j][i][1]);
        				enemyCounter++;
         		}else if(tileCodes[j][i][0] == userSpawnCode){
-        			Log.v("GameTypes", "User Spawn Point Found at: " + tileLocations[j][i][0] + "," + tileLocations[j][i][1]);
-        			userSpawnPointsX.add(userCounter, tileLocations[j][j][0]);
+        			Log.v("GameTypes", "User Spawn Point Found at: " + tileLocations[j][i][0] + "," + tileLocations[j][i][1] + "," + -5.0f);
+        			userSpawnPointsX.add(userCounter, tileLocations[j][i][0]);
         			userSpawnPointsY.add(userCounter, tileLocations[j][i][1]);
         			userCounter++;
         		}
