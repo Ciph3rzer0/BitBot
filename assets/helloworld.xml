@@ -1,5 +1,0 @@
-<program>
-<program-name>Hello World.bot</program-name>
-<program-description>Output to the Console.</program-description>
-<program-code>Print "hello world"</program-code>
-</program>

@@ -1,8 +1,53 @@
 <tutorial>
 <title>Sub Routines</title>
-<text></text>
+<text>In computer science, a subroutine (also called procedure, method, function, or routine) is a portion of code within a larger program that performs a specific task and is relatively independent of the remaining code.
+As the name "subprogram" suggests, a subroutine behaves in much the same way as a computer program that is used as one step in a larger program or another subprogram. A subroutine is often coded so that it can be started ("called") several times and/or from several places during a single execution of the program, including from other subroutines, and then branch back (return) to the next instruction after the "call" once the subroutine's task is done.
+
+Subroutines are a powerful programming tool,and the syntax of many programming languages includes support for writing and using them. Judicious use of subroutines (for example, through the structured programming approach) will often substantially reduce the cost of developing and maintaining a large program, while increasing its quality and reliability. Subroutines, often collected into libraries, are an important mechanism for sharing and trading software. The discipline of object-oriented programming is based on objects and methods (which are subroutines attached to these objects or object classes).
+
+The language which your BOT know's supports the use of Sub Routines.
+ 
+The Syntax for using subroutines in the BotBasic Language looks as follows:
+
+sub &lt;id&gt;
+	&lt;list of commands&gt;
+return
+
+note: a subroutine must not exist in the scope of a program. therefore, a keyword END must be used to separate the program from the sub routine method
+
+To call a subroutine you have created in a program, the syntax is:
+
+call &lt;id&gt;()
+
+Which will execute the subroutine, and return to where it left off in the program.
+</text>
 <stage>
-<hint></hint>
-<answer></answer>
+<hint>Goal: Create a simple subroutine called sub1 that prints out "Hello World From Sub1" when called
+
+The syntax of this command will look like:
+
+sub [id]
+	[list of commands]
+return
+
+Where [id] should be replaced with the subroutines identifier, in this case sub1.
+
+To complete this tutorial you must:
+1. Call the sub1 sub routine in your program.
+2. insert the end of program key word END after the call.
+3. create a subroutine, sub1, that prints out "Hello World From Sub1"
+
+This should look like this:
+call sub1()
+end
+sub sub1
+	print "Hello World From Sub1"
+return
+</hint>
+<answer>call sub1()
+end
+sub sub1
+	print "Hello World From Sub1"
+return</answer>
 </stage>
 </tutorial>

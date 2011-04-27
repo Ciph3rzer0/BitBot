@@ -83,7 +83,7 @@ public class BotBuilderActivity extends Activity
 		
 		b = (Button) findViewById(R.id.bb_soft1);
 		b.setTag(R.drawable.bulletnew);
-		b.setText(b.getTag().toString());
+		b.setText("Bullet");
 		b.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bulletnew), null, null,null);
 		b.setOnClickListener(new View.OnClickListener() {
 			
