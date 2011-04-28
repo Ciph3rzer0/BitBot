@@ -26,7 +26,7 @@ public class Initialization
 		
 		String data =
 			"// See if onBoundaryCollision works!\n" +
-			"Let _d = -3\n" +
+			"Let _d = -5\n" +
 			"\n" +
 			"While 1 Do\n" + 
 			"  call bot_move(90, _d)\n" +
