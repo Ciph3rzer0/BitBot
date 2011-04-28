@@ -6,4 +6,5 @@ but beware of enemy bots, and other obstacles
 along the way.
 </mission-text>
 <mission-type>Dungeon Crawl</mission-type>
+<map-file>testarena.map</map-file>
 </mission> 

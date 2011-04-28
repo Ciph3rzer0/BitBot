@@ -20,8 +20,7 @@ public class DungeonCrawl extends GameTypes{
 	Random generator;
 
 	
-	public DungeonCrawl(Context context, int numOfBots, TileMap tileMap, String mapFile, String userBotFile){
-		this.totalBots = numOfBots;
+	public DungeonCrawl(Context context, TileMap tileMap, String mapFile, String userBotFile){
 		this.userBotFile = userBotFile;
 		tileMap = new TileMap();
 		tileMap.loadMapFile(mapFile, context);
@@ -38,6 +37,8 @@ public class DungeonCrawl extends GameTypes{
 		Log.v("GameTypes", "GameType Accepted");
 		int randomIndex;
 		tileMap.setSpawnPoints();
+		this.totalBots = generator.nextInt(tileMap.enemySpawnPointsX.size()-1) + 1;
+		
 		if(totalBots >= tileMap.enemySpawnPointsX.size())
 			totalBots = tileMap.enemySpawnPointsX.size();
 		
