@@ -7,6 +7,8 @@ import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.util.Log;
 
@@ -36,6 +38,8 @@ import edu.sru.andgate.bitbot.parser.*;
  */
 public class RunVisitor implements bc1Visitor
 {
+	public static final int INTERRUPT_DELAY = 200;
+	
 	private Stack<HashMap<String, String>> varStack = new Stack<HashMap<String,String>>();
 	private HashMap<String, String> globalVars = new HashMap<String, String>();
 	
@@ -46,6 +50,7 @@ public class RunVisitor implements bc1Visitor
 	private volatile int instructionsLeft = 0;
 	private volatile int _interrupt = 0;
 	private volatile String[] _interruptParams = null; 
+	private volatile boolean _interruptReady = true;
 	
 	public static final int NONE = 0;
 	public static final int BOUND_COLLISION = 1;
@@ -57,6 +62,8 @@ public class RunVisitor implements bc1Visitor
 	private PipedInputStream $std_in = new PipedInputStream();
 	
 	private BotInterpreter bi;
+	
+	private Timer timer = new Timer();
 	
 	/**
 	 * This can allow you to control where debug output would go.
@@ -98,8 +105,12 @@ public class RunVisitor implements bc1Visitor
 	public void interrupt(int type, String[] params)
 	{
 		Log.d("BitBot Interpreter", "Interrupt called");
-		_interrupt = type;
-		_interruptParams = params;
+		
+		if (_interruptReady)
+		{
+			_interrupt = type;
+			_interruptParams = params;
+		}
 	}
 	
 	/**
@@ -132,8 +143,11 @@ public class RunVisitor implements bc1Visitor
 	 */
 	private void NextInstruction()
 	{
-		if (_interrupt != NONE)
+		if (_interruptReady)// && _interrupt != NONE)
+		{
+			_interruptReady = false;
 			HandleInterrupt();
+		}
 		
 		
 		// If we have less than 1 instruction left, we need to wait until we're
@@ -182,8 +196,17 @@ public class RunVisitor implements bc1Visitor
 				
 		}
 		
-		_interrupt = NONE;
+		TimerTask task = new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				_interrupt = NONE;
+				_interruptReady = true;
+			}
+		};
 		
+		timer.schedule(task, INTERRUPT_DELAY);
 	}
 	
 	/**
@@ -716,9 +739,6 @@ public class RunVisitor implements bc1Visitor
 	{
 		Log.d("BitBot Interpreter", "In Sub Def");
 		
-//		// ListOfInstructions
-//		node.jjtGetChild(1).jjtAccept(this, null);
-		
 		HashMap<String, String> hm = new HashMap<String, String>();
 		// TODO: THIS IS GOING TO BE INEFFICIENT
 		String[] localVars = (String[]) data;
@@ -739,6 +759,9 @@ public class RunVisitor implements bc1Visitor
 		
 		// Pop local variables
 		varStack.pop();
+		
+		Log.d("BitBot Interpreter", "Exit Sub Def");
+		
 		
 		return null;
 	}
