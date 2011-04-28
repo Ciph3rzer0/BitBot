@@ -7,9 +7,11 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.R.drawable;
 
 public class Constants {
-	public static boolean hasShownBefore = false;
-	public static ArrayList<String> finished_tutorials = new ArrayList<String>();
 	
+	public static boolean hasShownBefore = false;
+	
+	public static ArrayList<String> finished_tutorials = new ArrayList<String>();
+	public static ArrayList<String> finished_missions = new ArrayList<String>();
 	
 	//damage image lookup table
 	public Hashtable<Integer, Integer> damage1 = new Hashtable<Integer,Integer>();

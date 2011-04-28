@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.graphics.TileMap;
+import edu.sru.andgate.bitbot.tools.Constants;
 
 public class DungeonCrawl extends GameTypes{
 	private Context context;

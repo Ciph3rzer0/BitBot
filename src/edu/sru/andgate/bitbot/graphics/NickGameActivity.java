@@ -13,6 +13,7 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.tools.Constants;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
@@ -306,6 +307,7 @@ public class NickGameActivity extends Activity
     				gt.Update();
     				if(gt.hasVictory()){
     					finish();
+    					Constants.finished_missions.add(missionType);
     					gt.Finalize();
     				}
     				

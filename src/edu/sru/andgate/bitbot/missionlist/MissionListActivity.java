@@ -5,6 +5,8 @@ import java.util.Hashtable;
 
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
+import edu.sru.andgate.bitbot.tools.Constants;
+import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MissionListActivity extends ListActivity {
 	// private ProgressDialog m_ProgressDialog = null; 
@@ -53,7 +56,7 @@ public class MissionListActivity extends ListActivity {
 	       this.mission_adapter = new MissionListAdapter(this, R.layout.mission_row, myMissions);
 	       setListAdapter(this.mission_adapter);
 	       	        
-	        Button new_btn = (Button)findViewById(R.id.new_btn);
+	        new_btn = (Button)findViewById(R.id.new_btn);
 	        new_btn.setText("New");
 	        new_btn.setOnClickListener(new View.OnClickListener()
 			{
@@ -63,7 +66,7 @@ public class MissionListActivity extends ListActivity {
 				}
 			});
 	        
-	        Button old_btn = (Button)findViewById(R.id.old_btn);
+	        old_btn = (Button)findViewById(R.id.old_btn);
 	        old_btn.setText("Old");
 	        old_btn.setOnClickListener(new View.OnClickListener()
 			{
@@ -77,10 +80,14 @@ public class MissionListActivity extends ListActivity {
 
 	 @Override
 	 protected void onListItemClick(ListView l, View v, int position, long id) {
-		 	Intent myIntent = new Intent(MissionListActivity.this, MissionBriefingActivity.class);
-        	myIntent.putExtra("Filename",  mission_list.get(v.getTag().toString()));
-        	myIntent.putExtra("Icon",  mission_icons.get(v.getTag().toString()));
-        	startActivity(myIntent);
+		 	if(Constants.finished_missions.contains(FileManager.readXML(mission_list.get(v.getTag().toString()), "mission-name"))){
+		 		Toast.makeText(MissionListActivity.this, "Mission Already Completed", Toast.LENGTH_SHORT).show();
+		 	}else{
+		 		Intent myIntent = new Intent(MissionListActivity.this, MissionBriefingActivity.class);
+	        	myIntent.putExtra("Filename",  mission_list.get(v.getTag().toString()));
+	        	myIntent.putExtra("Icon",  mission_icons.get(v.getTag().toString()));
+	        	startActivity(myIntent);
+		 	}
 	 }
 
 }
