@@ -26,7 +26,7 @@ import edu.sru.andgate.bitbot.tools.Constants;
 
 public class Bot
 {
-	private Drawable _drawable;
+	private DrawableBot _drawable;
 	private SourceCode _source;
 	private BotInterpreter _interpreter;
 	private String bot_name, bot_code;
@@ -72,7 +72,7 @@ public class Bot
 	{
 		stepSize /= 100;
 		
-		_drawable.move(degrees, stepSize);
+		_drawable.setMove(degrees, stepSize);
 		return true;
 	}
 	
@@ -132,7 +132,7 @@ public class Bot
 		return 0;
 	}
 	
-	public void attachDrawable(Drawable d)
+	public void attachDrawable(DrawableBot d)
 	{
 		if (d != null)
 		{

@@ -12,7 +12,7 @@
 		android:id="@+id/next_btn" 
 		android:text="Next Tip" 
 		android:gravity="center"
-		android:layout_height="wrap_content" 
+		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:layout_below="@+id/intro_text" 
 		android:layout_alignLeft="@+id/intro_text" 

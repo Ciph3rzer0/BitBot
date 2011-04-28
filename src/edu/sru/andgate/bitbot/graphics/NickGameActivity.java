@@ -46,6 +46,8 @@ public class NickGameActivity extends Activity
 	ArrayList<DrawableBot> notifyOnTouchList;
 	
 	GameTypes gt;
+	public int kills;
+	public double accuracy;
 	
 	int MAX_OBJECTS = 250;
 	int NUM_TEST_BOTS = 0;
@@ -53,7 +55,7 @@ public class NickGameActivity extends Activity
 	final int TYPE_GUN = 1;
 	final int USER_BOT = 1;
 	final int ENEMY_BOT = 0;
-	String missionType;
+	public String missionType;
 	int viewType = 0;
 	
 	TileMap testMap;
@@ -68,7 +70,8 @@ public class NickGameActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-         
+        kills = 0;
+        accuracy = 0.0;
         //figure out what type of Game this is
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");

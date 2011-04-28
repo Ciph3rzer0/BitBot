@@ -254,6 +254,7 @@ public class DrawableBot implements Drawable
 	
 	public void onBoundaryCollision()
 	{
+		moveStepSize = 0;
 		try{
 			collisionSound.playAudio();
 		}catch (Exception e){
