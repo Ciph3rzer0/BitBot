@@ -82,6 +82,11 @@ public class MissionListActivity extends ListActivity {
 	 protected void onListItemClick(ListView l, View v, int position, long id) {
 		 	if(Constants.finished_missions.contains(FileManager.readXML(mission_list.get(v.getTag().toString()), "mission-name"))){
 		 		Toast.makeText(MissionListActivity.this, "Mission Already Completed", Toast.LENGTH_SHORT).show();
+		 		Intent myIntent = new Intent(MissionListActivity.this, MissionBriefingActivity.class);
+	        	myIntent.putExtra("Filename",  mission_list.get(v.getTag().toString()));
+	        	myIntent.putExtra("Icon",  mission_icons.get(v.getTag().toString()));
+	        	myIntent.putExtra("Map", FileManager.readXML(mission_list.get(v.getTag().toString()), "map-file"));
+	        	startActivity(myIntent);
 		 	}else{
 		 		Intent myIntent = new Intent(MissionListActivity.this, MissionBriefingActivity.class);
 	        	myIntent.putExtra("Filename",  mission_list.get(v.getTag().toString()));
