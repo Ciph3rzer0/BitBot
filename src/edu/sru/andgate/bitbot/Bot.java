@@ -229,6 +229,7 @@ public class Bot
 			b.setBullet(Integer.parseInt(readXML(doc, "Bot-Bullet")));
 			
 			DrawableBot db = new DrawableBot();
+			db.setRotation(180.0f,0.0f,0.0f,-5.0f);
 			b.setDrawableBot(db);
 			db.addTexture(b.getBase());
 			db.addTexture(constants.damage1.get(b.getBase()));	

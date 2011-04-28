@@ -427,7 +427,7 @@ public class GameActivity extends Activity
     	    		testGun.update();
     	    		if(shotCount >= 10)
     	    		{
-    	    			testGun.fire();
+    	    			//testGun.fire();
     	    			shotCount = 0;
     	    		}    	    		
     	    		shotCount++;
