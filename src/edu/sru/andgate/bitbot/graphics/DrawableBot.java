@@ -216,6 +216,12 @@ public class DrawableBot implements Drawable
 		parameters[1] = rise;
 	}
 	
+	public void setMove(float angle, float velocity)
+	{
+		moveAngle = angle;
+		moveStepSize = velocity;
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.sru.andgate.bitbot.graphics.Drawable#setScale(float, float, float)
 	 */

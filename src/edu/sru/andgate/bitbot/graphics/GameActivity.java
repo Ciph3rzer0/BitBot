@@ -173,7 +173,7 @@ public class GameActivity extends Activity
         test2.addTexture(R.drawable.adambot);	//TextureID = 0
         test2.moveStepSize = 0.10f;
         test2.setBotType(USER_BOT);
-        notifyOnTouchList.add(test2);
+        //notifyOnTouchList.add(test2);
         collisionManager.addCollisionDetector(test2);        
         
         //Test Bot 2 Turret Layer
@@ -420,8 +420,8 @@ public class GameActivity extends Activity
     				//Make some other stuff happen
     	    		test.setTranslation(-3.5f,(0.01f + move),-5.0f);
     	    		//test2.setTranslation(3.5f,(-1*(0.01f + move)),-5.0f);
-    	    		test2.moveByTouch(0.1f);
-    	    		//test2.move(0.0f, 0.05f);
+    	    		//test2.moveByTouch(0.1f);
+    	    		test2.move();
     	    		test2Turret.setRotationAngle(test2.moveAngle-90);
     	    		
     	    		testGun.update();

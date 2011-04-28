@@ -245,8 +245,19 @@ public class BotInterpreter
 		
 		if (instr.equalsIgnoreCase("bot_move"))
 		{
-			float degrees = Float.parseFloat(params[0]);
-			float stepSize = Float.parseFloat(params[1]);
+			float degrees = 0, stepSize = 0;
+			
+			// Parse first parameter
+			try
+				{degrees = Float.parseFloat(params[0]);}
+			catch(Exception e)
+				{Log.v("BitBot Interpreter", "params[0] = " + params[0]);}
+			
+			// Parse second parameter
+			try
+				{stepSize = Float.parseFloat(params[1]);}
+			catch(Exception e)
+				{Log.v("BitBot Interpreter", "params[1] = " + params[1]);}
 			
 			if (bot != null)
 				bot.Move(degrees, stepSize);
