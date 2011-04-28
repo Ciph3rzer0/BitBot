@@ -2,7 +2,7 @@ package edu.sru.andgate.bitbot.ide;
 
 import java.util.ArrayList;
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.customdialog.CustomDialog;
+import edu.sru.andgate.bitbot.customdialogs.CustomDialogListView;
 import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.ListActivity;
 import android.content.Context;
@@ -22,7 +22,7 @@ public class CodeBuilderActivity extends ListActivity
 	 private String[] code_files;
 	 private Intent engineIntent;
 	 private Button new_program;
-	 CustomDialog dlg;
+	 CustomDialogListView dlg;
 	 
 	 public void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
@@ -67,7 +67,7 @@ public class CodeBuilderActivity extends ListActivity
 
 				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 					Log.v("BitBot", "Long Click Accepted");
-					dlg = new CustomDialog(CodeBuilderActivity.this, view.getTag().toString(),CodeBuilderActivity.this, R.style.CustomDialogTheme);
+					dlg = new CustomDialogListView(CodeBuilderActivity.this, view.getTag().toString(),CodeBuilderActivity.this, R.style.CustomDialogTheme);
 			        dlg.show();
 			        return true;
 				}

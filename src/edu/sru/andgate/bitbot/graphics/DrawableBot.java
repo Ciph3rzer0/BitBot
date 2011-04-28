@@ -407,5 +407,9 @@ public class DrawableBot implements Drawable
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}
+	
+	public boolean isAlive(){
+		return this.isAlive;
+	}
 
 }

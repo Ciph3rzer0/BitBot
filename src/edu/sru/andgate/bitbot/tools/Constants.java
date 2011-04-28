@@ -1,11 +1,18 @@
 package edu.sru.andgate.bitbot.tools;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.R.drawable;
 
 public class Constants {
+	
+	public static boolean hasShownBefore = false;
+	
+	public static ArrayList<String> finished_tutorials = new ArrayList<String>();
+	public static ArrayList<String> finished_missions = new ArrayList<String>();
+	
 	//damage image lookup table
 	public Hashtable<Integer, Integer> damage1 = new Hashtable<Integer,Integer>();
 	public Hashtable<Integer, Integer> damage2 = new Hashtable<Integer,Integer>();
@@ -22,7 +29,6 @@ public class Constants {
 		damage2.put(R.drawable.adambot, R.drawable.adambotd2);
 		
 		//tutorial list
-		tutorials_table.put("Getting Started", "getting_started.xml");
         tutorials_table.put("Print Statement", "print_tutorial.xml");
         tutorials_table.put("Defining Variables", "declaring_vars.xml");
         tutorials_table.put("Loops","loops.xml");
@@ -36,6 +42,7 @@ public class Constants {
         simulation_table.put("Loops", 1);
         simulation_table.put("Sub Routines", 1);
         simulation_table.put("Selection Statements", 1);
+        
 	 }
 	 
 	 

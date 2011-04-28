@@ -5,6 +5,7 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.graphics.BotLayer;
 import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
 import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
@@ -37,6 +38,7 @@ public class BotBuilderActivity extends Activity
 	private TextView tv;
 	private Spinner spinner;
 	private Button b;
+	private String missionType;
 	private String[] code_files;
 	ArrayAdapter<String> adapter;
 	
@@ -46,6 +48,8 @@ public class BotBuilderActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ide_botbuilder_main);
+		
+		missionType = getIntent().getExtras().getString("GameType");
 		
 		FileManager.setContext(getBaseContext());
 		c = (BotComponentView)findViewById(R.id.bb_chassis);
@@ -135,8 +139,9 @@ public class BotBuilderActivity extends Activity
 		saveBot("test_bot.xml");
 				
 		// Start up the game engine
-		Intent engineIntent = new Intent(BotBuilderActivity.this, GameActivity.class);
+		Intent engineIntent = new Intent(BotBuilderActivity.this, NickGameActivity.class);
 		engineIntent.putExtra("Bot", "test_bot.xml");
+		engineIntent.putExtra("GameType", missionType);
 		startActivity(engineIntent);
 		
 	}

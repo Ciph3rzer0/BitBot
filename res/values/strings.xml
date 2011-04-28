@@ -5,7 +5,6 @@
 			
 	<!-- Tutorial List -->
 		<string-array name="menu_contents">
-		 	<item>Getting Started</item>
 		 	<item>Print Statement</item>
 	    	<item>Defining Variables</item>
 	        <item>Loops</item>
@@ -17,18 +16,15 @@
      
      <!-- Mission Stuff -->
 	     <string-array name="mission_titles">
-	     	<item>Arena</item>
-	     	<item>Target Practice</item>
+	     	<item>Dungeon Crawl</item>
 	     </string-array>
 	     
 	     <string-array name="mission_descriptions">
-	     	<item>Navigate through the Arena</item>
-	     	<item>Test your Shooting Skills</item>
+	     	<item>Navigate To the End Point in the Map</item>
 	     </string-array>
 	     
 	     <string-array name="mission_files">
-	     	<item>arena.xml</item>
-	     	<item>target_practice.xml</item>
+	     	<item>dungeoncrawl1.xml</item>
 		</string-array>
 	<!-- End Mission Stuff -->
 	

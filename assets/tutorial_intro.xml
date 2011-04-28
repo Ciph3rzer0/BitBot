@@ -1,0 +1,43 @@
+<Tutorial-Intro>
+<stage>
+<hint>
+Welcome to the Tutorial's section of Bit Bot! 
+This is not a tutorial. This section is to introduce you to the environment you will be using for the other tutorials.
+The following text will describe the steps it will take to complete the tutorials.
+</hint>
+</stage>
+<stage>
+<hint>
+The tutorial text for all tutorials will be displayed in the previous screen you were just at. 
+The green arrow on this screen will contain hints available to you for the specific tutorial.
+This is both open and close-able for a quick reference to the tutorial itself.
+</hint>
+</stage>
+<stage>
+<hint>
+There are 4 buttons to make good use of throughout tutorial completions.
+These buttons are: Sequence, Selection, Iteration, and Quick Tools.
+The Sequence, Selection, and Iteration buttons provide the user with the shell code for each of these types of programming basics. When clicking on 
+one of these buttons a Pop-up menu will show with some of these basic shells.
+Selecting one of these will input the shell text into the editing area simplifying the coding process on your Android Device. 
+</hint>
+</stage>
+<stage>
+<hint>
+The Quick Tools button will similarly Pop-up a menu with some useful buttons that may be difficult to find on your Devices Keyboard, for example brackets [], Quotations "", or Braces {}. 
+</hint>
+</stage>
+<stage>
+<hint>
+The most important buttons to be aware of on completion of a tutorial are the buttons with the Lock and Monitor images. When a user has entered the text believed to be required by the tutorial, they should hit this "Lock"
+button. This will verify that their input is in fact correct, or needs modified. 
+After verifying your answer is correct and all steps to a given tutorial are completed, the "Simulate" button will run your code.
+** Note however, not all tutorials will use this Simulation button.
+</hint>
+</stage>
+<stage>
+<hint>
+Remember, these tutorials will unlock new "parts" for you Bot, so don't forget to come back and complete them.
+</hint>
+</stage>
+</Tutorial-Intro>

@@ -1,11 +1,7 @@
 package edu.sru.andgate.bitbot.tutorial;
 
-import java.util.Hashtable;
-
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.tools.Constants;
-import edu.sru.andgate.bitbot.tools.FileManager;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Tutorial_List extends ListActivity {
 	private Constants c;
@@ -47,15 +44,18 @@ public class Tutorial_List extends ListActivity {
          	  {
          		  //go back to main menu a.k.a kill this activity
          		  finish();
-         	  }else
-	         	  {
-         		  /*
-         		   * start new activity, sending cooresponding tutorial file path, and simulation ability
-         		   */
-	         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
-	         		myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
-	         		myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
-	         		startActivity(myIntent);
+         	  }else{
+	         		  /*
+	         		   * start new activity, sending cooresponding tutorial file path, and simulation ability
+	         		   */
+	         		  if(Constants.finished_tutorials.contains(c.tutorials_table.get((String)((TextView) view).getText()))){
+	         			  Toast.makeText(Tutorial_List.this, "Tutorial Already Completed. Please Select a different one.", Toast.LENGTH_SHORT).show();
+	         		  }else{
+		         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
+		         		myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
+		         		myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
+		         		startActivity(myIntent);
+	         		  }
 	         	  }
         	}
           
