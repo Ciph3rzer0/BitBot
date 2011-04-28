@@ -61,6 +61,11 @@ public class BotInterpreter
 		rv.pause();
 	}
 	
+	public void callOnBoundaryCollision()
+	{
+		rv.interrupt(RunVisitor.BOUND_COLLISION, null);
+	}
+	
 	/**
 	 * Reads text from botOutput into botLog and sends that to the TextView
 	 * set by setOutputTextView().

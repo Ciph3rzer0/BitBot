@@ -49,12 +49,16 @@ public class Tutorial_List extends ListActivity {
 	         		   * start new activity, sending cooresponding tutorial file path, and simulation ability
 	         		   */
 	         		  if(Constants.finished_tutorials.contains(c.tutorials_table.get((String)((TextView) view).getText()))){
-	         			  Toast.makeText(Tutorial_List.this, "Tutorial Already Completed. Please Select a different one.", Toast.LENGTH_SHORT).show();
-	         		  }else{
-		         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
-		         		myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
-		         		myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
-		         		startActivity(myIntent);
+		         			Toast.makeText(Tutorial_List.this, "Tutorial Already Completed. Please Select a different one.", Toast.LENGTH_SHORT).show();
+		         			Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
+				         	myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
+				         	myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
+				         	startActivity(myIntent);
+		         		}else{
+			         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
+			         		myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
+			         		myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
+			         		startActivity(myIntent);
 	         		  }
 	         	  }
         	}

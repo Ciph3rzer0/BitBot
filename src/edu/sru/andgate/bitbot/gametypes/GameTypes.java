@@ -1,11 +1,13 @@
 package edu.sru.andgate.bitbot.gametypes;
 
 import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.graphics.GameActivity;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 
 public abstract class GameTypes {
 	
-	public abstract void Initialize(); 
+	public abstract void Initialize(NickGameActivity ga); 
 
 	public abstract void Update();
 	

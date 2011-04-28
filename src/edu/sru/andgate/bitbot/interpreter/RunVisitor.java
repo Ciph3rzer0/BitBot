@@ -41,10 +41,14 @@ public class RunVisitor implements bc1Visitor
 	//private HashMap<String, String> vars = new HashMap<String, String>();
 	private HashMap<String, Node> subs = new HashMap<String, Node>();
 	
-	private volatile int instructionsLeft = 0;
 	private volatile boolean _waiting = true;
-	private volatile boolean _abort = false;
-	private volatile boolean _interrupt = false;
+	private volatile int instructionsLeft = 0;
+	private volatile int _interrupt = 0;
+	private volatile String[] _interruptParams = null; 
+	
+	public static final int NONE = 0;
+	public static final int BOUND_COLLISION = 1;
+	public static final int ABORT = 2;
 	
 	private PipedOutputStream $std_out = new PipedOutputStream();
 	private PrintStream std_out = new PrintStream($std_out, true);
@@ -52,14 +56,6 @@ public class RunVisitor implements bc1Visitor
 	private PipedInputStream $std_in = new PipedInputStream();
 	
 	private BotInterpreter bi;
-	
-	/**
-	 * This replaces "this" for all jjtAccept calls.  It functions identically to 
-	 * "this" until the thread has to abort, we then set __this__ to another Visitor
-	 * that will quickly rise back up the stack.
-	 */
-	private RunVisitor __this__;
-	
 	
 	/**
 	 * This can allow you to control where debug output would go.
@@ -75,6 +71,12 @@ public class RunVisitor implements bc1Visitor
 			}
 		}
 	);
+	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public boolean setPrintStream(PrintStream p)
 	{
 		if (p != null)
@@ -86,10 +88,22 @@ public class RunVisitor implements bc1Visitor
 		return false;
 	}
 	
+	/**
+	 * Causes the interpreter to run a tangent subroutine when it next runs.
+	 * 
+	 * @param type The type of interrupt (handles which subroutine is run) 
+	 * @param params The parameters to be passed to the botcode subroutine.
+	 */
+	public void interrupt(int type, String[] params)
+	{
+		_interrupt = type;
+		_interruptParams = params;
+	}
 	
 	/**
 	 * Creates a RunVisitor that interacts with the BotInterpreter <code>bi</code>.
 	 * Actually, as of now it does nothing.
+	 * 
 	 * @param bi
 	 */
 	public RunVisitor(BotInterpreter bi)
@@ -111,11 +125,12 @@ public class RunVisitor implements bc1Visitor
 	}
 	
 	/**
-	 * Decrements the instructionsLeft and if <= 0 makes the thread wait.
+	 * Decrements the instructionsLeft and if <= 0 makes the thread wait.  This also
+	 * checks for interrupts such as boundary collisions and aborts.
 	 */
 	private void NextInstruction()
 	{
-		if (_interrupt)
+		if (_interrupt != NONE)
 			HandleInterrupt();
 		
 		
@@ -143,11 +158,15 @@ public class RunVisitor implements bc1Visitor
 	
 	public void HandleInterrupt()
 	{
-		if (_abort)
-			throw new Error();
-		else
+		switch (_interrupt)
 		{
-			
+			case ABORT :
+				throw new Error();
+				
+			case BOUND_COLLISION :
+				Node n = subs.get("onBoundaryCollision");
+				if (n != null)
+					n.jjtAccept(this, null);
 			
 		}
 		
@@ -186,8 +205,7 @@ public class RunVisitor implements bc1Visitor
 		synchronized (this)
 		{
 			this.notify();
-			_interrupt = true;
-			_abort = true;
+			_interrupt = ABORT;
 		}
 	}
 	

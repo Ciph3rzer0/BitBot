@@ -94,7 +94,7 @@ public class NickGameActivity extends Activity
         notifyOnTouchList = new ArrayList<DrawableBot>(MAX_OBJECTS);
         
         //game types test
-        gt.Initialize();
+        gt.Initialize(this);
         testMap = gt.getMap();
         notifyOnTouchList.add(gt.getBot().getDrawableBot());
         
@@ -153,25 +153,18 @@ public class NickGameActivity extends Activity
                    
         gameRenderer = new GlRenderer(this.getBaseContext());
         
-       /* try{
-        	botFile = getIntent().getExtras().getString("Bot");
-        	Log.v("BitBot", botFile);
-	        loadedBot = Bot.CreateBotFromXML(this.getBaseContext(), botFile);
-	        addBotToWorld(loadedBot);
-	        ilvm.addInterpreter(dc.getBot().getInterpreter());			
-			// Run the vm every second.
-			Timer t = new Timer();
-			t.schedule(new TimerTask()
+        ilvm.addInterpreter(gt.getBot().getInterpreter());			
+		// Run the vm every second.
+		Timer t = new Timer();
+		t.schedule(new TimerTask()
+		{
+			@Override
+			public void run()
 			{
-				@Override
-				public void run()
-				{
-					ilvm.resume(4);
-				}
-			}, 50, 50);
-       */
-        
-        
+				ilvm.resume(4);
+			}
+		}, 50, 50);
+		
         //Set renderer to be the main renderer with the current activity context
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);

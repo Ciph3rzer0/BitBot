@@ -10,6 +10,7 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.customdialogs.IntroCustomDialog;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 
@@ -208,19 +209,14 @@ public class Main_Tutorial extends Activity
 				if(tutorialID.equals("getting_started.xml")){
 					Toast.makeText(Main_Tutorial.this, "Not available in this Tutorial", Toast.LENGTH_SHORT).show();
 				}else{
-					try
-					{
-					    file = new File(getFilesDir(),"tutorial.txt");
-					    writer = new BufferedWriter(new FileWriter(file));
-					    writer.write(editor.getText().toString());
-					    writer.flush();
-					    writer.close();
-					    checkAnswer(editor.getText().toString(), myTutorial);
-					} catch (IOException e) 
-					{
-					   e.printStackTrace();
+					try {
+						checkAnswer(editor.getText().toString(), myTutorial);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
+			
 			}
 		});
 		
@@ -377,21 +373,19 @@ public class Main_Tutorial extends Activity
 	 * Output: User input to file, Toast to let user know if they were correct or not
 	 * Method to check if the user input matches the correct tutorial answer
 	 */
-	protected void checkAnswer(String file, Tutorial currTutorial) throws IOException 
+	protected void checkAnswer(String userAnswer, Tutorial currTutorial) throws IOException 
 	{
 		/*
 		 * Temporary - Need to send strings(s) to interpreter and compare abstract 
 		 * 				Syntax Tree's
 		 */
 		
-		String temp1 = "";
 		String temp2 = "";
 		
-		temp1 = file;
 		temp2 = currTutorial.getAnswer();
 		
 		//Let the user know if they are right or not.
-		if(temp1.equalsIgnoreCase(temp2))
+		if(Test.CompareCode(userAnswer, temp2))
 		{
 			int currStage = currTutorial.getStage();
 			currStage++;

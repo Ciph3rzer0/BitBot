@@ -25,13 +25,20 @@ public class Initialization
 			
 		
 		String data =
-			"//Place Holder File\n" + "Let d = -1\n" +
+			"// See if onBoundaryCollision works!\n" +
+			"Let d = -1\n" +
 			"\n" +
 			"While 1 Do\n" + 
-			"  call bot_move(45, 5)\n" +
+			"  call bot_move(90, d)\n" +
 			"  \n" +
-			"  Let d = d + 1\n" +
-			"Loop\n";
+			"  Let i = i + 1\n" +
+			"Loop\n" +
+			"\n" +
+			"End\n" +
+			"\n" +
+			"sub onBoundaryCollision\n" +
+			"	Let d = d & -1\n" +
+			"return\n";
 		
 		String data02 =
 			"//Place Holder File\n" + "Let d = -1\n" +
