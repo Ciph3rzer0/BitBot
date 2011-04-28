@@ -32,19 +32,10 @@ public class NickGameActivity extends Activity
 	DrawableParticleEmitter particleEmitter;
 	Bot loadedBot;
 	MediaPlayer mp;
-	DrawableBot test;
-	DrawableBot test2;
-	DrawableBot test3;
-	DrawableGun testGun;
-	//Drawable bot4,bot5,bot6,bot7,bot8,bot9,bot10;
-	DrawableBot enemyBot, enemyBot2, enemyBot3, enemyBot4;
-	BotLayer enemyTurret, enemyTurret2, enemyTurret3, enemyTurret4;
-	BotLayer testTurret;
-	BotLayer test2Turret;
 	int[][] drawList;
 	int drawListPointer = 0;
 	boolean gameLoop = true;
-	String botFile;
+	String botFile, mapFile;
 	boolean touchEventFired = false;
 	float touchX = 0;
 	float touchY = 0;
@@ -55,13 +46,9 @@ public class NickGameActivity extends Activity
 	ArrayList<DrawableBot> notifyOnTouchList;
 	
 	GameTypes gt;
-	DungeonCrawl dc;
 	
 	int MAX_OBJECTS = 250;
-	
-	DrawableBot[] testBotArray;
 	int NUM_TEST_BOTS = 0;
-	
 	final int TYPE_BOT = 0;
 	final int TYPE_GUN = 1;
 	final int USER_BOT = 1;
@@ -85,8 +72,9 @@ public class NickGameActivity extends Activity
         //figure out what type of Game this is
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");
+        mapFile = getIntent().getExtras().getString("Map");
         if(missionType.equalsIgnoreCase("Dungeon Crawl")){
-        	gt = new DungeonCrawl(this.getBaseContext(), 3, testMap, "testarena.map", botFile);
+        	gt = new DungeonCrawl(this.getBaseContext(), testMap, mapFile, botFile);
         }
              
         // making it full screen
@@ -207,11 +195,7 @@ public class NickGameActivity extends Activity
         
         //Mass of bots
         
-        for(int i=0;i<NUM_TEST_BOTS;i++)
-        {
-        	addToDrawList(TYPE_BOT,testBotArray[i].ID);
-        }
-        
+             
         gameRenderer.startSimulation();
         gameLoop();
     }

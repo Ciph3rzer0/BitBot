@@ -86,6 +86,7 @@ public class MissionListActivity extends ListActivity {
 		 		Intent myIntent = new Intent(MissionListActivity.this, MissionBriefingActivity.class);
 	        	myIntent.putExtra("Filename",  mission_list.get(v.getTag().toString()));
 	        	myIntent.putExtra("Icon",  mission_icons.get(v.getTag().toString()));
+	        	myIntent.putExtra("Map", FileManager.readXML(mission_list.get(v.getTag().toString()), "map-file"));
 	        	startActivity(myIntent);
 		 	}
 	 }
