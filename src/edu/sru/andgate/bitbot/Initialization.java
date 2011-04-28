@@ -26,10 +26,10 @@ public class Initialization
 		
 		String data =
 			"// See if onBoundaryCollision works!\n" +
-			"Let d = -1\n" +
+			"Let _d = -3\n" +
 			"\n" +
 			"While 1 Do\n" + 
-			"  call bot_move(90, d)\n" +
+			"  call bot_move(90, _d)\n" +
 			"  \n" +
 			"  Let i = i + 1\n" +
 			"Loop\n" +
@@ -37,7 +37,8 @@ public class Initialization
 			"End\n" +
 			"\n" +
 			"sub onBoundaryCollision\n" +
-			"	Let d = d & -1\n" +
+			"	Let _d = _d * -1\n" +
+			"	\n" +
 			"return\n";
 		
 		String data02 =

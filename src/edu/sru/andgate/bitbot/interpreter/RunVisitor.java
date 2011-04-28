@@ -37,6 +37,7 @@ import edu.sru.andgate.bitbot.parser.*;
 public class RunVisitor implements bc1Visitor
 {
 	private Stack<HashMap<String, String>> varStack = new Stack<HashMap<String,String>>();
+	private HashMap<String, String> globalVars = new HashMap<String, String>();
 	
 	//private HashMap<String, String> vars = new HashMap<String, String>();
 	private HashMap<String, Node> subs = new HashMap<String, Node>();
@@ -96,6 +97,7 @@ public class RunVisitor implements bc1Visitor
 	 */
 	public void interrupt(int type, String[] params)
 	{
+		Log.d("BitBot Interpreter", "Interrupt called");
 		_interrupt = type;
 		_interruptParams = params;
 	}
@@ -158,17 +160,29 @@ public class RunVisitor implements bc1Visitor
 	
 	public void HandleInterrupt()
 	{
-		switch (_interrupt)
+		int i = _interrupt;
+		_interrupt = NONE;
+		
+		switch (i)
 		{
 			case ABORT :
 				throw new Error();
 				
 			case BOUND_COLLISION :
-				Node n = subs.get("onBoundaryCollision");
+				Log.v("BitBot Interpreter", "call onBoundaryCollision()");
+				
+				Node n = subs.get("onBoundaryCollision".toLowerCase());
 				if (n != null)
-					n.jjtAccept(this, null);
+					n.jjtAccept(this, _interruptParams);
+				else
+					Log.v("BitBot Interpreter", "No 'onBoundaryCollision' sub found");
+				break;
 			
+			default :
+				
 		}
+		
+		_interrupt = NONE;
 		
 	}
 	
@@ -227,7 +241,57 @@ public class RunVisitor implements bc1Visitor
 		$std_in = in;
 	}
 	
+	/**
+	 * Handles getting variables.  Splits global and local variables.
+	 * 
+	 * Variables beginning with an underscore (_variable) are global.  Anything else is local
+	 * to the program or subroutine.
+	 * 
+	 * @param key The variable name
+	 * @return The value of the variable
+	 */
+	public String getVarValue(String key)
+	{
+		String result = null;
+		
+		if (key == null)
+			return "";
+		
+		String b = key.substring(0,1);
+		if (b == null)
+			return "";
+		
+		if (b.equals("_"))
+			result = globalVars.get(key);
+		else
+			result = varStack.peek().get(key);
+		
+		if (result == null)
+			result = "";
+		
+		return result;
+	}
 	
+	/**
+	 * Handles storing variables.  Splits global and local variables.
+	 * 
+	 * Variables beginning with an underscore (_variable) are global.  Anything else is local
+	 * to the program or subroutine.
+	 * 
+	 * @param key The variable name
+	 * @param val The value of the variable
+	 */
+	public void storeVarValue(String key, String val)
+	{
+		String b = key.substring(0,1);
+		if (b == null)
+			return;
+		
+		if (b.equals("_"))
+			globalVars.put(key, val);
+		else
+			varStack.peek().put(key, val);
+	}
 	
 	//***************************************************
 	//*  				 ROOT CLASSES 					*
@@ -261,7 +325,7 @@ public class RunVisitor implements bc1Visitor
 			String name = (String) ((SimpleNode)node.jjtGetChild(i).jjtGetChild(0)).jjtGetValue();
 			
 			// Store in a hash
-			subs.put(name, n);
+			subs.put(name.toLowerCase(), n);
 			
 			if (name != null)
 				Log.d("BitBot Interpreter", name);
@@ -317,7 +381,7 @@ public class RunVisitor implements bc1Visitor
 			value = ((SimpleNode)node.jjtGetChild(1)).jjtGetValue().toString();
 		
 		// Store variable in hash
-		varStack.peek().put(id, value);
+		storeVarValue(id, value);
 		
 //		out.println("[Declaration] " + id + " = "  + value);
 		return null;
@@ -334,7 +398,7 @@ public class RunVisitor implements bc1Visitor
 		String value = node.jjtGetChild(1).jjtAccept(this, null).toString();
 		
 		// Update the variable
-		varStack.peek().put(id, value);
+		storeVarValue(id, value);
 		
 //		out.println("[/Assignment: " + id + "=" + value + "]");
 		
@@ -348,7 +412,7 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(ASTIdentifier node, Object data)
 	{
 		String key = node.jjtGetValue().toString();
-		String result = varStack.peek().get(key);
+		String result = getVarValue(key);
 		
 		if (result == null)
 			result = "0";
@@ -600,7 +664,7 @@ public class RunVisitor implements bc1Visitor
 	public Object visit(ASTSubCall node, Object data)
 	{
 //		String instr = ((SimpleNode)node.jjtGetChild(0).jjtAccept(this, null)).jjtGetValue().toString();
-		String instr = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString();
+		String instr = ((SimpleNode)node.jjtGetChild(0)).jjtGetValue().toString().toLowerCase();
 		
 //		out.println("Call Subroutine:  " + instr);
 //		node.jjtGetChild(0).jjtAccept(this, null);
@@ -746,7 +810,7 @@ public class RunVisitor implements bc1Visitor
 		for (double i = first; i <= last; i += step)
 		{
 			// Store the lcv
-			this.varStack.peek().put(lcv, i + "");
+			storeVarValue(lcv, i + "");
 			node.jjtGetChild(instructionsIndex).jjtAccept(this, null);
 		}
 		
