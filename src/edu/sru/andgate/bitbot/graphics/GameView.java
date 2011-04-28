@@ -37,6 +37,7 @@ public class GameView extends GLSurfaceView implements OnKeyListener
 	
     public boolean onTouchEvent(final MotionEvent event)
     {
+    	
         queueEvent(new Runnable()
         {
             public void run()
@@ -45,6 +46,11 @@ public class GameView extends GLSurfaceView implements OnKeyListener
                 touchY = event.getY();
             }
         });
-            return true;
+        
+        try {
+        	Thread.sleep(500);
+        } catch (InterruptedException e) {} //ignore
+        
+        return true;
     }
 }
