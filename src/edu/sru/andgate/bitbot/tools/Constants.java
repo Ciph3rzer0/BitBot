@@ -6,6 +6,8 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.R.drawable;
 
 public class Constants {
+	public static boolean hasShownBefore = false;
+	
 	//damage image lookup table
 	public Hashtable<Integer, Integer> damage1 = new Hashtable<Integer,Integer>();
 	public Hashtable<Integer, Integer> damage2 = new Hashtable<Integer,Integer>();
@@ -22,7 +24,6 @@ public class Constants {
 		damage2.put(R.drawable.adambot, R.drawable.adambotd2);
 		
 		//tutorial list
-		tutorials_table.put("Getting Started", "getting_started.xml");
         tutorials_table.put("Print Statement", "print_tutorial.xml");
         tutorials_table.put("Defining Variables", "declaring_vars.xml");
         tutorials_table.put("Loops","loops.xml");

@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.customdialogs.IntroCustomDialog;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 
 import android.app.Activity;
@@ -53,6 +55,7 @@ public class Main_Tutorial extends Activity
 	private File file;
 	private BufferedWriter writer;
 	private ViewFlipper vf;
+	private IntroCustomDialog icd;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -253,11 +256,17 @@ public class Main_Tutorial extends Activity
 			public void onClick(View v) 
 			{
 				vf = (ViewFlipper) findViewById(R.id.tutorial_view_flipper);
-
+				
 				vf.setInAnimation(sIn_right);
 				vf.setOutAnimation(sOut_right);
 				
 				vf.showNext();
+				
+				if(!Constants.hasShownBefore){
+					icd = new IntroCustomDialog("tutorial_intro.xml", Main_Tutorial.this, R.style.CustomDialogTheme);
+					icd.show();	
+					Constants.hasShownBefore = true;
+				}			
 			}
 		});
 		

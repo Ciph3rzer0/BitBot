@@ -1,4 +1,4 @@
-package edu.sru.andgate.bitbot.customdialog;
+package edu.sru.andgate.bitbot.customdialogs;
 
 import java.io.File;
 
@@ -22,14 +22,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class CustomDialog extends Dialog 
+public class CustomDialogListView extends Dialog 
 {
     TextView selection;
     Context context;
     String file;
     Activity activity;
     
-    public CustomDialog(Activity act, String file, Context context, int theme) 
+    public CustomDialogListView(Activity act, String file, Context context, int theme) 
     {
         super(context, theme);
         this.context = context;
