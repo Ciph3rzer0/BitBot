@@ -115,7 +115,7 @@ public class Test extends Activity
 				String sn = n.getClass().getSimpleName();
 				String on = o.getClass().getSimpleName();
 				
-				if (!sn.equals(on))
+				if (!sn.equalsIgnoreCase(on))
 				{
 					Log.w(LOG, sn + " != " + on);
 					return false;
@@ -167,7 +167,7 @@ public class Test extends Activity
 			String vo = ((SimpleNode)o).jjtGetValue() + "";
 			
 			Log.w(LOG, vn + " && " + vo);
-			if (!vn.equals(vo))
+			if (!vn.equalsIgnoreCase(vo))
 			{
 				Log.w(LOG, vn + " != " + vo);
 				return false;
