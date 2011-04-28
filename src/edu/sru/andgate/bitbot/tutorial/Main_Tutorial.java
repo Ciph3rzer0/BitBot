@@ -400,6 +400,7 @@ public class Main_Tutorial extends Activity
 			if(currTutorial.nextStage() == -1){
 				Toast.makeText(Main_Tutorial.this, lastStage,Toast.LENGTH_SHORT).show();
 				canSimulate = true;
+				Constants.finished_tutorials.add(tutorialID);
 				//currTutorial.setCompletionStatus(true);
 			}else{
 				Toast.makeText(Main_Tutorial.this, nextStage,Toast.LENGTH_SHORT).show();

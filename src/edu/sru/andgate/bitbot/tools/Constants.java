@@ -1,5 +1,6 @@
 package edu.sru.andgate.bitbot.tools;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import edu.sru.andgate.bitbot.R;
@@ -7,6 +8,8 @@ import edu.sru.andgate.bitbot.R.drawable;
 
 public class Constants {
 	public static boolean hasShownBefore = false;
+	public static ArrayList<String> finished_tutorials = new ArrayList<String>();
+	
 	
 	//damage image lookup table
 	public Hashtable<Integer, Integer> damage1 = new Hashtable<Integer,Integer>();
@@ -37,6 +40,7 @@ public class Constants {
         simulation_table.put("Loops", 1);
         simulation_table.put("Sub Routines", 1);
         simulation_table.put("Selection Statements", 1);
+        
 	 }
 	 
 	 
