@@ -1,12 +1,15 @@
 package edu.sru.andgate.bitbot.gametypes;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.customdialogs.VictoryDialog;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
@@ -18,12 +21,14 @@ public class DungeonCrawl extends GameTypes
 	private int totalBots;
 	private String userBotFile;
 	private Bot[] bots;
+	private VictoryDialog vd;
+	private long start, elapsed;
 	private Bot userBot;
 	private float defaultZ;
 	private TileMap tileMap;
 	public boolean victory;
 	Random generator;
-	private GameActivity _game;
+	public NickGameActivity _game;
 	
 	public DungeonCrawl(Context context, TileMap tileMap, String mapFile, String userBotFile)
 	{
@@ -41,6 +46,7 @@ public class DungeonCrawl extends GameTypes
 	@Override
 	public void Initialize(NickGameActivity ga)
 	{
+		this._game = ga;
 		Log.v("GameTypes", "GameType Accepted");
 		int randomIndex;
 		tileMap.setSpawnPoints();
@@ -67,6 +73,8 @@ public class DungeonCrawl extends GameTypes
 		userBot = Bot.CreateBotFromXML(context, userBotFile);
 		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size());
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
+		start = System.currentTimeMillis();
+
 	}
 
 	@Override
@@ -79,19 +87,35 @@ public class DungeonCrawl extends GameTypes
 			}
 		}
 		
-		if(botsLeft == 0){
+		if(botsLeft == 0 && victory == false){
 			victory = true;
+			Constants.finished_missions.add(_game.missionType);
+			elapsed = System.currentTimeMillis() - start;
+			Finalize();
 		}
-		
 	}
+	
 
 	@Override
 	public void Finalize() {
 		// Not sure here yet
 		Log.v("GameTypes", "Victory is Yours");
-		Toast.makeText(_game, "Victory is Yours", Toast.LENGTH_SHORT).show();
+		_game.runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, _game.kills, _game.accuracy, elapsed);	
+				vd.show();	
+			}
+		});	
+		
 	}
-	
+
 	@Override
 	public TileMap getMap(){
 		return this.tileMap;
@@ -111,4 +135,5 @@ public class DungeonCrawl extends GameTypes
 	public boolean hasVictory(){
 		return this.victory;
 	}
+	
 }
