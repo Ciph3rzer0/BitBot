@@ -6,6 +6,8 @@ package edu.sru.andgate.bitbot;
 
 import java.io.File;
 import java.io.FileOutputStream;
+
+import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.tools.FileManager;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -22,13 +24,29 @@ public class Initialization
 		FileManager.setContext(cw.getBaseContext());
 			
 		
-		String data = "//Place Holder File\n" + "Let d = -1\n" +
-		"\n" +
-		"While 1 Do\n" + 
-		"  call bot_move(45, 5)\n" +
-		"  \n" +
-		"  Let d = d + 1\n" +
-		"Loop\n";
+		String data =
+			"//Place Holder File\n" + "Let d = -1\n" +
+			"\n" +
+			"While 1 Do\n" + 
+			"  call bot_move(45, 5)\n" +
+			"  \n" +
+			"  Let d = d + 1\n" +
+			"Loop\n";
+		
+		String data02 =
+			"//Place Holder File\n" + "Let d = -1\n" +
+			"\n" +
+			"While 1 Do\n" + 
+			"  call bot_move(45, 5)\n" +
+			"  Let g = g + 1\n" +
+			"Loop\n";
+		
+		boolean b = Test.CompareCode(data, data02);
+		
+		if (b)
+			Log.v("BitBot INIT", "Sources are equal");
+		else
+			Log.v("BitBot INIT", "Sources are not equal");
 		
 		enemy = new Bot();
 		enemy.setName("Generic Enemy");

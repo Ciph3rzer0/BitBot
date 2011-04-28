@@ -171,7 +171,7 @@ public class BotInterpreter
 		}
 		
 		if (root != null)
-			Dump(root);
+			Test.Dump(root);
 		else
 			Log.e("BitBot Interpreter", "Error: The code did not compile correctly.  Root is null.");
 	}
@@ -187,33 +187,6 @@ public class BotInterpreter
 		
 		if (root == null)
 			Log.e("BitBot Interpreter", "Error: Passed a null root node.");		
-	}
-	
-	/**
-	 * Creates a textual representation of the AST starting at node <code>s</code>.
-	 * @param s the node to dump
-	 */
-	private void Dump(Node s)
-	{
-		Dump(s, "");
-	}
-	
-	/**
-	 * Creates a textual representation of the AST starting at node <code>s</code> with
-	 * <code>prefix</code> in front of it.
-	 * <p>
-	 * This code is recursively called to put <code>"- "</code> on the line a number of
-	 * times equal to the depth of the node.
-	 * @param s the node to dump
-	 * @param prefix the string to prefix to all output at this depth
-	 */
-	private void Dump(Node s, String prefix)
-	{
-		
-		System.out.println(prefix + s.toString() + ": " + ((SimpleNode)s).jjtGetValue());
-		
-		for(int i=0; i < s.jjtGetNumChildren(); i++)
-			Dump(s.jjtGetChild(i), prefix + "- ");
 	}
 	
 	/**

@@ -8,6 +8,7 @@ import java.io.PrintStream;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,11 +20,200 @@ import edu.sru.andgate.bitbot.parser.*;
 
 public class Test extends Activity
 {
+	public static final String LOG = "BitBot AST Compare";
+	
 	InstructionLimitedVirtualMachine vm;
 	TextView tv;
 	OutputStream ps;
 	
 	BotInterpreter b1;
+	
+	/**
+	 * Compares the AST of both source code files.  By default, <code>precise,</code> mode
+	 * is enabled, meaning every variable and value must be the same.
+	 *  
+	 * @param s1 one source file
+	 * @param s2 another source file
+	 * @return true if the method determines them to be equal.
+	 */
+	public static boolean CompareCode(String s1, String s2)
+	{
+		return CompareCode(s1, s2, true);
+	}
+	
+	/**
+	 * Compares the AST of both source code files.  When <code>precise,</code> mode
+	 * is enabled, every variable and value must be the same.  If precise is false, variable
+	 * and constant substitutions are allowed.
+	 * 
+	 * Other things such as \< or \> will also be interchangeable if precise mode is disabled.
+	 *  
+	 * @param s1 one source file
+	 * @param s2 another source file
+	 * @param precise checks value and variable names if true.
+	 * @return true if the method determines them to be equal.
+	 */
+	public static boolean CompareCode(String s1, String s2, boolean precise)
+	{
+		boolean result = false;
+		Node n1 = null, n2 = null;
+		
+		// Parse the first file
+		try
+		{
+			n1 = ( new bc1(new ByteArrayInputStream(s1.getBytes())) ).Start();
+		}
+		catch(Exception e)
+		{
+			Log.e(LOG, "Error parsing first source file\n" + e.getStackTrace());
+		}
+		
+		// Parse the second file
+		try
+		{
+			n2 = ( new bc1(new ByteArrayInputStream(s2.getBytes())) ).Start();
+		}
+		catch(Exception e)
+		{
+			Log.e(LOG, "Error parsing second source file\n" + e.getStackTrace());
+		}
+		
+//		Dump(n1);	Dump(n2);
+		
+		// Run the compare
+		if (precise)
+		{
+			if (compareNodePrecise(n1, n2))
+				result = true;
+		}
+		else
+			if (compareNodeLoose(n1, n2))
+				result = true;
+		
+		return result;
+	}
+	
+	/**
+	 * Recursively checks node's class types to determine equality.
+	 * 
+	 * @param n one node to check
+	 * @param o another node to check
+	 * @return true if class types are equal
+	 */
+	private static boolean compareNodeLoose(Node n, Node o)
+	{
+		try
+		{
+			if ( (n.jjtGetNumChildren() == o.jjtGetNumChildren()) == false )
+				throw new ArrayIndexOutOfBoundsException();
+			
+			for (int i = 0; i < n.jjtGetNumChildren(); i++)
+			{
+				String sn = n.getClass().getSimpleName();
+				String on = o.getClass().getSimpleName();
+				
+				if (!sn.equals(on))
+				{
+					Log.w(LOG, sn + " != " + on);
+					return false;
+				}
+				
+				if(compareNodeLoose(n.jjtGetChild(i), o.jjtGetChild(i)) == false)
+					return false;
+			}
+			
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			Log.w(LOG, "Number of nodes is not the same");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Recursively checks node's class types and values to determine equality.
+	 * 
+	 * @param n one node to check
+	 * @param o another node to check
+	 * @return true if class types and values are equal
+	 */
+	private static boolean compareNodePrecise(Node n, Node o)
+	{
+		try
+		{
+			if ( (n.jjtGetNumChildren() == o.jjtGetNumChildren()) == false )
+				throw new ArrayIndexOutOfBoundsException();
+			
+			// Test class names
+			String sn = n.getClass().getSimpleName();
+			String so = o.getClass().getSimpleName();
+			
+			if (!sn.equals(so))
+			{
+				Log.w(LOG, sn + " != " + so);
+				return false;
+			}
+			
+			// Test Values
+			String vn = ((SimpleNode)n).jjtGetValue() + "";
+			String vo = ((SimpleNode)o).jjtGetValue() + "";
+			
+			Log.w(LOG, vn + " && " + vo);
+			if (!vn.equals(vo))
+			{
+				Log.w(LOG, vn + " != " + vo);
+				return false;
+			}
+			
+			// Recursively check children
+			for (int i = 0; i < n.jjtGetNumChildren(); i++)
+				if(compareNodePrecise(n.jjtGetChild(i), o.jjtGetChild(i)) == false)
+					return false;
+			
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			Log.w(LOG, "Number of nodes is not the same");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Creates a textual representation of the AST starting at node <code>s</code>.
+	 * @param s the node to dump
+	 */
+	public static void Dump(Node s)
+	{
+		Dump(s, "");
+	}
+	
+	/**
+	 * Creates a textual representation of the AST starting at node <code>s</code> with
+	 * <code>prefix</code> in front of it.
+	 * <p>
+	 * This code is recursively called to put <code>"- "</code> on the line a number of
+	 * times equal to the depth of the node.
+	 * @param s the node to dump
+	 * @param prefix the string to prefix to all output at this depth
+	 */
+	public static void Dump(Node s, String prefix)
+	{
+		
+		System.out.println(prefix + s.toString() + ": " + ((SimpleNode)s).jjtGetValue());
+		
+		for(int i=0; i < s.jjtGetNumChildren(); i++)
+			Dump(s.jjtGetChild(i), prefix + "- ");
+	}
+	
+	
+	
+	
+	
+	
 	
 	/** Called when the activity is first created. */
 	@Override
