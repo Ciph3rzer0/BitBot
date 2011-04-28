@@ -102,6 +102,9 @@ public class Test extends Activity
 	 */
 	private static boolean compareNodeLoose(Node n, Node o)
 	{
+		if (n == null || o == null)
+			return false;
+		
 		try
 		{
 			if ( (n.jjtGetNumChildren() == o.jjtGetNumChildren()) == false )
@@ -141,6 +144,9 @@ public class Test extends Activity
 	 */
 	private static boolean compareNodePrecise(Node n, Node o)
 	{
+		if (n == null || o == null)
+			return false;
+	
 		try
 		{
 			if ( (n.jjtGetNumChildren() == o.jjtGetNumChildren()) == false )

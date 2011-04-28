@@ -1,14 +1,19 @@
 package edu.sru.andgate.bitbot.gametypes;
 
 import java.util.Random;
+
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.graphics.GameActivity;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 import edu.sru.andgate.bitbot.tools.Constants;
 
-public class DungeonCrawl extends GameTypes{
+public class DungeonCrawl extends GameTypes
+{
 	private Context context;
 	private int totalBots;
 	private String userBotFile;
@@ -18,9 +23,10 @@ public class DungeonCrawl extends GameTypes{
 	private TileMap tileMap;
 	public boolean victory;
 	Random generator;
-
+	private GameActivity _game;
 	
-	public DungeonCrawl(Context context, TileMap tileMap, String mapFile, String userBotFile){
+	public DungeonCrawl(Context context, TileMap tileMap, String mapFile, String userBotFile)
+	{
 		this.userBotFile = userBotFile;
 		tileMap = new TileMap();
 		tileMap.loadMapFile(mapFile, context);
@@ -33,7 +39,8 @@ public class DungeonCrawl extends GameTypes{
 	
 	
 	@Override
-	public void Initialize() {
+	public void Initialize(NickGameActivity ga)
+	{
 		Log.v("GameTypes", "GameType Accepted");
 		int randomIndex;
 		tileMap.setSpawnPoints();
@@ -82,6 +89,7 @@ public class DungeonCrawl extends GameTypes{
 	public void Finalize() {
 		// Not sure here yet
 		Log.v("GameTypes", "Victory is Yours");
+		Toast.makeText(_game, "Victory is Yours", Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override

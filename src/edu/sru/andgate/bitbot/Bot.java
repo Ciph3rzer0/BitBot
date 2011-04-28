@@ -142,6 +142,15 @@ public class Bot
 		
 	}
 	
+	
+	public void callOnBoundaryCollision()
+	{
+		_interpreter.callOnBoundaryCollision();
+	}
+	
+	
+	
+	
 	public void setName(String name){
 		this.bot_name = name;
 	}
@@ -228,7 +237,7 @@ public class Bot
 			b.setCode(readXML(doc, "Bot-Code"));
 			b.setBullet(Integer.parseInt(readXML(doc, "Bot-Bullet")));
 			
-			DrawableBot db = new DrawableBot();
+			DrawableBot db = new DrawableBot(b);
 			b.setDrawableBot(db);
 			db.addTexture(b.getBase());
 			db.addTexture(constants.damage1.get(b.getBase()));	

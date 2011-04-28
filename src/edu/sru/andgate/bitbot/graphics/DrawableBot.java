@@ -22,6 +22,8 @@ import java.util.*;
 
 public class DrawableBot implements Drawable
 {
+	private Bot _bot;	// Reference to bot container
+	
 	SoundManager collisionSound;
 	float[] parameters;
 	int ID = 0;
@@ -68,9 +70,16 @@ public class DrawableBot implements Drawable
 	
 	//Texture pointer
 	public int[] textures = new int[MAX_TEXTURE_ARRAY_SIZE];
-
+	
+	public DrawableBot(Bot bot)
+	{
+		this();
+		_bot = bot;
+	}
+	
 	public DrawableBot()
 	{
+		
 		// a float has 4 bytes so we allocate for each coordinate 4 bytes
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
@@ -247,6 +256,9 @@ public class DrawableBot implements Drawable
 		//For now, flip angle and continue
 		//moveAngle = Math.abs(moveAngle - 180.0f) % 360.0f;
 		//parameters[3] = moveAngle + 90.0f;
+		
+		if (_bot != null)
+			_bot.callOnBoundaryCollision();
 	}
 	
 	/* (non-Javadoc)
