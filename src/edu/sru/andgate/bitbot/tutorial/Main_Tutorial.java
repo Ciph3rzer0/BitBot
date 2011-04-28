@@ -2,7 +2,6 @@ package edu.sru.andgate.bitbot.tutorial;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -53,8 +52,6 @@ public class Main_Tutorial extends Activity
 	private TextView botOutput, main_text;
 	private Button slideHandleButton, to_code_button, back_to_code;
 	private ImageButton sequence_btn, selection_btn, iteration_btn, tools_btn, lock_btn, simulate_btn;
-	private File file;
-	private BufferedWriter writer;
 	private ViewFlipper vf;
 	private IntroCustomDialog icd;
 	
@@ -379,10 +376,10 @@ public class Main_Tutorial extends Activity
 		 * Temporary - Need to send strings(s) to interpreter and compare abstract 
 		 * 				Syntax Tree's
 		 */
-		
+		userAnswer += "\n";
 		String temp2 = "";
 		
-		temp2 = currTutorial.getAnswer();
+		temp2 = currTutorial.getAnswer()+ "\n";
 		
 		//Let the user know if they are right or not.
 		if(Test.CompareCode(userAnswer, temp2))
