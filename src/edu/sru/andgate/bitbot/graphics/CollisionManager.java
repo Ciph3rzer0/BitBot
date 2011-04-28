@@ -258,12 +258,7 @@ public class CollisionManager
 			{
 				currentTileY = (int)Math.floor(Math.abs((botList[i].parameters[1] - tileMap.mapHeight)/tileMap.tileStep));
 			}
-			/*
-			if(botList[i].BOT_TYPE == 1)
-			{
-				Log.v("bitbot", "Current Tile Pos: " + currentTileX + " , " + currentTileY);
-			}
-			*/
+
 			//Check surrounding tiles to determine if further calculations are neccessary
 			//Current Tile | Left Tile | Right Tile | Top Tile | Bottom Tile
 			if(tileMap.tileBoundaries[currentTileX][currentTileY][0] != 0)
