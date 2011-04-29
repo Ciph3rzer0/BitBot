@@ -10,6 +10,7 @@ import java.util.TimerTask;
 
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
@@ -77,7 +78,9 @@ public class NickGameActivity extends Activity
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");
         mapFile = getIntent().getExtras().getString("Map");
-        if(missionType.equalsIgnoreCase("Dungeon Crawl")){
+        if(missionType.equalsIgnoreCase("BOT versus BOT")){
+        	gt = new BotVsBot(this.getBaseContext(), testMap, mapFile, botFile);
+        }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
         	gt = new DungeonCrawl(this.getBaseContext(), testMap, mapFile, botFile);
         }
              

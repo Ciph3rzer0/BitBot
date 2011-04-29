@@ -16,7 +16,7 @@ import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 import edu.sru.andgate.bitbot.tools.Constants;
 
-public class DungeonCrawl extends GameTypes
+public class BotVsBot extends GameTypes
 {
 	private Context context;
 	private int totalBots;
@@ -33,7 +33,7 @@ public class DungeonCrawl extends GameTypes
 	Random generator;
 	public NickGameActivity _game;
 	
-	public DungeonCrawl(Context context, TileMap tileMap, String mapFile, String userBotFile)
+	public BotVsBot(Context context, TileMap tileMap, String mapFile, String userBotFile)
 	{
 		this.userBotFile = userBotFile;
 		tileMap = new TileMap();
