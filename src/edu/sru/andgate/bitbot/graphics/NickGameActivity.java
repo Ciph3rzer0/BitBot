@@ -47,8 +47,7 @@ public class NickGameActivity extends Activity
 	ArrayList<DrawableBot> notifyOnTouchList;
 	
 	GameTypes gt;
-	public int kills;
-	public double accuracy;
+	public int numShotsFired, numBulletsContact, kills;
 	
 	int MAX_OBJECTS = 250;
 	int NUM_TEST_BOTS = 0;
@@ -72,7 +71,8 @@ public class NickGameActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         kills = 0;
-        accuracy = 0.0;
+        numBulletsContact = 0;
+        numShotsFired = 0;
         //figure out what type of Game this is
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");
@@ -296,6 +296,7 @@ public class NickGameActivity extends Activity
     	    		if(shotCount >= 10)
     	    		{
     	    			gt.getBot().getDrawableGun().fire();
+    	    			numShotsFired++;
     	    			shotCount = 0;
     	    		}    	    		
     	    		shotCount++;
@@ -315,19 +316,9 @@ public class NickGameActivity extends Activity
     		        	if(gt.getBots()[i].getDrawableBot().isAlive)
     		        		addToDrawList(gt.getBots()[i]);
     		        }
+    		        
     		        if(gt.getBot().getDrawableBot().isAlive)
-		        		addToDrawList(gt.getBot());
-    		        
-    		      /*
-    		        //Nick loaded bot
-	    		        try{
-	    		        	if(loadedBot.getDrawableBot().isAlive)
-	    		        		addToDrawList(loadedBot);
-	    		        }catch (Exception e){
-	    		        	Log.v("BitBot", "Adding to drawlist failed");
-	    		        }
-    		     */
-    		        
+		        		addToDrawList(gt.getBot());  		        
     		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
@@ -368,6 +359,10 @@ public class NickGameActivity extends Activity
     	gT.setName("Game Thread: " + gT.getName());
     	gT.start();
     }
+    
+    public GameTypes getGameType(){
+    	return this.gt;
+    }   
     
 	@Override
 	protected void onResume()

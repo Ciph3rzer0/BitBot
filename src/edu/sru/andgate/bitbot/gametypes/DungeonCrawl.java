@@ -25,6 +25,7 @@ public class DungeonCrawl extends GameTypes
 	private long start, elapsed;
 	private Bot userBot;
 	private float defaultZ;
+	private double accuracy;
 	private TileMap tileMap;
 	private boolean victory;
 	Random generator;
@@ -98,6 +99,16 @@ public class DungeonCrawl extends GameTypes
 
 	@Override
 	public void Finalize() {
+		for(int i = 0; i < _game.getGameType().getBots().length; i++){
+	       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){
+	       		//do nothing
+	       	}else{
+	       		_game.kills++;
+	       		_game.numBulletsContact += _game.getGameType().getBots()[i].getDrawableBot().getNumBulletsHit();
+	       	}
+		}
+		accuracy = ((double)_game.numBulletsContact/(double)_game.numShotsFired) * 100;
+		accuracy = (double)Math.round(accuracy * 100) / 100;
 		// Not sure here yet
 		Log.v("GameTypes", "Victory is Yours");
 		_game.runOnUiThread(new Runnable(){
@@ -109,7 +120,7 @@ public class DungeonCrawl extends GameTypes
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, _game.kills, _game.accuracy, elapsed);	
+				vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, _game.kills, accuracy, elapsed);	
 				vd.show();	
 			}
 		});	
