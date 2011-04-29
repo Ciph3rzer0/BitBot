@@ -33,14 +33,14 @@ public class DungeonCrawl extends GameTypes
 	public DungeonCrawl(Context context, TileMap tileMap, String mapFile, String userBotFile)
 	{
 		this.userBotFile = userBotFile;
-		tileMap = new TileMap();
-		tileMap.loadMapFile(mapFile, context);
 		this.tileMap = tileMap;
+		this.tileMap.loadMapFile(mapFile, context);
+		//this.tileMap = tileMap;
 		this.context = context;
 		this.generator = new Random();
 		victory = false;
 		defaultZ = -5.0f;
-		tileMap.setSpawnPoints();
+		this.tileMap.setSpawnPoints();
 	}
 	
 	

@@ -77,8 +77,10 @@ public class NickGameActivity extends Activity
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");
         mapFile = getIntent().getExtras().getString("Map");
+        Log.v("bitbot", mapFile);
+        testMap = new TileMap();
         if(missionType.equalsIgnoreCase("Dungeon Crawl")){
-        	gt = new DungeonCrawl(this.getBaseContext(), testMap, mapFile, botFile);
+        	gt = new DungeonCrawl(this, testMap, mapFile, botFile);
         }
              
         // making it full screen

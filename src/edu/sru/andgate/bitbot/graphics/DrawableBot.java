@@ -265,7 +265,9 @@ public class DrawableBot implements Drawable
 		//parameters[3] = moveAngle + 90.0f;
 		
 		if (_bot != null)
+		{
 			_bot.callOnBoundaryCollision();
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -327,7 +329,10 @@ public class DrawableBot implements Drawable
 		
 		parameters[3] = 360 - (90+moveAngle);
 		
-		_bot.callOnTouchEvent(touchX, touchY);
+		if (_bot != null)
+		{
+			_bot.callOnTouchEvent(touchX, touchY);
+		}
 	}
 	
 	public void onBotFocus(DrawableBot bot)
