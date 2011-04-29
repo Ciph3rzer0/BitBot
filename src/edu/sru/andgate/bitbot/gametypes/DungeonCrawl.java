@@ -26,7 +26,7 @@ public class DungeonCrawl extends GameTypes
 	private Bot userBot;
 	private float defaultZ;
 	private TileMap tileMap;
-	public boolean victory;
+	private boolean victory;
 	Random generator;
 	public NickGameActivity _game;
 	

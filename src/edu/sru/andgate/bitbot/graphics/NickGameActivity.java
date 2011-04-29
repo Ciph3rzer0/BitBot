@@ -99,7 +99,7 @@ public class NickGameActivity extends Activity
         //game types test
         gt.Initialize(this);
         testMap = gt.getMap();
-        //notifyOnTouchList.add(gt.getBot().getDrawableBot());
+        notifyOnTouchList.add(gt.getBot().getDrawableBot());
         
         // Initiate the Open GL view and create an instance with this activity
         //glSurfaceView = new GLSurfaceView(this);
@@ -285,12 +285,7 @@ public class NickGameActivity extends Activity
     				
     				//check victory conditions
     				gt.Update();
-    				if(gt.hasVictory()){
-    					finish();
-    					Constants.finished_missions.add(missionType);
-    					gt.Finalize();
-    				}
-    				
+    			    				
     				//gt.getBot().getDrawableBot().moveByTouch(0.1f);
     				gt.getBot().getDrawableBot().move();
     				//test2.move(0.0f, 0.05f);
