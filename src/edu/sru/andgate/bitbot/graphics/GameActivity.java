@@ -10,7 +10,7 @@ import java.util.TimerTask;
 
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
+import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -29,7 +29,7 @@ public class GameActivity extends Activity
 	GlRenderer gameRenderer;
 	DrawableParticleEmitter particleEmitter;
 	Bot loadedBot;
-	DungeonCrawl dc;
+	BotVsBot dc;
 	MediaPlayer mp;
 	DrawableBot test;
 	DrawableBot test2;

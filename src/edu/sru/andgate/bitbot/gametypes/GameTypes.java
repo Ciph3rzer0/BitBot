@@ -11,13 +11,12 @@ public abstract class GameTypes {
 
 	public abstract void Update();
 	
-	public abstract void Finalize();
+	public abstract void Finalize(final boolean type);
  
 	public abstract TileMap getMap();
 	
 	public abstract Bot[] getBots();
 	
 	public abstract Bot getBot();
-	
-	public abstract boolean hasVictory();
+
 }

@@ -26,6 +26,7 @@ public class DrawableBot implements Drawable
 	
 	SoundManager collisionSound;
 	float[] parameters;
+	private int numBulletsInContact;
 	int ID = 0;
 	int textureCount = 0;
 	int MAX_TEXTURE_ARRAY_SIZE = 5;
@@ -79,7 +80,7 @@ public class DrawableBot implements Drawable
 	
 	public DrawableBot()
 	{
-		
+		numBulletsInContact = 0;
 		// a float has 4 bytes so we allocate for each coordinate 4 bytes
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
@@ -299,6 +300,7 @@ public class DrawableBot implements Drawable
 			SELECTED_TEXTURE = damageSprites[currentDamageSprite][0];
 			currentDamageSprite++;
 		}
+		numBulletsInContact++;
 	}
 	
 	public void onKill()
@@ -436,6 +438,10 @@ public class DrawableBot implements Drawable
 	
 	public boolean isAlive(){
 		return this.isAlive;
+	}
+	
+	public int getNumBulletsHit(){
+		return this.numBulletsInContact;
 	}
 
 }
