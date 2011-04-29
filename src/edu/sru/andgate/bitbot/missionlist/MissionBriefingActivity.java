@@ -13,7 +13,7 @@ import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class MissionBriefingActivity extends Activity
 {
-	private String missionFile;
+	private String missionFile, missionMap;
 	private int missionIcon;
 	private TextView mission_text, title_bar;
 	private ImageView mission_icon;
@@ -26,6 +26,7 @@ public class MissionBriefingActivity extends Activity
 	        FileManager.setContext(getBaseContext());
 	        missionFile = getIntent().getExtras().getString("Filename");
 	        missionIcon = getIntent().getExtras().getInt("Icon",0);
+	        missionMap = getIntent().getExtras().getString("Map");
 	       
 	        mission_text = (TextView) findViewById(R.id.mission_text);
 	        title_bar = (TextView) findViewById(R.id.title_bar);
@@ -54,7 +55,7 @@ public class MissionBriefingActivity extends Activity
 				public void onClick(View v) {
 					Intent engineIntent = new Intent(MissionBriefingActivity.this, BotBuilderActivity.class);
 					engineIntent.putExtra("GameType",FileManager.readXML(missionFile, "mission-type"));
-					engineIntent.putExtra("Map", FileManager.readXML(missionFile, "map-file"));
+					engineIntent.putExtra("GameMap", missionMap);
 					startActivity(engineIntent);
 				}
 			});

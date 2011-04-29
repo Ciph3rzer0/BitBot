@@ -4,17 +4,14 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MissionListActivity extends ListActivity {
@@ -29,6 +26,7 @@ public class MissionListActivity extends ListActivity {
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_main);
 	        
+	        FileManager.setContext(getBaseContext());
 	        myMissions = new ArrayList<CustomListView>();
 	        mission_icons = new Hashtable<String,Integer>();
 	        mission_list = new Hashtable<String, String>();

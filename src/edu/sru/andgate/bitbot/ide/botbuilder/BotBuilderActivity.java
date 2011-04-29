@@ -50,7 +50,7 @@ public class BotBuilderActivity extends Activity
 		setContentView(R.layout.ide_botbuilder_main);
 		
 		missionType = getIntent().getExtras().getString("GameType");
-		mapFile = getIntent().getExtras().getString("Map");
+		mapFile = getIntent().getExtras().getString("GameMap");
 		
 		FileManager.setContext(getBaseContext());
 		c = (BotComponentView)findViewById(R.id.bb_chassis);
@@ -143,7 +143,7 @@ public class BotBuilderActivity extends Activity
 		Intent engineIntent = new Intent(BotBuilderActivity.this, NickGameActivity.class);
 		engineIntent.putExtra("Bot", "test_bot.xml");
 		engineIntent.putExtra("GameType", missionType);
-		engineIntent.putExtra("Map", mapFile);
+		engineIntent.putExtra("MapFile", mapFile);
 		startActivity(engineIntent);
 		
 	}

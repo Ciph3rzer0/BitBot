@@ -108,7 +108,8 @@ public class TileMap
 		try
 		{			
 		    InputStream mapFileStream = context.getAssets().open(mapFile);
-			BufferedReader r = new BufferedReader(new InputStreamReader(mapFileStream));
+		   	BufferedReader r = new BufferedReader(new InputStreamReader(mapFileStream));
+			
 			//Dump current texture set
 			numTextures = 0;
 			textureHopper.clear();
@@ -362,7 +363,6 @@ public class TileMap
 		//put the spawn point array in a temp array
 		int enemyCounter = 0;
 		int userCounter = 0;
-		
 		 for(int i=0;i<mapHeight;i++)
 		 {
         	for(int j=0;j<mapWidth;j++)

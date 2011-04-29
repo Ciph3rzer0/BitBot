@@ -20,7 +20,7 @@ public class BotVsBot extends GameTypes
 {
 	private Context context;
 	private int totalBots;
-	private String userBotFile;
+	private String userBotFile, mapFile;
 	private Bot[] bots;
 	private VictoryDialog vd;
 	private DefeatDialog dd;
@@ -33,18 +33,18 @@ public class BotVsBot extends GameTypes
 	Random generator;
 	public NickGameActivity _game;
 	
-	public BotVsBot(Context context, TileMap tileMap, String mapFile, String userBotFile)
+	public BotVsBot(Context context, String mapFile, String userBotFile)
 	{
-		this.userBotFile = userBotFile;
-		tileMap = new TileMap();
-		tileMap.loadMapFile(mapFile, context);
-		this.tileMap = tileMap;
 		this.context = context;
+		this.mapFile = mapFile;
+		this.userBotFile = userBotFile;
+		this.tileMap.loadMapFile(mapFile, context);
+		this.tileMap.setSpawnPoints();
+		this.tileMap = new TileMap();
 		this.generator = new Random();
 		victory = false;
 		defeat = false;
 		defaultZ = -5.0f;
-		tileMap.setSpawnPoints();
 	}
 	
 	
@@ -97,6 +97,7 @@ public class BotVsBot extends GameTypes
 			elapsed = System.currentTimeMillis() - start;
 			Finalize(victory);
 		}else if (!userBot.getDrawableBot().isAlive()){
+			defeat = true;
 			elapsed = System.currentTimeMillis() - start;
 			Finalize(defeat);
 		}
