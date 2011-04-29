@@ -36,7 +36,6 @@ import android.widget.SlidingDrawer.OnDrawerOpenListener;
 
 public class Main_Tutorial extends Activity
 {
-	private boolean canSimulate = false;
 	private EditText editor; 
 	private TextView help_text;
 	private String tutorialID;
@@ -225,7 +224,7 @@ public class Main_Tutorial extends Activity
 			{
 				if(simulateFlag == 0){
 					Toast.makeText(Main_Tutorial.this, "No Simulation Available" , Toast.LENGTH_SHORT).show();
-				}else if(canSimulate && simulateFlag == 1){
+				}else if(simulateFlag == 1){
 					InterpreteCode();
 					
 					vf = (ViewFlipper) findViewById(R.id.tutorial_view_flipper);
@@ -234,10 +233,8 @@ public class Main_Tutorial extends Activity
 					vf.setOutAnimation(sOut_right);
 					
 					vf.showNext();
-				}else if (canSimulate && simulateFlag == 2){
+				}else if (simulateFlag == 2){
 					//Graphical Simulation here
-				}else{
-					Toast.makeText(Main_Tutorial.this, "Simulation Available, but answer is not correct", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -390,7 +387,6 @@ public class Main_Tutorial extends Activity
 			String lastStage = "Correct Anwser, All stages of this Tutorial are finished. Simulation Ready";
 			if(currTutorial.nextStage() == -1){
 				Toast.makeText(Main_Tutorial.this, lastStage,Toast.LENGTH_SHORT).show();
-				canSimulate = true;
 				Constants.finished_tutorials.add(tutorialID);
 				//currTutorial.setCompletionStatus(true);
 			}else{
@@ -402,7 +398,6 @@ public class Main_Tutorial extends Activity
 		}else
 		{
 			Toast.makeText(Main_Tutorial.this,"Wrong Answer",Toast.LENGTH_SHORT).show();
-			canSimulate = false;
 		}
 	}
 	

@@ -99,6 +99,8 @@ public class TileMap
 	
 	public void loadMapFile(String mapFile, Context context)
 	{
+		Log.v("bitbot", "FUCK: " + mapFile);
+		TileMapTextureLoader textureLoader = new TileMapTextureLoader(this);
 		int nTexturesInMap = 0;
 		
 		Log.v("bitbot", "Loading Map...");
@@ -190,18 +192,9 @@ public class TileMap
 	        	}
 	        }
 	        //Read and load textures ***************************NEEDS FIXED**********************************
-	        //for(int i=0;i<1;i++)
-	        //{
-	        	  this.addTexture(R.drawable.deftile);
-	        	  this.addTexture(R.drawable.seltile);
-	        	  this.addTexture(R.drawable.stone);
-	        	  this.addTexture(R.drawable.brick);
-	        	  this.addTexture(R.drawable.grass);
-	        	  this.addTexture(R.drawable.sandtile);
-	          //}
-	          mapFileStream.close();
-	          Log.v("bitbot", "Map loading complete.");
-	      //}
+	        textureLoader.loadMapTextures(mapFile); //should user var mapFile
+	        mapFileStream.close();
+	        Log.v("bitbot", "Map loading complete.");
 		}
 		catch(Exception e)
 		{

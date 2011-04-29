@@ -1,9 +1,7 @@
 <mission>
 <mission-name>Dungeon Crawl</mission-name>
 <mission-text>
-Find your way around the arena to the finish mark,
-but beware of enemy bots, and other obstacles
-along the way.
+Navigate your way to the finish mark, but beware of enemy BOTS and obstacles along the way!
 </mission-text>
 <mission-type>Dungeon Crawl</mission-type>
 <map-file>testarena.map</map-file>

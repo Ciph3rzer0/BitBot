@@ -4,12 +4,16 @@ import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
+import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -28,10 +32,10 @@ public class MainMenu extends Activity {
 	ImageView bot_turret;
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+         
         //Initialize some things: code text docs, saved bot
         cw = new ContextWrapper(getBaseContext());
         init = new Initialization(cw);
@@ -116,8 +120,8 @@ public class MainMenu extends Activity {
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, 180);
 				finish();
-				System.runFinalizersOnExit(true);
-				System.exit(0);
+				//System.runFinalizersOnExit(true);
+				//System.exit(0);
 			}
 		}); 
                

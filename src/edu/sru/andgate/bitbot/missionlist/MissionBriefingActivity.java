@@ -53,7 +53,7 @@ public class MissionBriefingActivity extends Activity
 				@Override
 				public void onClick(View v) {
 					Intent engineIntent = new Intent(MissionBriefingActivity.this, BotBuilderActivity.class);
-					engineIntent.putExtra("GameType",FileManager.readXML(missionFile, "mission-name"));
+					engineIntent.putExtra("GameType",FileManager.readXML(missionFile, "mission-type"));
 					engineIntent.putExtra("Map", FileManager.readXML(missionFile, "map-file"));
 					startActivity(engineIntent);
 				}
