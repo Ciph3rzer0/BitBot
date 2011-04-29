@@ -326,6 +326,8 @@ public class DrawableBot implements Drawable
 		}
 		
 		parameters[3] = 360 - (90+moveAngle);
+		
+		_bot.callOnTouchEvent(touchX, touchY);
 	}
 	
 	public void onBotFocus(DrawableBot bot)

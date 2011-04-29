@@ -63,7 +63,16 @@ public class BotInterpreter
 	
 	public void callOnBoundaryCollision()
 	{
-		rv.interrupt(RunVisitor.BOUND_COLLISION, null);
+		if (rv != null)
+			rv.interrupt(RunVisitor.BOUND_COLLISION, null);
+	}
+	
+	public void callOnTouchEvent(float x, float y)
+	{
+		String params[] = {x + "", y + ""};
+		
+		if (rv != null)
+			rv.interrupt(RunVisitor.TOUCH_EVENT, null);
 	}
 	
 	/**

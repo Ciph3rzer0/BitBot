@@ -55,6 +55,7 @@ public class RunVisitor implements bc1Visitor
 	public static final int NONE = 0;
 	public static final int BOUND_COLLISION = 1;
 	public static final int ABORT = 2;
+	public static final int TOUCH_EVENT = 3;
 	
 	private PipedOutputStream $std_out = new PipedOutputStream();
 	private PrintStream std_out = new PrintStream($std_out, true);
