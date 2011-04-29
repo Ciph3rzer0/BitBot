@@ -26,7 +26,7 @@ public class DungeonCrawl extends GameTypes
 	private Bot userBot;
 	private float defaultZ;
 	private TileMap tileMap;
-	public boolean victory;
+	private boolean victory;
 	Random generator;
 	public NickGameActivity _game;
 	
@@ -104,7 +104,7 @@ public class DungeonCrawl extends GameTypes
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
