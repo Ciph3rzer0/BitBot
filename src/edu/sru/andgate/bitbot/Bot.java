@@ -148,6 +148,10 @@ public class Bot
 		_interpreter.callOnBoundaryCollision();
 	}
 	
+	public void callOnTouchEvent(float x, float y)
+	{
+		_interpreter.callOnTouchEvent(x, y);
+	}
 	
 	
 	
