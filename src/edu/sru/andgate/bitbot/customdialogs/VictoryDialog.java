@@ -51,9 +51,14 @@ public class VictoryDialog extends Dialog
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				nga.finish();
+				dismissDialog();
 			}
 		});
         
+    }
+    
+    public void dismissDialog(){
+    	this.dismiss();
     }
  
 }
