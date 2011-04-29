@@ -40,6 +40,7 @@ public class DungeonCrawl extends GameTypes
 		this.generator = new Random();
 		victory = false;
 		defaultZ = -5.0f;
+		tileMap.setSpawnPoints();
 	}
 	
 	
@@ -49,7 +50,6 @@ public class DungeonCrawl extends GameTypes
 		this._game = ga;
 		Log.v("GameTypes", "GameType Accepted");
 		int randomIndex;
-		tileMap.setSpawnPoints();
 		this.totalBots = generator.nextInt(tileMap.enemySpawnPointsX.size()-1) + 1;
 		
 		if(totalBots >= tileMap.enemySpawnPointsX.size())
