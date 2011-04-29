@@ -77,8 +77,8 @@ public class NickGameActivity extends Activity
         //figure out what type of Game this is
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");
-        mapFile = getIntent().getExtras().getString("Map");
-        Log.v("bitbot", mapFile);
+        //mapFile = getIntent().getExtras().getString("Map");
+        mapFile = "testarena.map";
         testMap = new TileMap();
         if(missionType.equalsIgnoreCase("BOT versus BOT")){
         	gt = new BotVsBot(this.getBaseContext(), testMap, mapFile, botFile);
