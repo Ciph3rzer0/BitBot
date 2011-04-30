@@ -1,10 +1,13 @@
 package edu.sru.andgate.bitbot.ide;
 
+import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import edu.sru.andgate.bitbot.tools.FileManager;
 import edu.sru.andgate.bitbot.tutorial.ActionItem;
+import edu.sru.andgate.bitbot.tutorial.Main_Tutorial;
 import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 import android.app.Activity;
@@ -296,7 +299,7 @@ public class IDE extends Activity {
 			public void onClick(View v) 
 			{
 				InterpreteCode();
-				
+					
 				ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
 				
 				vf.setInAnimation(sIn_right);
@@ -314,7 +317,7 @@ public class IDE extends Activity {
 			public void onClick(View v) 
 			{
 				ViewFlipper vf = (ViewFlipper) findViewById(R.id.ide_view_flipper);
-
+				
 				vf.setInAnimation(sIn_left);
 				vf.setOutAnimation(sOut_left);
 				
@@ -512,6 +515,23 @@ public class IDE extends Activity {
 				promptUser("Save File As: ", "New File Name: ");
 				canSave = false;
 				break;
+				
+			case R.id.simulator:
+				Bot tutorialBot = new Bot();
+				tutorialBot.setName("Tutorial Bot");
+				tutorialBot.setBase(R.drawable.adambot);
+				tutorialBot.setTurret(R.drawable.adamturret);
+				tutorialBot.setBullet(R.drawable.bulletnew);
+				tutorialBot.setCode(editor.getText().toString());
+				tutorialBot.saveBotToXML(IDE.this,"ide_bot.xml");
+				
+				Intent intent = new Intent(IDE.this, NickGameActivity.class);
+				intent.putExtra("Bot", "ide_bot.xml");
+				intent.putExtra("GameType", "Tutorial");
+				intent.putExtra("ViewType", 1);
+				startActivity(intent);
+				break;
+				
 		}
 		return true;
 	}

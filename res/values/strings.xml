@@ -109,8 +109,8 @@
 		    </string-array>
 		    
 		    <string-array name="bot_function_strings">
-		    	<item>call bot_move(int x, int y)\n{\n\t//move code here\n}\n</item>
-		    	<item>call turret_rotate(int degree)\n{\n\t//rotation code here\n}\n</item>
+		    	<item>call bot_move(int x, int y)\n</item>
+		    	<item>call turret_rotate(int degree)\n</item>
 		    </string-array>   
 	    <!-- End Bot Function tools -->  
     <!-- End Quick Action tools -->

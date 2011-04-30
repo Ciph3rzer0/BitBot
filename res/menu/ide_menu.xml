@@ -14,4 +14,9 @@
 		android:icon="@drawable/save_as"
 		android:title="Save As..."
 	/>
+	
+	<item android:id="@+id/simulator"
+		android:icon="@drawable/simulate"
+		android:title="Simulate"
+	/>
 </menu>
