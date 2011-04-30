@@ -33,18 +33,17 @@ public class DungeonCrawl extends GameTypes
 	Random generator;
 	public NickGameActivity _game;
 	
-	public DungeonCrawl(Context context, TileMap tileMap, String mapFile, String userBotFile)
+	public DungeonCrawl(Context context, String mapFile, String userBotFile)
 	{
 		this.userBotFile = userBotFile;
-		this.tileMap = tileMap;
+		this.tileMap = new TileMap();
 		this.tileMap.loadMapFile(mapFile, context);
-		//this.tileMap = tileMap;
+		this.tileMap.setSpawnPoints();
 		this.context = context;
 		this.generator = new Random();
 		victory = false;
 		defeat = false;
 		defaultZ = -5.0f;
-		this.tileMap.setSpawnPoints();
 	}
 	
 	

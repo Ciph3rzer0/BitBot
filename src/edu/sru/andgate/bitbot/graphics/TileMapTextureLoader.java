@@ -14,7 +14,7 @@ public class TileMapTextureLoader
 	{
 		//***ADD MAP TEXTURES HERE IN THE ORDER THEY ARE LISTEN IN THE .MAP FILE***
 		//Map: testarena.map
-		if(mapFile == "testarena.map")
+		if(mapFile.equals("testarena.map"))
 		{
       	  tileMap.addTexture(R.drawable.deftile);
     	  tileMap.addTexture(R.drawable.seltile);

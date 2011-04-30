@@ -1,5 +1,6 @@
 package edu.sru.andgate.bitbot;
 
+import edu.sru.andgate.bitbot.customdialogs.TutorialDialog;
 import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.interpreter.Test;
@@ -69,8 +70,10 @@ public class MainMenu extends Activity {
 			public void onClick(View v) 
 			{
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, 60);
-				Intent engineIntent = new Intent(MainMenu.this, Tutorial_List.class);
-				startActivity(engineIntent);
+				/*Intent engineIntent = new Intent(MainMenu.this, Tutorial_List.class);
+				startActivity(engineIntent);*/
+				TutorialDialog td = new TutorialDialog(MainMenu.this, MainMenu.this, R.style.CustomDialogTheme);
+				td.show();
 			}
 		});
         
@@ -87,8 +90,8 @@ public class MainMenu extends Activity {
 		});
         
         /* ******************** Scores *********************** */
-        Button scores_btn = (Button) findViewById(R.id.scores_btn);
-        scores_btn.setOnClickListener(new View.OnClickListener() 
+        Button about_btn = (Button) findViewById(R.id.scores_btn);
+        about_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 

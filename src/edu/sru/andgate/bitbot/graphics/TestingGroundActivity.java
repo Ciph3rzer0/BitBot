@@ -25,18 +25,17 @@ import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class NickGameActivity extends Activity
+public class TestingGroundActivity extends Activity
 {	
 	private GameView glSurfaceView;
 	Timer t;
 	GlRenderer gameRenderer;
 	DrawableParticleEmitter particleEmitter;
 	Bot loadedBot;
-	MediaPlayer mp;
 	int[][] drawList;
 	int drawListPointer = 0;
 	boolean gameLoop = true;
-	private String botFile, mapFile = "";
+	private String botFile;
 	boolean touchEventFired = false;
 	float touchX = 0;
 	float touchY = 0;
@@ -45,9 +44,6 @@ public class NickGameActivity extends Activity
 	float touchXLoc = 0;
 	float touchYLoc = 0;
 	ArrayList<DrawableBot> notifyOnTouchList;
-	
-	GameTypes gt;
-	public int numShotsFired, numBulletsContact, kills;
 	
 	int MAX_OBJECTS = 250;
 	int NUM_TEST_BOTS = 0;
@@ -58,7 +54,7 @@ public class NickGameActivity extends Activity
 	public String missionType;
 	int viewType = 0;
 	
-	//TileMap testMap;
+	TileMap testMap;
 	CollisionManager collisionManager;
 	
 	TextView codeTxt;
@@ -70,40 +66,20 @@ public class NickGameActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        kills = 0;
-        numBulletsContact = 0;
-        numShotsFired = 0;
-        //figure out what type of Game this is
-        missionType = getIntent().getExtras().getString("GameType");
-        botFile = getIntent().getExtras().getString("Bot");
-        mapFile = getIntent().getExtras().getString("MapFile");
-
-        if(missionType.equalsIgnoreCase("BOT versus BOT")){
-        	gt = new BotVsBot(this,mapFile, botFile);
-        }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
-        	gt = new DungeonCrawl(this, mapFile, botFile);
-        }
+       
+        //create the testing ground map
+        testMap = new TileMap();
+        testMap.loadMapFile("testingground.map", this);
         
-        gt.Initialize(this);
-             
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Keep screen from shutting off
         getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
-        mp = MediaPlayer.create(this.getBaseContext(), R.raw.neverland);
-        mp.start();
-        mp.setLooping(true);
-        
-        // Set the layout.
-        //setContentView(R.layout.game_activity);
-        
+                 
         notifyOnTouchList = new ArrayList<DrawableBot>(MAX_OBJECTS);
-        
-        //game types test
-        
+              
         // Initiate the Open GL view and create an instance with this activity
         //glSurfaceView = new GLSurfaceView(this);
         if(viewType == 0)
@@ -143,24 +119,15 @@ public class NickGameActivity extends Activity
     			}
     		}, 1000, 1000);
         }
-               
-        notifyOnTouchList.add(gt.getBot().getDrawableBot());
         
-        //Declare Collision Manager
-        collisionManager = new CollisionManager(gt.getMap());
-                
-        //Declare Particle Emitter
-        particleEmitter = new DrawableParticleEmitter();
+        //create users bot from file
+        botFile = getIntent().getExtras().getString("Bot");
+        loadedBot = Bot.CreateBotFromXML(this, botFile);       
         
-        //Attach emitter to CollisionManager
-        collisionManager.setParticleEmitter(particleEmitter);
-		
-        //Declare Draw List
-        drawList = new int[2][MAX_OBJECTS];       
+        //add testing bot to world       
+        addBotToWorld(loadedBot);
         
-        gameRenderer = new GlRenderer(this);
-        
-        ilvm.addInterpreter(gt.getBot().getInterpreter());			
+        ilvm.addInterpreter(loadedBot.getInterpreter());			
 		// Run the vm every second.
 		t = new Timer();
 		t.schedule(new TimerTask()
@@ -172,20 +139,29 @@ public class NickGameActivity extends Activity
 			}
 		}, 50, 50);
 		
+        notifyOnTouchList.add(loadedBot.getDrawableBot());
+        
+        //Declare Collision Manager
+        collisionManager = new CollisionManager(testMap);
+                
+        //Declare Particle Emitter
+        particleEmitter = new DrawableParticleEmitter();
+        
+        //Attach emitter to CollisionManager
+        collisionManager.setParticleEmitter(particleEmitter);
+		
+        //Declare Draw List
+        drawList = new int[2][MAX_OBJECTS];       
+        
+        gameRenderer = new GlRenderer(this);
+       
         //Set renderer to be the main renderer with the current activity context
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
  
-        gameRenderer.setTileMap(gt.getMap());
-        
-        //Nick
-        for(int i = 0; i < gt.getBots().length; i++){
-        	addBotToWorld(gt.getBots()[i]);
-        }
-        
-        addBotToWorld(gt.getBot());
-        
+        gameRenderer.setTileMap(testMap);
+                
 		//Tell camera to continuously update so it can follow user bot
 		gameRenderer.continuousCameraUpdate = true;
 		
@@ -284,18 +260,15 @@ public class NickGameActivity extends Activity
     				previousTouchX = touchX;
     				previousTouchY = touchY;
     				
-    				//check victory conditions
-    				gt.Update();
-    			    				
-    				gt.getBot().getDrawableBot().moveByTouch(0.1f);
-    				//gt.getBot().getDrawableBot().move();
-    				gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
     				
-    	    		gt.getBot().getDrawableGun().update();
+    				loadedBot.getDrawableBot().moveByTouch(0.1f);
+    				//gt.getBot().getDrawableBot().move();
+    				loadedBot.getBotLayer().setRotationAngle(loadedBot.getDrawableBot().moveAngle-90);
+    				
+    	    		loadedBot.getDrawableGun().update();
     	    		if(shotCount >= 10)
     	    		{
-    	    			gt.getBot().getDrawableGun().fire();
-    	    			numShotsFired++;
+    	    			loadedBot.getDrawableGun().fire();
     	    			shotCount = 0;
     	    		}    	    		
     	    		shotCount++;
@@ -307,17 +280,12 @@ public class NickGameActivity extends Activity
     				particleEmitter.update();
     	    		
     				//Camera Stuff
-    				gameRenderer.cameraX = gt.getBot().getDrawableBot().parameters[0];
-    				gameRenderer.cameraY = gt.getBot().getDrawableBot().parameters[1];
+    				gameRenderer.cameraX = loadedBot.getDrawableBot().parameters[0];
+    				gameRenderer.cameraY = loadedBot.getDrawableBot().parameters[1];
     	            	        
-    		        //Nick
-    		        for(int i = 0; i < gt.getBots().length; i++){
-    		        	if(gt.getBots()[i].getDrawableBot().isAlive)
-    		        		addToDrawList(gt.getBots()[i]);
-    		        }
-    		        
-    		        if(gt.getBot().getDrawableBot().isAlive)
-		        		addToDrawList(gt.getBot());  		        
+    		       //redraw testing bot(s)   		        
+    		        if(loadedBot.getDrawableBot().isAlive)
+		        		addToDrawList(loadedBot);  		        
     		        
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
@@ -359,10 +327,6 @@ public class NickGameActivity extends Activity
     	gT.start();
     }
     
-    public GameTypes getGameType(){
-    	return this.gt;
-    }   
-    
 	@Override
 	protected void onResume()
 	{
@@ -382,7 +346,6 @@ public class NickGameActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		mp.release();
 		gameLoop = false;
 		t.cancel();
 		ilvm.stop();
