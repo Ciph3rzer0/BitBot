@@ -308,29 +308,29 @@ public class DrawableBot implements Drawable
 	
 	public void onTouchEvent(float touchX, float touchY)
 	{		
-		distanceRemaining = (float)Math.sqrt((Math.pow((touchX-parameters[0]), 2) + Math.pow((touchY-parameters[1]), 2)));
-		
-		if((touchX-parameters[0]) >= 0.0f && (touchY-parameters[1]) >= 0)
-		{
-			moveAngle = (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360);
-		}
-		else if((touchX-parameters[0]) < 0.0f && (touchY-parameters[1]) >= 0)
-		{
-			moveAngle = (90.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 90.0f;
-		}
-		else if((touchX-parameters[0]) < 0.0f && (touchY-parameters[1]) < 0)
-		{
-			moveAngle = (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360) + 180.0f;
-		}
-		else
-		{
-			moveAngle = (180.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 180.0f;
-		}
-		
-		parameters[3] = 360 - (90+moveAngle);
+//		distanceRemaining = (float)Math.sqrt((Math.pow((touchX-parameters[0]), 2) + Math.pow((touchY-parameters[1]), 2)));
+//		
+//		if((touchX-parameters[0]) >= 0.0f && (touchY-parameters[1]) >= 0)
+//		{
+//			moveAngle = (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360);
+//		}
+//		else if((touchX-parameters[0]) < 0.0f && (touchY-parameters[1]) >= 0)
+//		{
+//			moveAngle = (90.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 90.0f;
+//		}
+//		else if((touchX-parameters[0]) < 0.0f && (touchY-parameters[1]) < 0)
+//		{
+//			moveAngle = (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360) + 180.0f;
+//		}
+//		else
+//		{
+//			moveAngle = (180.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 180.0f;
+//		}
+//		
+//		parameters[3] = 360 - (90+moveAngle);
 		
 		if (_bot != null)
-			_bot.callOnTouchEvent(touchX, touchY);
+			_bot.callOnTouchEvent(touchX-parameters[0], touchY-parameters[1]);
 	}
 	
 	public void onBotFocus(DrawableBot bot)

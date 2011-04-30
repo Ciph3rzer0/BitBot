@@ -12,6 +12,8 @@ import java.util.TimerTask;
 
 import android.util.Log;
 
+import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.parser.*;
 
 /**
@@ -38,7 +40,7 @@ import edu.sru.andgate.bitbot.parser.*;
  */
 public class RunVisitor implements bc1Visitor
 {
-	public static final int INTERRUPT_DELAY = 200;
+	public static final int INTERRUPT_DELAY = 20;
 	
 	private Stack<HashMap<String, String>> varStack = new Stack<HashMap<String,String>>();
 	private HashMap<String, String> globalVars = new HashMap<String, String>();
@@ -175,8 +177,10 @@ public class RunVisitor implements bc1Visitor
 	
 	public void HandleInterrupt()
 	{
+		Node n;
 		int i = _interrupt;
 		_interrupt = NONE;
+//		_waiting = true;
 		
 		switch (i)
 		{
@@ -186,13 +190,23 @@ public class RunVisitor implements bc1Visitor
 			case BOUND_COLLISION :
 				Log.v("BitBot Interpreter", "call onBoundaryCollision()");
 				
-				Node n = subs.get("onBoundaryCollision".toLowerCase());
+				n = subs.get("onBoundaryCollision".toLowerCase());
 				if (n != null)
 					n.jjtAccept(this, _interruptParams);
 				else
 					Log.v("BitBot Interpreter", "No 'onBoundaryCollision' sub found");
 				break;
 			
+			case TOUCH_EVENT :
+				Log.v("BitBot Interpreter", "call onTouch()");
+				
+				n = subs.get("onTouch".toLowerCase());
+				if (n != null)
+					n.jjtAccept(this, _interruptParams);
+				else
+					Log.v("BitBot Interpreter", "No 'onTouch' sub found");
+				break;
+				
 			default :
 				
 		}
@@ -730,6 +744,18 @@ public class RunVisitor implements bc1Visitor
 			
 			return Math.pow(v1, v2);
 		}
+		else if(instr.equalsIgnoreCase("angleto"))
+		{
+			double v1 = 0, v2 = 0;
+			
+			try {
+				v1 = Double.parseDouble(params[0]);
+				v2 = Double.parseDouble(params[1]);
+			}
+			catch(Exception e){}
+			
+			return (Math.atan2(v2, v1))*(180/Math.PI);
+		}
 		
 		// TODO Auto-generated method stub
 		return 0;
@@ -774,8 +800,11 @@ public class RunVisitor implements bc1Visitor
 //		out.println("[Begin While Loop]");
 		
 		// Loop while conditional is not false.  (0 == false, 1 == true)
-		while ( Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
+		while (Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString()) != 0)
+		{
+			NextInstruction();
 			node.jjtGetChild(1).jjtAccept(this, null);
+		}
 		
 		return null;
 	}
@@ -792,11 +821,17 @@ public class RunVisitor implements bc1Visitor
 		
 		// Execute if conditional is not false.  (0 == false, 1 == true)
 		if ( conditional != 0)
+		{
+			NextInstruction();
 			node.jjtGetChild(1).jjtAccept(this, null);
+		}
 		else
+		{
+			NextInstruction();
 			// Prevent null pointer when else is not there.
 			if (node.jjtGetNumChildren() == 3)
 				node.jjtGetChild(2).jjtAccept(this, null);
+		}
 		
 //		out.println("[/End IfStatement]");
 		
@@ -830,12 +865,17 @@ public class RunVisitor implements bc1Visitor
 		}
 		catch (Exception e){}
 		
+		NextInstruction();
 		// Execute the for loop
 		for (double i = first; i <= last; i += step)
 		{
+			NextInstruction();
+			
 			// Store the lcv
 			storeVarValue(lcv, i + "");
 			node.jjtGetChild(instructionsIndex).jjtAccept(this, null);
+			
+			NextInstruction();
 		}
 		
 		node.jjtGetValue();

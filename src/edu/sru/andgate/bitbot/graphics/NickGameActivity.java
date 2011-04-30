@@ -46,7 +46,7 @@ public class NickGameActivity extends Activity
 	float touchYLoc = 0;
 	ArrayList<DrawableBot> notifyOnTouchList;
 	
-	GameTypes gt;
+	public GameTypes gt;
 	public int numShotsFired, numBulletsContact, kills;
 	
 	int MAX_OBJECTS = 250;
@@ -65,7 +65,14 @@ public class NickGameActivity extends Activity
 	ScrollView codeScroll;
 	
 	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
-		
+	
+	public static NickGameActivity currentGame = null;
+	
+	public NickGameActivity()
+	{
+		currentGame = this;
+	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -264,6 +271,7 @@ public class NickGameActivity extends Activity
     				//Handle touch events
     				touchX = glSurfaceView.touchX;
     				touchY = glSurfaceView.touchY;
+    				
     				if(touchX != previousTouchX || touchY != previousTouchY)
     				{
     					touchEventFired = true;
@@ -287,18 +295,18 @@ public class NickGameActivity extends Activity
     				//check victory conditions
     				gt.Update();
     			    				
-    				gt.getBot().getDrawableBot().moveByTouch(0.1f);
-    				//gt.getBot().getDrawableBot().move();
-    				gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
+//    				gt.getBot().getDrawableBot().moveByTouch(0.1f);
+    				gt.getBot().getDrawableBot().move();
+//    				gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
     				
-    	    		gt.getBot().getDrawableGun().update();
-    	    		if(shotCount >= 10)
-    	    		{
-    	    			gt.getBot().getDrawableGun().fire();
-    	    			numShotsFired++;
-    	    			shotCount = 0;
-    	    		}    	    		
-    	    		shotCount++;
+//    	    		gt.getBot().getDrawableGun().update();
+//    	    		if(shotCount >= 10)
+//    	    		{
+//    	    			gt.getBot().getDrawableGun().fire();
+//    	    			numShotsFired++;
+//    	    			shotCount = 0;
+//    	    		}    	    		
+//    	    		shotCount++;
     	    		
     				//Collision Detection Updater
     				collisionManager.update();

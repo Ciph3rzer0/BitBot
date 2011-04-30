@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.parser.Node;
 import edu.sru.andgate.bitbot.parser.SimpleNode;
 import edu.sru.andgate.bitbot.parser.bc1;
@@ -33,7 +34,7 @@ public class BotInterpreter
 	 * This is the object we manipulate to cause changes in accordance with
 	 * the interpreted instructions.
 	 */
-	private Bot bot;
+	public Bot bot;
 	
 	/**
 	 * A stream of output from the bot interpreter
@@ -72,7 +73,7 @@ public class BotInterpreter
 		String params[] = {x + "", y + ""};
 		
 		if (rv != null)
-			rv.interrupt(RunVisitor.TOUCH_EVENT, null);
+			rv.interrupt(RunVisitor.TOUCH_EVENT, params);
 	}
 	
 	/**
@@ -234,6 +235,15 @@ public class BotInterpreter
 			Log.e("BitBot Interpreter", "RunVisitor was null in BotInterpreter.resume()");
 	}
 	
+
+	public static Bot getBotById(int i)
+	{
+		Bot[] b = NickGameActivity.currentGame.gt.getBots();
+		
+		return b[i];
+	}
+	
+	
 	/**
 	 * Interface between a BotInterpreter and a Bot.  Subroutines of the form bot_*() get
 	 * handled by this function.
@@ -241,17 +251,8 @@ public class BotInterpreter
 	 * @param params Array of parameters
 	 * @return true if evaluated and executed correctly.
 	 */
-	public boolean executeBotInstruction(String instr, String[] params)
+	public double executeBotInstruction(String instr, String[] params)
 	{
-//		System.out.println("Executing bot instruction " + instr);
-//		
-//		// Get parameters if there are any
-//		if (params != null)
-//			for (int i=0; i<params.length; i++)
-//			{
-//				System.out.println("param[" + i + "] = " + params[i]);
-//			}
-		
 		if (instr.equalsIgnoreCase("bot_move"))
 		{
 			float degrees = 0, stepSize = 0;
@@ -271,20 +272,60 @@ public class BotInterpreter
 			if (bot != null)
 				bot.Move(degrees, stepSize);
 			
-			return true;
+			return 1;
 		}
 		else if (instr.equalsIgnoreCase("bot_turn"))
 		{
-			return true;
+			float degrees = 0;
+			
+			// Parse first parameter
+			try
+				{degrees = Float.parseFloat(params[0]);}
+			catch(Exception e)
+				{Log.v("BitBot Interpreter", "params[0] = " + params[0]);}
+			
+			if (bot != null)
+				bot.TurnGun(degrees);
+			
+			return 1;
 		}
 		else if (instr.equalsIgnoreCase("bot_fire"))
 		{
-			return true;
+			if (bot != null)
+				bot.Fire();
+			
+			return 1;
+		}
+		else if (instr.equalsIgnoreCase("bot_x"))
+		{
+			if (params.length == 0 && bot != null)
+				return bot.GetX();
+			
+			int botID = 0;
+			try					{botID = (int)Float.parseFloat(params[0]);}
+			catch(Exception e)	{Log.v("BitBot Interpreter", "params[0] = " + params[0]);}
+			
+			Bot b = getBotById(botID);
+			
+			return b.GetX();
+		}
+		else if (instr.equalsIgnoreCase("bot_y"))
+		{
+			if (params.length == 0 && bot != null)
+				return bot.GetY();
+			
+			int botID = 0;
+			try					{botID = (int)Float.parseFloat(params[0]);}
+			catch(Exception e)	{Log.v("BitBot Interpreter", "params[0] = " + params[0]);}
+			
+			Bot b = getBotById(botID);
+			
+			return b.GetY();
 		}
 		else
 			Log.w("BitBot Interpreter", "Instruction not valid" + instr);
 		
-		return false;
+		return 0;
 	}
 	
 	

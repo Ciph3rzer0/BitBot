@@ -16,6 +16,7 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
+import edu.sru.andgate.bitbot.R.drawable;
 import edu.sru.andgate.bitbot.graphics.BotLayer;
 import edu.sru.andgate.bitbot.graphics.Drawable;
 import edu.sru.andgate.bitbot.graphics.DrawableBot;
@@ -35,6 +36,7 @@ public class Bot
 	private BotLayer _layer;
 	private DrawableGun _gun;
 	private static Constants constants;
+	private int botID = -1;
 	
 //	private Physical physical;
 //	private VirtalMachine vm;
@@ -51,6 +53,11 @@ public class Bot
 	public Bot()
 	{
 		constants = new Constants();
+	}
+	
+	public void setID(int id)
+	{
+		botID = id;
 	}
 	
 	public void readyInterpreter()
@@ -88,9 +95,9 @@ public class Bot
 		return true;
 	}
 	
-	public boolean TurnGun()
+	public boolean TurnGun(float angle)
 	{
-		
+		_layer.setRotationAngle(angle);
 		return true;
 	}
 	
@@ -114,6 +121,8 @@ public class Bot
 	
 	public boolean Fire()
 	{
+		_gun.update();
+		_gun.fire();
 		return true;
 	}
 	
