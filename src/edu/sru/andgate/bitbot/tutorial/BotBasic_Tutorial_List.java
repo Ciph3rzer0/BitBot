@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Tutorial_List extends ListActivity {
+public class BotBasic_Tutorial_List extends ListActivity {
 	private Constants c;
 	private String[] tutorial_items;
 	private int endList;
@@ -25,7 +25,7 @@ public class Tutorial_List extends ListActivity {
         super.onCreate(savedInstanceState);
         c = new Constants();
         //set the items in ListView to names of menu_contents string array  
-        tutorial_items = getResources().getStringArray(R.array.menu_contents);
+        tutorial_items = getResources().getStringArray(R.array.botbasic_list);
         setListAdapter(new ArrayAdapter<String>(this, R.layout.tutorial_list, tutorial_items));
         endList = tutorial_items.length-1;
         //Filter the text in the list
@@ -49,13 +49,13 @@ public class Tutorial_List extends ListActivity {
 	         		   * start new activity, sending cooresponding tutorial file path, and simulation ability
 	         		   */
 	         		  if(Constants.finished_tutorials.contains(c.tutorials_table.get((String)((TextView) view).getText()))){
-		         			Toast.makeText(Tutorial_List.this, "This tutorial has been completed.", Toast.LENGTH_SHORT).show();
-		         			Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
+		         			Toast.makeText(BotBasic_Tutorial_List.this, "This tutorial has been completed.", Toast.LENGTH_SHORT).show();
+		         			Intent myIntent = new Intent(BotBasic_Tutorial_List.this, Main_Tutorial.class);
 				         	myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
 				         	myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
 				         	startActivity(myIntent);
 		         		}else{
-			         		Intent myIntent = new Intent(Tutorial_List.this, Main_Tutorial.class);
+			         		Intent myIntent = new Intent(BotBasic_Tutorial_List.this, Main_Tutorial.class);
 			         		myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
 			         		myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
 			         		startActivity(myIntent);

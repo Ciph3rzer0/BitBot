@@ -13,6 +13,8 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
+import edu.sru.andgate.bitbot.gametypes.TutorialTesting;
+import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -46,7 +48,7 @@ public class NickGameActivity extends Activity
 	float touchYLoc = 0;
 	ArrayList<DrawableBot> notifyOnTouchList;
 	
-	public GameTypes gt;
+	GameTypes gt;
 	public int numShotsFired, numBulletsContact, kills;
 	
 	int MAX_OBJECTS = 250;
@@ -84,11 +86,15 @@ public class NickGameActivity extends Activity
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");
         mapFile = getIntent().getExtras().getString("MapFile");
+        viewType = getIntent().getExtras().getInt("ViewType", 0);
 
         if(missionType.equalsIgnoreCase("BOT versus BOT")){
         	gt = new BotVsBot(this,mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
         	gt = new DungeonCrawl(this, mapFile, botFile);
+        }else if(missionType.equalsIgnoreCase("Tutorial")){
+        	int numOfBots = getIntent().getExtras().getInt("BotNum");
+        	gt = new TutorialTesting(this, numOfBots, botFile);
         }
         
         gt.Initialize(this);
@@ -117,13 +123,19 @@ public class NickGameActivity extends Activity
         {
         	setContentView(R.layout.game_activity);
         	glSurfaceView = (GameView) findViewById(R.id.game_view);
+        	ilvm.addInterpreter(gt.getBot().getInterpreter());
         }
         else if(viewType == 1)
         {
         	setContentView(R.layout.game_activity_scrollview);
         	glSurfaceView = (GameView) findViewById(R.id.game_view);
         	codeTxt = (TextView) findViewById(R.id.code_txt);
-			codeScroll = (ScrollView) findViewById(R.id.code_scroll);
+        	codeScroll = (ScrollView) findViewById(R.id.code_scroll);
+        	//codeTxt.setText(gt.getBot().getCode().getCode());
+        	gt.getBot().getInterpreter().setOutputTextView(codeTxt);
+	    	codeTxt.setText(gt.getBot().getInterpreter().getBotLog());
+        	ilvm.addInterpreter(gt.getBot().getInterpreter());
+	    	ilvm.resume(4);
         }
         else if(viewType == 2)
         {
@@ -167,7 +179,7 @@ public class NickGameActivity extends Activity
         
         gameRenderer = new GlRenderer(this);
         
-        ilvm.addInterpreter(gt.getBot().getInterpreter());			
+//        ilvm.addInterpreter(gt.getBot().getInterpreter());			
 		// Run the vm every second.
 		t = new Timer();
 		t.schedule(new TimerTask()
@@ -299,14 +311,14 @@ public class NickGameActivity extends Activity
     				gt.getBot().getDrawableBot().move();
 //    				gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
     				
-//    	    		gt.getBot().getDrawableGun().update();
-//    	    		if(shotCount >= 10)
-//    	    		{
-//    	    			gt.getBot().getDrawableGun().fire();
-//    	    			numShotsFired++;
-//    	    			shotCount = 0;
-//    	    		}    	    		
-//    	    		shotCount++;
+    	    		gt.getBot().getDrawableGun().update();
+    	    		if(shotCount >= 10)
+    	    		{
+    	    			gt.getBot().getDrawableGun().fire();
+    	    			numShotsFired++;
+    	    			shotCount = 0;
+    	    		}    	    		
+    	    		shotCount++;
     	    		
     				//Collision Detection Updater
     				collisionManager.update();

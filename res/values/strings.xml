@@ -3,8 +3,8 @@
 	
 	<string name="app_name">Bits-N-Bots</string>
 			
-	<!-- Tutorial List -->
-		<string-array name="menu_contents">
+	<!-- BotBasic Tutorial List -->
+		<string-array name="botbasic_list">
 		 	<item>Print Statement</item>
 	    	<item>Defining Variables</item>
 	        <item>Loops</item>
@@ -13,6 +13,14 @@
 	        <item>Back to Main Menu</item>
 	     </string-array>
      <!-- End Tutorial List -->
+     
+     <!-- Game Specific Tutorial List -->
+     	<string-array name="gamespecific_list">
+     		<item>Bot Movement</item>
+     		<item>Gun Fire</item>
+     		<item>Boundary Collisions</item>
+     		<item>Back to Main Menu</item>
+     	</string-array>     
      
      <!-- Mission Stuff -->
 	     <string-array name="mission_titles">
@@ -101,8 +109,8 @@
 		    </string-array>
 		    
 		    <string-array name="bot_function_strings">
-		    	<item>call bot_move(int x, int y)\n{\n\t//move code here\n}\n</item>
-		    	<item>call turret_rotate(int degree)\n{\n\t//rotation code here\n}\n</item>
+		    	<item>call bot_move(int x, int y)\n</item>
+		    	<item>call turret_rotate(int degree)\n</item>
 		    </string-array>   
 	    <!-- End Bot Function tools -->  
     <!-- End Quick Action tools -->

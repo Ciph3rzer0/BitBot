@@ -1,0 +1,32 @@
+<tutorial>
+<title>Bot Movements</title>
+<text>
+In order to become familiar with the BotBasic language, you will need to learn the BOTS event driven methods,
+along with the actions it can perform. In this tutorial you will learn how to move your bot around for simple navigation.
+These techniques will come in handy when writing your programs that you will attach to your BOT upon sending it into the Missions.
+
+The syntax of the move commmand you will learn in this tutorial is:
+
+bot_move(int angle, int speed)
+
+where the angle is the angle in which the bot will move at, and the speed is how fast it will move.
+</text>
+<stage>
+<hint>Goal: Move your BOT using the built in move commands.
+
+In order to move your BOT you will need to call the function bot_move(int angle, int speed)
+
+To make it continuously move, it is recommended to put this call inside a while loop.
+
+Your Code should look something like this:
+
+while 1 do
+	call bot_move(45, 5)
+loop
+</hint>
+<answer>while 1 do
+	call bot_move(45, 5)
+loop
+</answer>
+</stage>
+</tutorial>

@@ -238,7 +238,7 @@ public class BotInterpreter
 
 	public static Bot getBotById(int i)
 	{
-		Bot[] b = NickGameActivity.currentGame.gt.getBots();
+		Bot[] b = NickGameActivity.currentGame.getGameType().getBots();
 		
 		return b[i];
 	}

@@ -7,7 +7,7 @@ import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
-import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
+import edu.sru.andgate.bitbot.tutorial.BotBasic_Tutorial_List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
