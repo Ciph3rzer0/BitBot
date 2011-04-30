@@ -22,7 +22,8 @@
 		<activity android:name=".interpreter.Test" android:configChanges="orientation|keyboardHidden" >
 			
 		</activity>
-		<activity android:name=".tutorial.Tutorial_List"></activity>
+		<activity android:name=".tutorial.BotBasic_Tutorial_List"></activity>
+		<activity android:name=".tutorial.GameSpecific_Tutorial_List"></activity>
 		<activity android:name=".ide.botbuilder.BotBuilderActivity"></activity>
 		<activity android:name=".tutorial.Main_Tutorial" android:windowSoftInputMode="adjustResize"></activity>
 		<activity android:name=".missionlist.MissionListActivity"></activity>

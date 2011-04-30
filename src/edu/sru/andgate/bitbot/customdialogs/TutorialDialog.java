@@ -2,7 +2,8 @@ package edu.sru.andgate.bitbot.customdialogs;
 
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
-import edu.sru.andgate.bitbot.tutorial.Tutorial_List;
+import edu.sru.andgate.bitbot.tutorial.BotBasic_Tutorial_List;
+import edu.sru.andgate.bitbot.tutorial.GameSpecific_Tutorial_List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -36,7 +37,9 @@ public class TutorialDialog extends Dialog
 			
 			@Override
 			public void onClick(View v) {
-				//start graphical tutorial list			
+				//start graphical tutorial list	
+				Intent engineIntent = new Intent(act, GameSpecific_Tutorial_List.class);
+				act.startActivity(engineIntent);
 				dismissDialog();
 			}
 		});
@@ -47,7 +50,7 @@ public class TutorialDialog extends Dialog
 			@Override
 			public void onClick(View v) {
 				//start bot language tutorial list
-				Intent engineIntent = new Intent(act, Tutorial_List.class);
+				Intent engineIntent = new Intent(act, BotBasic_Tutorial_List.class);
 				act.startActivity(engineIntent);
 				dismissDialog();
 			}

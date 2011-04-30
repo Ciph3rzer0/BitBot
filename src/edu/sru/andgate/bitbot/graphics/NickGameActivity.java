@@ -13,6 +13,7 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
+import edu.sru.andgate.bitbot.gametypes.TutorialTesting;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
 import android.media.MediaPlayer;
@@ -82,6 +83,9 @@ public class NickGameActivity extends Activity
         	gt = new BotVsBot(this,mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
         	gt = new DungeonCrawl(this, mapFile, botFile);
+        }else if(missionType.equalsIgnoreCase("Tutorial")){
+        	int numOfBots = getIntent().getExtras().getInt("BotNum");
+        	gt = new TutorialTesting(this, numOfBots, botFile);
         }
         
         gt.Initialize(this);
@@ -144,7 +148,7 @@ public class NickGameActivity extends Activity
     		}, 1000, 1000);
         }
                
-        notifyOnTouchList.add(gt.getBot().getDrawableBot());
+       // notifyOnTouchList.add(gt.getBot().getDrawableBot());
         
         //Declare Collision Manager
         collisionManager = new CollisionManager(gt.getMap());
@@ -287,8 +291,8 @@ public class NickGameActivity extends Activity
     				//check victory conditions
     				gt.Update();
     			    				
-    				gt.getBot().getDrawableBot().moveByTouch(0.1f);
-    				//gt.getBot().getDrawableBot().move();
+    				//gt.getBot().getDrawableBot().moveByTouch(0.1f);
+    				gt.getBot().getDrawableBot().move();
     				gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
     				
     	    		gt.getBot().getDrawableGun().update();

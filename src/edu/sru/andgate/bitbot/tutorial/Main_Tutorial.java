@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.customdialogs.IntroCustomDialog;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import edu.sru.andgate.bitbot.interpreter.Test;
@@ -14,6 +16,7 @@ import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +42,7 @@ public class Main_Tutorial extends Activity
 	private EditText editor; 
 	private TextView help_text;
 	private String tutorialID;
-	private int simulateFlag;
+	private int simulateFlag, numOfBots;
 	private InputStream xml;
 	private Tutorial myTutorial;
 	private ActionItem[] quick_tools, selection_shells, sequence_shells, iteration_shells;
@@ -67,7 +70,8 @@ public class Main_Tutorial extends Activity
 		 */
 		tutorialID = getIntent().getExtras().getString("File_ID");
 		simulateFlag = getIntent().getExtras().getInt("Sim_Flag",0);
-		
+		numOfBots = getIntent().getExtras().getInt("BotNum", 0);
+
 		xml = FileManager.readFile(tutorialID);
    	   	myTutorial = new Tutorial(xml);	
 			
@@ -235,6 +239,20 @@ public class Main_Tutorial extends Activity
 					vf.showNext();
 				}else if (simulateFlag == 2){
 					//Graphical Simulation here
+					Bot tutorialBot = new Bot();
+					tutorialBot.setName("Tutorial Bot");
+					tutorialBot.setBase(R.drawable.adambot);
+					tutorialBot.setTurret(R.drawable.adamturret);
+					tutorialBot.setBullet(R.drawable.bulletnew);
+					tutorialBot.setCode(editor.getText().toString());
+					tutorialBot.saveBotToXML(Main_Tutorial.this,"tutorial_bot.xml");
+					
+					Intent intent = new Intent(Main_Tutorial.this, NickGameActivity.class);
+					intent.putExtra("Bot", "tutorial_bot.xml");
+					intent.putExtra("BotNum", numOfBots);
+					intent.putExtra("GameType", "Tutorial");
+					startActivity(intent);
+					
 				}
 			}
 		});
