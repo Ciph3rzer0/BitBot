@@ -22,14 +22,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class CustomDialogListView extends Dialog 
+public class BotBuilderDialog extends Dialog 
 {
     TextView selection;
     Context context;
     String file;
     Activity activity;
     
-    public CustomDialogListView(Activity act, String file, Context context, int theme) 
+    public BotBuilderDialog(Activity act, String file, Context context, int theme) 
     {
         super(context, theme);
         this.context = context;
@@ -44,7 +44,7 @@ public class CustomDialogListView extends Dialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_popup);
         final ListView lst=(ListView)findViewById(R.id.myList);
-        String[] list = {"Share", "Save As...", "Rename", "Delete", "Back"};
+        String[] list = {"Rename", "Delete", "Back"};
         
         lst.setAdapter(new ArrayAdapter<String>(context,R.layout.custom_popup_row, list));      
         
@@ -54,22 +54,10 @@ public class CustomDialogListView extends Dialog
         	public void onItemClick(AdapterView<?> a, View v, int position, long id) {
         		String clicked = ((TextView) v).getText().toString();
         		Log.v("Test", clicked);
-        		if(clicked.equalsIgnoreCase("Share")){
-        			Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-					emailIntent.setType("text/txt");
-					emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "A Gift From BitBot");
-					/*
-					 *  For sending as attachment (couldnt figure out - would show up but not send 
-					 *	emailIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse(path to file));
-					*/
-					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, FileManager.readTextFileFromDirectory("Code", file));
-					context.startActivity(Intent.createChooser(emailIntent, "Sending mail..."));
-        		}else if(clicked.equalsIgnoreCase("Save As...")){
-        			promptSaveAs(activity, file);
-        		}else if(clicked.equalsIgnoreCase("Rename")){
+        		if(clicked.equalsIgnoreCase("Rename File")){
         			promptRename(activity, file);
         		}else if (clicked.equalsIgnoreCase("Delete")){
-        			FileManager.deleteTextFile("Code", file);
+        			FileManager.deleteXMLFile(file);
         			restartActivity();
         		}else if(clicked.equalsIgnoreCase("Back")){
         			dismissCustomDialog();
@@ -79,33 +67,6 @@ public class CustomDialogListView extends Dialog
            	}
         	});
         
-    }
-    
-    private void promptSaveAs(Activity act, final String srcFileName){
-    	AlertDialog.Builder alert = new AlertDialog.Builder(this.context);
-
-		alert.setTitle("Save file As: ");
-		alert.setMessage("New File Name");
-
-		// Set an EditText view to get user input 
-		final EditText input = new EditText(this.context);
-		alert.setView(input);
-
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialog, int whichButton) {
-			  String dstFileName = input.getText().toString();
-			  FileManager.saveCodeFileAs(srcFileName, dstFileName);
-			  restartActivity();
-		}
-		});
-
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		  public void onClick(DialogInterface dialog, int whichButton) {
-		    // Canceled.
-		  }
-		});
-		
-		alert.show();
     }
     
     private void promptRename(Activity act, final String srcFileName){
@@ -124,7 +85,7 @@ public class CustomDialogListView extends Dialog
 			  if(dstFileName == ""){
 				  dstFileName = "New File.txt";
 			  }
-			  FileManager.renameCodeFile(srcFileName, dstFileName);
+			  FileManager.renameXMLFile(srcFileName, dstFileName);
 			  restartActivity();
 		}
 		});

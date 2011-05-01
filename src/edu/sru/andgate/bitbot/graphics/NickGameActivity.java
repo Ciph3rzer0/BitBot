@@ -38,7 +38,7 @@ public class NickGameActivity extends Activity
 	int[][] drawList;
 	int drawListPointer = 0;
 	boolean gameLoop = true;
-	private String botFile, mapFile = "";
+	private String botFile, mapFile;
 	boolean touchEventFired = false;
 	float touchX = 0;
 	float touchY = 0;
@@ -110,20 +110,12 @@ public class NickGameActivity extends Activity
         mp.start();
         mp.setLooping(true);
         
-        // Set the layout.
-        //setContentView(R.layout.game_activity);
-        
         notifyOnTouchList = new ArrayList<DrawableBot>(MAX_OBJECTS);
         
-        //game types test
-        
-        // Initiate the Open GL view and create an instance with this activity
-        //glSurfaceView = new GLSurfaceView(this);
         if(viewType == 0)
         {
         	setContentView(R.layout.game_activity);
         	glSurfaceView = (GameView) findViewById(R.id.game_view);
-        	ilvm.addInterpreter(gt.getBot().getInterpreter());
         }
         else if(viewType == 1)
         {
@@ -131,11 +123,8 @@ public class NickGameActivity extends Activity
         	glSurfaceView = (GameView) findViewById(R.id.game_view);
         	codeTxt = (TextView) findViewById(R.id.code_txt);
         	codeScroll = (ScrollView) findViewById(R.id.code_scroll);
-        	//codeTxt.setText(gt.getBot().getCode().getCode());
         	gt.getBot().getInterpreter().setOutputTextView(codeTxt);
 	    	codeTxt.setText(gt.getBot().getInterpreter().getBotLog());
-        	ilvm.addInterpreter(gt.getBot().getInterpreter());
-	    	ilvm.resume(4);
         }
         else if(viewType == 2)
         {
@@ -179,7 +168,7 @@ public class NickGameActivity extends Activity
         
         gameRenderer = new GlRenderer(this);
         
-//        ilvm.addInterpreter(gt.getBot().getInterpreter());			
+        ilvm.addInterpreter(gt.getBot().getInterpreter());
 		// Run the vm every second.
 		t = new Timer();
 		t.schedule(new TimerTask()
@@ -306,15 +295,21 @@ public class NickGameActivity extends Activity
     				
     				//check victory conditions
     				gt.Update();
-    			    				
-//    				gt.getBot().getDrawableBot().moveByTouch(0.1f);
+    				   			    				
+    				//gt.getBot().getDrawableBot().moveByTouch(0.1f);
     				gt.getBot().getDrawableBot().move();
-//    				gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
+    				//gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
     				
     	    		gt.getBot().getDrawableGun().update();
+    	    		for(int i = 0; i < gt.getBots().length; i++){
+    	    			gt.getBots()[i].getDrawableGun().update();
+    	    		}
     	    		if(shotCount >= 10)
     	    		{
     	    			gt.getBot().getDrawableGun().fire();
+    	    			for(int i = 0; i < gt.getBots().length; i++){
+        	    			gt.getBots()[i].getDrawableGun().fire  ();
+        	    		}
     	    			numShotsFired++;
     	    			shotCount = 0;
     	    		}    	    		
@@ -336,9 +331,9 @@ public class NickGameActivity extends Activity
     		        		addToDrawList(gt.getBots()[i]);
     		        }
     		        
-    		        if(gt.getBot().getDrawableBot().isAlive)
+    		        if(gt.getBot().getDrawableBot().isAlive){
 		        		addToDrawList(gt.getBot());  		        
-    		        
+    		        }
     	            //Renderer Synchronization / Draw Frame Request
     	    		while(!thisFrameDrawn && gameLoop)
     	    		{

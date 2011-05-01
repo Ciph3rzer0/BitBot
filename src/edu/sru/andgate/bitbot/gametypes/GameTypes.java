@@ -11,7 +11,7 @@ public abstract class GameTypes {
 
 	public abstract void Update();
 	
-	public abstract void Finalize(final boolean type);
+	public abstract void Finalize(final String type);
  
 	public abstract TileMap getMap();
 	

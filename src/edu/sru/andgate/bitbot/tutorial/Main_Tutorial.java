@@ -77,7 +77,7 @@ public class Main_Tutorial extends Activity
 			
 		botOutput = (TextView) findViewById(R.id.ide_std_out);
 		main_text = (TextView) findViewById(R.id.tutorial_text);
-		main_text.setText(FileManager.readXML(tutorialID,"text"));
+		main_text.setText(FileManager.readAssetsXML(tutorialID,"text"));
 	
 		/*
 		 * create the text editor and cabinet button

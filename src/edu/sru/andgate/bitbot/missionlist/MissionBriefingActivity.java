@@ -31,8 +31,8 @@ public class MissionBriefingActivity extends Activity
 	        mission_text = (TextView) findViewById(R.id.mission_text);
 	        title_bar = (TextView) findViewById(R.id.title_bar);
 	        
-	        mission_text.setText(FileManager.readXML(missionFile, "mission-text"));
-			title_bar.setText("\t" + FileManager.readXML(missionFile,"mission-name"));
+	        mission_text.setText(FileManager.readAssetsXML(missionFile, "mission-text"));
+			title_bar.setText("\t" + FileManager.readAssetsXML(missionFile,"mission-name"));
 			
 			mission_icon = (ImageView) findViewById(R.id.mission_icon);
 			mission_icon.setImageResource(missionIcon);		
@@ -54,7 +54,7 @@ public class MissionBriefingActivity extends Activity
 				@Override
 				public void onClick(View v) {
 					Intent engineIntent = new Intent(MissionBriefingActivity.this, BotBuilderActivity.class);
-					engineIntent.putExtra("GameType",FileManager.readXML(missionFile, "mission-type"));
+					engineIntent.putExtra("GameType",FileManager.readAssetsXML(missionFile, "mission-type"));
 					engineIntent.putExtra("GameMap", missionMap);
 					startActivity(engineIntent);
 				}

@@ -1,12 +1,16 @@
 package edu.sru.andgate.bitbot.ide.botbuilder;
 
+import java.util.ArrayList;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.graphics.BotLayer;
-import edu.sru.andgate.bitbot.graphics.DrawableBot;
-import edu.sru.andgate.bitbot.graphics.GameActivity;
+import edu.sru.andgate.bitbot.customdialogs.BotBuilderDialog;
+import edu.sru.andgate.bitbot.customdialogs.CustomDialogListView;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
+import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
+import edu.sru.andgate.bitbot.ide.CodeListAdapter;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
+import edu.sru.andgate.bitbot.missionlist.MissionBriefingActivity;
+import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.Activity;
@@ -24,7 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,14 +37,19 @@ import android.widget.AdapterView.OnItemSelectedListener;
 public class BotBuilderActivity extends Activity
 {
 	private Bot _currentBot;
+	private BotBuilderDialog bbd;
+	private TextView tv, bot_name;
 	private Constants constant;
-	private BotComponentView c, t;
-	private TextView tv;
+	private ListView bb_turret, bb_chassis,bb_bullet, availableBots;
+	private CustomListView chassis, turret, bullet;
 	private Spinner spinner;
-	private Button b;
 	private String missionType, mapFile;
-	private String[] code_files;
+	private String[] code_files, botFiles;
 	ArrayAdapter<String> adapter;
+	private ArrayList<CustomListView> botBaseComponents, botTurretComponents, botBulletComponents;
+	private ArrayList<edu.sru.andgate.bitbot.ide.CustomListView> botLists;
+	private CodeListAdapter botList_adapter;
+	private BotComponentAdapter component_adapter;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -49,20 +58,118 @@ public class BotBuilderActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ide_botbuilder_main);
 		
+		_currentBot = new Bot();
 		missionType = getIntent().getExtras().getString("GameType");
 		mapFile = getIntent().getExtras().getString("GameMap");
 		
 		FileManager.setContext(getBaseContext());
-		c = (BotComponentView)findViewById(R.id.bb_chassis);
-		t = (BotComponentView)findViewById(R.id.bb_turret);
-			
-		c.setTitle("Square Chassis");
-		c.setSummary("A stable base that is fast and sturdy.");
-		c.setPicID(R.drawable.adambot);
 		
-		t.setTitle("Basic Turret");
-		t.setSummary("A turret for shooting stuff.");
-		t.setPicID(R.drawable.adamturret);
+		bot_name = (TextView) findViewById(R.id.bot_name);
+		botFiles = FileManager.getBotFiles();
+		botLists = new ArrayList<edu.sru.andgate.bitbot.ide.CustomListView>();
+		
+		edu.sru.andgate.bitbot.ide.CustomListView[] clv = new edu.sru.andgate.bitbot.ide.CustomListView[botFiles.length];
+		for(int i = 0; i < botFiles.length; i++){
+			clv[i] = new edu.sru.andgate.bitbot.ide.CustomListView(FileManager.readInternalXML(botFiles[i].toString(), "Bot-Name"), botFiles[i].toString());
+			botLists.add(clv[i]);
+		}
+		
+		availableBots = (ListView)findViewById(R.id.botSelectorList);
+		this.botList_adapter = new CodeListAdapter(this, R.layout.code_row, botLists);
+		availableBots.setAdapter(botList_adapter);
+		
+		availableBots.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+					bot_name.setText(FileManager.readInternalXML(botFiles[arg2].toString(), "Bot-Name"));
+					//set other attributes here including stats & Bot Components
+			}
+			
+		});
+
+		
+		
+		availableBots.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				bbd = new BotBuilderDialog(BotBuilderActivity.this, botFiles[arg2].toString(), BotBuilderActivity.this, R.style.CustomDialogTheme);
+				bbd.show();
+				return true;
+			}
+			
+		});
+		
+		botBaseComponents = new ArrayList<CustomListView>();
+		botTurretComponents = new ArrayList<CustomListView>();
+		botBulletComponents = new ArrayList<CustomListView>();
+		
+		chassis = new CustomListView();
+		chassis.setBotComponentName("Basic Chassis");
+		chassis.setBotComponentDescription("A stable base that is fast and sturdy");
+		chassis.setImageIcon(R.drawable.adambot);
+		
+		turret = new CustomListView();
+		turret.setBotComponentName("Basic Turret");
+		turret.setBotComponentDescription("A turret for shooting stuff");
+		turret.setImageIcon(R.drawable.adamturret);
+		
+		bullet = new CustomListView();
+		bullet.setBotComponentName("Basic Bullet");
+		bullet.setBotComponentDescription("A standard bullet with moderate damage");
+		bullet.setImageIcon(R.drawable.bulletnew);
+		
+		botBaseComponents.add(chassis);
+		botTurretComponents.add(turret);
+		botBulletComponents.add(bullet);	       
+	        
+		this.component_adapter = new BotComponentAdapter(this, R.layout.ide_botbuilder_botcomponent, botBaseComponents);
+		bb_chassis = (ListView) findViewById(R.id.bb_chassis);
+		bb_chassis.setAdapter(this.component_adapter);
+		
+		bb_chassis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Toast.makeText(BotBuilderActivity.this, "No other chassis available", Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		this.component_adapter = new BotComponentAdapter(this, R.layout.ide_botbuilder_botcomponent, botTurretComponents);
+		bb_turret = (ListView) findViewById(R.id.bb_turret);
+		bb_turret.setAdapter(this.component_adapter);
+		
+		bb_turret.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Toast.makeText(BotBuilderActivity.this, "No other turrets available", Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		this.component_adapter = new BotComponentAdapter(this, R.layout.ide_botbuilder_botcomponent, botBulletComponents);
+		bb_bullet = (ListView) findViewById(R.id.bb_bullet);
+		bb_bullet.setAdapter(this.component_adapter);
+		
+		bb_bullet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Toast.makeText(BotBuilderActivity.this, "No other bullets available", Toast.LENGTH_SHORT).show();
+			}
+		});
+				
+		
+		
 		
 		code_files = FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath());
 		
@@ -85,21 +192,7 @@ public class BotBuilderActivity extends Activity
 				// TODO Auto-generated method stub
 			}
 		});
-		
-		b = (Button) findViewById(R.id.bb_soft1);
-		b.setTag(R.drawable.bulletnew);
-		b.setText("Bullet");
-		b.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bulletnew), null, null,null);
-		b.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Log.v("BitBot", b.getTag().toString());
-			}
-		});
-		
-		
+
 	}
 	
 	@Override
@@ -114,6 +207,7 @@ public class BotBuilderActivity extends Activity
 		switch (item.getItemId()) {
 			case R.id.saveas:
 				promptSaveBot();
+				promptBotName();
 				break;
 				
 		}
@@ -137,7 +231,7 @@ public class BotBuilderActivity extends Activity
 	public void begin(View v)
 	{
 		//Save bot to xml before going to graphics - Possible load from xml inside graphics
-		saveBot("test_bot.xml");
+		saveBot("test_bot.xml", "BotBuilder Bot");
 				
 		// Start up the game engine
 		Intent engineIntent = new Intent(BotBuilderActivity.this, NickGameActivity.class);
@@ -147,7 +241,33 @@ public class BotBuilderActivity extends Activity
 		startActivity(engineIntent);
 		
 	}
-	
+	public void promptBotName(){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle("Set Bot Name...");
+		alert.setMessage("Bot Name:");
+
+		// Set an EditText view to get user input 
+		final EditText input = new EditText(this);
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+			  String value = input.getText().toString();
+			  if(value != null){
+				  _currentBot.setName(value);
+			  }
+		}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    // Canceled.
+		  }
+		});
+		
+		alert.show();
+	}	
 	public void promptSaveBot(){
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -161,8 +281,12 @@ public class BotBuilderActivity extends Activity
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
 			  String value = input.getText().toString();
-			  if(value != null)
-				  saveBot(value);
+			  if(value != null){
+				  saveBot(value, _currentBot.getName());
+				  Intent intent = getIntent();
+				  finish();
+				  startActivity(intent);
+			  }
 		}
 		});
 
@@ -175,14 +299,13 @@ public class BotBuilderActivity extends Activity
 		alert.show();
 	}	
 	
-	public void saveBot(String filename){
+	public void saveBot(String filename, String BotName){
 		//Save bot to xml before going to graphics - Possible load from xml inside graphics
-		_currentBot = new Bot();
-		_currentBot.setName("Bot"); //for now, need to get the name from the textview?
+		_currentBot.setName(BotName);
 		constant = new Constants();
-		_currentBot.setBase(c.getPicID());
-		_currentBot.setTurret(t.getPicID()); 
-		_currentBot.setBullet(R.drawable.bulletnew);
+		_currentBot.setBase(chassis.getImageIcon());
+		_currentBot.setTurret(turret.getImageIcon()); 
+		_currentBot.setBullet(bullet.getImageIcon());
 		_currentBot.setCode(tv.getText().toString());
 		Log.v("BitBot", _currentBot.getCode().getCode());
 		_currentBot.saveBotToXML(this.getBaseContext(), filename);

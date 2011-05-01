@@ -16,6 +16,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.sru.andgate.bitbot.Bot;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -119,10 +121,34 @@ public class FileManager
 	 * Method that recieves an xml file name, and target <tag> 
 	 * 	returns the text in the specified <tag></tag>
 	 */
-	public static String readXML(String my_file, String tag_name)
+	public static String readAssetsXML(String my_file, String tag_name)
 	{
 		try {
 			InputStream is = _context.getAssets().open(my_file);
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder;
+			docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(is);
+			doc.getDocumentElement ().normalize ();
+			
+			NodeList tutorialText = doc.getElementsByTagName(tag_name);
+			
+			Element myText = (Element) tutorialText.item(0);
+			
+			return ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+		
+	}//end of readXML()
+	
+	public static String readInternalXML(String my_file, String tag_name)
+	{
+		try {
+			InputStream is = _context.openFileInput(my_file);
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder;
 			docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -179,9 +205,14 @@ public class FileManager
 		return items;	
 	}
 	
-	public static void deleteFile(String directory, String filename)
+	public static void deleteTextFile(String directory, String filename)
 	{
 		File f = new File(_context.getDir(directory,Context.MODE_PRIVATE), filename);
+		f.delete();
+	}
+	
+	public static void deleteXMLFile(String filename){
+		File f = new File(_context.getFilesDir().getAbsoluteFile() + "/" + filename);
 		f.delete();
 	}
 	
@@ -189,7 +220,6 @@ public class FileManager
 	{
 
 		File f = new File(_context.getDir("Code", Context.MODE_PRIVATE), filename);
-		
 		try
 		{
 			f.createNewFile();
@@ -205,12 +235,38 @@ public class FileManager
 	public static void renameCodeFile(String srcName, String dstName){
 		String data = readTextFileFromDirectory("Code", srcName);
 		saveCodeFile(data, dstName);
-		deleteFile("Code", srcName);
+		deleteTextFile("Code", srcName);
+	}
+	
+	public static void renameXMLFile(String srcName, String dstName){
+		File f = new File(_context.getFilesDir().getAbsoluteFile() + "/" + srcName);
+		File f2 = new File(_context.getFilesDir().getAbsoluteFile() + "/" + dstName);
+		f.renameTo(f2);
+		//deleteXMLFile(srcName);
 	}
 	
 	public static void saveCodeFileAs(String srcName, String dstName){
 		String data = readTextFileFromDirectory("Code", srcName);
 		saveCodeFile(data, dstName);
+	}
+	
+	public static String[] getBotFiles()
+	{
+		File folder = new File(_context.getFilesDir().toString());
+		File[] listOfFiles = folder.listFiles();
+		String[] items = new String[listOfFiles.length];
+		for (int i = 0; i < listOfFiles.length; i++) 
+		{
+			if (listOfFiles[i].isFile()) 
+			{
+				items[i] = listOfFiles[i].getName();
+			}
+			else if (listOfFiles[i].isDirectory()) 
+			{
+				// System.out.println("Directory " + listOfFiles[i].getName());
+			}
+		}
+		return items;	
 	}
 	
 }

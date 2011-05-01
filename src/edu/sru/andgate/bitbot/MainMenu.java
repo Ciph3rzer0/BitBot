@@ -45,7 +45,7 @@ public class MainMenu extends Activity {
         helpDialog.setContentView(R.layout.floating_help);
         help_text = (TextView) helpDialog.findViewById(R.id.help_view);
         FileManager.setContext(getBaseContext());
-        help_text.setText(FileManager.readXML("help.xml", "text"));
+        help_text.setText(FileManager.readAssetsXML("help.xml", "text"));
 
         bot_turret = (ImageView) findViewById(R.id.bot_turret);
                 

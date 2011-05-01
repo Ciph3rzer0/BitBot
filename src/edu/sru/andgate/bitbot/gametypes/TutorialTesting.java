@@ -79,7 +79,7 @@ public class TutorialTesting extends GameTypes
 	
 
 	@Override
-	public void Finalize(final boolean type) {
+	public void Finalize(final String type) {
 		
 		
 	}

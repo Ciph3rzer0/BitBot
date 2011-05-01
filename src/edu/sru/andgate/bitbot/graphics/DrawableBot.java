@@ -44,7 +44,7 @@ public class DrawableBot implements Drawable
 	ArrayList<Integer> textureHopper;
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
-	boolean isAlive = true;
+	public boolean isAlive = true;
 	BotLayer[] layers;
 	
 	int BOT_TYPE = 0; //0=Enemy 1=User
@@ -347,16 +347,16 @@ public class DrawableBot implements Drawable
 		return SELECTED_TEXTURE;
 	}
 	
-	/*
-	public void setID(int id)
-	{
-		ID = id;
-	}
-	public int getID()
-	{
-		return ID;
-	}
-	*/
+	
+//	public void setID(int id)
+//	{
+//		ID = id;
+//	}
+//	public int getID()
+//	{
+//		return ID;
+//	}
+	
 	
 	/* (non-Javadoc)
 	 * @see edu.sru.andgate.bitbot.graphics.Drawable#addTexture(int)

@@ -1,73 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_margin="2dip"
-	android:padding="4dip"
-	android:paddingBottom="10dip"
-	android:focusable="true"
-	android:clickable="true"
-	android:background="@layout/button_bot_component" 
-	android:layout_height="wrap_content">
-	
-	<!-- 
-	android:background="@android:drawable/btn_default"
-	android:background="#cccccc"
-	-->
-	
-	<ImageView
-		android:id="@+id/pic"
-		android:layout_width="40dip"
-		android:layout_height="40dip"
-		android:padding="1dip"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="true"
-		android:src="@drawable/adambot"
-		android:duplicateParentState="false"
-		android:clickable="false"
-	/>
-	
-	<TextView
-		android:id="@+id/title"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentRight="true"
-		android:layout_toRightOf="@id/pic"
-		android:text="Title Line"
-		android:padding="1dip"
-		style="@style/Heading2"
-		android:duplicateParentState="false"
-		android:clickable="false"
-		android:focusable="false"
-	/>
-	
-	<TextView
-		android:id="@+id/summary"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/title"
-		android:layout_toRightOf="@id/pic"
-		android:text="Summary"
-		android:padding="1dip"
-		android:layout_marginBottom="4dip"
-		style="@style/Normal"
-		android:duplicateParentState="false"
-		android:clickable="false"
-		android:focusable="false"
-	/>
-	
-	<View
-		android:layout_width="1dip"
-		android:layout_height="1dip"
-		android:padding="1dip"
-		android:layout_below="@id/summary"
-		android:duplicateParentState="false"
-		android:clickable="false"
-	/>
-	<!-- 
-		android:layout_alignParentBottom="true"
-	
-	 -->
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dip">
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="6dip"
+        android:src="@drawable/icon" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dip"
+        android:layout_weight="1"
+        android:layout_height="fill_parent">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:singleLine="true"
+            style="@style/Heading2"
+            android:gravity="center_vertical"
+            android:layout_weight="2"
+        />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="2"
+            android:maxLines="2" 
+            style="@style/Normal"
+            android:id="@+id/summary"
+            android:gravity="center_vertical"
+            android:ellipsize="marquee"
+        />
+    </LinearLayout>
+</LinearLayout>

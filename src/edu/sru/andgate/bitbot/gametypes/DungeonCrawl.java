@@ -94,17 +94,17 @@ public class DungeonCrawl extends GameTypes
 			victory = true;
 			Constants.finished_missions.add(_game.missionType);
 			elapsed = System.currentTimeMillis() - start;
-			Finalize(victory);
+			Finalize("victory");
 		}else if (!userBot.getDrawableBot().isAlive()){
 			elapsed = System.currentTimeMillis() - start;
-			Finalize(defeat);
+			Finalize("defeat");
 		}
 	}
 	
 
 	@Override
-	public void Finalize(final boolean type) {
-		if(type == victory){
+	public void Finalize(final String type) {
+		if(type.equals("victory")){
 			for(int i = 0; i < _game.getGameType().getBots().length; i++){
 		       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){
 		       		//do nothing
@@ -127,10 +127,10 @@ public class DungeonCrawl extends GameTypes
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(type == victory){
+				if(type.equals("victory")){
 					vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, _game.kills, accuracy, elapsed);	
 					vd.show();	
-				}else if (type == defeat){
+				}else if (type.equals("defeat")){
 					dd = new DefeatDialog(_game, _game, R.style.CustomDialogTheme);
 					dd.show();
 				}

@@ -1,17 +1,12 @@
 package edu.sru.andgate.bitbot.gametypes;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.customdialogs.DefeatDialog;
 import edu.sru.andgate.bitbot.customdialogs.VictoryDialog;
-import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 import edu.sru.andgate.bitbot.tools.Constants;
@@ -97,18 +92,19 @@ public class BotVsBot extends GameTypes
 			victory = true;
 			Constants.finished_missions.add(_game.missionType);
 			elapsed = System.currentTimeMillis() - start;
-			Finalize(victory);
-		}else if (!userBot.getDrawableBot().isAlive()){
+			Finalize("victory");
+		}
+		if (!userBot.getDrawableBot().isAlive() && defeat == false){
 			defeat = true;
 			elapsed = System.currentTimeMillis() - start;
-			Finalize(defeat);
+			Finalize("defeat");
 		}
 	}
 	
 
 	@Override
-	public void Finalize(final boolean type) {
-		if(type == victory){
+	public void Finalize(final String type) {
+		if(type.equals("victory")){
 			for(int i = 0; i < _game.getGameType().getBots().length; i++){
 		       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){
 		       		//do nothing
@@ -131,10 +127,10 @@ public class BotVsBot extends GameTypes
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(type == victory){
+				if(type.equals("victory")){
 					vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, _game.kills, accuracy, elapsed);	
 					vd.show();	
-				}else if (type == defeat){
+				}else if (type.equals("defeat")){
 					dd = new DefeatDialog(_game, _game, R.style.CustomDialogTheme);
 					dd.show();
 				}
