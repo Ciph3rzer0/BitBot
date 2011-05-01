@@ -1,6 +1,7 @@
 package edu.sru.andgate.bitbot.gametypes;
 
 import java.util.Random;
+
 import android.content.Context;
 import android.util.Log;
 import edu.sru.andgate.bitbot.Bot;
@@ -72,7 +73,7 @@ public class BotVsBot extends GameTypes
 		 * set users bot spawn point
 		 */
 		userBot = Bot.CreateBotFromXML(context, userBotFile);
-		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size()-1)+1;
+		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size());
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
 		start = System.currentTimeMillis();
 
@@ -88,13 +89,13 @@ public class BotVsBot extends GameTypes
 			}
 		}
 		
-		if(botsLeft == 0 && victory == false){
+		if(botsLeft == 0 && victory == false && defeat == false){
 			victory = true;
 			Constants.finished_missions.add(_game.missionType);
 			elapsed = System.currentTimeMillis() - start;
 			Finalize("victory");
 		}
-		if (!userBot.getDrawableBot().isAlive() && defeat == false){
+		if (!userBot.getDrawableBot().isAlive() && defeat == false && victory == false){
 			defeat = true;
 			elapsed = System.currentTimeMillis() - start;
 			Finalize("defeat");

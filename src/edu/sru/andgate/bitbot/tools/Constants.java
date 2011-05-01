@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.R.drawable;
 
 public class Constants {
 	

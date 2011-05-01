@@ -6,11 +6,9 @@ import java.io.PipedInputStream;
 import java.io.PrintStream;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
-import edu.sru.andgate.bitbot.parser.Node;
 import edu.sru.andgate.bitbot.parser.SimpleNode;
 import edu.sru.andgate.bitbot.parser.bc1;
 

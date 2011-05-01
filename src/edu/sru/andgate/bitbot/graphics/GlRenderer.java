@@ -9,11 +9,9 @@ package edu.sru.andgate.bitbot.graphics;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import edu.sru.andgate.bitbot.Bot;
 import android.content.Context;
-//import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
-import android.util.Log;
+import edu.sru.andgate.bitbot.Bot;
 
 public class GlRenderer implements Renderer
 {

@@ -1,7 +1,5 @@
 package edu.sru.andgate.bitbot.tutorial;
 
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.tools.Constants;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +9,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.tools.Constants;
 
 public class GameSpecific_Tutorial_List extends ListActivity {
 	private Constants c;

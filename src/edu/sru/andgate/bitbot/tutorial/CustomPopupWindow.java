@@ -1,12 +1,9 @@
 package edu.sru.andgate.bitbot.tutorial;
 
-import edu.sru.andgate.bitbot.R;
 import android.content.Context;
-
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,10 +11,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow;
+import edu.sru.andgate.bitbot.R;
 
 public class CustomPopupWindow {
 	protected final View anchor;

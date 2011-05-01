@@ -1,16 +1,13 @@
 package edu.sru.andgate.bitbot.ide.botbuilder;
 
-import edu.sru.andgate.bitbot.R;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import edu.sru.andgate.bitbot.R;
 
 public class BotComponentView extends RelativeLayout
 {

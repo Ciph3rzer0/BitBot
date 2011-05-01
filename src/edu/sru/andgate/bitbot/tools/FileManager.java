@@ -16,8 +16,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.sru.andgate.bitbot.Bot;
-
 import android.content.Context;
 import android.util.Log;
 

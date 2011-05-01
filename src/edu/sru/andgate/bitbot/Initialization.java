@@ -7,11 +7,11 @@ package edu.sru.andgate.bitbot;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import edu.sru.andgate.bitbot.interpreter.Test;
-import edu.sru.andgate.bitbot.tools.FileManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.util.Log;
+import edu.sru.andgate.bitbot.interpreter.Test;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class Initialization
 {

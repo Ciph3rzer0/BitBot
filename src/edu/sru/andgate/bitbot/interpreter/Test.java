@@ -1,22 +1,18 @@
 package edu.sru.andgate.bitbot.interpreter;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
-
-
 import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.parser.*;
+import edu.sru.andgate.bitbot.parser.Node;
+import edu.sru.andgate.bitbot.parser.SimpleNode;
+import edu.sru.andgate.bitbot.parser.bc1;
 
 public class Test extends Activity
 {

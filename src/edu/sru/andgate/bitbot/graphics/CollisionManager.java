@@ -1,7 +1,7 @@
 package edu.sru.andgate.bitbot.graphics;
 
-import edu.sru.andgate.bitbot.Bot;
 import android.util.Log;
+import edu.sru.andgate.bitbot.Bot;
 
 public class CollisionManager
 {

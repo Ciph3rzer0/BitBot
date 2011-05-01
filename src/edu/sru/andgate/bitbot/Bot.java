@@ -7,6 +7,7 @@ import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,9 +17,7 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
-import edu.sru.andgate.bitbot.R.drawable;
 import edu.sru.andgate.bitbot.graphics.BotLayer;
-import edu.sru.andgate.bitbot.graphics.Drawable;
 import edu.sru.andgate.bitbot.graphics.DrawableBot;
 import edu.sru.andgate.bitbot.graphics.DrawableGun;
 import edu.sru.andgate.bitbot.interpreter.BotInterpreter;

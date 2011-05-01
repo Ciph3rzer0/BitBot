@@ -6,18 +6,16 @@ package edu.sru.andgate.bitbot.graphics;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+
 import javax.microedition.khronos.opengles.GL10;
 
-import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.opengl.GLUtils;
-import android.util.Log;
-
-import java.util.*;
+import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.R;
 
 public class DrawableParticleEmitter implements Drawable
 {

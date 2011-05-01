@@ -1,19 +1,7 @@
 package edu.sru.andgate.bitbot.tutorial;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
-import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.customdialogs.IntroCustomDialog;
-import edu.sru.andgate.bitbot.graphics.NickGameActivity;
-import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
-import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
-import edu.sru.andgate.bitbot.interpreter.Test;
-import edu.sru.andgate.bitbot.tools.Constants;
-import edu.sru.andgate.bitbot.tools.FileManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,11 +19,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
+import android.widget.SlidingDrawer.OnDrawerCloseListener;
+import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-import android.widget.SlidingDrawer.OnDrawerCloseListener;
-import android.widget.SlidingDrawer.OnDrawerOpenListener;
+import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.customdialogs.IntroCustomDialog;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
+import edu.sru.andgate.bitbot.interpreter.BotInterpreter;
+import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.interpreter.Test;
+import edu.sru.andgate.bitbot.tools.Constants;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class Main_Tutorial extends Activity
 {
@@ -45,15 +42,15 @@ public class Main_Tutorial extends Activity
 	private int simulateFlag, numOfBots;
 	private InputStream xml;
 	private Tutorial myTutorial;
-	private ActionItem[] quick_tools, selection_shells, sequence_shells, iteration_shells;
+	private ActionItem[] quick_tools, selection_shells, sequence_shells, iteration_shells, bot_functions;
 	private String[] quick_tools_titles, quick_tools_strings, sequence_shell_titles, 
 					 sequence_shell_strings, selection_shell_titles, selection_shell_strings,
-					 iteration_shell_titles, iteration_shell_strings;
+					 iteration_shell_titles, iteration_shell_strings, bot_function_titles, bot_function_strings;
 	private SlidingDrawer slidingDrawer;
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private TextView botOutput, main_text;
 	private Button slideHandleButton, to_code_button, back_to_code;
-	private ImageButton sequence_btn, selection_btn, iteration_btn, tools_btn, lock_btn, simulate_btn;
+	private ImageButton sequence_btn, selection_btn, iteration_btn, tools_btn, lock_btn, simulate_btn, bot_code;
 	private ViewFlipper vf;
 	private IntroCustomDialog icd;
 	
@@ -134,6 +131,20 @@ public class Main_Tutorial extends Activity
 		}
 		
 		/*
+		 * Action Items for Bot Functions button
+		 */
+		bot_function_strings = getResources().getStringArray(
+				R.array.bot_function_strings);
+		bot_function_titles = getResources().getStringArray(
+				R.array.bot_function_titles);
+		bot_functions = new ActionItem[bot_function_titles.length];
+		for (int i = 0; i < bot_functions.length; i++) {
+			bot_functions[i] = new ActionItem();
+			setActionItem(bot_functions[i], editor, bot_function_titles[i],
+					bot_function_strings[i]);
+		}
+		
+		/*
 		 * Set all the QuickAction buttons onClick() methods 
 		 */
 		sequence_btn = (ImageButton) this.findViewById(R.id.sequence_btn);
@@ -194,6 +205,20 @@ public class Main_Tutorial extends Activity
 				qa.setQuickTitle("Quick Tools");
 				for(int i = 0; i < quick_tools.length; i++){
 					qa.addActionItem(quick_tools[i]);
+				}
+				qa.setAnimStyle(QuickAction.ANIM_AUTO);
+				qa.show();
+			}
+		});
+		
+		bot_code = (ImageButton) this.findViewById(R.id.bot_btn);
+		bot_code.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				QuickAction qa = new QuickAction(v);
+				qa.setQuickTitle("Bot Functions");
+				for (int i = 0; i < bot_functions.length; i++) {
+					qa.addActionItem(bot_functions[i]);
 				}
 				qa.setAnimStyle(QuickAction.ANIM_AUTO);
 				qa.show();

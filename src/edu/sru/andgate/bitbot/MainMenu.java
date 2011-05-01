@@ -1,20 +1,9 @@
 package edu.sru.andgate.bitbot;
 
-import edu.sru.andgate.bitbot.customdialogs.TutorialDialog;
-import edu.sru.andgate.bitbot.graphics.GameActivity;
-import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
-import edu.sru.andgate.bitbot.interpreter.Test;
-import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
-import edu.sru.andgate.bitbot.tools.Constants;
-import edu.sru.andgate.bitbot.tools.FileManager;
-import edu.sru.andgate.bitbot.tutorial.BotBasic_Tutorial_List;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -24,6 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.sru.andgate.bitbot.customdialogs.TutorialDialog;
+import edu.sru.andgate.bitbot.graphics.GameActivity;
+import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
+import edu.sru.andgate.bitbot.interpreter.Test;
+import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class MainMenu extends Activity {
 	Initialization init;

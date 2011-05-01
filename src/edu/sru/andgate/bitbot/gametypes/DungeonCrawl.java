@@ -1,17 +1,13 @@
 package edu.sru.andgate.bitbot.gametypes;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.customdialogs.DefeatDialog;
 import edu.sru.andgate.bitbot.customdialogs.VictoryDialog;
-import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 import edu.sru.andgate.bitbot.tools.Constants;
@@ -90,12 +86,14 @@ public class DungeonCrawl extends GameTypes
 			}
 		}
 		
-		if(botsLeft == 0 && victory == false){
+		if(botsLeft == 0 && victory == false && defeat == false){
 			victory = true;
 			Constants.finished_missions.add(_game.missionType);
 			elapsed = System.currentTimeMillis() - start;
 			Finalize("victory");
-		}else if (!userBot.getDrawableBot().isAlive()){
+		}
+		if (!userBot.getDrawableBot().isAlive() && defeat == false && victory == false){
+			defeat = true;
 			elapsed = System.currentTimeMillis() - start;
 			Finalize("defeat");
 		}

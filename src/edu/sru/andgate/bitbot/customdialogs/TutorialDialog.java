@@ -1,9 +1,5 @@
 package edu.sru.andgate.bitbot.customdialogs;
 
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.graphics.NickGameActivity;
-import edu.sru.andgate.bitbot.tutorial.BotBasic_Tutorial_List;
-import edu.sru.andgate.bitbot.tutorial.GameSpecific_Tutorial_List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.tutorial.BotBasic_Tutorial_List;
+import edu.sru.andgate.bitbot.tutorial.GameSpecific_Tutorial_List;
 
 public class TutorialDialog extends Dialog 
 {

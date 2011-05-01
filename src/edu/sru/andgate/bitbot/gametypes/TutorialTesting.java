@@ -1,20 +1,12 @@
 package edu.sru.andgate.bitbot.gametypes;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.customdialogs.DefeatDialog;
-import edu.sru.andgate.bitbot.customdialogs.VictoryDialog;
-import edu.sru.andgate.bitbot.graphics.GameActivity;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
-import edu.sru.andgate.bitbot.tools.Constants;
 
 public class TutorialTesting extends GameTypes
 {
@@ -56,7 +48,7 @@ public class TutorialTesting extends GameTypes
 		//create number of bots for game from enemy bot file
 		for(int i = 0; i < totalBots; i++){
 			bots[i] = Bot.CreateBotFromXML(context, "enemy_bot.xml");
-			randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size()-1)+1;
+			randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size());
 			bots[i].getDrawableBot().setTranslation(tileMap.enemySpawnPointsX.get(randomIndex), tileMap.enemySpawnPointsY.get(randomIndex), defaultZ);  
 			tileMap.enemySpawnPointsX.remove(randomIndex);
 			tileMap.enemySpawnPointsY.remove(randomIndex);
@@ -67,7 +59,7 @@ public class TutorialTesting extends GameTypes
 		 * set users bot spawn point
 		 */
 		userBot = Bot.CreateBotFromXML(context, userBotFile);
-		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size()-1)+1;
+		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size());
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
 		
 	}

@@ -1,8 +1,9 @@
 package edu.sru.andgate.bitbot.graphics;
 
 import javax.microedition.khronos.opengles.GL10;
-import edu.sru.andgate.bitbot.Bot;
+
 import android.content.Context;
+import edu.sru.andgate.bitbot.Bot;
 
 public interface Drawable
 {

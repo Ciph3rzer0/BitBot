@@ -1,18 +1,7 @@
 package edu.sru.andgate.bitbot.ide.botbuilder;
 
 import java.util.ArrayList;
-import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.customdialogs.BotBuilderDialog;
-import edu.sru.andgate.bitbot.customdialogs.CustomDialogListView;
-import edu.sru.andgate.bitbot.graphics.NickGameActivity;
-import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
-import edu.sru.andgate.bitbot.ide.CodeListAdapter;
-import edu.sru.andgate.bitbot.interpreter.SourceCode;
-import edu.sru.andgate.bitbot.missionlist.MissionBriefingActivity;
-import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
-import edu.sru.andgate.bitbot.tools.Constants;
-import edu.sru.andgate.bitbot.tools.FileManager;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,14 +14,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
+import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.customdialogs.BotBuilderDialog;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
+import edu.sru.andgate.bitbot.ide.CodeListAdapter;
+import edu.sru.andgate.bitbot.interpreter.SourceCode;
+import edu.sru.andgate.bitbot.tools.Constants;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class BotBuilderActivity extends Activity
 {

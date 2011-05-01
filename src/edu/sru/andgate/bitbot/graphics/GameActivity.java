@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.gametypes.BotVsBot;
-import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
@@ -22,6 +18,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.gametypes.BotVsBot;
+import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 
 public class GameActivity extends Activity
 {	

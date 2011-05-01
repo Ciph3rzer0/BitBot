@@ -3,9 +3,6 @@ package edu.sru.andgate.bitbot.missionlist;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.tools.Constants;
-import edu.sru.andgate.bitbot.tools.FileManager;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.tools.Constants;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class MissionListActivity extends ListActivity {
 	// private ProgressDialog m_ProgressDialog = null; 

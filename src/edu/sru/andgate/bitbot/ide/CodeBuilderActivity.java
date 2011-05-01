@@ -1,9 +1,7 @@
 package edu.sru.andgate.bitbot.ide;
 
 import java.util.ArrayList;
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.customdialogs.CustomDialogListView;
-import edu.sru.andgate.bitbot.tools.FileManager;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +12,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.customdialogs.CustomDialogListView;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class CodeBuilderActivity extends ListActivity 
 { 

@@ -120,6 +120,14 @@
 				android:layout_weight="1">
 			</ImageButton>
 			<ImageButton 
+			        android:layout_width="70dip" 
+			        android:layout_height="0px"
+			        android:src="@drawable/bot_functions"
+			        android:layout_weight="1" 
+					android:background="@layout/button_bot_component"
+			        android:id="@+id/bot_btn"> 
+		    </ImageButton>
+			<ImageButton 
 				android:layout_width="70dip" 
 				android:id="@+id/tools_btn" 
 				android:src="@drawable/tools"

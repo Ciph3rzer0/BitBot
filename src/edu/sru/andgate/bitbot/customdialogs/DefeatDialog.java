@@ -1,13 +1,12 @@
 package edu.sru.andgate.bitbot.customdialogs;
 
-import edu.sru.andgate.bitbot.R;
-import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 
 public class DefeatDialog extends Dialog 
 {
