@@ -4,7 +4,7 @@ import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 
-public abstract class GameTypes {
+public abstract class GameType {
 	
 	public abstract void Initialize(NickGameActivity ga); 
 

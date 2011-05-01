@@ -12,7 +12,7 @@ import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 import edu.sru.andgate.bitbot.tools.Constants;
 
-public class DungeonCrawl extends GameTypes
+public class DungeonCrawl extends GameType
 {
 	private Context context;
 	private int totalBots;
@@ -26,7 +26,7 @@ public class DungeonCrawl extends GameTypes
 	private double accuracy;
 	private TileMap tileMap;
 	private boolean victory, defeat;
-	Random generator;
+	private Random generator;
 	public NickGameActivity _game;
 	
 	public DungeonCrawl(Context context, String mapFile, String userBotFile)
@@ -111,6 +111,7 @@ public class DungeonCrawl extends GameTypes
 		       		_game.numBulletsContact += _game.getGameType().getBots()[i].getDrawableBot().getNumBulletsHit();
 		       	}
 			}
+			
 			accuracy = ((double)_game.numBulletsContact/(double)_game.numShotsFired) * 100;
 			accuracy = (double)Math.round(accuracy * 100) / 100;
 		}

@@ -12,8 +12,8 @@ import android.widget.Toast;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.tools.Constants;
 
-public class BotBasic_Tutorial_List extends ListActivity {
-	private Constants c;
+public class BotBasic_Tutorial_List extends ListActivity
+{
 	private String[] tutorial_items;
 	private int endList;
 	private android.widget.ListView list;
@@ -23,7 +23,6 @@ public class BotBasic_Tutorial_List extends ListActivity {
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        c = new Constants();
         //set the items in ListView to names of menu_contents string array  
         tutorial_items = getResources().getStringArray(R.array.botbasic_list);
         setListAdapter(new ArrayAdapter<String>(this, R.layout.tutorial_list, tutorial_items));
@@ -34,7 +33,7 @@ public class BotBasic_Tutorial_List extends ListActivity {
 
         /*
          * on list click() start a new activity
-         * pass in the resource id of the file cooresponding to the list item (Still need to figure out)
+         * pass in the resource id of the file corresponding to the list item (Still need to figure out)
          */
         list.setOnItemClickListener(new OnItemClickListener() 
         {
@@ -48,16 +47,16 @@ public class BotBasic_Tutorial_List extends ListActivity {
 	         		  /*
 	         		   * start new activity, sending cooresponding tutorial file path, and simulation ability
 	         		   */
-	         		  if(Constants.finished_tutorials.contains(c.tutorials_table.get((String)((TextView) view).getText()))){
+	         		  if(Constants.finished_tutorials.contains(Constants.tutorials_table.get((String)((TextView) view).getText()))){
 		         			Toast.makeText(BotBasic_Tutorial_List.this, "This tutorial has been completed.", Toast.LENGTH_SHORT).show();
 		         			Intent myIntent = new Intent(BotBasic_Tutorial_List.this, Main_Tutorial.class);
-				         	myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
-				         	myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
+				         	myIntent.putExtra("File_ID", Constants.tutorials_table.get((String)((TextView) view).getText()));
+				         	myIntent.putExtra("Sim_Flag", Constants.simulation_table.get((String)((TextView) view).getText()));
 				         	startActivity(myIntent);
 		         		}else{
 			         		Intent myIntent = new Intent(BotBasic_Tutorial_List.this, Main_Tutorial.class);
-			         		myIntent.putExtra("File_ID", c.tutorials_table.get((String)((TextView) view).getText()));
-			         		myIntent.putExtra("Sim_Flag", c.simulation_table.get((String)((TextView) view).getText()));
+			         		myIntent.putExtra("File_ID", Constants.tutorials_table.get((String)((TextView) view).getText()));
+			         		myIntent.putExtra("Sim_Flag", Constants.simulation_table.get((String)((TextView) view).getText()));
 			         		startActivity(myIntent);
 	         		  }
 	         	  }

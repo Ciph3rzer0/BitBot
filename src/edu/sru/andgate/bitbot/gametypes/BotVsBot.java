@@ -12,7 +12,7 @@ import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 import edu.sru.andgate.bitbot.tools.Constants;
 
-public class BotVsBot extends GameTypes
+public class BotVsBot extends GameType
 {
 	private Context context;
 	private int totalBots;

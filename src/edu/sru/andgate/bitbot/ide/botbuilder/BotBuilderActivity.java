@@ -35,7 +35,6 @@ public class BotBuilderActivity extends Activity
 	private Bot _currentBot;
 	private BotBuilderDialog bbd;
 	private TextView tv, bot_name;
-	private Constants constant;
 	private ListView bb_turret, bb_chassis,bb_bullet, availableBots;
 	private CustomListView chassis, turret, bullet;
 	private Spinner spinner;
@@ -299,7 +298,6 @@ public class BotBuilderActivity extends Activity
 	public void saveBot(String filename, String BotName){
 		//Save bot to xml before going to graphics - Possible load from xml inside graphics
 		_currentBot.setName(BotName);
-		constant = new Constants();
 		_currentBot.setBase(chassis.getImageIcon());
 		_currentBot.setTurret(turret.getImageIcon()); 
 		_currentBot.setBullet(bullet.getImageIcon());

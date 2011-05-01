@@ -8,7 +8,7 @@ import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 
-public class TutorialTesting extends GameTypes
+public class TutorialTesting extends GameType
 {
 	private Context context;
 	private int totalBots;

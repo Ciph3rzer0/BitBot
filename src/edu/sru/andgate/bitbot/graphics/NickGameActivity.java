@@ -22,57 +22,58 @@ import edu.sru.andgate.bitbot.Bot;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
-import edu.sru.andgate.bitbot.gametypes.GameTypes;
+import edu.sru.andgate.bitbot.gametypes.GameType;
 import edu.sru.andgate.bitbot.gametypes.TutorialTesting;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 
 public class NickGameActivity extends Activity
 {	
 	private GameView glSurfaceView;
-	Timer t;
-	GlRenderer gameRenderer;
-	DrawableParticleEmitter particleEmitter;
-	Bot loadedBot;
-	MediaPlayer mp;
-	int[][] drawList;
-	int drawListPointer = 0;
-	boolean gameLoop = true;
+	private Timer t;
+	private GlRenderer gameRenderer;
+	private DrawableParticleEmitter particleEmitter;
+	private Bot loadedBot;
+	private MediaPlayer mp;
+	private int[][] drawList;
+	private int drawListPointer = 0;
+	private boolean gameLoop = true;
 	private String botFile, mapFile;
-	boolean touchEventFired = false;
-	float touchX = 0;
-	float touchY = 0;
-	float previousTouchX = 0;
-	float previousTouchY = 0;
-	float touchXLoc = 0;
-	float touchYLoc = 0;
-	ArrayList<DrawableBot> notifyOnTouchList;
+	private boolean touchEventFired = false;
+	private float touchX = 0;
+	private float touchY = 0;
+	private float previousTouchX = 0;
+	private float previousTouchY = 0;
+	private float touchXLoc = 0;
+	private float touchYLoc = 0;
+	private ArrayList<DrawableBot> notifyOnTouchList;
 	
-	GameTypes gt;
+	private GameType gameType;
 	public int numShotsFired, numBulletsContact, kills;
 	
-	int MAX_OBJECTS = 250;
-	int NUM_TEST_BOTS = 0;
-	final int TYPE_BOT = 0;
-	final int TYPE_GUN = 1;
-	final int USER_BOT = 1;
-	final int ENEMY_BOT = 0;
+	private int MAX_OBJECTS = 250;
+	private int NUM_TEST_BOTS = 0;
+	private final int TYPE_BOT = 0;
+	private final int TYPE_GUN = 1;
+	private final int USER_BOT = 1;
+	private final int ENEMY_BOT = 0;
 	public String missionType;
-	int viewType = 0;
+	private int viewType = 0;
 	
 	//TileMap testMap;
-	CollisionManager collisionManager;
+	private CollisionManager collisionManager;
 	
-	TextView codeTxt;
-	ScrollView codeScroll;
+	private TextView codeTxt;
+	private ScrollView codeScroll;
 	
-	InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
+	private InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
 	
+	// Used to globably access the current game.
 	public static NickGameActivity currentGame = null;
-	
 	public NickGameActivity()
 	{
 		currentGame = this;
 	}
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -81,6 +82,8 @@ public class NickGameActivity extends Activity
         kills = 0;
         numBulletsContact = 0;
         numShotsFired = 0;
+        
+        
         //figure out what type of Game this is
         missionType = getIntent().getExtras().getString("GameType");
         botFile = getIntent().getExtras().getString("Bot");
@@ -88,15 +91,15 @@ public class NickGameActivity extends Activity
         viewType = getIntent().getExtras().getInt("ViewType", 0);
 
         if(missionType.equalsIgnoreCase("BOT versus BOT")){
-        	gt = new BotVsBot(this,mapFile, botFile);
+        	gameType = new BotVsBot(this,mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
-        	gt = new DungeonCrawl(this, mapFile, botFile);
+        	gameType = new DungeonCrawl(this, mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Tutorial")){
         	int numOfBots = getIntent().getExtras().getInt("BotNum");
-        	gt = new TutorialTesting(this, numOfBots, botFile);
+        	gameType = new TutorialTesting(this, numOfBots, botFile);
         }
         
-        gt.Initialize(this);
+        gameType.Initialize(this);
              
         // making it full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -122,39 +125,14 @@ public class NickGameActivity extends Activity
         	glSurfaceView = (GameView) findViewById(R.id.game_view);
         	codeTxt = (TextView) findViewById(R.id.code_txt);
         	codeScroll = (ScrollView) findViewById(R.id.code_scroll);
-        	gt.getBot().getInterpreter().setOutputTextView(codeTxt);
-	    	codeTxt.setText(gt.getBot().getInterpreter().getBotLog());
-        }
-        else if(viewType == 2)
-        {
-        	setContentView(R.layout.game_activity_scrollview);
-        	glSurfaceView = (GameView) findViewById(R.id.game_view);
-        	codeTxt = (TextView) findViewById(R.id.code_txt);
-			codeScroll = (ScrollView) findViewById(R.id.code_scroll);
-			
-    		Timer t = new Timer();
-    		t.schedule(new TimerTask()
-    		{
-    			@Override
-    			public void run()
-    			{
-    				codeTxt.post(new Runnable()
-    				{
-    					@Override
-    					public void run()
-    					{
-    						codeTxt.append("\nmore code");
-    						codeScroll.fullScroll(View.FOCUS_DOWN); 
-    					}
-    				});
-    			}
-    		}, 1000, 1000);
+        	gameType.getBot().getInterpreter().setOutputTextView(codeTxt);
+	    	codeTxt.setText(gameType.getBot().getInterpreter().getBotLog());
         }
                
-        notifyOnTouchList.add(gt.getBot().getDrawableBot());
+        notifyOnTouchList.add(gameType.getBot().getDrawableBot());
         
         //Declare Collision Manager
-        collisionManager = new CollisionManager(gt.getMap());
+        collisionManager = new CollisionManager(gameType.getMap());
                 
         //Declare Particle Emitter
         particleEmitter = new DrawableParticleEmitter();
@@ -167,31 +145,32 @@ public class NickGameActivity extends Activity
         
         gameRenderer = new GlRenderer(this);
         
-        ilvm.addInterpreter(gt.getBot().getInterpreter());
-		// Run the vm every second.
-		t = new Timer();
-		t.schedule(new TimerTask()
-		{
-			@Override
-			public void run()
-			{
-				ilvm.resume(4);
-			}
-		}, 50, 50);
+        ilvm.addInterpreter(gameType.getBot().getInterpreter());
+		
+//        // Run the vm every second.
+//		t = new Timer();
+//		t.schedule(new TimerTask()
+//		{
+//			@Override
+//			public void run()
+//			{
+//				ilvm.resume(4);
+//			}
+//		}, 50, 50);
 		
         //Set renderer to be the main renderer with the current activity context
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
  
-        gameRenderer.setTileMap(gt.getMap());
+        gameRenderer.setTileMap(gameType.getMap());
         
         //Nick
-        for(int i = 0; i < gt.getBots().length; i++){
-        	addBotToWorld(gt.getBots()[i]);
+        for(int i = 0; i < gameType.getBots().length; i++){
+        	addBotToWorld(gameType.getBots()[i]);
         }
         
-        addBotToWorld(gt.getBot());
+        addBotToWorld(gameType.getBot());
         
 		//Tell camera to continuously update so it can follow user bot
 		gameRenderer.continuousCameraUpdate = true;
@@ -201,7 +180,7 @@ public class NickGameActivity extends Activity
         preloadTextures();							//Should always be called before game starts
      
         gameRenderer.startSimulation();
-        gameLoop();
+        startGameLoop();
     }
     
     public void addBotToWorld(Bot bot)
@@ -238,16 +217,10 @@ public class NickGameActivity extends Activity
     	drawListPointer++;
     }
     
-    public void gameLoop()
+    public void startGameLoop()
     {
     	Runnable gR = new Runnable()
     	{
-    		//Touch Event Vars
-    		float xWaypoint = 0.0f;
-    		float yWaypoint = 0.0f;
-    		float xPercentage = 0.0f;
-    		float yPercentage = 0.0f;
-    		
     		//Proof of concept variables
     		int shotCount = 0;
     		boolean thisFrameDrawn = false;
@@ -269,50 +242,42 @@ public class NickGameActivity extends Activity
     				thisFrameDrawn = false;
     				
     				//Handle touch events
-    				touchX = glSurfaceView.touchX;
-    				touchY = glSurfaceView.touchY;
-    				
-    				if(touchX != previousTouchX || touchY != previousTouchY)
-    				{
-    					touchEventFired = true;
-    					
-    					//Convert to game world waypoints
-    					xPercentage = (touchX/gameRenderer.screenWidth);
-    					yPercentage = ((touchY/gameRenderer.screenHeight));
-    					
-    					xWaypoint = (gameRenderer.drawLeft - (xPercentage * (gameRenderer.drawLeft - gameRenderer.drawRight)));
-    					yWaypoint = (gameRenderer.drawTop - (yPercentage * (gameRenderer.drawTop - gameRenderer.drawBottom)));
-    					
-    					//Notify bots that require it
-    					for(int i=0;i<notifyOnTouchList.size();i++)
-    					{
-    						notifyOnTouchList.get(i).onTouchEvent(xWaypoint, yWaypoint);
-    					}
-    				}
-    				previousTouchX = touchX;
-    				previousTouchY = touchY;
+    				HandleTouchEvents();
     				
     				//check victory conditions
-    				gt.Update();
-    				   			    				
+    				gameType.Update();
+    				
+    				// Run Interpreter
+//    				ilvm.resume(30);
+    				ilvm.resume(4);
+    				
     				//gt.getBot().getDrawableBot().moveByTouch(0.1f);
-    				gt.getBot().getDrawableBot().move();
+    				gameType.getBot().getDrawableBot().move();
     				//gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
     				
-    	    		gt.getBot().getDrawableGun().update();
-    	    		for(int i = 0; i < gt.getBots().length; i++){
-    	    			gt.getBots()[i].getDrawableGun().update();
-    	    		}
-    	    		if(shotCount >= 10)
-    	    		{
-    	    			gt.getBot().getDrawableGun().fire();
-    	    			for(int i = 0; i < gt.getBots().length; i++){
-        	    			gt.getBots()[i].getDrawableGun().fire  ();
-        	    		}
-    	    			numShotsFired++;
-    	    			shotCount = 0;
-    	    		}    	    		
-    	    		shotCount++;
+    				
+    				// Update the player's bot's gun
+    	    		gameType.getBot().getDrawableGun().update();
+    	    		
+    	    		// Update the other bots' guns
+    	    		for(int i = 0; i < gameType.getBots().length; i++)
+    	    			gameType.getBots()[i].getDrawableGun().update();
+    	    		
+    	    		
+    	    		// ? no.  
+//    	    		if(shotCount >= 10)
+//    	    		{
+//    	    			gameType.getBot().getDrawableGun().fire();
+//    	    			
+//    	    			for(int i = 0; i < gameType.getBots().length; i++)
+//        	    			gameType.getBots()[i].getDrawableGun().fire();
+//    	    			
+//    	    			numShotsFired++;
+//    	    			shotCount = 0;
+//    	    		}    	    		
+//    	    		shotCount++;
+    	    		
+    	    		
     	    		
     				//Collision Detection Updater
     				collisionManager.update();
@@ -321,40 +286,44 @@ public class NickGameActivity extends Activity
     				particleEmitter.update();
     	    		
     				//Camera Stuff
-    				gameRenderer.cameraX = gt.getBot().getDrawableBot().parameters[0];
-    				gameRenderer.cameraY = gt.getBot().getDrawableBot().parameters[1];
+    				gameRenderer.cameraX = gameType.getBot().getDrawableBot().parameters[0];
+    				gameRenderer.cameraY = gameType.getBot().getDrawableBot().parameters[1];
     	            	        
-    		        //Nick
-    		        for(int i = 0; i < gt.getBots().length; i++){
-    		        	if(gt.getBots()[i].getDrawableBot().isAlive)
-    		        		addToDrawList(gt.getBots()[i]);
-    		        }
+    		        // Add bots to the drawlist if they are alive
+    		        for (int i = 0; i < gameType.getBots().length; i++)
+    		        	if(gameType.getBots()[i].getDrawableBot().isAlive)
+    		        		addToDrawList(gameType.getBots()[i]);
     		        
-    		        if(gt.getBot().getDrawableBot().isAlive){
-		        		addToDrawList(gt.getBot());  		        
-    		        }
+    		        // Add the player to the drawlist if he is alive.
+    		        if (gameType.getBot().getDrawableBot().isAlive)
+		        		addToDrawList(gameType.getBot());
+    		        
     	            //Renderer Synchronization / Draw Frame Request
-    	    		while(!thisFrameDrawn && gameLoop)
+    	    		while (!thisFrameDrawn && gameLoop)
     	    		{
 	    	    		if(gameRenderer.getFrameDrawn())
 	    	    		{
 	    	    			gameRenderer.drawListSize = drawListPointer;
+	    	    			
 	    	    			for(int i=0;i<2;i++)
-	    	    			{
 	    	    				for(int j=0;j<drawListPointer;j++)
-	    	    				{
 	    	    					gameRenderer.drawList[i][j] = drawList[i][j];
-	    	    				}
-	    	    			}
+	    	    			
 	    	    			//gameRenderer.setFrameDrawn(false);
 	    	    			gameRenderer.frameDrawn = false;
 	    	    			glSurfaceView.requestRender();
 	    	    			thisFrameDrawn = true;
 	    	    			drawListPointer = 0;
 	    	    		}
+	    	    		
+	    	    		// If we're waiting on the gameRenderer, should the thread pause
+	    	    		// to let other stuff happen?
+//	    	    		try {Thread.sleep(1);}
+//	    	    		catch (InterruptedException e) {}
     	    		}
     	    		
-    	    		
+    	    		// Count up the number of frames and every second print that number
+    	    		// out and reset the count.
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
@@ -368,13 +337,57 @@ public class NickGameActivity extends Activity
     			}
     		}
     	};
+    	
     	Thread gT = new Thread(gR);
     	gT.setName("Game Thread: " + gT.getName());
     	gT.start();
     }
     
-    public GameTypes getGameType(){
-    	return this.gt;
+    /**
+     * This method is called once every frame and handles touch events (obviously)
+     */
+    private void HandleTouchEvents()
+    {
+    	if (glSurfaceView.touchNeedsToBeHandled)
+    	{
+			//Touch Event Vars
+			float xWaypoint = 0.0f;
+			float yWaypoint = 0.0f;
+			float xPercentage = 0.0f;
+			float yPercentage = 0.0f;
+			
+	    	touchX = glSurfaceView.touchX;
+			touchY = glSurfaceView.touchY;
+			
+			if(true || touchX != previousTouchX || touchY != previousTouchY)
+			{
+				touchEventFired = true;
+				
+				//Convert to game world waypoints
+				xPercentage = (touchX/gameRenderer.screenWidth);
+				yPercentage = ((touchY/gameRenderer.screenHeight));
+				
+				xWaypoint = (gameRenderer.drawLeft - (xPercentage * (gameRenderer.drawLeft - gameRenderer.drawRight)));
+				yWaypoint = (gameRenderer.drawTop - (yPercentage * (gameRenderer.drawTop - gameRenderer.drawBottom)));
+				
+				//Notify bots that require it
+				for(int i=0;i<notifyOnTouchList.size();i++)
+				{
+					notifyOnTouchList.get(i).onTouchEvent(xWaypoint, yWaypoint);
+				}
+			}
+			
+			previousTouchX = touchX;
+			previousTouchY = touchY;
+			
+			// Flag that we handled this touch event.
+			glSurfaceView.touchNeedsToBeHandled = false;
+    	}
+    }
+    
+    
+    public GameType getGameType(){
+    	return this.gameType;
     }   
     
 	@Override
@@ -396,10 +409,18 @@ public class NickGameActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		mp.release();
+		
+		if (mp != null)
+			mp.release();
+		
 		gameLoop = false;
-		t.cancel();
-		ilvm.stop();
+		
+		if (t != null)
+			t.cancel();
+		
+		if (ilvm != null)
+			ilvm.stop();
+		
 		finish();
 	}
 }

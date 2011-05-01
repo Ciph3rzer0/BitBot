@@ -115,7 +115,25 @@
 	    <!-- End Bot Function tools -->  
     <!-- End Quick Action tools -->
         
+        
     <string name="example_code">
+// Turn and Shoot\n
+Let _a = 0\n
+\n
+While 1 Do\n
+  call bot_move(_a, 8)\n
+Loop\n
+\n
+end\n
+\n
+sub onTouch with x,y\n
+	let _a = call angleTo(x, y)\n
+	call bot_turn(_a - 90)\n
+	call bot_fire()\n
+return\n
+	</string>
+	
+    <string name="example_code_old">
 Print \&quot;Hello World\&quot; &amp; \&quot;1\&quot; &amp; \&quot;2\&quot;\n
 Print \&quot;Test \&quot; &amp; (5-1)\n
 Dim i as Integer\n
