@@ -239,19 +239,23 @@ public class Main_Tutorial extends Activity
 					vf.showNext();
 				}else if (simulateFlag == 2){
 					//Graphical Simulation here
-					Bot tutorialBot = new Bot();
-					tutorialBot.setName("Tutorial Bot");
-					tutorialBot.setBase(R.drawable.adambot);
-					tutorialBot.setTurret(R.drawable.adamturret);
-					tutorialBot.setBullet(R.drawable.bulletnew);
-					tutorialBot.setCode(editor.getText().toString());
-					tutorialBot.saveBotToXML(Main_Tutorial.this,"tutorial_bot.xml");
-					
-					Intent intent = new Intent(Main_Tutorial.this, NickGameActivity.class);
-					intent.putExtra("Bot", "tutorial_bot.xml");
-					intent.putExtra("BotNum", numOfBots);
-					intent.putExtra("GameType", "Tutorial");
-					startActivity(intent);
+					try{
+						Bot tutorialBot = new Bot();
+						tutorialBot.setName("Tutorial Bot");
+						tutorialBot.setBase(R.drawable.adambot);
+						tutorialBot.setTurret(R.drawable.adamturret);
+						tutorialBot.setBullet(R.drawable.bulletnew);
+						tutorialBot.setCode(editor.getText().toString());
+						tutorialBot.saveBotToXML(Main_Tutorial.this,"tutorial_bot.xml");
+						
+						Intent intent = new Intent(Main_Tutorial.this, NickGameActivity.class);
+						intent.putExtra("Bot", "tutorial_bot.xml");
+						intent.putExtra("BotNum", numOfBots);
+						intent.putExtra("GameType", "Tutorial");
+						startActivity(intent);
+					}catch(Exception e){
+						Toast.makeText(Main_Tutorial.this, "Please Enter Some Code Before Simulating", Toast.LENGTH_SHORT).show();
+					}
 					
 				}
 			}

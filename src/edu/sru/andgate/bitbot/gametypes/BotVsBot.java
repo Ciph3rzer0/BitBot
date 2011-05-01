@@ -72,7 +72,7 @@ public class BotVsBot extends GameTypes
 		 * set users bot spawn point
 		 */
 		userBot = Bot.CreateBotFromXML(context, userBotFile);
-		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size());
+		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size()-1)+1;
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
 		start = System.currentTimeMillis();
 

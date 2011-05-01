@@ -50,7 +50,6 @@ public class Tutorial
 				
 				stages[i] = new Stage(hint, answer);
 				
-//				System.out.println("hint:\n " + hint + "\nanswser:\n " + answer + "\n \n ");
 			}
 		}
 		catch (Exception e)

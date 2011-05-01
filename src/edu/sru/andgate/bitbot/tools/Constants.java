@@ -41,7 +41,7 @@ public class Constants {
         tutorials_table.put("Back to Main Menu", "");
 	 
         //simulation table
-        //simulation_table.put("Print Statement", 1);
+        simulation_table.put("Print Statement", 1);
     	simulation_table.put("Defining Variables", 1);	 
         simulation_table.put("Loops", 1);
         simulation_table.put("Sub Routines", 1);

@@ -518,7 +518,7 @@ public class IDE extends Activity {
 				
 			case R.id.simulator:
 				Bot tutorialBot = new Bot();
-				tutorialBot.setName("Tutorial Bot");
+				tutorialBot.setName("IDE Bot");
 				tutorialBot.setBase(R.drawable.adambot);
 				tutorialBot.setTurret(R.drawable.adamturret);
 				tutorialBot.setBullet(R.drawable.bulletnew);
