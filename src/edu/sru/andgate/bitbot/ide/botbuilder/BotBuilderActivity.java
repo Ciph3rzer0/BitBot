@@ -168,9 +168,6 @@ public class BotBuilderActivity extends Activity
 			}
 		});
 				
-		
-		
-		
 		code_files = FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath());
 		
 		spinner = (Spinner) findViewById(R.id.program_title);
@@ -183,7 +180,11 @@ public class BotBuilderActivity extends Activity
 		{
 			public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) 
 			{
-				tv.setText(FileManager.readTextFileFromDirectory("Code",((String)((TextView) view).getText().toString())));
+				try{
+					tv.setText(FileManager.readTextFileFromDirectory("Code",((String)((TextView) view).getText().toString())));
+				}catch(Exception e){
+					
+				}
 			}
 			
 			@Override
