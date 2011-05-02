@@ -82,6 +82,7 @@ public class Bot
 		stepSize /= 100;
 		
 		_drawable.setMove(degrees, stepSize);
+		_drawable.setRotationAngle(-(90+degrees));
 		return true;
 	}
 	
@@ -99,7 +100,7 @@ public class Bot
 	
 	public boolean Fire()
 	{
-		_gun.update();
+//		_gun.update();
 		_gun.fire();
 		return true;
 	}
@@ -116,8 +117,7 @@ public class Bot
 	
 	public double GetHeading()
 	{
-		// TODO : Need a DrawableBot getHeading or getRotation method.
-		return 0;
+		return _drawable.getCurrentParameters()[3];
 	}
 	
 	public void attachDrawable(DrawableBot d)
