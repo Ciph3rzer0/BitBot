@@ -264,24 +264,24 @@ public class NickGameActivity extends Activity
     	    			}
     	    		}
     	    		
-    	    		//no?
-    	    		if(shotCount >= 10)
-    	    		{
-    	    			if(gameType.getBot().getDrawableBot().isAlive)
-    	    			{
-    	    				gameType.getBot().getDrawableGun().fire();
-    	    			}
-    	    			for(int i = 0; i < gameType.getBots().length; i++)
-    	    			{
-    	    				if(gameType.getBots()[i].getDrawableBot().isAlive)
-    	    				{
-    	    					gameType.getBots()[i].getDrawableGun().fire();
-    	    				}
-        	    		}
-    	    			numShotsFired++;
-    	    			shotCount = 0;
-    	    		}    	    		
-    	    		shotCount++;
+//    	    		//no?
+//    	    		if(shotCount >= 10)
+//    	    		{
+//    	    			if(gameType.getBot().getDrawableBot().isAlive)
+//    	    			{
+//    	    				gameType.getBot().getDrawableGun().fire();
+//    	    			}
+//    	    			for(int i = 0; i < gameType.getBots().length; i++)
+//    	    			{
+//    	    				if(gameType.getBots()[i].getDrawableBot().isAlive)
+//    	    				{
+//    	    					gameType.getBots()[i].getDrawableGun().fire();
+//    	    				}
+//        	    		}
+//    	    			numShotsFired++;
+//    	    			shotCount = 0;
+//    	    		}    	    		
+//    	    		shotCount++;
     	    		
     	    		    	    		
     				//Collision Detection Updater
