@@ -11,8 +11,15 @@ import android.view.MotionEvent;
 public class GameView extends GLSurfaceView implements OnKeyListener
 {
 	final private Context _context;
-	float touchX = 0;
-	float touchY = 0;
+	
+	/**
+	 * This variable is used by the GameActivity to determine if there is a new touch
+	 * event to handle, or if it has already handled it.
+	 */
+	public boolean touchNeedsToBeHandled = false;
+	
+	public float touchX = 0;
+	public float touchY = 0;
 	
 	public GameView(Context context)
 	{
@@ -35,15 +42,23 @@ public class GameView extends GLSurfaceView implements OnKeyListener
 		return false;
 	}
 	
-    public boolean onTouchEvent(final MotionEvent event)
-    {
-        touchX = event.getX();
-        touchY = event.getY();
-        
-//        try {
-//        	Thread.sleep(200);
-//        } catch (InterruptedException e) {} //ignore
-//        
-        return true;
-    }
+	public boolean onTouchEvent(final MotionEvent event)
+	{
+//		if (event.getAction() != MotionEvent.ACTION_DOWN)
+//			return true;
+		
+		// Store the touch coordinates
+		touchX = event.getX();
+		touchY = event.getY();
+		
+		// Flag that this touch event needs handled
+		touchNeedsToBeHandled = true;
+		
+		// Pause for a bit
+//		try {
+//			Thread.sleep(20);
+//		} catch (InterruptedException e) {}
+		
+		return true;
+	}
 }

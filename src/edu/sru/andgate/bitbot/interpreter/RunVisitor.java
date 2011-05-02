@@ -127,7 +127,7 @@ public class RunVisitor implements bc1Visitor
 	 */
 	public void interrupt(int type, String[] params)
 	{
-		Log.d("BitBot Interpreter", "Interrupt called");
+//		Log.d("BitBot Interpreter", "Interrupt called");
 		
 		if (_interruptReady)
 		{
@@ -208,23 +208,23 @@ public class RunVisitor implements bc1Visitor
 				throw new Error();
 				
 			case BOUND_COLLISION :
-				Log.v("BitBot Interpreter", "call onBoundaryCollision()");
+//				Log.v("BitBot Interpreter", "call onBoundaryCollision()");
 				
 				n = subs.get("onBoundaryCollision".toLowerCase());
 				if (n != null)
 					n.jjtAccept(this, _interruptParams);
-				else
-					Log.v("BitBot Interpreter", "No 'onBoundaryCollision' sub found");
+//				else
+//					Log.v("BitBot Interpreter", "No 'onBoundaryCollision' sub found");
 				break;
 			
 			case TOUCH_EVENT :
-				Log.v("BitBot Interpreter", "call onTouch()");
+//				Log.v("BitBot Interpreter", "call onTouch()");
 				
 				n = subs.get("onTouch".toLowerCase());
 				if (n != null)
 					n.jjtAccept(this, _interruptParams);
-				else
-					Log.v("BitBot Interpreter", "No 'onTouch' sub found");
+//				else
+//					Log.v("BitBot Interpreter", "No 'onTouch' sub found");
 				break;
 				
 			default :
@@ -784,19 +784,15 @@ public class RunVisitor implements bc1Visitor
 	@Override
 	public Object visit(ASTSubDef node, Object data)
 	{
-		Log.d("BitBot Interpreter", "In Sub Def");
+//		Log.d("BitBot Interpreter", "In Sub Def");
 		
 		HashMap<String, String> hm = new HashMap<String, String>();
-		// TODO: THIS IS GOING TO BE INEFFICIENT
-		String[] localVars = (String[]) data;
+		String[] localVars = (String[]) data;			// TODO: THIS IS GOING TO BE INEFFICIENT
 		
 		// Assign local variables
 		if (localVars != null)
 			for (int i = 0; (i < localVars.length) && (i < node.jjtGetNumChildren()-2); i++)
-			{
-				Log.v("BitBot Interpreter", localVars[i]);
 				hm.put(((SimpleNode)node.jjtGetChild(i+1)).jjtGetValue().toString(), localVars[i]);
-			}
 		
 		// Push local variables
 		varStack.push(hm);
@@ -807,9 +803,7 @@ public class RunVisitor implements bc1Visitor
 		// Pop local variables
 		varStack.pop();
 		
-		Log.d("BitBot Interpreter", "Exit Sub Def");
-		
-		
+//		Log.d("BitBot Interpreter", "Exit Sub Def");
 		return null;
 	}
 	
@@ -901,8 +895,6 @@ public class RunVisitor implements bc1Visitor
 		node.jjtGetValue();
 		node.jjtSetValue(new Boolean(true));
 		
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 

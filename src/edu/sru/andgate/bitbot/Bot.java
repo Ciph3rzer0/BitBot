@@ -34,7 +34,6 @@ public class Bot
 	private DrawableBot _bot;
 	private BotLayer _layer;
 	private DrawableGun _gun;
-	private static Constants constants;
 	private int botID = -1;
 	
 //	private Physical physical;
@@ -51,12 +50,16 @@ public class Bot
 	
 	public Bot()
 	{
-		constants = new Constants();
 	}
 	
 	public void setID(int id)
 	{
 		botID = id;
+	}
+	
+	public int getID()
+	{
+		return botID;
 	}
 	
 	public void readyInterpreter()
@@ -82,37 +85,13 @@ public class Bot
 		return true;
 	}
 	
-	public boolean MoveForward()
-	{
-	
-		return true;
-	}
-	
-	public boolean MoveBack()
-	{
-	
-		return true;
-	}
-	
 	public boolean TurnGun(float angle)
 	{
 		_layer.setRotationAngle(angle);
 		return true;
 	}
 	
-	public boolean TurnGunTo()
-	{
-		
-		return true;
-	}
-	
-	public boolean TurnGunRight()
-	{
-		
-		return true;
-	}
-	
-	public boolean TurnGunLeft()
+	public boolean TurnGunBy()
 	{
 		
 		return true;
@@ -137,6 +116,7 @@ public class Bot
 	
 	public double GetHeading()
 	{
+		// TODO : Need a DrawableBot getHeading or getRotation method.
 		return 0;
 	}
 	
@@ -150,12 +130,23 @@ public class Bot
 		
 	}
 	
-	
+	/**
+	 * This is a callback method that the engine calls when there is a collision in the game
+	 * that the bot needs to respond to.
+	 */
 	public void callOnBoundaryCollision()
 	{
 		_interpreter.callOnBoundaryCollision();
 	}
 	
+	/**
+	 * This is a callback method that the engine calls when there is a touch on the screen
+	 * that the bot needs to respond to.  This is passed to the interpreter, which generates
+	 * an interrupt and calls the sub called "onTouch" in botcode.
+	 * 
+	 * @param x The x coordinate of the touch event
+	 * @param y The y coordinate of the touch event
+	 */
 	public void callOnTouchEvent(float x, float y)
 	{
 		_interpreter.callOnTouchEvent(x, y);
@@ -163,65 +154,83 @@ public class Bot
 	
 	
 	
-	public void setName(String name){
+	public void setName(String name)
+	{
 		this.bot_name = name;
 	}
 	
-	public void setBase(int base){
+	public void setBase(int base)
+	{
 		this.base_image = base;
 	}
 	
-	public void setTurret(int turret){
+	public void setTurret(int turret)
+	{
 		this.turret_image = turret;
 	}
 	
-	public void setCode(String code){
+	public void setCode(String code)
+	{
 		this.bot_code = code;
 	}
 	
-	public void setBullet(int bullet){
+	public void setBullet(int bullet)
+	{
 		this.bullet_image = bullet;
 	}
 	
-	public String getName(){
+	public String getName()
+	{
 		return this.bot_name;
 	}
 	
-	public int getBase(){
+	public int getBase()
+	{
 		return this.base_image;
 	}
 	
-	public int getTurret(){
+	public int getTurret()
+	{
 		return this.turret_image;
 	}
 	
-	public int getBullet(){
+	public int getBullet()
+	{
 		return this.bullet_image;
 	}
 	
-	public void setBotLayer(BotLayer bl){
+	public void setBotLayer(BotLayer bl)
+	{
 		this._layer = bl;
 	}
-	public BotLayer getBotLayer(){
+	
+	public BotLayer getBotLayer()
+	{
 		return this._layer;
 	}
 	
-	public void setDrawableBot(DrawableBot db){
+	public void setDrawableBot(DrawableBot db)
+	{
 		this._bot = db;
 	}
-	public DrawableBot getDrawableBot(){
+	
+	public DrawableBot getDrawableBot()
+	{
 		return this._bot;
 	}
 	
-	public void setDrawableGun(DrawableGun dg){
+	public void setDrawableGun(DrawableGun dg)
+	{
 		this._gun = dg;
 	}
 	
-	public DrawableGun getDrawableGun(){
+	public DrawableGun getDrawableGun()
+	{
 		return this._gun;
 	}
 	
-	public SourceCode getCode(){
+	public SourceCode getCode()
+	{
 		SourceCode sc = new SourceCode("Basic", this.bot_code);
 		return sc;
 	}
@@ -232,9 +241,11 @@ public class Bot
 	 * @param xmlFile the file name
 	 * @return
 	 */
-	public static Bot CreateBotFromXML(Context context, String xmlFile) {
+	public static Bot CreateBotFromXML(Context context, String xmlFile)
+	{
 		//read in bot from xmlFile
-		try{
+		try
+		{
 			FileInputStream is = context.openFileInput(xmlFile);
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder;
@@ -253,8 +264,8 @@ public class Bot
 			db.setRotation(180.0f,0.0f,0.0f,-5.0f);
 			b.setDrawableBot(db);
 			db.addTexture(b.getBase());
-			db.addTexture(constants.damage1.get(b.getBase()));	
-			db.addTexture(constants.damage2.get(b.getBase()));
+			db.addTexture(Constants.damage1.get(b.getBase()));	
+			db.addTexture(Constants.damage2.get(b.getBase()));
 			db.addDamageTextureToSequence(1, 50);
 		    db.addDamageTextureToSequence(2, 25);
 			db.attachCollisionSound(context, R.raw.bot_wall_collision);
@@ -269,14 +280,22 @@ public class Bot
 			b.readyInterpreter();
 							
 			return b;
-		}catch (Exception e){
+		}
+		catch (Exception e)
+		{
 			Log.v("BitBot", "Error reading file");
 		}
+		
 		return null;
-		
-		
 	}
-
+	
+	/**
+	 * Saves the bot defined in this class in an xml file <code>filename</code>.  Later we can 
+	 * reconstruct this bot by calling Bot.CreateBotFromXML(Context context, String xmlFile).
+	 * 
+	 * @param context A context, usually an activity, needed to access the files.
+	 * @param filename A filename (without any path) that the bot should be saved as.
+	 */
 	public void saveBotToXML(Context context, String filename)
 	{
 		XmlSerializer serializer = Xml.newSerializer();
@@ -306,6 +325,7 @@ public class Bot
 		} catch (Exception e) {
 			Log.v("BitBot", "XML Writer error");
 		}
+		
 		try {
 			FileOutputStream fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 			Log.v("BitBot", "Success");
@@ -316,9 +336,17 @@ public class Bot
 		}
 	}
 	
-	public static String readXML(Document doc, String tag_name) throws IOException
+	/**
+	 * This is code-reuse method that makes finding the value of a specific tag easy.
+	 * 
+	 * @param doc The document to find the tag in
+	 * @param tagName The name of the tag
+	 * @return The value of the tag in the xml document
+	 * @throws IOException
+	 */
+	private static String readXML(Document doc, String tagName) throws IOException
 	{
-		NodeList tutorialText = doc.getElementsByTagName(tag_name);
+		NodeList tutorialText = doc.getElementsByTagName(tagName);
 		Element myText = (Element) tutorialText.item(0);
 		String text = ((Node)myText.getChildNodes().item(0)).getNodeValue().trim();
 		return text;

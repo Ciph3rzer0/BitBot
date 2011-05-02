@@ -57,13 +57,12 @@ TOKEN : /* NUMBER LITERAL */
   < NUMBER_EL >
   (
    ("e" | "E")
+   ( "+" | "-" )?
    < NUMBER_EL >
   )?
  >
  
 |< #NUMBER_EL :
-  ( "+" | "-" )?
-  
   (
     ( <DIGIT> )+
     |

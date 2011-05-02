@@ -42,12 +42,21 @@ public class Initialization
 			"return\n";
 		
 		String data02 =
-			"//Place Holder File\n" + "Let d = -1\n" +
+			"// Turn and Shoot\n" +
+			"Let _a = 0\n" +
 			"\n" +
 			"While 1 Do\n" + 
-			"  call bot_move(45, 5)\n" +
-			"  Let g = g + 1\n" +
-			"Loop\n";
+			"  call bot_move(_a, 8)\n" +
+			"Loop\n" +
+			"\n" +
+			"end\n" +
+			"\n" +
+			"sub onTouch with x,y\n" +
+			"	let _a = call angleTo(x, y)\n" +
+			"	call bot_turn(_a - 90)\n" +
+			"	call bot_fire()\n" +
+			"return\n"
+		;
 		
 		boolean b = Test.CompareCode(data, data02);
 		
