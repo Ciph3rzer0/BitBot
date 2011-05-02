@@ -28,7 +28,7 @@ public class TileMap
 	int SELECTED_TEXTURE = 0;
 	public int mapWidth, mapHeight;
 	public int tileSize;
-	int tileStep;
+	public int tileStep;
 	float drawX1, drawX2, drawY1, drawY2;
 	int mapOriginX, mapOriginY;
 	int LDrawPoint, RDrawPoint, TDrawPoint, BDrawPoint;
@@ -41,7 +41,7 @@ public class TileMap
 	int[] drawBufferCount;
 	ArrayList<Integer> textureHopper;
 	ArrayList<int[][]> drawBuffer;
-	public ArrayList<Float> enemySpawnPointsX ,enemySpawnPointsY, userSpawnPointsX, userSpawnPointsY;
+	public ArrayList<Float> enemySpawnPointsX ,enemySpawnPointsY, userSpawnPointsX, userSpawnPointsY, finishPointsX, finishPointsY;
 	
 	boolean textureLoaded = false;
 	
@@ -75,6 +75,8 @@ public class TileMap
 		enemySpawnPointsY = new ArrayList<Float>();
 		userSpawnPointsX = new ArrayList<Float>();
 		userSpawnPointsY = new ArrayList<Float>();
+		finishPointsX = new ArrayList<Float>();
+		finishPointsY = new ArrayList<Float>();
 		
 		// a float has 4 bytes so we allocate for each coordinate 4 bytes
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -360,10 +362,12 @@ public class TileMap
 		//Read basic map information
 		int enemySpawnCode = 1;
 		int userSpawnCode = 2;
+		int finishCode = 3;
 		
 		//put the spawn point array in a temp array
 		int enemyCounter = 0;
 		int userCounter = 0;
+		int finishCounter = 0;
 		 for(int i=0;i<mapHeight;i++)
 		 {
         	for(int j=0;j<mapWidth;j++)
@@ -378,6 +382,10 @@ public class TileMap
         			userSpawnPointsX.add(userCounter, tileLocations[j][i][0]);
         			userSpawnPointsY.add(userCounter, tileLocations[j][i][1]);
         			userCounter++;
+        		}else if (tileCodes[j][i][0] == finishCode){
+        			Log.v("GameTypes", "Finish Code Found at: " + tileLocations[j][i][0] + "," + tileLocations[j][i][1] + "," + -5.0f);
+        			finishPointsX.add(finishCounter, tileLocations[j][i][0]);
+        			finishPointsY.add(finishCounter, tileLocations[j][i][1]);
         		}
         		
         	}

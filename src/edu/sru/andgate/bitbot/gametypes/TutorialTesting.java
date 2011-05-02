@@ -25,7 +25,7 @@ public class TutorialTesting extends GameTypes
 		this.tileMap = new TileMap();
 		this.context = context;
 		this.userBotFile = userBotFile;
-		this.tileMap.loadMapFile("testarena.map", context);
+		this.tileMap.loadMapFile("tutorial_arena.map", context);
 		this.tileMap.setSpawnPoints();
 		this.totalBots = numOfBots;
 		this.generator = new Random();

@@ -77,25 +77,21 @@ public class DungeonCrawl extends GameTypes
 	}
 
 	@Override
-	public void Update() {
-		int botsLeft = bots.length;
-		//check if victory conditions have been met, etc
-		for(int i = 0; i < bots.length;i++){
-			if(!bots[i].getDrawableBot().isAlive()){
-				botsLeft--;
-			}
-		}
+	public void Update() {		
+		//get users bot current tile locations
+		int currentTileX = (int)Math.floor((userBot.getDrawableBot().parameters[0]+tileMap.mapWidth)/tileMap.tileStep);
+		int currentTileY = (int)Math.floor(Math.abs((userBot.getDrawableBot().parameters[1] - tileMap.mapHeight)/tileMap.tileStep));
 		
-		if(botsLeft == 0 && victory == false && defeat == false){
-			victory = true;
-			Constants.finished_missions.add(_game.missionType);
-			elapsed = System.currentTimeMillis() - start;
-			Finalize("victory");
-		}
-		if (!userBot.getDrawableBot().isAlive() && defeat == false && victory == false){
-			defeat = true;
-			elapsed = System.currentTimeMillis() - start;
-			Finalize("defeat");
+		for(int i = 0; i < tileMap.finishPointsX.size(); i++){
+			if(userBot.getDrawableBot().isAlive && victory == false && defeat == false && tileMap.tileLocations[currentTileX][currentTileY][0] == tileMap.finishPointsX.get(i) && tileMap.tileLocations[currentTileX][currentTileY][1] == tileMap.finishPointsY.get(i)){
+				victory = true;	
+				Constants.finished_missions.add(_game.missionType);
+				elapsed = System.currentTimeMillis() - start;
+				Finalize("victory");
+			}else if(!userBot.getDrawableBot().isAlive && victory == false && defeat == false){
+				defeat = true;
+				Finalize("defeat");
+			}	
 		}
 	}
 	
@@ -114,8 +110,7 @@ public class DungeonCrawl extends GameTypes
 			accuracy = ((double)_game.numBulletsContact/(double)_game.numShotsFired) * 100;
 			accuracy = (double)Math.round(accuracy * 100) / 100;
 		}
-		// Not sure here yet
-		Log.v("GameTypes", "Victory is Yours");
+	
 		_game.runOnUiThread(new Runnable(){
 			@Override
 			public void run() {

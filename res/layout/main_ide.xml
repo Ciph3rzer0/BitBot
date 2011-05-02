@@ -93,15 +93,6 @@
 	            android:id="@+id/linearLayout2" 
 	            android:layout_height="match_parent" 
 	            android:orientation="horizontal">
-	        <ImageButton
-				android:id="@+id/select_right"
-				android:src="@drawable/select_right"
-				android:layout_width="0px" 
-				style="@style/Heading"
-				android:background="@layout/button_bot_component"
-		        android:layout_weight="1" 
-		        android:layout_height="70dip" >
-			</ImageButton>
 			<ImageButton
 				android:id="@+id/select_left"
 				android:src="@drawable/select_left"
@@ -110,6 +101,15 @@
 	        	style="@style/Heading"
 				android:background="@layout/button_bot_component"
 	        	android:layout_height="70dip" >
+			</ImageButton>
+	        <ImageButton
+				android:id="@+id/select_right"
+				android:src="@drawable/select_right"
+				android:layout_width="0px" 
+				style="@style/Heading"
+				android:background="@layout/button_bot_component"
+		        android:layout_weight="1" 
+		        android:layout_height="70dip" >
 			</ImageButton>
 			<ImageButton
 				android:id="@+id/move_up" 

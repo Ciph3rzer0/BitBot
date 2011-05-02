@@ -295,13 +295,17 @@ public class NickGameActivity extends Activity
     				//check victory conditions
     				gt.Update();
     				   			    				
-    				//gt.getBot().getDrawableBot().moveByTouch(0.1f);
-    				gt.getBot().getDrawableBot().move();
-    				//gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
+    				gt.getBot().getDrawableBot().moveByTouch(0.1f);
+    				//gt.getBot().getDrawableBot().move();
+    				gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
     				
-    	    		gt.getBot().getDrawableGun().update();
+    	    		if(gt.getBot().getDrawableBot().isAlive){
+    	    			gt.getBot().getDrawableGun().update();
+    	    		}
     	    		for(int i = 0; i < gt.getBots().length; i++){
-    	    			gt.getBots()[i].getDrawableGun().update();
+    	    			if(gt.getBots()[i].getDrawableBot().isAlive){
+    	    				gt.getBots()[i].getDrawableGun().update();
+    	    			}
     	    		}
     	    		if(shotCount >= 10)
     	    		{
@@ -375,8 +379,8 @@ public class NickGameActivity extends Activity
     
     public GameTypes getGameType(){
     	return this.gt;
-    }   
-    
+    }  
+       
 	@Override
 	protected void onResume()
 	{
