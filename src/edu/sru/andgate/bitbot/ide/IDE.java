@@ -550,6 +550,7 @@ public class IDE extends Activity {
 					value = "New File.txt";
 				}
 				FileManager.saveCodeFile(editor.getText().toString(), value);
+				file = value;
 			}
 		});
 
