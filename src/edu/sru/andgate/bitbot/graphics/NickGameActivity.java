@@ -32,30 +32,23 @@ public class NickGameActivity extends Activity
 	private Timer t;
 	private GlRenderer gameRenderer;
 	private DrawableParticleEmitter particleEmitter;
-	private Bot loadedBot;
 	private MediaPlayer mp;
 	private int[][] drawList;
 	private int drawListPointer = 0;
 	private boolean gameLoop = true;
 	private String botFile, mapFile;
-	private boolean touchEventFired = false;
 	private float touchX = 0;
 	private float touchY = 0;
 	private float previousTouchX = 0;
 	private float previousTouchY = 0;
-	private float touchXLoc = 0;
-	private float touchYLoc = 0;
 	private ArrayList<DrawableBot> notifyOnTouchList;
 	
 	private GameTypes gameType;
 	public int numShotsFired, numBulletsContact, kills;
 	
 	private int MAX_OBJECTS = 250;
-	private int NUM_TEST_BOTS = 0;
 	private final int TYPE_BOT = 0;
 	private final int TYPE_GUN = 1;
-	private final int USER_BOT = 1;
-	private final int ENEMY_BOT = 0;
 	public String missionType;
 	private int viewType = 0;
 	
@@ -256,54 +249,42 @@ public class NickGameActivity extends Activity
     				
     				// Run Interpreter
 //    				ilvm.resume(30);
-    				ilvm.resume(4);
-    				
-    				//gt.getBot().getDrawableBot().moveByTouch(0.1f);
-    				gameType.getBot().getDrawableBot().move();
-    				//gt.getBot().getBotLayer().setRotationAngle(gt.getBot().getDrawableBot().moveAngle-90);
+    				ilvm.resume(4);			
 
-    				
-
-    	    		if(gameType.getBot().getDrawableBot().isAlive){
+    				//update players bot's gun
+    	    		if(gameType.getBot().getDrawableBot().isAlive)
+    	    		{
     	    			gameType.getBot().getDrawableGun().update();
     	    		}
-    	    		for(int i = 0; i < gameType.getBots().length; i++){
-    	    			if(gameType.getBots()[i].getDrawableBot().isAlive){
+    	    		
+    	    		//update all other bot's gun's
+    	    		for(int i = 0; i < gameType.getBots().length; i++)
+    	    		{
+    	    			if(gameType.getBots()[i].getDrawableBot().isAlive)
+    	    			{
     	    				gameType.getBots()[i].getDrawableGun().update();
     	    			}
     	    		}
+    	    		
+    	    		//no?
     	    		if(shotCount >= 10)
     	    		{
-    	    			gameType.getBot().getDrawableGun().fire();
-    	    			for(int i = 0; i < gameType.getBots().length; i++){
-        	    			gameType.getBots()[i].getDrawableGun().fire  ();
+    	    			if(gameType.getBot().getDrawableBot().isAlive)
+    	    			{
+    	    				gameType.getBot().getDrawableGun().fire();
+    	    			}
+    	    			for(int i = 0; i < gameType.getBots().length; i++)
+    	    			{
+    	    				if(gameType.getBots()[i].getDrawableBot().isAlive)
+    	    				{
+    	    					gameType.getBots()[i].getDrawableGun().fire();
+    	    				}
         	    		}
     	    			numShotsFired++;
     	    			shotCount = 0;
     	    		}    	    		
     	    		shotCount++;
-
-    				
-    				// Update the player's bot's gun
-    	    		gameType.getBot().getDrawableGun().update();
     	    		
-    	    		// Update the other bots' guns
-    	    		for(int i = 0; i < gameType.getBots().length; i++)
-    	    			gameType.getBots()[i].getDrawableGun().update();
-    	    		
-    	    		
-    	    		// ? no.  
-//    	    		if(shotCount >= 10)
-//    	    		{
-//    	    			gameType.getBot().getDrawableGun().fire();
-//    	    			
-//    	    			for(int i = 0; i < gameType.getBots().length; i++)
-//        	    			gameType.getBots()[i].getDrawableGun().fire();
-//    	    			
-//    	    			numShotsFired++;
-//    	    			shotCount = 0;
-//    	    		}    	    		
-//    	    		shotCount++;
     	    		    	    		
     				//Collision Detection Updater
     				collisionManager.update();
@@ -387,8 +368,6 @@ public class NickGameActivity extends Activity
 			
 			if(true || touchX != previousTouchX || touchY != previousTouchY)
 			{
-				touchEventFired = true;
-				
 				//Convert to game world waypoints
 				xPercentage = (touchX/gameRenderer.screenWidth);
 				yPercentage = ((touchY/gameRenderer.screenHeight));
