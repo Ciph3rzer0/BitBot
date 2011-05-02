@@ -247,7 +247,6 @@ public class NickGameActivity extends Activity
     				
     				// Run Interpreter
 //    				ilvm.resume(30);
-    				ilvm.resume(4);			
 
     				//update players bot's gun
     	    		if(gameType.getBot().getDrawableBot().isAlive)
@@ -263,6 +262,7 @@ public class NickGameActivity extends Activity
     	    				gameType.getBots()[i].getDrawableGun().update();
     	    			}
     	    		}
+    	    		ilvm.resume(4);			
     	    		
 //    	    		//no?
 //    	    		if(shotCount >= 10)
