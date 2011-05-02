@@ -241,8 +241,8 @@ public class NickGameActivity extends Activity
 
     				gameType.Update();
     				   			    				
-    				gameType.getBot().getDrawableBot().moveByTouch(0.1f);
-    				//gt.getBot().getDrawableBot().move();
+//    				gameType.getBot().getDrawableBot().moveByTouch(0.1f);
+    				gameType.getBot().getDrawableBot().move();
     				gameType.getBot().getBotLayer().setRotationAngle(gameType.getBot().getDrawableBot().moveAngle-90);
 
     				gameType.Update();
@@ -269,13 +269,14 @@ public class NickGameActivity extends Activity
     	    		//no?
     	    		if(shotCount >= 10)
     	    		{
-    	    			if(gameType.getBot().getDrawableBot().isAlive)
+    	    			if (gameType.getBot().getDrawableBot().isAlive)
     	    			{
     	    				gameType.getBot().getDrawableGun().fire();
     	    			}
-    	    			for(int i = 0; i < gameType.getBots().length; i++)
+    	    			
+    	    			for (int i = 0; i < gameType.getBots().length; i++)
     	    			{
-    	    				if(gameType.getBots()[i].getDrawableBot().isAlive)
+    	    				if (gameType.getBots()[i].getDrawableBot().isAlive)
     	    				{
     	    					gameType.getBots()[i].getDrawableGun().fire();
     	    				}
