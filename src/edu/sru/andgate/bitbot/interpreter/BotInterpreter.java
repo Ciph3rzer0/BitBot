@@ -236,6 +236,7 @@ public class BotInterpreter
 
 	public static Bot getBotById(int i)
 	{
+		// TODO: need a botarray in simulation
 		Bot[] b = NickGameActivity.currentGame.getGameType().getBots();
 		
 		return b[i];
@@ -296,8 +297,8 @@ public class BotInterpreter
 		}
 		else if (instr.equalsIgnoreCase("bot_x"))
 		{
-			if (params.length == 0 && bot != null)
-				return bot.GetX();
+			if (bot == null)			return 0;
+			if (params == null)			return bot.GetX();
 			
 			int botID = 0;
 			try					{botID = (int)Float.parseFloat(params[0]);}
@@ -309,8 +310,8 @@ public class BotInterpreter
 		}
 		else if (instr.equalsIgnoreCase("bot_y"))
 		{
-			if (params.length == 0 && bot != null)
-				return bot.GetY();
+			if (bot == null)			return 0;
+			if (params == null)			return bot.GetY();
 			
 			int botID = 0;
 			try					{botID = (int)Float.parseFloat(params[0]);}

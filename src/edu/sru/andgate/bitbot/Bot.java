@@ -87,7 +87,7 @@ public class Bot
 	
 	public boolean TurnGun(float angle)
 	{
-		_layer.setRotationAngle(angle);
+		_layer.setRotationAngle(angle - 90);
 		return true;
 	}
 	
@@ -106,12 +106,12 @@ public class Bot
 	
 	public double GetX()
 	{
-		return _x;
+		return _drawable.getCurrentParameters()[0];
 	}
 	
 	public double GetY()
 	{
-		return _y;
+		return _drawable.getCurrentParameters()[1];
 	}
 	
 	public double GetHeading()
