@@ -82,12 +82,13 @@ public class Bot
 		stepSize /= 100;
 		
 		_drawable.setMove(degrees, stepSize);
+		_drawable.setRotationAngle(-(90+degrees));
 		return true;
 	}
 	
 	public boolean TurnGun(float angle)
 	{
-		_layer.setRotationAngle(angle);
+		_layer.setRotationAngle(angle - 90);
 		return true;
 	}
 	
@@ -99,25 +100,24 @@ public class Bot
 	
 	public boolean Fire()
 	{
-		_gun.update();
+//		_gun.update();
 		_gun.fire();
 		return true;
 	}
 	
 	public double GetX()
 	{
-		return _x;
+		return _drawable.getCurrentParameters()[0];
 	}
 	
 	public double GetY()
 	{
-		return _y;
+		return _drawable.getCurrentParameters()[1];
 	}
 	
 	public double GetHeading()
 	{
-		// TODO : Need a DrawableBot getHeading or getRotation method.
-		return 0;
+		return _drawable.getCurrentParameters()[3];
 	}
 	
 	public void attachDrawable(DrawableBot d)

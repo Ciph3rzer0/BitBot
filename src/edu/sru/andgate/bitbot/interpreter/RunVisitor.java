@@ -325,7 +325,7 @@ public class RunVisitor implements bc1Visitor
 			result = varStack.peek().get(key);
 		
 		if (result == null)
-			result = "";
+			result = "0";
 		
 		return result;
 	}
@@ -706,8 +706,13 @@ public class RunVisitor implements bc1Visitor
 		
 		// Get operation
 		String op = node.jjtGetValue().toString();
+		
 		// Get operand
-		double v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
+		double v1 = 0;
+		try
+		{
+			v1 = Double.parseDouble(node.jjtGetChild(0).jjtAccept(this, null).toString());
+		} catch(Exception e){}
 		
 		// Log
 //		out.println("UnaryExpression: " + op + " " + v1);
@@ -727,8 +732,10 @@ public class RunVisitor implements bc1Visitor
 //		out.println("Call Subroutine:  " + instr);
 //		node.jjtGetChild(0).jjtAccept(this, null);
 		
+		// Get parameters
 		int numP = node.jjtGetNumChildren() - 1;
 		String[] params = null;
+		
 		if (numP > 0)
 		{
 			params = new String[numP];
@@ -744,7 +751,7 @@ public class RunVisitor implements bc1Visitor
 		
 		// Execute bot instructions
 		if (instr.length() >= 4 && instr.substring(0, 4).equalsIgnoreCase("bot_") )
-			bi.executeBotInstruction(instr, params);
+			return bi.executeBotInstruction(instr, params);
 		else
 		{
 			Node n = subs.get(instr);
