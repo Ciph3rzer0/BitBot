@@ -241,11 +241,9 @@ public class NickGameActivity extends Activity
 
     				gameType.Update();
     				   			    				
-//    				gameType.getBot().getDrawableBot().moveByTouch(0.1f);
+    				//gameType.getBot().getDrawableBot().moveByTouch(0.1f);
     				gameType.getBot().getDrawableBot().move();
-    				gameType.getBot().getBotLayer().setRotationAngle(gameType.getBot().getDrawableBot().moveAngle-90);
-
-    				gameType.Update();
+    				//gameType.getBot().getBotLayer().setRotationAngle(gameType.getBot().getDrawableBot().moveAngle-90);
     				
     				// Run Interpreter
 //    				ilvm.resume(30);
