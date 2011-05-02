@@ -23,7 +23,7 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 
-public class GameActivity extends Activity
+public class AdamGameActivity extends Activity
 {	
 	private GameView glSurfaceView;
 	GlRenderer gameRenderer;

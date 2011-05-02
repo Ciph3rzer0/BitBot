@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.customdialogs.TutorialDialog;
-import edu.sru.andgate.bitbot.graphics.GameActivity;
+import edu.sru.andgate.bitbot.graphics.AdamGameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
 import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
@@ -146,7 +146,7 @@ public class MainMenu extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent engineIntent = new Intent(MainMenu.this, GameActivity.class);
+				Intent engineIntent = new Intent(MainMenu.this, AdamGameActivity.class);
 				startActivity(engineIntent);
 			}
 		});
