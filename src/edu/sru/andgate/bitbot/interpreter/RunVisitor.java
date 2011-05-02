@@ -776,6 +776,21 @@ public class RunVisitor implements bc1Visitor
 			
 			return (Math.atan2(v2, v1))*(180/Math.PI);
 		}
+		else if(instr.equalsIgnoreCase("rnd") || instr.equalsIgnoreCase("random"))
+		{
+			return Math.random();
+		}
+		else if(instr.equalsIgnoreCase("int"))
+		{
+			double v1 = 0;
+			
+			try {
+				v1 = Double.parseDouble(params[0]);
+			}
+			catch(Exception e){}
+			
+			return (int)v1;
+		}
 		
 		// TODO Auto-generated method stub
 		return 0;

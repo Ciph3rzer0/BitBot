@@ -282,7 +282,7 @@ public class NickGameActivity extends Activity
 //    	    			shotCount = 0;
 //    	    		}    	    		
 //    	    		shotCount++;
-    	    		
+
     	    		    	    		
     				//Collision Detection Updater
     				collisionManager.update();
