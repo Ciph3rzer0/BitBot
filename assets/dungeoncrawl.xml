@@ -4,5 +4,6 @@
 Navigate your way to the finish mark, but beware of enemy BOTS and obstacles along the way!
 </mission-text>
 <mission-type>Dungeon Crawl</mission-type>
+<enemy-bot>null</enemy-bot>
 <map-file>dungeon_crawl1.map</map-file>
 </mission> 

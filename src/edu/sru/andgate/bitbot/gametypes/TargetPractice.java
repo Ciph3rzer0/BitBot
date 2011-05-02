@@ -12,11 +12,11 @@ import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.graphics.TileMap;
 import edu.sru.andgate.bitbot.tools.Constants;
 
-public class BotVsBot extends GameTypes
+public class TargetPractice extends GameTypes
 {
 	private Context context;
 	private int totalBots, kills = 0, numBulletsContact = 0;
-	private String userBotFile, enemyBotFile, mapFile;
+	private String userBotFile, mapFile;
 	private Bot[] bots;
 	private VictoryDialog vd;
 	private DefeatDialog dd;
@@ -29,13 +29,13 @@ public class BotVsBot extends GameTypes
 	Random generator;
 	public NickGameActivity _game;
 	
-	public BotVsBot(Context context, String mapFile, String userBotFile, String enemyBotFile)
+	public TargetPractice(Context context, String mapFile, String userBotFile)
 	{
 		this.tileMap = new TileMap();
 		this.context = context;
 		this.mapFile = mapFile;
 		this.userBotFile = userBotFile;
-		this.enemyBotFile = enemyBotFile;
+		this.tileMap = new TileMap();
 		this.tileMap.loadMapFile(mapFile, context);
 		this.tileMap.setSpawnPoints();
 		this.generator = new Random();
@@ -49,17 +49,24 @@ public class BotVsBot extends GameTypes
 	public void Initialize(NickGameActivity ga)
 	{
 		this._game = ga;
-		Log.v("GameTypes", "Bot-Vs-Bot Accepted");
+		Log.v("GameTypes", "GameType Accepted");
 		int randomIndex;
-		this.totalBots = 1;
+		this.totalBots = generator.nextInt(tileMap.enemySpawnPointsX.size()-1) + 1;
+		
+		if(totalBots >= tileMap.enemySpawnPointsX.size())
+			totalBots = tileMap.enemySpawnPointsX.size();
 		
 		bots = new Bot[totalBots];
 			
 		//create number of bots for game from enemy bot file
-		bots[0] = Bot.CreateBotFromXML(context, enemyBotFile);
-		bots[0].setID(0);
-		randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size());
-		bots[0].getDrawableBot().setTranslation(tileMap.enemySpawnPointsX.get(randomIndex), tileMap.enemySpawnPointsY.get(randomIndex), defaultZ);  
+		for(int i = 0; i < totalBots; i++){
+			bots[i] = Bot.CreateBotFromXML(context, "enemy_bot.xml");
+			bots[i].setID(i);
+			randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size());
+			bots[i].getDrawableBot().setTranslation(tileMap.enemySpawnPointsX.get(randomIndex), tileMap.enemySpawnPointsY.get(randomIndex), defaultZ);  
+			tileMap.enemySpawnPointsX.remove(randomIndex);
+			tileMap.enemySpawnPointsY.remove(randomIndex);
+		}
 		
 		/*
 		 * create users bot

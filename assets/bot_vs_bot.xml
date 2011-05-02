@@ -5,5 +5,6 @@ Your mission is to defeat all the enemy BOTS you encounter in the arena.
 But be careful, as these BOTS will fight back!
 </mission-text>
 <mission-type>BOT versus BOT</mission-type>
+<enemy-bot>enemy_bot.xml</enemy-bot>
 <map-file>testarena.map</map-file>
 </mission> 

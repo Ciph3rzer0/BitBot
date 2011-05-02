@@ -38,7 +38,7 @@ public class BotBuilderActivity extends Activity
 	private ListView bb_turret, bb_chassis,bb_bullet, availableBots;
 	private CustomListView chassis, turret, bullet;
 	private Spinner spinner;
-	private String missionType, mapFile;
+	private String missionType, mapFile, enemyFile;
 	private String[] code_files, botFiles;
 	ArrayAdapter<String> adapter;
 	private ArrayList<CustomListView> botBaseComponents, botTurretComponents, botBulletComponents;
@@ -56,6 +56,7 @@ public class BotBuilderActivity extends Activity
 		_currentBot = new Bot();
 		missionType = getIntent().getExtras().getString("GameType");
 		mapFile = getIntent().getExtras().getString("GameMap");
+		enemyFile = getIntent().getExtras().getString("Enemy");
 		
 		FileManager.setContext(getBaseContext());
 		
@@ -234,6 +235,7 @@ public class BotBuilderActivity extends Activity
 		engineIntent.putExtra("Bot", "test_bot.xml");
 		engineIntent.putExtra("GameType", missionType);
 		engineIntent.putExtra("MapFile", mapFile);
+    	engineIntent.putExtra("Enemy",enemyFile);
 		startActivity(engineIntent);
 		
 	}

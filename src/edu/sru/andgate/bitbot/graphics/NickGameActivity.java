@@ -44,7 +44,6 @@ public class NickGameActivity extends Activity
 	private ArrayList<DrawableBot> notifyOnTouchList;
 	
 	private GameTypes gameType;
-	public int numShotsFired, numBulletsContact, kills;
 	
 	private int MAX_OBJECTS = 250;
 	private final int TYPE_BOT = 0;
@@ -72,10 +71,6 @@ public class NickGameActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        kills = 0;
-        numBulletsContact = 0;
-        numShotsFired = 0;
-        
         
         //figure out what type of Game this is
         missionType = getIntent().getExtras().getString("GameType");
@@ -84,7 +79,8 @@ public class NickGameActivity extends Activity
         viewType = getIntent().getExtras().getInt("ViewType", 0);
 
         if(missionType.equalsIgnoreCase("BOT versus BOT")){
-        	gameType = new BotVsBot(this,mapFile, botFile);
+        	String enemyFile = getIntent().getExtras().getString("Enemy");
+        	gameType = new BotVsBot(this,mapFile, botFile, enemyFile);
         }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
         	gameType = new DungeonCrawl(this, mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Tutorial")){

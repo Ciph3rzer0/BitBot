@@ -33,6 +33,7 @@ public class DrawableGun implements Drawable
 	int masterBotID = -1;
 	int numLiveRounds = 0;
 	float[][] bullets;
+	public int numShotsFired=0;
 	int[] liveRounds;
 	
 	int MAX_BULLETS = 4;
@@ -305,6 +306,7 @@ public class DrawableGun implements Drawable
 			bullets[workingBulletID][1] = startingY;
 			bullets[workingBulletID][2] = LIFESPAN;
 			bullets[workingBulletID][3] = trajectoryAngle;
+			numShotsFired++;
 		}
 	}
 	

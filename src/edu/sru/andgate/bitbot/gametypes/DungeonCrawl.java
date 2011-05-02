@@ -15,7 +15,7 @@ import edu.sru.andgate.bitbot.tools.Constants;
 public class DungeonCrawl extends GameTypes
 {
 	private Context context;
-	private int totalBots;
+	private int totalBots, kills = 0, numBulletsContact = 0;
 	private String userBotFile;
 	private Bot[] bots;
 	private VictoryDialog vd;
@@ -103,12 +103,12 @@ public class DungeonCrawl extends GameTypes
 		       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){
 		       		//do nothing
 		       	}else{
-		       		_game.kills++;
-		       		_game.numBulletsContact += _game.getGameType().getBots()[i].getDrawableBot().getNumBulletsHit();
+		       		kills++;
+		       		numBulletsContact += _game.getGameType().getBots()[i].getDrawableBot().getNumBulletsHit();
 		       	}
 			}
 			
-			accuracy = ((double)_game.numBulletsContact/(double)_game.numShotsFired) * 100;
+			accuracy = ((double)numBulletsContact/(double)_game.getGameType().getBot().getDrawableGun().numShotsFired) * 100;
 			accuracy = (double)Math.round(accuracy * 100) / 100;
 		}
 	
@@ -122,7 +122,7 @@ public class DungeonCrawl extends GameTypes
 					e.printStackTrace();
 				}
 				if(type.equals("victory")){
-					vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, _game.kills, accuracy, elapsed);	
+					vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, kills, accuracy, elapsed);	
 					vd.show();	
 				}else if (type.equals("defeat")){
 					dd = new DefeatDialog(_game, _game, R.style.CustomDialogTheme);
