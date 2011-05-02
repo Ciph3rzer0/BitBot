@@ -85,4 +85,8 @@ public class CodeBuilderActivity extends ListActivity
 		 finish();
 		
 	 }
+	 
+	 public String[] getCodeFiles(){
+		 return this.code_files;
+	 }
 }

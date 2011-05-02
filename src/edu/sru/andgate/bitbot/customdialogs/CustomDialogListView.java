@@ -15,7 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import edu.sru.andgate.bitbot.R;
+import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
+import edu.sru.andgate.bitbot.ide.IDE;
+import edu.sru.andgate.bitbot.ide.botbuilder.BotBuilderActivity;
 import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class CustomDialogListView extends Dialog 
@@ -23,9 +27,9 @@ public class CustomDialogListView extends Dialog
     TextView selection;
     Context context;
     String file;
-    Activity activity;
+    CodeBuilderActivity activity;
     
-    public CustomDialogListView(Activity act, String file, Context context, int theme) 
+    public CustomDialogListView(CodeBuilderActivity act, String file, Context context, int theme) 
     {
         super(context, theme);
         this.context = context;
@@ -61,7 +65,7 @@ public class CustomDialogListView extends Dialog
 					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, FileManager.readTextFileFromDirectory("Code", file));
 					context.startActivity(Intent.createChooser(emailIntent, "Sending mail..."));
         		}else if(clicked.equalsIgnoreCase("Save As...")){
-        			promptSaveAs(activity, file);
+        				promptSaveAs(activity, file);
         		}else if(clicked.equalsIgnoreCase("Rename")){
         			promptRename(activity, file);
         		}else if (clicked.equalsIgnoreCase("Delete")){
@@ -89,9 +93,13 @@ public class CustomDialogListView extends Dialog
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
-			  String dstFileName = input.getText().toString();
-			  FileManager.saveCodeFileAs(srcFileName, dstFileName);
-			  restartActivity();
+			 String dstFileName = input.getText().toString();
+			 if(!checkFileExistence(dstFileName)){
+  				FileManager.saveCodeFileAs(srcFileName, dstFileName);
+  				restartActivity();
+  			}else{
+  				pomptOverwrite("saveas", srcFileName, dstFileName);
+  			}
 		}
 		});
 
@@ -120,8 +128,12 @@ public class CustomDialogListView extends Dialog
 			  if(dstFileName == ""){
 				  dstFileName = "New File.txt";
 			  }
-			  FileManager.renameCodeFile(srcFileName, dstFileName);
-			  restartActivity();
+			  if(!checkFileExistence(dstFileName)){
+				  FileManager.renameCodeFile(srcFileName, dstFileName);
+				  restartActivity();
+	  			}else{
+	  				pomptOverwrite("rename", srcFileName, dstFileName);
+	  			}
 		}
 		});
 
@@ -143,6 +155,42 @@ public class CustomDialogListView extends Dialog
     private void dismissCustomDialog(){
     	this.dismiss();
     }
-   
+    
+    private boolean checkFileExistence(String dstName){
+    	for(int i = 0; i < activity.getCodeFiles().length; i++){
+    		if(activity.getCodeFiles()[i].equals(dstName)){
+    				return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    private void pomptOverwrite(final String caller, final String srcFileName, final String dstFileName) {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this.context);
+		alert.setTitle("File Already Exists");
+		alert.setMessage("Do you want to overwrite this file?");
+		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(caller.equals("rename")){
+					FileManager.renameCodeFile(srcFileName, dstFileName);
+					restartActivity();
+					Toast.makeText(activity, "File Overwritten Successfully", Toast.LENGTH_SHORT).show();
+				}else if(caller.equals("saveas")){
+					FileManager.saveCodeFileAs(srcFileName, dstFileName);
+	  				restartActivity();
+				}
+			}
+		});
+		alert.setNegativeButton("No",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(activity, "File Not Overwritten", Toast.LENGTH_SHORT).show();
+					}
+				});
+		alert.show();
+	}   
 
 }

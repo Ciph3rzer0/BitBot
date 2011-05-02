@@ -2,6 +2,7 @@ package edu.sru.andgate.bitbot.ide;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SlidingDrawer;
+import android.widget.Toast;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ public class IDE extends Activity {
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private EditText editor;
 	private TextView botOutput;
-	private String file, file_data;
+	private String file, file_data, tempFileName;
 	private SlidingDrawer slidingDrawer;
 	private ActionItem[] quick_tools, bot_functions, selection_shells,
 			sequence_shells, iteration_shells;
@@ -549,8 +551,14 @@ public class IDE extends Activity {
 				if (value == "") {
 					value = "New File.txt";
 				}
-				FileManager.saveCodeFile(editor.getText().toString(), value);
-				file = value;
+				if(!checkFileExistence(value)){
+					file = value;
+					FileManager.saveCodeFile(editor.getText().toString(), value);
+	  			}else{
+	  				//prompt for overwrite
+	  				tempFileName = value;;
+	  				pomptOverwrite();
+	  			}
 			}
 		});
 
@@ -603,4 +611,37 @@ public class IDE extends Activity {
 
 		alert.show();
 	}
+	
+	 private boolean checkFileExistence(String dstName){
+	    	for(int i = 0; i < FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath()).length; i++){
+	    		if(FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath())[i].equals(dstName)){
+	    			return true;
+	    		}
+	    	}
+	    	return false;
+	 }
+	 
+	 private void pomptOverwrite() {
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			alert.setTitle("File Already Exists");
+			alert.setMessage("Do you want to overwrite this file?");
+			alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					file = tempFileName;
+					FileManager.saveCodeFile(editor.getText().toString(), tempFileName);
+					Toast.makeText(IDE.this, "File Overwritten Successfully", Toast.LENGTH_SHORT).show();
+				}
+			});
+			alert.setNegativeButton("No",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							Toast.makeText(IDE.this, "File Not Overwritten", Toast.LENGTH_SHORT).show();
+						}
+					});
+			alert.show();
+		}
 }
