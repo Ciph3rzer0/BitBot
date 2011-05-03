@@ -9,6 +9,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -23,8 +26,12 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
+import edu.sru.andgate.bitbot.gametypes.TargetPractice;
 import edu.sru.andgate.bitbot.gametypes.TutorialTesting;
+import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
+import edu.sru.andgate.bitbot.ide.IDE;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class NickGameActivity extends Activity
 {	
@@ -83,6 +90,8 @@ public class NickGameActivity extends Activity
         	gameType = new BotVsBot(this,mapFile, botFile, enemyFile);
         }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
         	gameType = new DungeonCrawl(this, mapFile, botFile);
+        }else if(missionType.equalsIgnoreCase("Target Practice")){
+        	gameType = new TargetPractice(this, mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Tutorial")){
         	int numOfBots = getIntent().getExtras().getInt("BotNum");
         	gameType = new TutorialTesting(this, numOfBots, botFile);
@@ -97,9 +106,11 @@ public class NickGameActivity extends Activity
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        mp = MediaPlayer.create(this.getBaseContext(), R.raw.neverland);
-        mp.start();
-        mp.setLooping(true);
+        if(!missionType.equalsIgnoreCase("Tutorial")){
+	        mp = MediaPlayer.create(this.getBaseContext(), R.raw.neverland);
+	        mp.start();
+	        mp.setLooping(true);
+        }
         
         notifyOnTouchList = new ArrayList<DrawableBot>(MAX_OBJECTS);
         
@@ -390,6 +401,11 @@ public class NickGameActivity extends Activity
     	return this.gameType;
     }   
     
+    @Override
+    public void onBackPressed(){
+    	promptUser();
+    }
+    
 	@Override
 	protected void onResume()
 	{
@@ -422,5 +438,28 @@ public class NickGameActivity extends Activity
 			ilvm.stop();
 		
 		finish();
+	}
+	
+	public void promptUser() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Leaving so soon...");
+		alert.setMessage("Are you sure you want to exit?");
+		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// exit
+				onDestroy();
+			}
+		});
+		alert.setNegativeButton("No",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// do nothing
+					}
+				});
+
+		alert.show();
 	}
 }

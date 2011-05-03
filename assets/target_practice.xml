@@ -1,0 +1,9 @@
+<mission>
+<mission-name>Target Practice</mission-name>
+<mission-text>
+Practice your shooting at Enemy Bots
+</mission-text>
+<mission-type>Target Practice</mission-type>
+<enemy-bot>null</enemy-bot>
+<map-file>tutorial_arena.map</map-file>
+</mission> 

@@ -167,7 +167,6 @@ public class AdamGameActivity extends Activity
         
         //Test Bot 2
         test2 = new DrawableBot();
-        test2.attachCollisionSound(this.getBaseContext(), R.raw.bot_wall_collision);
         test2.setTranslation(3.5f,0.1f,-5.0f);
         test2.setRotation(180.0f,0.0f,0.0f,-5.0f);
         test2.addTexture(R.drawable.adambot);	//TextureID = 0

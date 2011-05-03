@@ -1,12 +1,95 @@
 <tutorial>
-<title>
-</title>
+<title>Boundary Collisions</title>
 <text>
+A key part of your BitBot success will be in how you handle events. Particularly in the events of running into wall boundaries.
+
+In this tutorial, you will use the knowledge learned from previous tutorials to move your BOT up until it hits a wall.
+From here, you will learn how to handle an onBoundaryCollision event.
+
+Events look similar to defining sub-routines:
+
+sub [subID]
+	[list of commands]
+return
+
+The onBoundaryCollision event as you may have guessed looks like:
+
+sub onBoundaryCollision
+	[commands that will run]
+return
+
+You will be required to handle this event by simply moving your BOT in the opposite direction.
+
+Upon finishing this tutorial, you will be able to watch your code move your BOT up the "Play Area" until it reaches a boundary,
+reverse its direction, and move in the opposite direction until hitting the bottom wall, and so on.
+
+Good Luck!
 </text>
 <stage>
-<hint>
+<hint>Goal: Move your BOT up until it hits a wall.
+
+Use the BOT Functions quick button to choose the move function, and input the correct parameters to move it straight up.
+
+*This should look similar to the Movement tutorial.
+
+The syntax for the move command is:
+
+call bot_move(int angle, int speed)
+
+**to keep the bot moving, remember to put it inside a while loop.
+
+The syntax of a while loop is as follows:
+while [expr] do 
+	[list of commands]
+loop
 </hint>
 <answer>
+while 1 do
+	call bot_move(90, 5)
+loop
 </answer>
+</stage>
+<stage>
+<hint>Goal: Upon hitting the wall, use the onBoundaryCollision Event call to set the speed of the BOT to its opposite sign.
+
+By switching the sign of the speed parameter, your BOT will move in the opposite direction.
+
+To do this, you will need to create a global variable _d. Initially set _d = -5 to get the bot moving.
+Next, change the speed param in the previous step to this _d global variable.
+After ending the loop, before calling a sub-routine, remember you must insert the keyword END before defining the routine.
+
+Your code should look something like this:
+
+let _d = -5
+while 1 do
+	call bot_move(90, _d)
+loop
+
+end
+
+Next, select the onBoundaryCollision sub routine from the BOT functions list.
+
+the Syntax of this event looks like:
+
+sub onBoundaryCollision
+	[list of commands]
+return
+
+Inside the sub-routine you will want to set the global variable _d to its opposite sign.
+To do this, simply multiply it by negative 1.
+
+*Because the Event onBoundaryCollision is called in the event of your BOT running into a wall automatically, 
+there is not a need to call the routine in your program code. 
+
+Just handle what the event will do inside the routine and watch your code execute.
+</hint>
+<answer>let _d = -5
+while 1 do
+	call bot_move(90, _d)
+loop
+end
+sub onBoundaryCollision
+	let _d = _d * -1
+return</answer>
 </stage>
 </tutorial>

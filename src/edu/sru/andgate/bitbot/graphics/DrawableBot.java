@@ -22,7 +22,6 @@ public class DrawableBot implements Drawable
 {
 	private Bot _bot;	// Reference to bot container
 	
-	SoundManager collisionSound;
 	public float[] parameters;
 	private int numBulletsInContact;
 	int ID = 0;
@@ -121,7 +120,6 @@ public class DrawableBot implements Drawable
 	}
 	
 	public void attachCollisionSound(Context context, int soundID){
-		collisionSound = new SoundManager(context, soundID);
 	}
 
 	@Override
@@ -254,11 +252,6 @@ public class DrawableBot implements Drawable
 	public void onBoundaryCollision()
 	{
 		moveStepSize = 0;
-		try{
-			collisionSound.playAudio();
-		}catch (Exception e){
-			Log.v("BitBot", "Sound not attached");
-		}
 		//For now, flip angle and continue
 		//moveAngle = Math.abs(moveAngle - 180.0f) % 360.0f;
 		//parameters[3] = moveAngle + 90.0f;

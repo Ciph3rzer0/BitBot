@@ -1,0 +1,77 @@
+<tutorial>
+<title>Touch Events</title>
+<text>Along with the onBoundaryCollision Event you have seen, you will also be able to use the onTouch Event.
+
+Similar to the onBoundaryCollision, the onTouch Event's syntax looks like:
+
+sub onTouch with x,y
+	[list of commands]
+return
+
+If you are not familiar with sub-routines with parameters, this is the format of what they look like.
+With x,y means that there are two parameters being passed into the onTouch Event. In this case, the x and y location on the screen that is being touched.
+
+Although, this will be a useful tool in programming your BOT, do not rely the onTouch Event as some BOT's will be able to jam your BOT's radar, causing it to lose
+this onTouch capability.
+</text>
+<stage>
+<hint>Begin by setting a global variable _a equal to 0.
+Write the same while loop to move you BOT as before, but set the angle parameter to be the global variable you created.
+
+Your Code should look like this:
+let _a = 0
+while 1 do
+	call bot_move(_a, 5)
+loop
+</hint>
+<answer>let _a = 0
+while 1 do
+	call bot_move(_a, 5)
+loop</answer>
+</stage>
+<stage>
+<hint>Goal: Move the BOT in the direction of where you Touch.
+To do this you must set up the onTouch with x,y Event Routine.
+
+This Event looks like:
+
+sub onTouch with x,y
+	[list of commands]
+return
+
+Add this Event sub-routine to your code. You will also need to use the angleTo(x,y) function here.
+
+Set the global variable _a you created to be the returned value from the angleTo(x,y) call.
+ 
+The syntax of this will look like:
+let [var] = call angleTo(int x, int y) *where int x and int y are the onTouch sub-routine's parameters
+
+Remember to seperate the program code from the sub-routine method with the END keyword.
+</hint>
+<answer>let _a = 0
+while 1 do
+	call bot_move(_a, 5)
+loop
+end
+sub onTouch with x,y
+	let _a = call angleTo(x,y)
+return
+</answer>
+</stage>
+<stage>
+<hint>Goal: Rotate your BOT's turret with the base rotation from the angleTo(x,y) method.
+
+To accomplish this, simply set the angle of the bot_turn(int angle) to be the value you set from the angleTo(x,y) call previously done.
+</hint>
+<answer>let _a = 0
+while 1 do
+	call bot_move(_a, 5)
+loop
+end
+sub onTouch with x,y
+	let _a = call angleTo(x,y)
+	call bot_turn(_a)
+return
+</answer>
+</stage>
+</tutorial>
