@@ -258,6 +258,7 @@ public class NickGameActivity extends Activity
     	    				gameType.getBots()[i].getDrawableGun().update();
     	    			}
     	    		}
+    	    		
     	    		ilvm.resume(4);			
     	    		
 //    	    		//no?

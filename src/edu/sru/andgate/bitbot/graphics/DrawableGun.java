@@ -222,9 +222,9 @@ public class DrawableGun implements Drawable
 	
 	public void onBoundaryCollision()
 	{
-		//For now, flip angle and continue
-		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
-		parameters[3] = moveAngle + 90.0f;
+//		//For now, flip angle and continue
+//		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
+//		parameters[3] = moveAngle + 90.0f;
 	}
 	
 	/* (non-Javadoc)
