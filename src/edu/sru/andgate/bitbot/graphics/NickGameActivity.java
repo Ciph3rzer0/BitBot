@@ -9,6 +9,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -25,7 +28,10 @@ import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
 import edu.sru.andgate.bitbot.gametypes.TargetPractice;
 import edu.sru.andgate.bitbot.gametypes.TutorialTesting;
+import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
+import edu.sru.andgate.bitbot.ide.IDE;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
+import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class NickGameActivity extends Activity
 {	
@@ -394,6 +400,11 @@ public class NickGameActivity extends Activity
     	return this.gameType;
     }   
     
+    @Override
+    public void onBackPressed(){
+    	promptUser();
+    }
+    
 	@Override
 	protected void onResume()
 	{
@@ -426,5 +437,28 @@ public class NickGameActivity extends Activity
 			ilvm.stop();
 		
 		finish();
+	}
+	
+	public void promptUser() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Leaving so soon...");
+		alert.setMessage("Are you sure you want to exit?");
+		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// exit
+				onDestroy();
+			}
+		});
+		alert.setNegativeButton("No",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// do nothing
+					}
+				});
+
+		alert.show();
 	}
 }
