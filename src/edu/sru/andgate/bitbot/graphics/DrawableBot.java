@@ -37,7 +37,7 @@ public class DrawableBot implements Drawable
 	int numLayers = 0;
 	int[][] damageSprites;
 	float moveAngle = 0.0f;
-	float moveStepSize = 0.1f;	//1.7 MAX before tunneling
+	float moveStepSize = 0.0f;	//1.7 MAX before tunneling
 	ArrayList<Integer> textureHopper;
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
