@@ -51,6 +51,7 @@ public class Constants
 		tutorials_table.put("Bot Movement", "bot_movement.xml");
 		tutorials_table.put("Gun Fire", "bot_fire.xml");
 		tutorials_table.put("Boundary Collisions", "bot_boundary_collisions.xml");
+		tutorials_table.put("Touch Events", "bot_touch_event.xml");
 		tutorials_table.put("Back to Main Menu", "");
 		
 		// simulation table
@@ -62,10 +63,12 @@ public class Constants
 		simulation_table.put("Bot Movement", 2);
 		simulation_table.put("Gun Fire", 2);
 		simulation_table.put("Boundary Collisions", 2);
+		simulation_table.put("Touch Events", 2);
 		
 		tutorial_bot_num.put("Bot Movement", 0);
-		tutorial_bot_num.put("Gun Fire", 2);
+		tutorial_bot_num.put("Gun Fire", 0);
 		tutorial_bot_num.put("Boundary Collisions", 0);
+		tutorial_bot_num.put("Touch Events", 2);
 		
 //		missions.put("BOT versus BOT", BotVsBot.class);
 //		missions.put("Dungeon Crawl", DungeonCrawl.class);

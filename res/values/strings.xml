@@ -19,6 +19,7 @@
      		<item>Bot Movement</item>
      		<item>Gun Fire</item>
      		<item>Boundary Collisions</item>
+     		<item>Touch Events</item>
      		<item>Back to Main Menu</item>
      	</string-array>     
      
@@ -26,16 +27,19 @@
 	     <string-array name="mission_titles">
 	     	<item>BOT-VS-BOT</item>
 	     	<item>Dungeon Crawl</item>
+	     	<item>Target Practice</item>
 	     </string-array>
 	     
 	     <string-array name="mission_descriptions">
 	     	<item>Your BOT vs enemy BOT(s)</item>
 	     	<item>Navigate To the End Point in the Map</item>
+	     	<item>Practice Shooting at Enemy BOTS</item>
 	     </string-array>
 	     
 	     <string-array name="mission_files">
 	     	<item>bot_vs_bot.xml</item>
 	     	<item>dungeoncrawl.xml</item>
+	     	<item>target_practice.xml</item>
 		</string-array>
 	<!-- End Mission Stuff -->
 	
@@ -104,13 +108,31 @@
 	    
 	    <!-- Bot Function tools -->
 		    <string-array name="bot_function_titles">
-		    	<item>Bot.move()</item>
-		    	<item>Turret.rotate()</item>   
+		    	<item>bot_move()</item>
+		    	<item>bot_turn()</item>
+		    	<item>bot_fire()</item>   
+		    	<item>bot_x(id)</item>
+		    	<item>bot_x()</item>
+		    	<item>bot_y(id)</item>
+		    	<item>bot_y()</item>
+		    	<item>pow()</item>
+		    	<item>angleTo()</item>
+		    	<item>rnd()</item>
+		    	<item>int()</item>
 		    </string-array>
 		    
 		    <string-array name="bot_function_strings">
 		    	<item>call bot_move(int x, int y)\n</item>
-		    	<item>call turret_rotate(int degree)\n</item>
+		    	<item>call bot_turn(int degree)\n</item>
+		    	<item>call bot_fire()\n</item>
+		    	<item>call bot_x(int id)\n</item>
+		    	<item>call bot_x()\n</item>
+		    	<item>call bot_y(int id)\n</item>
+		    	<item>call bot_y()\n</item>
+		    	<item>call pow(int a, int b)\n</item>
+		    	<item>call angleTo(int x, int y)\n</item>
+		    	<item>call rnd()\n</item>
+		    	<item>call int(double d)\n</item>
 		    </string-array>   
 	    <!-- End Bot Function tools -->  
     <!-- End Quick Action tools -->

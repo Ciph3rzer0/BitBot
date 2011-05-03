@@ -1,12 +1,51 @@
 <tutorial>
-<title>
-</title>
-<text>
+<title>BOT Fire</title>
+<text>Now that you have learned how to move your BOT, you will want to learn how to defend yourself upon running into enemies.
+The basic offensive skill that your BOT knows is to fire. You will learn how to make your BOT fire its rounds as you are moving.
+
+As you are firing at enemies, you will want your BOT's gun to rotate also. You will also learn how to rotate your BOT's turret in this tutorial.
+
+The two functions you will need are:
+Firing a Bullet:
+	call bot_fire()
+
+Rotating the BOT's turret:
+	call bot_turn(int angle)  - where angle is the degree of rotation the turret will rotate.
+
+These functions are very simple, and will be very useful in writing your BOT's code before sending it out into different missions.
 </text>
 <stage>
 <hint>
+Goal: While Moving your BOT, continuously rotate its turret and Fire its gun with every move.
+
+Move your BOT in a similar manner as where you completed the Movement tutorial:
+
+while 1 do
+	call bot_move(45, 5)
+loop
+
+Add in the additional functions you will need to make your BOT turn its turret and fire.
+
+Two functions you will need:
+call bot_fire()
+call bot_turn(int angle) where angle will be a a variable that changes by 1 with each iteration through the while loop.
+
+This will look something like this:
+let a = 5
+while ...
+	...
+	call bot_turn(a)
+	...
+	let a = a + 1
+loop
 </hint>
-<answer>
+<answer>let a = 5
+while 1 do
+	call bot_move(45, 5)
+	call bot_turn(a)
+	call bot_fire()
+	let a = a + 1
+loop
 </answer>
 </stage>
 </tutorial>

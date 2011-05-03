@@ -23,6 +23,7 @@ import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.gametypes.BotVsBot;
 import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
+import edu.sru.andgate.bitbot.gametypes.TargetPractice;
 import edu.sru.andgate.bitbot.gametypes.TutorialTesting;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
 
@@ -83,6 +84,8 @@ public class NickGameActivity extends Activity
         	gameType = new BotVsBot(this,mapFile, botFile, enemyFile);
         }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
         	gameType = new DungeonCrawl(this, mapFile, botFile);
+        }else if(missionType.equalsIgnoreCase("Target Practice")){
+        	gameType = new TargetPractice(this, mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Tutorial")){
         	int numOfBots = getIntent().getExtras().getInt("BotNum");
         	gameType = new TutorialTesting(this, numOfBots, botFile);
@@ -97,9 +100,11 @@ public class NickGameActivity extends Activity
         // requesting to turn the title OFF
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        mp = MediaPlayer.create(this.getBaseContext(), R.raw.neverland);
-        mp.start();
-        mp.setLooping(true);
+        if(!missionType.equalsIgnoreCase("Tutorial")){
+	        mp = MediaPlayer.create(this.getBaseContext(), R.raw.neverland);
+	        mp.start();
+	        mp.setLooping(true);
+        }
         
         notifyOnTouchList = new ArrayList<DrawableBot>(MAX_OBJECTS);
         

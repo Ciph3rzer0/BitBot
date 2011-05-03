@@ -81,11 +81,10 @@ public class BotBuilderActivity extends Activity
 					long arg3) {
 					bot_name.setText(FileManager.readInternalXML(botFiles[arg2].toString(), "Bot-Name"));
 					//set other attributes here including stats & Bot Components
+					tv.setText(FileManager.readInternalXML(botFiles[arg2].toString(), "Bot-Code"));
 			}
 			
 		});
-
-		
 		
 		availableBots.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 

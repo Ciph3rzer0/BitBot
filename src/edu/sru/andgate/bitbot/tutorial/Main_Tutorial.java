@@ -270,7 +270,11 @@ public class Main_Tutorial extends Activity
 						tutorialBot.setBase(R.drawable.adambot);
 						tutorialBot.setTurret(R.drawable.adamturret);
 						tutorialBot.setBullet(R.drawable.bulletnew);
-						tutorialBot.setCode(editor.getText().toString());
+						if(editor.getText().toString() != null){
+							tutorialBot.setCode(editor.getText().toString());
+						}else{
+							tutorialBot.setCode("//No Code Entered");
+						}
 						tutorialBot.saveBotToXML(Main_Tutorial.this,"tutorial_bot.xml");
 						
 						Intent intent = new Intent(Main_Tutorial.this, NickGameActivity.class);
@@ -435,7 +439,9 @@ public class Main_Tutorial extends Activity
 			if(currTutorial.nextStage() == -1){
 				Toast.makeText(Main_Tutorial.this, lastStage,Toast.LENGTH_SHORT).show();
 				Constants.finished_tutorials.add(tutorialID);
-				//currTutorial.setCompletionStatus(true);
+				if(simulateFlag ==  2){
+					FileManager.saveCodeFile("//" + FileManager.readAssetsXML(tutorialID, "title") + "\n" + userAnswer, "Tutorial: " + FileManager.readAssetsXML(tutorialID, "title"));
+				}
 			}else{
 				Toast.makeText(Main_Tutorial.this, nextStage,Toast.LENGTH_SHORT).show();
 			}

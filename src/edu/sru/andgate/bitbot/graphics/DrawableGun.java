@@ -14,10 +14,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.util.Log;
 import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.SoundManager;
 
 public class DrawableGun implements Drawable
 {
+	SoundManager fireSound;
 	float[] parameters;
 	int ID = 0;
 	int textureCount = 0;
@@ -115,7 +118,10 @@ public class DrawableGun implements Drawable
 		
 	}
 	
-
+	public void attachFireSound(Context context, int soundID){
+		fireSound = new SoundManager(context, soundID);
+	}
+	
 	@Override
 	public void attachBot(Bot bot)
 	{
@@ -278,6 +284,11 @@ public class DrawableGun implements Drawable
 	
 	public void fire()
 	{
+		try{
+			fireSound.playAudio();
+		}catch (Exception e){
+			Log.v("BitBot", "Sound not attached");
+		}
 		int workingBulletID = -1;
 		
 		//Get an available BulletID
