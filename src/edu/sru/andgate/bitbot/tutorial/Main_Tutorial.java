@@ -270,11 +270,7 @@ public class Main_Tutorial extends Activity
 						tutorialBot.setBase(R.drawable.adambot);
 						tutorialBot.setTurret(R.drawable.adamturret);
 						tutorialBot.setBullet(R.drawable.bulletnew);
-						if(editor.getText().toString() != null){
-							tutorialBot.setCode(editor.getText().toString());
-						}else{
-							tutorialBot.setCode("//No Code Entered");
-						}
+						tutorialBot.setCode(editor.getText().toString()+"\n");
 						tutorialBot.saveBotToXML(Main_Tutorial.this,"tutorial_bot.xml");
 						
 						Intent intent = new Intent(Main_Tutorial.this, NickGameActivity.class);
