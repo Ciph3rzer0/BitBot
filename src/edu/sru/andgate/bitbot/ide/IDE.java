@@ -34,8 +34,9 @@ import edu.sru.andgate.bitbot.tutorial.ActionItem;
 import edu.sru.andgate.bitbot.tutorial.QuickAction;
 
 public class IDE extends Activity {
-	/** Called when the activity is first created. */
-
+	/*
+	 * Declare Activity components in use
+	 */
 	private boolean canSave = true;
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private EditText editor;
@@ -59,6 +60,7 @@ public class IDE extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_ide);
 
+		//get data sent from previous activity
 		file = getIntent().getExtras().getString("File");
 		file_data = getIntent().getExtras().getString("Data");
 
@@ -71,9 +73,7 @@ public class IDE extends Activity {
 		slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 		slideHandleButton = (Button) findViewById(R.id.slideHandleButton);
 
-		/*
-		 * Action Items for Quick Tools
-		 */
+		/* ************* Action Items for Quick Tools ************* */
 		quick_tools_titles = getResources().getStringArray(
 				R.array.quick_tools_titles);
 		quick_tools_strings = getResources()
@@ -85,9 +85,7 @@ public class IDE extends Activity {
 					quick_tools_strings[i]);
 		}
 
-		/*
-		 * Action Items for Bot Functions button
-		 */
+		/* ************* Action Items for Bot Functions ************* */
 		bot_function_strings = getResources().getStringArray(
 				R.array.bot_function_strings);
 		bot_function_titles = getResources().getStringArray(
@@ -99,9 +97,7 @@ public class IDE extends Activity {
 					bot_function_strings[i]);
 		}
 
-		/*
-		 * Action Items for Sequence, Selection, Iteration buttons
-		 */
+		/* ************* Action Items for sequence button ************* */
 		sequence_shell_titles = getResources().getStringArray(
 				R.array.sequence_shell_titles);
 		sequence_shell_strings = getResources().getStringArray(
@@ -113,6 +109,7 @@ public class IDE extends Activity {
 					sequence_shell_strings[i]);
 		}
 
+		/* ************* Action Items for selection button ************* */
 		selection_shell_titles = getResources().getStringArray(
 				R.array.selection_shell_titles);
 		selection_shell_strings = getResources().getStringArray(
@@ -124,6 +121,7 @@ public class IDE extends Activity {
 					selection_shell_titles[i], selection_shell_strings[i]);
 		}
 
+		/* ************* Action Items for iteration button ************* */
 		iteration_shell_titles = getResources().getStringArray(
 				R.array.iteration_shell_titles);
 		iteration_shell_strings = getResources().getStringArray(
@@ -135,9 +133,8 @@ public class IDE extends Activity {
 					iteration_shell_titles[i], iteration_shell_strings[i]);
 		}
 
-		/*
-		 * Set all the QuickAction buttons onClick() methods
-		 */
+		/* ************* onClick() Methods for Quick Action Buttons ************* */
+		
 		sequence_btn = (ImageButton) this.findViewById(R.id.sequence_btn);
 		sequence_btn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -207,12 +204,18 @@ public class IDE extends Activity {
 				qa.show();
 			}
 		});
-
+		
+		/* ************* End of onClick() Methods for Quick Action Buttons ************* */
+		
+		/*
+		 * ViewFlipper Animations
+		 */
 		sIn_left = AnimationUtils.loadAnimation(this, R.anim.slidein_left);
 		sOut_left = AnimationUtils.loadAnimation(this, R.anim.slideout_left);
 		sIn_right = AnimationUtils.loadAnimation(this, R.anim.slidein_right);
 		sOut_right = AnimationUtils.loadAnimation(this, R.anim.slideout_right);
 
+		/* ************** highlight right button *************** */
 		highlight_right = (ImageButton) this.findViewById(R.id.select_right);
 		highlight_right.setOnClickListener(new View.OnClickListener() {
 
@@ -226,7 +229,8 @@ public class IDE extends Activity {
 				}
 			}
 		});
-
+		
+		/* ************** highlight left button *************** */
 		highlight_left = (ImageButton) this.findViewById(R.id.select_left);
 		highlight_left.setOnClickListener(new View.OnClickListener() {
 
@@ -240,7 +244,8 @@ public class IDE extends Activity {
 				}
 			}
 		});
-
+		
+		/*
 		move_up = (ImageButton) this.findViewById(R.id.move_up);
 		move_up.setOnClickListener(new View.OnClickListener() {
 
@@ -266,7 +271,9 @@ public class IDE extends Activity {
 				}
 			}
 		});
+		*/
 
+		/* ************** move left button *************** */
 		move_left = (ImageButton) this.findViewById(R.id.move_left);
 		move_left.setOnClickListener(new View.OnClickListener() {
 
@@ -280,6 +287,7 @@ public class IDE extends Activity {
 			}
 		});
 
+		/* ************** move right button *************** */
 		move_right = (ImageButton) this.findViewById(R.id.move_right);
 		move_right.setOnClickListener(new View.OnClickListener() {
 
@@ -293,6 +301,7 @@ public class IDE extends Activity {
 			}
 		});
 
+		/* ************** tab button *************** */
 		tab_over = (ImageButton) this.findViewById(R.id.tab_over);
 		tab_over.setOnClickListener(new View.OnClickListener() {
 
@@ -302,6 +311,7 @@ public class IDE extends Activity {
 			}
 		});
 
+		/* ************** run code button *************** */
 		send_btn = (ImageButton) this.findViewById(R.id.send_btn);
 		send_btn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -318,6 +328,7 @@ public class IDE extends Activity {
 			}
 		});
 
+		/* ************** back to code button *************** */
 		back_to_code = (Button) this.findViewById(R.id.ide_back_to_code_btn);
 		back_to_code.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -484,6 +495,7 @@ public class IDE extends Activity {
 		});
 	}
 
+	//expand text by the appended text passed in
 	public void expandEditText(String append) {
 		int start = editor.getSelectionStart();
 		int end = editor.getSelectionEnd();
@@ -502,20 +514,24 @@ public class IDE extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.clear:
+			//clear the text
 			editor.setText("");
 			break;
 
 		case R.id.save:
+			//save the file in use
 			FileManager.saveCodeFile(editor.getText().toString(), file);
 			canSave = false;
 			break;
 
 		case R.id.saveas:
+			//prompt user to save file as...
 			promptUser("Save File As: ", "New File Name: ");
 			canSave = false;
 			break;
 
 		case R.id.simulator:
+			//create a bot and send to simulation
 			Bot tutorialBot = new Bot();
 			tutorialBot.setName("IDE Bot");
 			tutorialBot.setBase(R.drawable.adambot);
@@ -572,6 +588,9 @@ public class IDE extends Activity {
 		alert.show();
 	}
 
+	/*
+	 * ask a user to save the file
+	 */
 	public void promptSave() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Save File");
@@ -612,6 +631,7 @@ public class IDE extends Activity {
 		alert.show();
 	}
 	
+	//check if file already exists
 	 private boolean checkFileExistence(String dstName){
 	    	for(int i = 0; i < FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath()).length; i++){
 	    		if(FileManager.getFileNamesInDir(getDir("Code",Context.MODE_PRIVATE).getPath())[i].equals(dstName)){
@@ -621,6 +641,9 @@ public class IDE extends Activity {
 	    	return false;
 	 }
 	 
+	 /*
+	  * Ask if user wants to overwrite a file
+	  */
 	 private void pomptOverwrite() {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("File Already Exists");

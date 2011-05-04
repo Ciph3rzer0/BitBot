@@ -1,3 +1,7 @@
+/*
+ * Class that displays our About page.
+ */
+
 package edu.sru.andgate.bitbot;
 
 import edu.sru.andgate.bitbot.tools.FileManager;

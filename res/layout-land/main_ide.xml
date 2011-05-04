@@ -109,7 +109,8 @@
 				android:background="@layout/button_bot_component"
 		        android:layout_width="70dip" >
 			</ImageButton>
-				<ImageButton
+			<!-- 
+			<ImageButton
 				android:id="@+id/move_up" 
 				android:src="@drawable/move_up"
 				android:layout_height="0px" 
@@ -127,6 +128,7 @@
 		        android:layout_weight="1" 
 		        android:layout_width="70dip">
 			</ImageButton>
+			!-->
 			<ImageButton 
 				android:layout_height="0px" 
 		        android:layout_weight="1" 

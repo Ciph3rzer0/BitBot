@@ -6,11 +6,12 @@
 package edu.sru.andgate.bitbot.ide;
 
 public class CustomListView {
-	private String codeName;
-	private String codeDescription;
+	private String codeName; //file name
+	private String codeDescription; //file description
 	
 	public CustomListView(String codeName, String description){
-		setCodeName(codeName);
+		//set the corresponding attributes
+		setCodeName(codeName); 
 		setCodeDescription(description);
 	}
 	

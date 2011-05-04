@@ -14,23 +14,27 @@ import edu.sru.andgate.bitbot.tools.Constants;
 
 public class BotVsBot extends GameTypes
 {
+	//Declare the components and attributes needed for specified gametype
 	private Context context;
-	private int totalBots, kills = 0, numBulletsContact = 0;
 	private String userBotFile, enemyBotFile, mapFile;
 	private Bot[] bots;
 	private VictoryDialog vd;
 	private DefeatDialog dd;
-	private long start, elapsed;
 	private Bot userBot;
+	private TileMap tileMap;
+	public NickGameActivity _game;
+	
+	//statistical vars for users BOT
+	Random generator;
+	private int totalBots, kills = 0, numBulletsContact = 0;
+	private long start, elapsed;
 	private float defaultZ;
 	private double accuracy;
-	private TileMap tileMap;
 	private boolean victory, defeat;
-	Random generator;
-	public NickGameActivity _game;
 	
 	public BotVsBot(Context context, String mapFile, String userBotFile, String enemyBotFile)
 	{
+		//initialize the specified vars
 		this.tileMap = new TileMap();
 		this.context = context;
 		this.mapFile = mapFile;
@@ -48,19 +52,19 @@ public class BotVsBot extends GameTypes
 	@Override
 	public void Initialize(NickGameActivity ga)
 	{
-		this._game = ga;
-		Log.v("GameTypes", "Bot-Vs-Bot Accepted");
-		int randomIndex;
-		this.totalBots = 1;
+		this._game = ga; 	//set the game activity
+		int randomIndex; 	//random index iterator
+		this.totalBots = 1; //total enemy bots allowed
 		
-		bots = new Bot[totalBots];
+		//set the size of the bot array to total bots allowed for mission
+		bots = new Bot[totalBots]; 
 			
-		//create number of bots for game from enemy bot file
+		//create number of bots for game from enemy bot file (1)
 		bots[0] = Bot.CreateBotFromXML(context, enemyBotFile);
 		bots[0].setID(0);
 		randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size());
 		bots[0].getDrawableBot().setTranslation(tileMap.enemySpawnPointsX.get(randomIndex), tileMap.enemySpawnPointsY.get(randomIndex), defaultZ);  
-		
+		ga.getILVM().addInterpreter(bots[0].getInterpreter());
 		/*
 		 * create users bot
 		 * set users bot spawn point
@@ -68,29 +72,35 @@ public class BotVsBot extends GameTypes
 		userBot = Bot.CreateBotFromXML(context, userBotFile);
 		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size());
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
-		start = System.currentTimeMillis();
+		
+		start = System.currentTimeMillis(); //start the stopwatch
 
 	}
 
 	@Override
 	public void Update() {
-		int botsLeft = bots.length;
 		//check if victory conditions have been met, etc
+
+		int botsLeft = bots.length; //kill counter
+		
 		for(int i = 0; i < bots.length;i++){
 			if(!bots[i].getDrawableBot().isAlive()){
 				botsLeft--;
 			}
 		}
 		
+		//if all bots are killed, victory
 		if(botsLeft == 0 && victory == false && defeat == false){
 			victory = true;
+			//add to finished missions table
 			Constants.finished_missions.add(_game.missionType);
-			elapsed = System.currentTimeMillis() - start;
+			elapsed = System.currentTimeMillis() - start; //click the stopwatch
 			Finalize("victory");
 		}
+		//if users Bot is killed, defeat
 		if (!userBot.getDrawableBot().isAlive() && defeat == false && victory == false){
 			defeat = true;
-			elapsed = System.currentTimeMillis() - start;
+			elapsed = System.currentTimeMillis() - start; //click stopwatch
 			Finalize("defeat");
 		}
 	}
@@ -98,20 +108,27 @@ public class BotVsBot extends GameTypes
 
 	@Override
 	public void Finalize(final String type) {
+		//finalize things and show cooresponding dialog
+		
+		//if victory, calculate needed statistics
 		if(type.equals("victory")){
 			for(int i = 0; i < _game.getGameType().getBots().length; i++){
 		       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){
 		       		//do nothing
 		       	}else{
+		       		//increment kill counter
 		       		kills++;
+		       		//increment bullets in contact from number of bullets that hit specified enemy bot
 		       		numBulletsContact += _game.getGameType().getBots()[i].getDrawableBot().getNumBulletsHit();
 		       	}
 			}
+			
+			//calculate users bots accuracy
 			accuracy = ((double)numBulletsContact/(double)_game.getGameType().getBot().getDrawableGun().numShotsFired) * 100;
 			accuracy = (double)Math.round(accuracy * 100) / 100;
 		}
-		// Not sure here yet
-		Log.v("GameTypes", "Victory is Yours");
+		
+		//create a new Runnable for showing the victory/defeat dialogs
 		_game.runOnUiThread(new Runnable(){
 			@Override
 			public void run() {
@@ -121,11 +138,18 @@ public class BotVsBot extends GameTypes
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				//show dialog corresponding to a win, or loss
 				if(type.equals("victory")){
-					vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, kills, accuracy, elapsed);	
+					/*
+					 * set statistics for bot here
+					 */
+					vd = new VictoryDialog(_game, R.style.CustomDialogTheme, kills, accuracy, elapsed);	
 					vd.show();	
 				}else if (type.equals("defeat")){
-					dd = new DefeatDialog(_game, _game, R.style.CustomDialogTheme);
+					/*
+					 * set statistics for bot here
+					 */
+					dd = new DefeatDialog(_game, R.style.CustomDialogTheme);
 					dd.show();
 				}
 			}

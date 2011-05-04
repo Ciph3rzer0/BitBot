@@ -17,50 +17,57 @@ import edu.sru.andgate.bitbot.tools.FileManager;
 public class MissionListActivity extends ListActivity {
 	// private ProgressDialog m_ProgressDialog = null; 
 	 private ArrayList<CustomListView> myMissions = null;
+	 private CustomListView[] clv;
 	 private MissionListAdapter mission_adapter;
 	 private Hashtable<String, String> mission_list;
 	 private Hashtable<String, Integer> mission_icons;
 	 private Button new_btn, old_btn;
 	 
 	 public void onCreate(Bundle savedInstanceState) {
-		 super.onCreate(savedInstanceState);
-	        setContentView(R.layout.mission_main);
-	        
-	        FileManager.setContext(getBaseContext());
-	        myMissions = new ArrayList<CustomListView>();
-	        mission_icons = new Hashtable<String,Integer>();
-	        mission_list = new Hashtable<String, String>();
+		super.onCreate(savedInstanceState);
+        setContentView(R.layout.mission_main);
+        
+        FileManager.setContext(getBaseContext()); //set context for FileManager
+        
+        //initialize custom mission list
+        myMissions = new ArrayList<CustomListView>();
+        
+        //initialize lookup charts
+        mission_icons = new Hashtable<String,Integer>();
+    	mission_list = new Hashtable<String, String>();
 	 	        
-	       String[] titles = getResources().getStringArray(R.array.mission_titles);
-           String[] descriptions = getResources().getStringArray(R.array.mission_descriptions);
-	       String[] files = getResources().getStringArray(R.array.mission_files);
-	       int[] images = {R.drawable.arena, R.drawable.arena, R.drawable.target};
-            
-           CustomListView[] clv = new CustomListView[titles.length];
-	       for(int i = 0; i < clv.length; i++){
-	    	   clv[i] = new CustomListView();
-	    	   clv[i].setMissionName(titles[i]);
-	           clv[i].setMissionDescription(descriptions[i]);
-	           clv[i].setFileName(files[i]);
-	           clv[i].setImageIcon(images[i]);
-	           
-	           //add to file lookup, and image lookup table(s)
-	           mission_list.put(titles[i], files[i]);
-	           mission_icons.put(titles[i], images[i]);
-	           
-	           myMissions.add(clv[i]);
-	       }
+    	//get mission attributes
+    	String[] titles = getResources().getStringArray(R.array.mission_titles);
+    	String[] descriptions = getResources().getStringArray(R.array.mission_descriptions);
+    	String[] files = getResources().getStringArray(R.array.mission_files);
+    	int[] images = {R.drawable.arena, R.drawable.arena, R.drawable.target};
+        
+    	//create the mission items
+    	clv = new CustomListView[titles.length];
+       	for(int i = 0; i < clv.length; i++){
+    	   clv[i] = new CustomListView();
+    	   clv[i].setMissionName(titles[i]);
+           clv[i].setMissionDescription(descriptions[i]);
+           clv[i].setFileName(files[i]);
+           clv[i].setImageIcon(images[i]);
+           
+           //add to file lookup, and image lookup table(s)
+           mission_list.put(titles[i], files[i]);
+           mission_icons.put(titles[i], images[i]);
+           
+           myMissions.add(clv[i]);
+       	}
 	        
 	       this.mission_adapter = new MissionListAdapter(this, R.layout.mission_row, myMissions);
 	       setListAdapter(this.mission_adapter);
-	       	        
+	       /*	        
 	        new_btn = (Button)findViewById(R.id.new_btn);
 	        new_btn.setText("New");
 	        new_btn.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
 				public void onClick(View v) {
-					
+					//if mission is not in constants.finished_missions, move to top of list
 				}
 			});
 	        
@@ -70,9 +77,10 @@ public class MissionListActivity extends ListActivity {
 			{
 				@Override
 				public void onClick(View v) {
-							
+					//if mission is in constants.finished_missions, move to top of list
 				}
 			});
+			*/
 	        
 	 }
 

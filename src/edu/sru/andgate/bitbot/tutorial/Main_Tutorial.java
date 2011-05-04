@@ -36,6 +36,9 @@ import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class Main_Tutorial extends Activity
 {
+	/*
+	 * Declare Activity components in use
+	 */
 	private EditText editor; 
 	private TextView help_text;
 	private String tutorialID;

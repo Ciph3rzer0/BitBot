@@ -1,5 +1,5 @@
 /*
- * Temp class to do some initializations for testing
+ * Class that initializes Sample code, Enemy BOTS, etc.
  */
 
 package edu.sru.andgate.bitbot;
@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.util.Log;
-import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class Initialization
@@ -24,8 +23,8 @@ public class Initialization
 		FileManager.setContext(cw.getBaseContext());
 			
 		
-		String data =
-			"// See if onBoundaryCollision works!\n" +
+		String sampleCode1 =
+			"//SAMPLE CODE - Don't overwrite\n" +
 			"Let _d = -5\n" +
 			"\n" +
 			"While 1 Do\n" + 
@@ -40,64 +39,38 @@ public class Initialization
 			"	Let _d = _d * -1\n" +
 			"	\n" +
 			"return\n";
-		
-		String data02 =
-			"// Turn and Shoot\n" +
-			"Let _a = 0\n" +
-			"\n" +
-			"While 1 Do\n" + 
-			"  call bot_move(_a, 8)\n" +
-			"Loop\n" +
-			"\n" +
-			"end\n" +
-			"\n" +
-			"sub onTouch with x,y\n" +
-			"	let _a = call angleTo(x, y)\n" +
-			"	call bot_turn(_a - 90)\n" +
-			"	call bot_fire()\n" +
-			"return\n"
-		;
-		
-		boolean b = Test.CompareCode(data, data02);
-		
-		if (b)
-			Log.v("BitBot INIT", "Sources are equal");
-		else
-			Log.v("BitBot INIT", "Sources are not equal");
-		
+			
+		/*
+		 * Creates an enemy bot(s) for later use
+		 */
 		enemy = new Bot();
 		enemy.setName("Generic Enemy");
 		enemy.setBase(R.drawable.adambot);
 		enemy.setTurret(R.drawable.adamturret);
 		enemy.setBullet(R.drawable.bulletnew);
-		enemy.setCode(data);
+		enemy.setCode(sampleCode1);
 		enemy.saveBotToXML(cw, "enemy_bot.xml");
 		
-		data.substring(2);
-		String data2 = "//Simple While Loop\n"; 
+		
+		//sampleCode1.substring(2);
+		
+		String data2 = "//SAMPLE CODE - Don't overwrite\n"; 
 		data2 += cw.getResources().getString(R.string.example_code);
-		data2.substring(2);
-		// Is this necessary?
-		// cw = new ContextWrapper(cw.getBaseContext());
+		//data2.substring(2);
+		
+		//initiallize directory where code files will be stored
 		mediaDir = cw.getDir("Code", Context.MODE_PRIVATE);
-		
-		if (mediaDir.exists())
-		{
-			Log.v("Test", "Directory made");
-		} else
-		{
-			Log.v("Test", "Directory !exist");
-		}
-		f = new File(cw.getDir("Code", Context.MODE_PRIVATE), "Program Code.txt");
-		f2 = new File(cw.getDir("Code", Context.MODE_PRIVATE), "test code.txt");
-		
+	
+		//initialize 2 sample files for user
+		f = new File(cw.getDir("Code", Context.MODE_PRIVATE), "Sample Program Code 1.txt");
+		f2 = new File(cw.getDir("Code", Context.MODE_PRIVATE), "Sample Program Code 2.txt");
 		try
 		{
 			f.createNewFile();
 			f2.createNewFile();
 			fos2 = new FileOutputStream(f2);
 			fos = new FileOutputStream(f);
-			fos.write(data.getBytes());
+			fos.write(sampleCode1.getBytes());
 			fos2.write(data2.getBytes());
 			fos2.close();
 			fos.close();

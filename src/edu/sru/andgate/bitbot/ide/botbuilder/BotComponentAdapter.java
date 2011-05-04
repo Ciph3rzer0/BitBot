@@ -12,6 +12,7 @@ import android.widget.TextView;
 import edu.sru.andgate.bitbot.R;
 
 public class BotComponentAdapter extends ArrayAdapter<CustomListView> {
+	//Declare custom arrayList adapter & context
 	private ArrayList<CustomListView> botComponents;
 	private Context context;
 	
@@ -23,25 +24,27 @@ public class BotComponentAdapter extends ArrayAdapter<CustomListView> {
 
 	@Override
 	public View getView(int position, View newView, ViewGroup parentView){
-	       View customView = newView;
-           if (customView == null) {
-               LayoutInflater layout = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-               customView = layout.inflate(R.layout.ide_botbuilder_botcomponent, null);
+       View customView = newView;
+       if (customView == null) {
+    	 //inflate the latout with the custom view
+         LayoutInflater layout = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+         customView = layout.inflate(R.layout.ide_botbuilder_botcomponent, null);
+       }
+       CustomListView myView = botComponents.get(position);
+       if (myView != null) {
+    	   //set the attributes for the custom layout: code name, and description
+           TextView componentName = (TextView) customView.findViewById(R.id.title);
+           TextView componentDescription = (TextView) customView.findViewById(R.id.summary);
+           ImageView missionIcon = (ImageView) customView.findViewById(R.id.pic);
+           if (componentName != null) {
+                 componentName.setText(myView.getBotComponentName());                            }
+           if(componentDescription != null){
+                 componentDescription.setText(myView.getBotComponentDescription());
            }
-           CustomListView myView = botComponents.get(position);
-           if (myView != null) {
-                   TextView componentName = (TextView) customView.findViewById(R.id.title);
-                   TextView componentDescription = (TextView) customView.findViewById(R.id.summary);
-                   ImageView missionIcon = (ImageView) customView.findViewById(R.id.pic);
-                   if (componentName != null) {
-                         componentName.setText(myView.getBotComponentName());                            }
-                   if(componentDescription != null){
-                         componentDescription.setText(myView.getBotComponentDescription());
-                   }
-                   if(missionIcon !=null){
-                	   missionIcon.setImageResource(myView.getImageIcon());
-                   }
+           if(missionIcon !=null){
+        	   missionIcon.setImageResource(myView.getImageIcon());
            }
+       }
            customView.setTag(myView.getBotComponentName());
            return customView;
    }

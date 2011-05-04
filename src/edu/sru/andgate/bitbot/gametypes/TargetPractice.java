@@ -14,23 +14,27 @@ import edu.sru.andgate.bitbot.tools.Constants;
 
 public class TargetPractice extends GameTypes
 {
+	//Declare the components and attributes needed for specified gametype
 	private Context context;
-	private int totalBots, kills = 0, numBulletsContact = 0;
 	private String userBotFile, mapFile;
 	private Bot[] bots;
 	private VictoryDialog vd;
-	private DefeatDialog dd;
-	private long start, elapsed;
 	private Bot userBot;
+	private TileMap tileMap;
+	public NickGameActivity _game;
+	private DefeatDialog dd;
+
+	//statistical vars for users BOT
+	private int totalBots, kills = 0, numBulletsContact = 0;
+	private long start, elapsed;
 	private float defaultZ;
 	private double accuracy;
-	private TileMap tileMap;
 	private boolean victory, defeat;
 	Random generator;
-	public NickGameActivity _game;
 	
 	public TargetPractice(Context context, String mapFile, String userBotFile)
 	{
+		//initialize the specified vars
 		this.tileMap = new TileMap();
 		this.context = context;
 		this.mapFile = mapFile;
@@ -48,11 +52,11 @@ public class TargetPractice extends GameTypes
 	@Override
 	public void Initialize(NickGameActivity ga)
 	{
-		this._game = ga;
-		Log.v("GameTypes", "GameType Accepted");
-		int randomIndex;
-		this.totalBots = generator.nextInt(tileMap.enemySpawnPointsX.size()-1) + 1;
+		this._game = ga;	//set game type
+		int randomIndex;	//random index iterator
+		this.totalBots = generator.nextInt(tileMap.enemySpawnPointsX.size()-1) + 1; //total available bots
 		
+		//if to many, set to max
 		if(totalBots >= tileMap.enemySpawnPointsX.size())
 			totalBots = tileMap.enemySpawnPointsX.size();
 		
@@ -81,20 +85,23 @@ public class TargetPractice extends GameTypes
 
 	@Override
 	public void Update() {
-		int botsLeft = bots.length;
 		//check if victory conditions have been met, etc
+
+		int botsLeft = bots.length;
 		for(int i = 0; i < bots.length;i++){
 			if(!bots[i].getDrawableBot().isAlive()){
 				botsLeft--;
 			}
 		}
 		
+		//if no bots left, victory
 		if(botsLeft == 0 && victory == false && defeat == false){
 			victory = true;
 			Constants.finished_missions.add(_game.missionType);
 			elapsed = System.currentTimeMillis() - start;
 			Finalize("victory");
 		}
+		//if users bot is killed, defeat
 		if (!userBot.getDrawableBot().isAlive() && defeat == false && victory == false){
 			defeat = true;
 			elapsed = System.currentTimeMillis() - start;
@@ -105,20 +112,23 @@ public class TargetPractice extends GameTypes
 
 	@Override
 	public void Finalize(final String type) {
+		//show corresponding dialog if victory or defeat
 		if(type.equals("victory")){
 			for(int i = 0; i < _game.getGameType().getBots().length; i++){
 		       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){
 		       		//do nothing
 		       	}else{
+		       		//calculate statistics
 		       		kills++;
 		       		numBulletsContact += _game.getGameType().getBots()[i].getDrawableBot().getNumBulletsHit();
 		       	}
 			}
+			
+			//calculate statistics
 			accuracy = ((double)numBulletsContact/(double)_game.getGameType().getBot().getDrawableGun().numShotsFired) * 100;
 			accuracy = (double)Math.round(accuracy * 100) / 100;
 		}
-		// Not sure here yet
-		Log.v("GameTypes", "Victory is Yours");
+
 		_game.runOnUiThread(new Runnable(){
 			@Override
 			public void run() {
@@ -129,10 +139,16 @@ public class TargetPractice extends GameTypes
 					e.printStackTrace();
 				}
 				if(type.equals("victory")){
-					vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, kills, accuracy, elapsed);	
+					/*
+					 * set statistics for bot here
+					 */
+					vd = new VictoryDialog(_game, R.style.CustomDialogTheme, kills, accuracy, elapsed);	
 					vd.show();	
 				}else if (type.equals("defeat")){
-					dd = new DefeatDialog(_game, _game, R.style.CustomDialogTheme);
+					/*
+					 * set statistics for bot here
+					 */
+					dd = new DefeatDialog(_game, R.style.CustomDialogTheme);
 					dd.show();
 				}
 			}

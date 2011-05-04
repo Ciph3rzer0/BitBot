@@ -11,18 +11,20 @@ import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 
 public class VictoryDialog extends Dialog 
 {
+	//declare component variables
     TextView kills_text, accuracy_text, time_text;
-    int kills;
-    double accuracy;
-    long time;
     Button end;
     NickGameActivity nga;
     Context context;
+
+    //bot statistic vars
+    int kills;
+    double accuracy;
+    long time;
     
-    public VictoryDialog(NickGameActivity nga, Context context, int theme, int kills, double accuracy, long time) 
+    public VictoryDialog(NickGameActivity nga, int theme, int kills, double accuracy, long time) 
     {
-        super(context, theme);
-        this.context = context;    
+        super(nga, theme);
         this.kills = kills;
         this.nga = nga;
         this.accuracy = accuracy;
@@ -35,28 +37,36 @@ public class VictoryDialog extends Dialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.victory_popup);       
         
+        //create the victory dialog
+        
+        //set the kills
         kills_text = (TextView) findViewById(R.id.kill_text);
         kills_text.setText("" + kills);
         
+        //set the accuracy
         accuracy_text = (TextView) findViewById(R.id.accuracy_text);
         accuracy_text.setText("" + accuracy + "%");
         
+        //set the time elapsed to complete the mission
         time_text = (TextView) findViewById(R.id.time_text);
         time_text.setText("" + time + " seconds");
         
+        //end the mission
         end = (Button) findViewById(R.id.end_btn);
         end.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				//finish the game activity
 				nga.finish();
+				//close dialog
 				dismissDialog();
 			}
 		});
         
     }
     
+    //close the dialog
     public void dismissDialog(){
     	this.dismiss();
     }

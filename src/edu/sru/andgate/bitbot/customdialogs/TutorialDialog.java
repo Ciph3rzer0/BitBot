@@ -13,15 +13,15 @@ import edu.sru.andgate.bitbot.tutorial.GameSpecific_Tutorial_List;
 
 public class TutorialDialog extends Dialog 
 {
+	//declare component variables
     Button graphic_btn, console_btn;
     Activity act;
     Context context;
     
-    public TutorialDialog(Activity a, Context context, int theme) 
+    public TutorialDialog(Activity a, int theme) 
     {
-        super(context, theme);
-        this.context = context;    
-        this.act = a;
+        super(a, theme);
+        this.act = a; //set the activity in use
     }
 
     @Override
@@ -30,6 +30,9 @@ public class TutorialDialog extends Dialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorial_choice);       
         
+        //display the choices for the tutorials
+        
+        //open graphical or game specific tutorial list
         graphic_btn = (Button) findViewById(R.id.graphical);
         graphic_btn.setOnClickListener(new View.OnClickListener() {
 			
@@ -42,6 +45,7 @@ public class TutorialDialog extends Dialog
 			}
 		});
         
+        //open console or BotBasic language tutorial list
         console_btn = (Button) findViewById(R.id.textual);
         console_btn.setOnClickListener(new View.OnClickListener() {
 			
@@ -56,6 +60,7 @@ public class TutorialDialog extends Dialog
         
     }
     
+    //close the dialog
     public void dismissDialog(){
     	this.dismiss();
     }

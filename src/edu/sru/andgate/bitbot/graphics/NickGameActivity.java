@@ -144,9 +144,8 @@ public class NickGameActivity extends Activity
         drawList = new int[2][MAX_OBJECTS];       
         
         gameRenderer = new GlRenderer(this);
-        
+        		
         ilvm.addInterpreter(gameType.getBot().getInterpreter());
-		
 //        // Run the vm every second.
 //		t = new Timer();
 //		t.schedule(new TimerTask()
@@ -460,5 +459,9 @@ public class NickGameActivity extends Activity
 				});
 
 		alert.show();
+	}
+	
+	public InstructionLimitedVirtualMachine getILVM(){
+		return this.ilvm;
 	}
 }
