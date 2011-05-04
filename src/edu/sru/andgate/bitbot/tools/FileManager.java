@@ -49,7 +49,7 @@ public class FileManager
 				line = buffreader.readLine();
 				
 			}
-			// close the file again
+			// close the file
 			fis.close();
 			try{
 				return line.toString();				
@@ -60,12 +60,12 @@ public class FileManager
 		catch (java.io.FileNotFoundException e)
 		{
 			// do something if the myfilename.txt does not exits
-			Log.v("Test", "File Not Found");
+			Log.v("BitBot", "File Not Found");
 		}
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			Log.v("Test", "I/O Error");
+			Log.v("BitBot", "I/O Error");
 		}
 		
 		return "//Not Available";
@@ -104,12 +104,12 @@ public class FileManager
 		catch (java.io.FileNotFoundException e)
 		{
 			// do something if the myfilename.txt does not exits
-			Log.v("Test", "File Not Found");
+			Log.v("BitBot", "File Not Found");
 		}
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			Log.v("Test", "I/O Error");
+			Log.v("BitBot", "I/O Error");
 		}
 		
 		return temp.toString();
@@ -226,7 +226,7 @@ public class FileManager
 			fos.close();
 		} catch (Exception e)
 		{
-			Log.v("Test", "Error writing file");
+			Log.v("BitBot", "Error writing file");
 		}
 	}
 	
@@ -240,7 +240,6 @@ public class FileManager
 		File f = new File(_context.getFilesDir().getAbsoluteFile() + "/" + srcName);
 		File f2 = new File(_context.getFilesDir().getAbsoluteFile() + "/" + dstName);
 		f.renameTo(f2);
-		//deleteXMLFile(srcName);
 	}
 	
 	public static void saveCodeFileAs(String srcName, String dstName){

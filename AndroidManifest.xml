@@ -32,5 +32,6 @@
 		<activity android:name=".ide.IDE" android:windowSoftInputMode="adjustResize"></activity>
    		<activity android:name=".graphics.NickGameActivity" android:configChanges="orientation|keyboardHidden"></activity>"
    		<activity android:name=".graphics.AdamGameActivity" android:configChanges="orientation|keyboardHidden"></activity>"
+   		<activity android:name=".About"></activity>
     </application>
 </manifest>

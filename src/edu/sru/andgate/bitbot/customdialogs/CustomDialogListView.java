@@ -25,14 +25,12 @@ import edu.sru.andgate.bitbot.tools.FileManager;
 public class CustomDialogListView extends Dialog 
 {
     TextView selection;
-    Context context;
     String file;
     CodeBuilderActivity activity;
     
-    public CustomDialogListView(CodeBuilderActivity act, String file, Context context, int theme) 
+    public CustomDialogListView(CodeBuilderActivity act, String file, int theme) 
     {
-        super(context, theme);
-        this.context = context;
+        super(act, theme);
         this.file = file;
         this.activity = act;
         
@@ -46,7 +44,7 @@ public class CustomDialogListView extends Dialog
         final ListView lst=(ListView)findViewById(R.id.myList);
         String[] list = {"Share", "Save As...", "Rename", "Delete", "Back"};
         
-        lst.setAdapter(new ArrayAdapter<String>(context,R.layout.custom_popup_row, list));      
+        lst.setAdapter(new ArrayAdapter<String>(activity,R.layout.custom_popup_row, list));      
         
         lst.setOnItemClickListener(new OnItemClickListener() {
         	
@@ -63,7 +61,7 @@ public class CustomDialogListView extends Dialog
 					 *	emailIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse(path to file));
 					*/
 					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, FileManager.readTextFileFromDirectory("Code", file));
-					context.startActivity(Intent.createChooser(emailIntent, "Sending mail..."));
+					activity.startActivity(Intent.createChooser(emailIntent, "Sending mail..."));
         		}else if(clicked.equalsIgnoreCase("Save As...")){
         				promptSaveAs(activity, file);
         		}else if(clicked.equalsIgnoreCase("Rename")){
@@ -82,13 +80,13 @@ public class CustomDialogListView extends Dialog
     }
     
     private void promptSaveAs(Activity act, final String srcFileName){
-    	AlertDialog.Builder alert = new AlertDialog.Builder(this.context);
+    	AlertDialog.Builder alert = new AlertDialog.Builder(activity);
 
 		alert.setTitle("Save file As: ");
 		alert.setMessage("New File Name");
 
 		// Set an EditText view to get user input 
-		final EditText input = new EditText(this.context);
+		final EditText input = new EditText(activity);
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -113,13 +111,13 @@ public class CustomDialogListView extends Dialog
     }
     
     private void promptRename(Activity act, final String srcFileName){
-    	AlertDialog.Builder alert = new AlertDialog.Builder(this.context);
+    	AlertDialog.Builder alert = new AlertDialog.Builder(activity);
 
 		alert.setTitle("Rename file to: ");
 		alert.setMessage("Rename File");
 
 		// Set an EditText view to get user input 
-		final EditText input = new EditText(this.context);
+		final EditText input = new EditText(activity);
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -166,7 +164,7 @@ public class CustomDialogListView extends Dialog
     }
     
     private void pomptOverwrite(final String caller, final String srcFileName, final String dstFileName) {
-		AlertDialog.Builder alert = new AlertDialog.Builder(this.context);
+		AlertDialog.Builder alert = new AlertDialog.Builder(activity);
 		alert.setTitle("File Already Exists");
 		alert.setMessage("Do you want to overwrite this file?");
 		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

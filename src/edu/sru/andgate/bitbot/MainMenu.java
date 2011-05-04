@@ -84,14 +84,16 @@ public class MainMenu extends Activity {
 			}
 		});
         
-        /* ******************** Scores *********************** */
+        /* ******************** About Page *********************** */
         Button about_btn = (Button) findViewById(R.id.scores_btn);
         about_btn.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
-				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, -60);				
+				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, -60);		
+				Intent engineIntent = new Intent(MainMenu.this, About.class);
+				startActivity(engineIntent);
 			}
 		});
         
@@ -125,7 +127,7 @@ public class MainMenu extends Activity {
                
         /*
          * temp help button
-         */
+         *
         Button interpreter_btn = (Button)findViewById(R.id.interpreter_btn);
         interpreter_btn.setOnClickListener(new View.OnClickListener() {
 			
@@ -139,7 +141,7 @@ public class MainMenu extends Activity {
         
         /*
          * temp graphics button
-         */
+         *
         Button graphics_btn = (Button) findViewById(R.id.graphics_btn);
         graphics_btn.setOnClickListener(new View.OnClickListener() {
 			
@@ -149,7 +151,7 @@ public class MainMenu extends Activity {
 				Intent engineIntent = new Intent(MainMenu.this, AdamGameActivity.class);
 				startActivity(engineIntent);
 			}
-		});
+		});*/
     }
     
     public void rotateImage(ImageView img, int turret_id, int img_id, int rotate)

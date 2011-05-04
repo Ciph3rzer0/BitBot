@@ -68,7 +68,7 @@ public class CodeBuilderActivity extends ListActivity
 
 				public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 					Log.v("BitBot", "Long Click Accepted");
-					dlg = new CustomDialogListView(CodeBuilderActivity.this, view.getTag().toString(),CodeBuilderActivity.this, R.style.CustomDialogTheme);
+					dlg = new CustomDialogListView(CodeBuilderActivity.this, view.getTag().toString(), R.style.CustomDialogTheme);
 			        dlg.show();
 			        return true;
 				}
