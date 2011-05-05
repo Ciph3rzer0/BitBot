@@ -39,6 +39,7 @@ public class DrawableGun implements Drawable
 	public int numShotsFired=0;
 	int[] liveRounds;
 	
+	//Master Parameters
 	int MAX_BULLETS = 4;
 	float BOUNDING_RADIUS = 0.2f;
 	int DAMAGE = 20; //35
@@ -46,21 +47,21 @@ public class DrawableGun implements Drawable
 	float LIFESPAN = 6.0f;
 	float BARREL_LENGTH = 0.8f;
 	
-	public FloatBuffer vertexBuffer;	// buffer holding the vertices
+	public FloatBuffer vertexBuffer;				// buffer holding the vertices
 	public float vertices[] = {
-			-1.0f, -1.0f,  0.0f,		// V1 - bottom left
-			-1.0f,  1.0f,  0.0f,		// V2 - top left
-			 1.0f, -1.0f,  0.0f,		// V3 - bottom right
-			 1.0f,  1.0f,  0.0f			// V4 - top right
+			-1.0f, -1.0f,  0.0f,					// V1 - bottom left
+			-1.0f,  1.0f,  0.0f,					// V2 - top left
+			 1.0f, -1.0f,  0.0f,					// V3 - bottom right
+			 1.0f,  1.0f,  0.0f						// V4 - top right
 	};
 
-	public FloatBuffer textureBuffer;	// buffer holding the texture coordinates
+	public FloatBuffer textureBuffer;				// buffer holding the texture coordinates
 	public float texture[] = {    		
 			// Mapping coordinates for the vertices
-			0.0f, 1.0f,		// top left		(V2)
-			0.0f, 0.0f,		// bottom left	(V1)
-			1.0f, 1.0f,		// top right	(V4)
-			1.0f, 0.0f		// bottom right	(V3)
+			0.0f, 1.0f,								// top left		(V2)
+			0.0f, 0.0f,								// bottom left	(V1)
+			1.0f, 1.0f,								// top right	(V4)
+			1.0f, 0.0f								// bottom right	(V3)
 	};
 	
 	//Texture pointer
@@ -71,25 +72,19 @@ public class DrawableGun implements Drawable
 		//Attach to bot
 		masterTurret = turret;
 		masterBot = bot;
-		// a float has 4 bytes so we allocate for each coordinate 4 bytes
+		//Allocate Buffer Objects
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
-		
-		// allocates the memory from the byte buffer
 		vertexBuffer = byteBuffer.asFloatBuffer();
-		
-		// fill the vertexBuffer with the vertices
 		vertexBuffer.put(vertices);
-		
-		// set the cursor position to the beginning of the buffer
 		vertexBuffer.position(0);
-		
 		byteBuffer = ByteBuffer.allocateDirect(texture.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		textureBuffer = byteBuffer.asFloatBuffer();
 		textureBuffer.put(texture);
 		textureBuffer.position(0);
 		
+		//Initialize Arrays
 		parameters = new float[11];
 		
 		textureHopper = new ArrayList<Integer>(MAX_TEXTURE_ARRAY_SIZE);
@@ -107,7 +102,7 @@ public class DrawableGun implements Drawable
 		parameters[9] = 0.85f;	//sZ
 		parameters[10] = 1.0f;	//textureUpdateFlag (NO = 0.0, YES = 1.0) (Avoid at all costs)
 		
-		//liveRounds = new ArrayList<Integer>(MAX_BULLETS);
+		//Initialize live bullet arrays
 		liveRounds = new int[MAX_BULLETS];
 		for(int i=0;i<MAX_BULLETS;i++)
 		{
@@ -176,7 +171,7 @@ public class DrawableGun implements Drawable
 	@Override
 	public void moveByTouch(float speed)
 	{
-		//
+		//EMPTY
 	}
 	
 	/* (non-Javadoc)
@@ -228,9 +223,9 @@ public class DrawableGun implements Drawable
 	
 	public void onBoundaryCollision()
 	{
-		//For now, flip angle and continue
-		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
-		parameters[3] = moveAngle + 90.0f;
+//		//For now, flip angle and continue
+//		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
+//		parameters[3] = moveAngle + 90.0f;
 	}
 	
 	/* (non-Javadoc)
@@ -284,11 +279,6 @@ public class DrawableGun implements Drawable
 	
 	public void fire()
 	{
-		try{
-			fireSound.playAudio();
-		}catch (Exception e){
-			Log.v("BitBot", "Sound not attached");
-		}
 		int workingBulletID = -1;
 		
 		//Get an available BulletID
@@ -308,6 +298,12 @@ public class DrawableGun implements Drawable
 		//If a bulletID was available, calculate bullet info
 		if(workingBulletID != -1)
 		{
+			try{
+				fireSound.playAudio();
+			}catch (Exception e){
+				Log.v("BitBot", "Sound not attached");
+			}
+			
 			//Calculate Trajectory Info
 			float trajectoryAngle = masterTurret.layerParameters[3];
 			float startingX = masterTurret.masterBotLayer.parameters[0] - ((float)(Math.sin(trajectoryAngle * (Math.PI / 180)) * BARREL_LENGTH));

@@ -16,6 +16,7 @@ public class CollisionManager
 	int numGuns = 0;
 	float sparkAngle = 0.0f;
 	
+	//Master Parameters
 	int MAX_BOT_OBJECTS = 100;
 	int MAX_GUN_OBJECTS = 100;
 	int MAX_BULLETS_PER_GUN = 8;
@@ -23,10 +24,12 @@ public class CollisionManager
 	
 	public CollisionManager(TileMap tMap)
 	{
+		//Generate Arrays
 		botList = new DrawableBot[MAX_BOT_OBJECTS];
 		gunList = new DrawableGun[MAX_GUN_OBJECTS];
 		bulletTileIndicies = new float[MAX_GUN_OBJECTS][MAX_BULLETS_PER_GUN][2];	//Gun -> BulletID's -> TileX, TileY
 		botTileIndicies = new float[MAX_BOT_OBJECTS][2];	//BotID -> TileX, TileY
+		//Initialize Arrays
 		for(int i=0;i<MAX_GUN_OBJECTS;i++)
 		{
 			for(int j=0;j<MAX_BULLETS_PER_GUN;j++)
@@ -40,7 +43,7 @@ public class CollisionManager
 			botTileIndicies[i][0] = -1;
 			botTileIndicies[i][1] = -1;
 		}
-		
+		//Bind with tile map
 		tileMap = tMap;
 	}
 	
@@ -72,7 +75,7 @@ public class CollisionManager
 	
 	public void update()
 	{
-		//Local vars
+		//Local Vars
 		int currentTileX = 0;
 		int currentTileY = 0;
 		
@@ -415,7 +418,7 @@ public class CollisionManager
 				}
 			}
 			
-			//Check for possible Bot v Bot collisions
+			//Check for possible Bot v Bot collisions (INCOMPLETE FOR NOW)
 			for(int k=0;k<numBots;k++)
 			{
 				if((botTileIndicies[k][0] >= currentTileX-1 && botTileIndicies[k][0] <= currentTileX+1) && (botTileIndicies[k][1] >= currentTileY-1 && botTileIndicies[k][1] <= currentTileY+1) && botTileIndicies[k][0] != -1 && botTileIndicies[k][1] != -1 && botList[i].isAlive && botList[k].isAlive && botList[i].ID != botList[k].ID)

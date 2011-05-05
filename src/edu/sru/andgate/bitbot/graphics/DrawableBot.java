@@ -7,21 +7,16 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
-
 import javax.microedition.khronos.opengles.GL10;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
-import android.util.Log;
 import edu.sru.andgate.bitbot.Bot;
-import edu.sru.andgate.bitbot.SoundManager;
 
 public class DrawableBot implements Drawable
 {
-	private Bot _bot;	// Reference to bot container
-	
+	private Bot _bot;						//Reference To Bot Container
 	public float[] parameters;
 	private int numBulletsInContact;
 	int ID = 0;
@@ -37,33 +32,34 @@ public class DrawableBot implements Drawable
 	int numLayers = 0;
 	int[][] damageSprites;
 	float moveAngle = 0.0f;
-	float moveStepSize = 0.0f;	//1.7 MAX before tunneling
+	float moveStepSize = 0.0f;
 	ArrayList<Integer> textureHopper;
 	ArrayList<Integer> layerIdList;
 	boolean textureLoaded = false;
 	public boolean isAlive = true;
 	BotLayer[] layers;
 	
-	int BOT_TYPE = 0; //0=Enemy 1=User
+	//Master Parameters
+	int BOT_TYPE = 0; 						//0=Enemy 1=User
 	int HEALTH = 100;
 	int MAX_LAYERS = 3;	
-	float BOUNDING_RADIUS = 0.75f; //Should be 0.75
+	float BOUNDING_RADIUS = 0.75f; 			//Should be 0.75
 	
-	public FloatBuffer vertexBuffer;	// buffer holding the vertices
+	public FloatBuffer vertexBuffer;		// buffer holding the vertices
 	public float vertices[] = {
-			-1.0f, -1.0f,  0.0f,		// V1 - bottom left
-			-1.0f,  1.0f,  0.0f,		// V2 - top left
-			 1.0f, -1.0f,  0.0f,		// V3 - bottom right
-			 1.0f,  1.0f,  0.0f			// V4 - top right
+			-1.0f, -1.0f,  0.0f,			// V1 - bottom left
+			-1.0f,  1.0f,  0.0f,			// V2 - top left
+			 1.0f, -1.0f,  0.0f,			// V3 - bottom right
+			 1.0f,  1.0f,  0.0f				// V4 - top right
 	};
 
-	public FloatBuffer textureBuffer;	// buffer holding the texture coordinates
+	public FloatBuffer textureBuffer;		// buffer holding the texture coordinates
 	public float texture[] = {    		
 			// Mapping coordinates for the vertices
-			0.0f, 1.0f,		// top left		(V2)
-			0.0f, 0.0f,		// bottom left	(V1)
-			1.0f, 1.0f,		// top right	(V4)
-			1.0f, 0.0f		// bottom right	(V3)
+			0.0f, 1.0f,						// top left		(V2)
+			0.0f, 0.0f,						// bottom left	(V1)
+			1.0f, 1.0f,						// top right	(V4)
+			1.0f, 0.0f						// bottom right	(V3)
 	};
 	
 	//Texture pointer
@@ -78,25 +74,19 @@ public class DrawableBot implements Drawable
 	public DrawableBot()
 	{
 		numBulletsInContact = 0;
-		// a float has 4 bytes so we allocate for each coordinate 4 bytes
+		//Allocate Buffer Objects
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
-		
-		// allocates the memory from the byte buffer
 		vertexBuffer = byteBuffer.asFloatBuffer();
-		
-		// fill the vertexBuffer with the vertices
 		vertexBuffer.put(vertices);
-		
-		// set the cursor position to the beginning of the buffer
 		vertexBuffer.position(0);
-		
 		byteBuffer = ByteBuffer.allocateDirect(texture.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		textureBuffer = byteBuffer.asFloatBuffer();
 		textureBuffer.put(texture);
 		textureBuffer.position(0);
 		
+		//Initialize Arrays
 		parameters = new float[11];
 		
 		damageSprites = new int[MAX_TEXTURE_ARRAY_SIZE][2];
@@ -176,10 +166,12 @@ public class DrawableBot implements Drawable
 	@Override
 	public void moveByTouch(float speed)
 	{	
+		//Ensure that we dont overshoot the touch target
 		if(speed > distanceRemaining && distanceRemaining > 0)
 		{
 			speed = distanceRemaining;
 		}
+		//If we are not at our destination, calculate next move position
 		if(distanceRemaining > 0)
 		{
 			rise = (float)(Math.sin(moveAngle * (Math.PI/180)) * speed) + parameters[1];
@@ -197,6 +189,7 @@ public class DrawableBot implements Drawable
 	@Override
 	public void move(float angle, float stepSize)
 	{
+		//Calculate next move (x and y) coordinates based off local variables
 		float rise = (float)(Math.sin(angle * (Math.PI / 180)) * stepSize) + parameters[1];
 		float run = (float)(Math.cos(angle * (Math.PI / 180)) * stepSize) + parameters[0];
 		
@@ -206,6 +199,7 @@ public class DrawableBot implements Drawable
 	
 	public void move()
 	{
+		//Calculate next move (x and y) coordinates based off global variables
 		float rise = (float)(Math.sin(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[1];
 		float run = (float)(Math.cos(moveAngle * (Math.PI / 180)) * moveStepSize) + parameters[0];
 		
@@ -215,6 +209,7 @@ public class DrawableBot implements Drawable
 	
 	public void setMove(float angle, float velocity)
 	{
+		//Set global move variables (for interpreter)
 		moveAngle = angle;
 		moveStepSize = velocity;
 	}
@@ -252,9 +247,6 @@ public class DrawableBot implements Drawable
 	public void onBoundaryCollision()
 	{
 		moveStepSize = 0;
-		//For now, flip angle and continue
-		//moveAngle = Math.abs(moveAngle - 180.0f) % 360.0f;
-		//parameters[3] = moveAngle + 90.0f;
 		
 		if (_bot != null)
 			_bot.callOnBoundaryCollision();
@@ -283,7 +275,10 @@ public class DrawableBot implements Drawable
 	
 	public void onDamage()
 	{
+		//Get health value which the next damage sprite should be activated at
 		int triggerHealth = damageSprites[currentDamageSprite][1];
+		
+		//If that health value has been met, update sprite
 		if(HEALTH <= triggerHealth && currentDamageSprite < numDamageSprites)
 		{
 			SELECTED_TEXTURE = damageSprites[currentDamageSprite][0];
@@ -298,9 +293,11 @@ public class DrawableBot implements Drawable
 	}
 	
 	public void onTouchEvent(float touchX, float touchY)
-	{		
+	{
+		//Calculate Distance Remaining to Touch Waypoint
 		distanceRemaining = (float)Math.sqrt((Math.pow((touchX-parameters[0]), 2) + Math.pow((touchY-parameters[1]), 2)));
 		
+		//Determine appropriate move angle based on the current quadrant
 		if((touchX-parameters[0]) >= 0.0f && (touchY-parameters[1]) >= 0)
 		{
 			moveAngle = (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360);
@@ -318,15 +315,17 @@ public class DrawableBot implements Drawable
 			moveAngle = (180.0f - (float)Math.abs(Math.toDegrees(Math.atan((touchY-parameters[1])/(touchX-parameters[0]))) % 360)) + 180.0f;
 		}
 		
+		//Rotate the bot sprite
 		parameters[3] = 360 - (90+moveAngle);
 		
+		//Pass result to interpreter
 		if (_bot != null)
 			_bot.callOnTouchEvent(touchX-parameters[0], touchY-parameters[1]);
 	}
 	
 	public void onBotFocus(DrawableBot bot)
 	{
-		//code
+		//EMPTY FOR NOW
 	}
 	
 	/* (non-Javadoc)
@@ -337,17 +336,15 @@ public class DrawableBot implements Drawable
 	{
 		return SELECTED_TEXTURE;
 	}
-	
-	
-//	public void setID(int id)
-//	{
-//		ID = id;
-//	}
-//	public int getID()
-//	{
-//		return ID;
-//	}
-	
+
+	public void setID(int id)
+	{
+		ID = id;
+	}
+	public int getID()
+	{
+		return ID;
+	}
 	
 	/* (non-Javadoc)
 	 * @see edu.sru.andgate.bitbot.graphics.Drawable#addTexture(int)
@@ -369,22 +366,24 @@ public class DrawableBot implements Drawable
 	 */
 	@Override
 	public void loadGLTexture(GL10 gl, Context context, int curTexPointer)
-	{		
+	{
+		//Load bot sprite from image file
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),textureHopper.get(curTexPointer));
 
-		// generate one texture pointer
+		//Generate Texture Pointer
 		gl.glGenTextures(1, textures, curTexPointer);
-		// ...and bind it to our array
+		
+		//Bind texture to array
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[curTexPointer]);
 		
-		// create nearest filtered texture
+		//Filter Texture
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 		
-		// Use Android GLUtils to specify a two-dimensional texture image from our bitmap 
+		//Specifiy 2-DIM Texture
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 		
-		// Clean up
+		//Clean up
 		bitmap.recycle();
 		
 		//textureLoaded = true;
@@ -396,29 +395,29 @@ public class DrawableBot implements Drawable
 	@Override
 	public void draw(GL10 gl)
 	{
-		// bind the previously generated texture
+		//Bind selected texture
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[SELECTED_TEXTURE]);
 		
-		// Point to our buffers
+		//Enable Buffers
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		
-		// Set the face rotation
+		//Set face rotation
 		gl.glFrontFace(GL10.GL_CW);
 		
-		// Point to our vertex buffer
+		//Point to buffers
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
 		
-		//Prepare openGL for drawing
+		//Prepare OpenGL Matrix for Drawing
 		gl.glTranslatef(parameters[0],parameters[1], parameters[2]);				//Translate Object
 		gl.glRotatef(parameters[3], parameters[4], parameters[5], parameters[6]);	//Rotate Object
 		gl.glScalef(parameters[7], parameters[8], parameters[9]);					//Scale Object
 		
-		// Draw the vertices as triangle strip
+		//Draw object as triangle strip
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
 
-		//Disable the client state before leaving
+		//Clean up before exiting
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}

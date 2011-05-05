@@ -43,7 +43,6 @@ public class GlRenderer implements Renderer
 	
 	int MAX_OBJECTS = 500;
 	
-	//Constructor hands over context
 	public GlRenderer(Context context)
 	{
 		this.context = context;
@@ -53,7 +52,7 @@ public class GlRenderer implements Renderer
 		gunList = new DrawableGun[MAX_OBJECTS];
 		//Get parameter list of current object
 		paramList = new float[11];
-		
+		//Set up draw list
 		drawList = new int[2][MAX_OBJECTS];
 	}
 	
@@ -185,7 +184,7 @@ public class GlRenderer implements Renderer
 			//Tile map update is a special case and isnt used with drawList
 			gl.glLoadIdentity();
 			
-			// Draw the background
+			//Draw the background
 			if (tileMap != null)
 				tileMap.draw(gl);
 			
@@ -226,9 +225,12 @@ public class GlRenderer implements Renderer
 				drawRight = (cameraX + cameraZoom);
 				drawBottom = (cameraY) - (aspectRatio * cameraZoom);
 				drawTop = (cameraY) + (aspectRatio * cameraZoom);
+				
 				gl.glMatrixMode(GL10.GL_PROJECTION); 	//Select The Projection Matrix
 				gl.glLoadIdentity(); 					//Reset The Projection Matrix
-			   // gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
+				
+			    //gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
+				
 				//Make sure we dont render tiles that dont exist
 				if(drawLeft <= (tileMap.mapWidth*-1))
 				{
@@ -258,7 +260,6 @@ public class GlRenderer implements Renderer
 			    	tileMap.setDrawRegion(drawLeft, drawRight, drawTop, drawBottom);
 			    }
 				
-			    
 			    gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
 				gl.glLoadIdentity(); 					//Reset The Modelview Matrix
 			}
@@ -276,10 +277,21 @@ public class GlRenderer implements Renderer
 		screenWidth = width;
 		screenHeight = height;
 		
+		
 		//Prevent A Divide By Zero
 		if(height == 0)
 		{
 			height = 1;
+		}
+		
+		//Choose appropriate zoom level based on screen orientation
+		if(width > height)
+		{
+			cameraZoom = 15.0f;
+		}
+		else
+		{
+			cameraZoom = 8.42f;
 		}
 
 		gl.glViewport(0, 0, width, height); 	//Reset The Current Viewport //CAMERA TRANSLATION
@@ -294,7 +306,6 @@ public class GlRenderer implements Renderer
 		
 	    //Orthographic Camera Setup:
 		//gl.glEnable(GL10.GL_DEPTH_TEST);
-	    //gl.glOrthof((-1.0f * cameraZoom), cameraZoom, ((-1.0f * aspectRatio) * cameraZoom), (aspectRatio * cameraZoom), 0.01f, 100.0f);
 	    gl.glOrthof(((cameraX) - cameraZoom), (cameraX) + cameraZoom, (cameraY) - (aspectRatio * cameraZoom), (cameraY) + (aspectRatio * cameraZoom), 0.01f, 100.0f);
 	    
 	    if (tileMap != null)
@@ -306,7 +317,8 @@ public class GlRenderer implements Renderer
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)
-	{		
+	{
+		//Set up OpenGL Renderer
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 0.5f); 	//Background Clear Color (Black)

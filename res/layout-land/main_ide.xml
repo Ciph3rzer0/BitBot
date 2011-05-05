@@ -22,7 +22,7 @@
 		        android:layout_height="0px" 
 		        android:layout_width="70dip"
 		        android:layout_weight="1">
-	        </ImageButton>
+	        </ImageButton> 
 	        <ImageButton 
 		        android:src="@drawable/selection"
 				android:background="@layout/button_bot_component"

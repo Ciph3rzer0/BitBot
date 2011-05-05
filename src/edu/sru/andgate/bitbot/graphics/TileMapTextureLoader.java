@@ -22,16 +22,17 @@ public class TileMapTextureLoader
     	  tileMap.addTexture(R.drawable.brick);
     	  tileMap.addTexture(R.drawable.grass);
     	  tileMap.addTexture(R.drawable.sandtile);
-		}else if(mapFile.equals("tutorial_arena.map") || mapFile.equals("dungeon_crawl1.map") || mapFile.equals("arena.map"))
-		{
-			tileMap.addTexture(R.drawable.deftile);
-			tileMap.addTexture(R.drawable.tutorial_brick);
-			tileMap.addTexture(R.drawable.tutorial_cloud);
-			tileMap.addTexture(R.drawable.tutorial_dirt);
-			tileMap.addTexture(R.drawable.tutorial_dirt2);
-			tileMap.addTexture(R.drawable.tutorial_grass);
-			tileMap.addTexture(R.drawable.tutorial_grass2);
-			tileMap.addTexture(R.drawable.tutorial_stone);			
-		}
+		}else 
+			if(mapFile.equals("tutorial_arena.map") || mapFile.equals("dungeon_crawl1.map") || mapFile.equals("arena.map"))
+			{
+				tileMap.addTexture(R.drawable.deftile);
+				tileMap.addTexture(R.drawable.tutorial_brick);
+				tileMap.addTexture(R.drawable.tutorial_cloud);
+				tileMap.addTexture(R.drawable.tutorial_dirt);
+				tileMap.addTexture(R.drawable.tutorial_dirt2);
+				tileMap.addTexture(R.drawable.tutorial_grass);
+				tileMap.addTexture(R.drawable.tutorial_grass2);
+				tileMap.addTexture(R.drawable.tutorial_stone);			
+			}
 	}
 }

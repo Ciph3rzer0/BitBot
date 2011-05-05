@@ -6,17 +6,13 @@ package edu.sru.andgate.bitbot.graphics;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ScrollView;
@@ -28,10 +24,7 @@ import edu.sru.andgate.bitbot.gametypes.DungeonCrawl;
 import edu.sru.andgate.bitbot.gametypes.GameTypes;
 import edu.sru.andgate.bitbot.gametypes.TargetPractice;
 import edu.sru.andgate.bitbot.gametypes.TutorialTesting;
-import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
-import edu.sru.andgate.bitbot.ide.IDE;
 import edu.sru.andgate.bitbot.interpreter.InstructionLimitedVirtualMachine;
-import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class NickGameActivity extends Activity
 {	
@@ -52,6 +45,7 @@ public class NickGameActivity extends Activity
 	
 	private GameTypes gameType;
 	
+	//Master Parameters
 	private int MAX_OBJECTS = 250;
 	private final int TYPE_BOT = 0;
 	private final int TYPE_GUN = 1;
@@ -146,17 +140,7 @@ public class NickGameActivity extends Activity
         gameRenderer = new GlRenderer(this);
         		
         ilvm.addInterpreter(gameType.getBot().getInterpreter());
-//        // Run the vm every second.
-//		t = new Timer();
-//		t.schedule(new TimerTask()
-//		{
-//			@Override
-//			public void run()
-//			{
-//				ilvm.resume(4);
-//			}
-//		}, 50, 50);
-		
+
         //Set renderer to be the main renderer with the current activity context
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);
@@ -165,8 +149,10 @@ public class NickGameActivity extends Activity
         gameRenderer.setTileMap(gameType.getMap());
         
         //Nick
-        for(int i = 0; i < gameType.getBots().length; i++){
+        for(int i = 0; i < gameType.getBots().length; i++)
+        {
         	addBotToWorld(gameType.getBots()[i]);
+        	ilvm.addInterpreter(gameType.getBots()[i].getInterpreter());
         }
         
         addBotToWorld(gameType.getBot());
@@ -225,18 +211,19 @@ public class NickGameActivity extends Activity
     		boolean thisFrameDrawn = false;
     		
     		//Testing FPS Only
+    		/*
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
     		int frameCount = 0;
-    		
+    		*/
     		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
     			{
-    				startTime = System.currentTimeMillis();
+    				//startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -265,31 +252,13 @@ public class NickGameActivity extends Activity
     	    		{
     	    			if(gameType.getBots()[i].getDrawableBot().isAlive)
     	    			{
+        	    			gameType.getBots()[i].getDrawableBot().move();
     	    				gameType.getBots()[i].getDrawableGun().update();
     	    			}
     	    		}
+    	    		
     	    		ilvm.resume(4);			
     	    		
-//    	    		//no?
-//    	    		if(shotCount >= 10)
-//    	    		{
-//    	    			if(gameType.getBot().getDrawableBot().isAlive)
-//    	    			{
-//    	    				gameType.getBot().getDrawableGun().fire();
-//    	    			}
-//    	    			for(int i = 0; i < gameType.getBots().length; i++)
-//    	    			{
-//    	    				if(gameType.getBots()[i].getDrawableBot().isAlive)
-//    	    				{
-//    	    					gameType.getBots()[i].getDrawableGun().fire();
-//    	    				}
-//        	    		}
-//    	    			numShotsFired++;
-//    	    			shotCount = 0;
-//    	    		}    	    		
-//    	    		shotCount++;
-
-    	    		    	    		
     				//Collision Detection Updater
     				collisionManager.update();
     				
@@ -335,6 +304,7 @@ public class NickGameActivity extends Activity
     	    		
     	    		// Count up the number of frames and every second print that number
     	    		// out and reset the count.
+    	    		/*
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
@@ -344,7 +314,7 @@ public class NickGameActivity extends Activity
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
-    	    		
+    	    		*/
     			}
     		}
     	};
