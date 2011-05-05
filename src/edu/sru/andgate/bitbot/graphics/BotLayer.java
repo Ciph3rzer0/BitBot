@@ -12,6 +12,7 @@ public class BotLayer extends DrawableBot
 	
 	public BotLayer(DrawableBot master)
 	{
+		//Connect with master bot
 		masterBotLayer = master;
 		layerParameters = new float[11];
 		layerParameters[0] = masterBotLayer.parameters[0];
@@ -53,29 +54,29 @@ public class BotLayer extends DrawableBot
 	@Override
 	public void draw(GL10 gl)
 	{
-		// bind the previously generated texture
+		//Bind selected texture
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[SELECTED_TEXTURE]);
 		
-		// Point to our buffers
+		//Enable Buffers
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		
-		// Set the face rotation
+		//Set face rotation
 		gl.glFrontFace(GL10.GL_CW);
 		
-		// Point to our vertex buffer
+		//Point to buffers
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
 		
-		//Prepare openGL for drawing
+		//Prepare OpenGL Matrix for Drawing
 		gl.glTranslatef(masterBotLayer.parameters[0],masterBotLayer.parameters[1], masterBotLayer.parameters[2]);				//Translate Object
 		gl.glRotatef(layerParameters[3], layerParameters[4], layerParameters[5], layerParameters[6]);	//Rotate Object
 		gl.glScalef(layerParameters[7], layerParameters[8], layerParameters[9]);					//Scale Object
 		
-		// Draw the vertices as triangle strip
+		//Draw object as triangle strip
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
 
-		//Disable the client state before leaving
+		//Clean up before exiting
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}

@@ -42,7 +42,7 @@ public class DrawableParticleEmitter implements Drawable
 	int lastBotSpark = -1;
 	int consecutiveSparkCount = 0;
 	
-	//int MAX_CONSECUTIVE_SPARK_EMITTERS = 2;
+	//Master Parameters
 	int MAX_SPARK_EMITTERS = 15;
 	int MAX_EXPLOSION_EMITTERS = 10;
 	float BOUNDING_RADIUS = 0.2f;
@@ -52,24 +52,24 @@ public class DrawableParticleEmitter implements Drawable
 	float BARREL_LENGTH = 1.0f;
 	float FUNNY_ANGLE = 90.0f;
 	
-	float EXPLOSION_SPEED = 0.4f;		//0.2
-	float EXPLOSION_LIFESPAN = 40.0f;	//40.0
+	float EXPLOSION_SPEED = 0.4f;
+	float EXPLOSION_LIFESPAN = 40.0f;
 	
-	public FloatBuffer vertexBuffer;	// buffer holding the vertices
+	public FloatBuffer vertexBuffer;					// buffer holding the vertices
 	public float vertices[] = {
-			-1.0f, -1.0f,  0.0f,		// V1 - bottom left
-			-1.0f,  1.0f,  0.0f,		// V2 - top left
-			 1.0f, -1.0f,  0.0f,		// V3 - bottom right
-			 1.0f,  1.0f,  0.0f			// V4 - top right
+			-1.0f, -1.0f,  0.0f,						// V1 - bottom left
+			-1.0f,  1.0f,  0.0f,						// V2 - top left
+			 1.0f, -1.0f,  0.0f,						// V3 - bottom right
+			 1.0f,  1.0f,  0.0f							// V4 - top right
 	};
 
-	public FloatBuffer textureBuffer;	// buffer holding the texture coordinates
+	public FloatBuffer textureBuffer;					// buffer holding the texture coordinates
 	public float texture[] = {    		
 			// Mapping coordinates for the vertices
-			0.0f, 1.0f,		// top left		(V2)
-			0.0f, 0.0f,		// bottom left	(V1)
-			1.0f, 1.0f,		// top right	(V4)
-			1.0f, 0.0f		// bottom right	(V3)
+			0.0f, 1.0f,									// top left		(V2)
+			0.0f, 0.0f,									// bottom left	(V1)
+			1.0f, 1.0f,									// top right	(V4)
+			1.0f, 0.0f									// bottom right	(V3)
 	};
 	
 	//Texture pointer
@@ -77,25 +77,19 @@ public class DrawableParticleEmitter implements Drawable
 
 	public DrawableParticleEmitter()
 	{
-		// a float has 4 bytes so we allocate for each coordinate 4 bytes
+		//Allocate Buffer Objects
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
-		
-		// allocates the memory from the byte buffer
 		vertexBuffer = byteBuffer.asFloatBuffer();
-		
-		// fill the vertexBuffer with the vertices
 		vertexBuffer.put(vertices);
-		
-		// set the cursor position to the beginning of the buffer
 		vertexBuffer.position(0);
-		
 		byteBuffer = ByteBuffer.allocateDirect(texture.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		textureBuffer = byteBuffer.asFloatBuffer();
 		textureBuffer.put(texture);
 		textureBuffer.position(0);
 		
+		//Allocate Arrays
 		parameters = new float[11];
 		
 		textureHopper = new ArrayList<Integer>(MAX_TEXTURE_ARRAY_SIZE);
@@ -113,12 +107,14 @@ public class DrawableParticleEmitter implements Drawable
 		parameters[9] = 0.85f;	//sZ
 		parameters[10] = 1.0f;	//textureUpdateFlag (NO = 0.0, YES = 1.0) (Avoid at all costs)
 		
-		sparkParticles = new float[MAX_SPARK_EMITTERS][4][5]; //Index -> LocX, LocY, Lifetime Remaining, Trajectory, Speed
-		explosionParticles = new float[MAX_EXPLOSION_EMITTERS][8][5]; //Index -> LocX, LocY, Lifetime Remaining, Trajectory, Speed
+		//Allocate Arrays
+		sparkParticles = new float[MAX_SPARK_EMITTERS][4][5]; 			//Index -> LocX, LocY, Lifetime Remaining, Trajectory, Speed
+		explosionParticles = new float[MAX_EXPLOSION_EMITTERS][8][5];	//Index -> LocX, LocY, Lifetime Remaining, Trajectory, Speed
 		
 		liveSparkEmitters = new int[MAX_SPARK_EMITTERS];
 		liveExplosionEmitters = new int[MAX_EXPLOSION_EMITTERS];
 		
+		//Import Textures for Loading
 		addTexture(R.drawable.particle);
 		addTexture(R.drawable.particle2);
 		addTexture(R.drawable.particle3);
@@ -179,7 +175,7 @@ public class DrawableParticleEmitter implements Drawable
 	@Override
 	public void moveByTouch(float speed)
 	{
-		//
+		//EMPTY
 	}
 	
 	/* (non-Javadoc)
@@ -231,9 +227,7 @@ public class DrawableParticleEmitter implements Drawable
 	
 	public void onBoundaryCollision()
 	{
-		//For now, flip angle and continue
-		moveAngle = Math.abs(moveAngle - 360.0f) % 360.0f;
-		parameters[3] = moveAngle + 90.0f;
+		//EMPTY
 	}
 	
 	/* (non-Javadoc)
@@ -290,6 +284,7 @@ public class DrawableParticleEmitter implements Drawable
 	{
 		int workingSparkID = -1;
 		
+		//If sparks arnt maxed out, getting a working emitter ID
 		if(numLiveSparks < MAX_SPARK_EMITTERS)
 		{
 			for(int i=0;i<MAX_SPARK_EMITTERS;i++)
@@ -302,6 +297,7 @@ public class DrawableParticleEmitter implements Drawable
 					break;
 				}
 			}
+			//Add new spark emitter
 			if(workingSparkID != -1)
 			{
 				for(int j=0;j<4;j++)
@@ -320,6 +316,7 @@ public class DrawableParticleEmitter implements Drawable
 	{
 		int workingExplosionID = -1;
 		
+		//If number of explosions arnt maxed out, get working emitter ID
 		if(numLiveExplosions < MAX_EXPLOSION_EMITTERS)
 		{
 			for(int i=0;i<MAX_EXPLOSION_EMITTERS;i++)
@@ -332,6 +329,7 @@ public class DrawableParticleEmitter implements Drawable
 					break;
 				}
 			}
+			//Add explosion Emitter
 			if(workingExplosionID != -1)
 			{
 				for(int j=0;j<8;j++)
@@ -348,7 +346,7 @@ public class DrawableParticleEmitter implements Drawable
 	
 	public void update()
 	{
-		//SPARKS
+		//UPDATE SPARKS
 		for(int i=0;i<MAX_SPARK_EMITTERS;i++)
 		{
 			if(liveSparkEmitters[i] == 1)
@@ -388,7 +386,7 @@ public class DrawableParticleEmitter implements Drawable
 				}
 			}
 		}
-		//EXPLOSIONS
+		//UPDATE EXPLOSIONS
 		for(int i=0;i<MAX_EXPLOSION_EMITTERS;i++)
 		{
 			if(liveExplosionEmitters[i] == 1)
@@ -435,22 +433,24 @@ public class DrawableParticleEmitter implements Drawable
 	 */
 	@Override
 	public void loadGLTexture(GL10 gl, Context context, int curTexPointer)
-	{		
+	{
+		//Load bot sprite from image file
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),textureHopper.get(curTexPointer));
 
-		// generate one texture pointer
+		//Generate Texture Pointer
 		gl.glGenTextures(1, textures, curTexPointer);
-		// ...and bind it to our array
+		
+		//Bind texture to array
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[curTexPointer]);
 		
-		// create nearest filtered texture
+		//Filter Texture
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 		
-		// Use Android GLUtils to specify a two-dimensional texture image from our bitmap 
+		//Specifiy 2-DIM Texture
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 		
-		// Clean up
+		//Clean Up
 		bitmap.recycle();
 		
 		//textureLoaded = true;
@@ -462,17 +462,17 @@ public class DrawableParticleEmitter implements Drawable
 	@Override
 	public void draw(GL10 gl)
 	{
-		// bind the previously generated texture
+		//Bind selected texture
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[SELECTED_TEXTURE]);
 		
-		// Point to our buffers
+		//Enable Buffers
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		
-		// Set the face rotation
+		//Set the face rotation
 		//gl.glFrontFace(GL10.GL_CW);
 		
-		// Point to our vertex buffer
+		//Point to buffers
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
 		
@@ -516,7 +516,7 @@ public class DrawableParticleEmitter implements Drawable
 			}
 		}
 
-		//Disable the client state before leaving
+		//Clean up on exit
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}

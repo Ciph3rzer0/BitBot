@@ -22,7 +22,8 @@ public class TileMapTextureLoader
     	  tileMap.addTexture(R.drawable.brick);
     	  tileMap.addTexture(R.drawable.grass);
     	  tileMap.addTexture(R.drawable.sandtile);
-		}else if(mapFile.equals("tutorial_arena.map") || mapFile.equals("dungeon_crawl1.map"))
+		}
+		else if(mapFile.equals("tutorial_arena.map") || mapFile.equals("dungeon_crawl1.map"))
 		{
 			tileMap.addTexture(R.drawable.deftile);
 			tileMap.addTexture(R.drawable.tutorial_brick);

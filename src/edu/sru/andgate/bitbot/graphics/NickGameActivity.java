@@ -52,6 +52,7 @@ public class NickGameActivity extends Activity
 	
 	private GameTypes gameType;
 	
+	//Master Parameters
 	private int MAX_OBJECTS = 250;
 	private final int TYPE_BOT = 0;
 	private final int TYPE_GUN = 1;
@@ -226,18 +227,19 @@ public class NickGameActivity extends Activity
     		boolean thisFrameDrawn = false;
     		
     		//Testing FPS Only
+    		/*
     		long startTime = 0;
     		long endTime = 0;
     		long timeCount = 0;
     		int frameCount = 0;
-    		
+    		*/
     		
     		//Game Loop
     		public void run()
     		{
     			while(gameLoop)
     			{
-    				startTime = System.currentTimeMillis();
+    				//startTime = System.currentTimeMillis();
     				//IMPORTANT VARIABLE FOR RENDERER SYNCHRONIZATION
     				thisFrameDrawn = false;
     				
@@ -336,6 +338,7 @@ public class NickGameActivity extends Activity
     	    		
     	    		// Count up the number of frames and every second print that number
     	    		// out and reset the count.
+    	    		/*
     	    		endTime = System.currentTimeMillis();
     	    		timeCount += (endTime-startTime);
     	    		frameCount++;
@@ -345,7 +348,7 @@ public class NickGameActivity extends Activity
     	    			frameCount = 0;
     	    			timeCount = 0;
     	    		}
-    	    		
+    	    		*/
     			}
     		}
     	};
