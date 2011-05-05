@@ -64,7 +64,8 @@ public class BotVsBot extends GameTypes
 		bots[0].setID(0);
 		randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size());
 		bots[0].getDrawableBot().setTranslation(tileMap.enemySpawnPointsX.get(randomIndex), tileMap.enemySpawnPointsY.get(randomIndex), defaultZ);  
-		ga.getILVM().addInterpreter(bots[0].getInterpreter());
+//		ga.getILVM().addInterpreter(bots[0].getInterpreter());
+		
 		/*
 		 * create users bot
 		 * set users bot spawn point
