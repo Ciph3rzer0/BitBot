@@ -69,11 +69,13 @@ public class BotVsBot extends GameTypes
 		randomIndex = generator.nextInt(tileMap.userSpawnPointsX.size());
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
 		start = System.currentTimeMillis();
-
+		
+		ga.setEnemyBotsUseInterpreter(true);
 	}
 
 	@Override
-	public void Update() {
+	public void Update()
+	{
 		int botsLeft = bots.length;
 		//check if victory conditions have been met, etc
 		for(int i = 0; i < bots.length;i++){
@@ -97,7 +99,8 @@ public class BotVsBot extends GameTypes
 	
 
 	@Override
-	public void Finalize(final String type) {
+	public void Finalize(final String type)
+	{
 		if(type.equals("victory")){
 			for(int i = 0; i < _game.getGameType().getBots().length; i++){
 		       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){

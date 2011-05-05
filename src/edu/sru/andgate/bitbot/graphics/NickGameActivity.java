@@ -59,6 +59,12 @@ public class NickGameActivity extends Activity
 	private ScrollView codeScroll;
 	
 	private InstructionLimitedVirtualMachine ilvm = new InstructionLimitedVirtualMachine();
+	private boolean enemyBotsUseInterpreter = false;
+	
+	public void setEnemyBotsUseInterpreter(boolean b)
+	{
+		enemyBotsUseInterpreter = b;
+	}
 	
 	// Used to globably access the current game.
 	public static NickGameActivity currentGame = null;
@@ -152,7 +158,10 @@ public class NickGameActivity extends Activity
         for(int i = 0; i < gameType.getBots().length; i++)
         {
         	addBotToWorld(gameType.getBots()[i]);
-        	ilvm.addInterpreter(gameType.getBots()[i].getInterpreter());
+        	
+        	// Add enemy interpreters
+        	if (enemyBotsUseInterpreter)
+        		ilvm.addInterpreter(gameType.getBots()[i].getInterpreter());
         }
         
         addBotToWorld(gameType.getBot());
@@ -238,9 +247,6 @@ public class NickGameActivity extends Activity
     				gameType.getBot().getDrawableBot().move();
     				//gameType.getBot().getBotLayer().setRotationAngle(gameType.getBot().getDrawableBot().moveAngle-90);
     				
-    				// Run Interpreter
-//    				ilvm.resume(30);
-
     				//update players bot's gun
     	    		if(gameType.getBot().getDrawableBot().isAlive)
     	    		{
@@ -252,11 +258,13 @@ public class NickGameActivity extends Activity
     	    		{
     	    			if(gameType.getBots()[i].getDrawableBot().isAlive)
     	    			{
-        	    			gameType.getBots()[i].getDrawableBot().move();
+    	    				if (enemyBotsUseInterpreter)
+    	    					gameType.getBots()[i].getDrawableBot().move();
     	    				gameType.getBots()[i].getDrawableGun().update();
     	    			}
     	    		}
     	    		
+    	    		// Run Interpreter
     	    		ilvm.resume(4);			
     	    		
     				//Collision Detection Updater
