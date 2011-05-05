@@ -175,12 +175,11 @@ public class Initialization
 		enemy.setBase(R.drawable.adambot);
 		enemy.setTurret(R.drawable.adamturret);
 		enemy.setBullet(R.drawable.bulletnew);
-		
 
 		enemy.setName("Wild Man");
 		enemy.setCode(wildMan);
 		enemy.saveBotToXML(cw, "wildman.xml");
-
+		
 		enemy.setName("Square Dawn");
 		enemy.setCode(squareDawg);
 		enemy.saveBotToXML(cw, "squaredawg.xml");
@@ -193,6 +192,10 @@ public class Initialization
 		enemy.setCode(wanderer);
 		enemy.saveBotToXML(cw, "wanderer.xml");
 		
+		enemy.setName("Hello World");
+		enemy.setCode(sampleCode1);
+		enemy.saveBotToXML(cw, "enemy_bot.xml");
+				
 		//sampleCode1.substring(2);
 		
 		String data2 = "//SAMPLE CODE - Don't overwrite\n"; 

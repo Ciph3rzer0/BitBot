@@ -194,7 +194,7 @@
 			    android:layout_width="fill_parent"
 			    android:layout_height="fill_parent"
 			    android:textColor="#00FF00"
-			    android:id="@+id/tutorial_text"/>		
+			    android:id="@+id/ide_text"/>		
 			</ScrollView>
 		</SlidingDrawer>
 </RelativeLayout>

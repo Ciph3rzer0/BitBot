@@ -1,0 +1,70 @@
+<botbasic>
+<text>BotBasic
+------------------------
+
+This is a quick overview of the syntax of BotBasic.
+------------------------
+For ease of input, I have added the option to leave out the equals sign from the Let, Dim, and For commands.
+>Dim i as Integer 3
+>Let i 3
+>For i 1 to 3
+
+Declaring a variable:
+------------------------
+The DIM command is currently in the language, however you can only write Dim [var] as Integer. Since the interpreter is not currently strongly typed, you can actually pass strings to the Integer. Currently you can declare a variable simply by using it in a LET command.
+Also, Dim [var] as Integer = [expr] should now do stuff.
+LET: usage: Let [var] = [expr]
+
+Loops
+------------------------
+While Loop:
+
+While [expr] Do
+    [list of commands]
+Loop
+
+The loop will continue until [expr] equals zero. This is equivalent to the Java code:
+while(expr() != 0){
+    //list of commands
+}
+
+For Loop:
+
+For [lcv] = [start] to [end]
+    [list of commands]
+Next
+
+This is equivalent to the Java code:
+for(int i = start; i <= end; i += step){
+    //list of commands
+}
+
+Subroutines
+--------------------------
+Sub []id]
+    //list of commands
+Return
+
+--------------------------
+--------------------------
+
+BotBasic Functions
+--------------------------
+
+Bot Functions
+--------------------------
+bot_move(t, r) - Moves bot at an angle t at a speed r
+bot_turn(a) - Turns turret to an angle
+bot_fire() - Makes the bot fire its weapon
+bot_x(int id) - The x coordinate of the bot of a given id
+bot_x() - This bot's x coordinate
+bot_y(int id) - The y coordinate of the bot of a given id
+bot_y() - This bot's y coordinate
+
+BotBasic Functions
+---------------------------
+pow(a, b) - returns a to the b power
+angleTo(x, y) - returns the angle from this bot to (x, y)
+rnd() or random() - returns a random value r such that 0 <= r < 1
+int(d) - returns the truncated value of </text>
+</botbasic>

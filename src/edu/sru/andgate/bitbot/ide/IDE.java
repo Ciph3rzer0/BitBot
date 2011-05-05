@@ -40,7 +40,7 @@ public class IDE extends Activity {
 	private boolean canSave = true;
 	private Animation sIn_left, sOut_left, sIn_right, sOut_right;
 	private EditText editor;
-	private TextView botOutput;
+	private TextView botOutput, ide_text;
 	private String file, file_data, tempFileName;
 	private SlidingDrawer slidingDrawer;
 	private ActionItem[] quick_tools, bot_functions, selection_shells,
@@ -349,12 +349,12 @@ public class IDE extends Activity {
 			@Override
 			public void onDrawerOpened() {
 				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-					slideHandleButton
-							.setBackgroundResource(R.drawable.vertical_close_arrow);
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_close_arrow);
 				} else {
-					slideHandleButton
-							.setBackgroundResource(R.drawable.closearrow);
+					slideHandleButton.setBackgroundResource(R.drawable.closearrow);
 				}
+				ide_text = (TextView) findViewById(R.id.ide_text);
+				ide_text.setText(FileManager.readAssetsXML("bot_basic.xml", "text"));
 			}
 		});
 
@@ -362,11 +362,9 @@ public class IDE extends Activity {
 			@Override
 			public void onDrawerClosed() {
 				if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-					slideHandleButton
-							.setBackgroundResource(R.drawable.vertical_open_arrow);
+					slideHandleButton.setBackgroundResource(R.drawable.vertical_open_arrow);
 				} else {
-					slideHandleButton
-							.setBackgroundResource(R.drawable.openarrow);
+					slideHandleButton.setBackgroundResource(R.drawable.openarrow);
 				}
 
 			}

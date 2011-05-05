@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.sru.andgate.bitbot.Bot;
+import edu.sru.andgate.bitbot.Initialization;
 import edu.sru.andgate.bitbot.R;
 import edu.sru.andgate.bitbot.customdialogs.BotBuilderDialog;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
@@ -61,6 +62,7 @@ public class BotBuilderActivity extends Activity
 		
 		bot_name = (TextView) findViewById(R.id.bot_name);
 		botFiles = FileManager.getBotFiles();
+	
 		botLists = new ArrayList<edu.sru.andgate.bitbot.ide.CustomListView>();
 		
 		edu.sru.andgate.bitbot.ide.CustomListView[] clv = new edu.sru.andgate.bitbot.ide.CustomListView[botFiles.length];
@@ -80,7 +82,7 @@ public class BotBuilderActivity extends Activity
 					long arg3) {
 					bot_name.setText(FileManager.readInternalXML(botFiles[arg2].toString(), "Bot-Name"));
 					//set other attributes here including stats & Bot Components
-					tv.setText(FileManager.readInternalXML(botFiles[arg2].toString(), "Bot-Code"));
+					//tv.setText(FileManager.readInternalXML(botFiles[arg2].toString(), "Bot-Code"));
 			}
 			
 		});
