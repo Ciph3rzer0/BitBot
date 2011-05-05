@@ -152,7 +152,11 @@ public class NickGameActivity extends Activity
         for(int i = 0; i < gameType.getBots().length; i++)
         {
         	addBotToWorld(gameType.getBots()[i]);
-        	ilvm.addInterpreter(gameType.getBots()[i].getInterpreter());
+        	//add ai only in bot vs bot
+        	if(missionType.equalsIgnoreCase("BOT versus BOT"))
+        	{
+        		ilvm.addInterpreter(gameType.getBots()[i].getInterpreter());
+        	}
         }
         
         addBotToWorld(gameType.getBot());
