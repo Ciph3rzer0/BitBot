@@ -40,7 +40,15 @@ public class MissionListActivity extends ListActivity {
     	String[] titles = getResources().getStringArray(R.array.mission_titles);
     	String[] descriptions = getResources().getStringArray(R.array.mission_descriptions);
     	String[] files = getResources().getStringArray(R.array.mission_files);
-    	int[] images = {R.drawable.arena, R.drawable.arena, R.drawable.target};
+    	int[] images = {
+    			R.drawable.arena, 
+    			R.drawable.arena,
+    			R.drawable.arena,
+    			R.drawable.arena,
+    			R.drawable.arena,
+    			R.drawable.arena, 
+    			R.drawable.target
+    			};
         
     	//create the mission items
     	clv = new CustomListView[titles.length];

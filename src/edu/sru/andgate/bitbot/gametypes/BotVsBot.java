@@ -75,7 +75,8 @@ public class BotVsBot extends GameTypes
 		userBot.getDrawableBot().setTranslation(tileMap.userSpawnPointsX.get(randomIndex), tileMap.userSpawnPointsY.get(randomIndex), defaultZ);
 		
 		start = System.currentTimeMillis(); //start the stopwatch
-
+		
+		ga.setEnemyBotsUseInterpreter(true);
 	}
 
 	@Override

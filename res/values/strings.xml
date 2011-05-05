@@ -25,18 +25,30 @@
      
      <!-- Mission Stuff -->
 	     <string-array name="mission_titles">
+	     	<item>1v1 - Wanderer</item>
+	     	<item>1v1 - Buzzsaw</item>
+	     	<item>1v1 - SquareDawg</item>
+	     	<item>1v1 - Wildman</item>
 	     	<item>BOT-VS-BOT</item>
 	     	<item>Dungeon Crawl</item>
 	     	<item>Target Practice</item>
 	     </string-array>
 	     
 	     <string-array name="mission_descriptions">
+	     	<item>Take on the Wanderer</item>
+	     	<item>Take on the Buzzsaw</item>
+	     	<item>Take on the SquareDawg</item>
+	     	<item>Take on the Wildman</item>
 	     	<item>Your BOT vs enemy BOT(s)</item>
 	     	<item>Navigate To the End Point in the Map</item>
 	     	<item>Practice Shooting at Enemy BOTS</item>
 	     </string-array>
 	     
 	     <string-array name="mission_files">
+	     	<item>bvb_wanderer.xml</item>
+	     	<item>bvb_buzzsaw.xml</item>
+	     	<item>bvb_squaredawg.xml</item>
+	     	<item>bvb_wildman.xml</item>
 	     	<item>bot_vs_bot.xml</item>
 	     	<item>dungeoncrawl.xml</item>
 	     	<item>target_practice.xml</item>

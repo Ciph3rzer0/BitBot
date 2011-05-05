@@ -39,7 +39,134 @@ public class Initialization
 			"	Let _d = _d * -1\n" +
 			"	\n" +
 			"return\n";
-			
+		
+		String wildMan =
+			"// rnd\n" +
+			"\n" + 
+			"for I 1 to 1000\n" +
+			"let a = call int(call rnd() * 360)\n" +
+			"let b = call int(call rnd() * 360)\n" +
+			"\n" + 
+			"for j 1 to 20\n" +
+			"call bot_move(a, 10)\n" +
+			"call bot_turn(b)\n" +
+			"\n" + 
+			"if j%5 == 0 then\n" +
+			"call bot_fire()\n" +
+			"endif\n" +
+			"next\n" +
+			"\n" + 
+			"next\n" +
+			"\n" + 
+			"call bot_move(0,0)\n"
+			;
+		
+		String squareDawg = 
+			"// Square\n" + 
+			"\n" + 
+			"let _backup 0\n" + 
+			"let a 270\n" + 
+			"\n" + 
+			"while 1 do\n" + 
+			"call bot_move(a, 15)\n" + 
+			"call bot_fire()\n" + 
+			"\n" + 
+			"if _backup then\n" + 
+			"for I 1 to 16\n" + 
+			"call bot_move(a, -14)\n" + 
+			"next\n" + 
+			"\n" + 
+			"let _backup 0\n" + 
+			"\n" + 
+			"let b call int(call rnd() * 2)\n" + 
+			"if b then\n" + 
+			"let a = a + 90\n" + 
+			"else\n" + 
+			"let a = a - 90\n" + 
+			"endif\n" + 
+			"\n" + 
+			"let _a = a\n" + 
+			"endif\n" + 
+			"\n" + 
+			"loop\n" + 
+			"\n" + 
+			"end\n" + 
+			"\n" + 
+			"sub onBoundaryCollision\n" + 
+			"let _backup 1\n" + 
+			"call bot_turn(180 + _a)\n" + 
+			"return\n"
+			;
+		
+		String buzzsaw = 
+			"// Patrol the perimeter and shout towards the inside\n" + 
+			"\n" + 
+			"let _a = 20\n" + 
+			"\n" + 
+			"while 1 do\n" +  
+			"call bot_move(_a, 15)\n" + 
+			"let r call rnd() * 90 - 45\n" + 
+			"\n" + 
+			"for j 1 to 10\n" + 
+			"call bot_turn(_a + 90 + r)\n" + 
+			"next\n" + 
+			"\n" + 
+			"call bot_fire()\n" + 
+			"loop\n" + 
+			"\n" + 
+			"end\n" + 
+			"\n" + 
+			"sub onTouch with x, y\n" +  
+			"let _a = call angleTo(x, y)\n" +  
+			"call bot_turn(_a)\n" + 
+			"call bot_fire()\n" + 
+			"return\n" + 
+			"\n" + 
+			"sub onBoundaryCollision\n" + 
+			"let _a = _a + 90\n" + 
+			"return\n"
+			;
+		
+		String wanderer =
+			"// last\n" + 
+			"\n" + 
+			"while 1 do\n" + 
+			"\n" + 
+			"let lastx call bot_x()\n" + 
+			"let lasty call bot_y()\n" + 
+			"\n" + 
+			"for I 1 to 4\n" + 
+			"call bot_move(_a, 20)\n" + 
+			"next\n" + 
+			"\n" + 
+			"let dx lastx - call bot_x()\n" + 
+			"let dy lasty - call bot_y()\n" + 
+			"let _a call angleTo(dx, dy) + 180\n" + 
+			"Let r = call rnd() * 20 - 10\n" + 
+			"Let _a = _a + r\n" + 
+			"\n" + 
+			"call shoot()\n" + 
+			"\n" + 
+			"loop\n" + 
+			"end\n" + 
+			"\n" + 
+			"sub onBoundaryCollision\n" + 
+			"let _a call rnd()*360\n" + 
+			"return\n" + 
+			"\n" + 
+			"sub shoot\n" + 
+			"call bot_turn(_a)\n" + 
+			"call bot_fire()\n" + 
+			"call bot_turn(_a + 180)\n" + 
+			"call bot_fire()\n" + 
+			"call bot_turn(_a - 90)\n" + 
+			"call bot_fire()\n" + 
+			"call bot_turn(_a + 90)\n" + 
+			"call bot_fire()\n" + 
+			"call bot_turn(_a)\n" + 
+			"return\n"
+			;
+		
 		/*
 		 * Creates an enemy bot(s) for later use
 		 */
@@ -48,9 +175,23 @@ public class Initialization
 		enemy.setBase(R.drawable.adambot);
 		enemy.setTurret(R.drawable.adamturret);
 		enemy.setBullet(R.drawable.bulletnew);
-		enemy.setCode(sampleCode1);
-		enemy.saveBotToXML(cw, "enemy_bot.xml");
 		
+
+		enemy.setName("Wild Man");
+		enemy.setCode(wildMan);
+		enemy.saveBotToXML(cw, "wildman.xml");
+
+		enemy.setName("Square Dawn");
+		enemy.setCode(squareDawg);
+		enemy.saveBotToXML(cw, "squaredawg.xml");
+
+		enemy.setName("Buzzsaw");
+		enemy.setCode(buzzsaw);
+		enemy.saveBotToXML(cw, "buzzsaw.xml");
+
+		enemy.setName("Wanderer");
+		enemy.setCode(wanderer);
+		enemy.saveBotToXML(cw, "wanderer.xml");
 		
 		//sampleCode1.substring(2);
 		

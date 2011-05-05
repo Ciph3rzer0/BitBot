@@ -1,0 +1,10 @@
+<mission>
+<mission-name>BOT versus BOT</mission-name>
+<mission-text>
+Your mission is to defeat all the enemy BOTS you encounter in the arena.
+But be careful, as these BOTS will fight back!
+</mission-text>
+<mission-type>BOT versus BOT</mission-type>
+<enemy-bot>squaredawg.xml</enemy-bot>
+<map-file>arena.map</map-file>
+</mission> 
