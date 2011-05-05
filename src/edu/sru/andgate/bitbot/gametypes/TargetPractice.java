@@ -61,7 +61,9 @@ public class TargetPractice extends GameTypes
 		//create number of bots for game from enemy bot file
 		for(int i = 0; i < totalBots; i++){
 			bots[i] = Bot.CreateBotFromXML(context, "enemy_bot.xml");
+			
 			bots[i].setID(i);
+			
 			randomIndex = generator.nextInt(tileMap.enemySpawnPointsX.size());
 			bots[i].getDrawableBot().setTranslation(tileMap.enemySpawnPointsX.get(randomIndex), tileMap.enemySpawnPointsY.get(randomIndex), defaultZ);  
 			tileMap.enemySpawnPointsX.remove(randomIndex);

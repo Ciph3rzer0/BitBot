@@ -134,17 +134,20 @@ public class BotVsBot extends GameTypes
 	}
 
 	@Override
-	public TileMap getMap(){
+	public TileMap getMap()
+	{
 		return this.tileMap;
 	}
 	
 	@Override
-	public Bot[] getBots(){
+	public Bot[] getBots()
+	{
 		return this.bots;
 	}
 	
 	@Override
-	public Bot getBot(){
+	public Bot getBot()
+	{
 		return this.userBot;
 	}
 }

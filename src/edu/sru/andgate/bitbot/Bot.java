@@ -272,7 +272,10 @@ public class Bot
 			b.setBotLayer(bl);
 			bl.addTexture(b.getTurret());
 			DrawableGun dg = new DrawableGun(db, bl);
-			dg.attachFireSound(context, R.raw.bot_fire);
+//			dg.attachFireSound(context, R.raw.bot_fire);
+//			dg.attachFireSound(context, R.raw.ar);
+//			dg.attachFireSound(context, R.raw.usp1);
+//			dg.attachFireSound(context, R.raw.tick);
 			b.setDrawableGun(dg);
 			dg.addTexture(b.getBullet());
 			b.attachDrawable(db);
