@@ -91,7 +91,7 @@ public class BotBuilderActivity extends Activity
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				bbd = new BotBuilderDialog(BotBuilderActivity.this, botFiles[arg2].toString(), BotBuilderActivity.this, R.style.CustomDialogTheme);
+				bbd = new BotBuilderDialog(BotBuilderActivity.this, botFiles[arg2].toString(), R.style.CustomDialogTheme);
 				bbd.show();
 				return true;
 			}

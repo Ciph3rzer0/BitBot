@@ -20,15 +20,12 @@ import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class BotBuilderDialog extends Dialog 
 {
-    TextView selection;
-    Context context;
-    String file;
-    Activity activity;
+    String file;		//file in focus
+    Activity activity;	//activity calling this
     
-    public BotBuilderDialog(Activity act, String file, Context context, int theme) 
+    public BotBuilderDialog(Activity act, String file, int theme) 
     {
-        super(context, theme);
-        this.context = context;
+        super(act, theme);
         this.file = file;
         this.activity = act;
         
@@ -39,10 +36,14 @@ public class BotBuilderDialog extends Dialog
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_popup);
-        final ListView lst=(ListView)findViewById(R.id.myList);
-        String[] list = {"Rename", "Delete", "Back"};
         
-        lst.setAdapter(new ArrayAdapter<String>(context,R.layout.custom_popup_row, list));      
+        final ListView lst=(ListView)findViewById(R.id.myList);
+        
+        //List of Options
+        String[] list = {"Rename File", "Delete", "Back"};
+        
+        //set the ListView items to our custom layout, with the List of Options available
+        lst.setAdapter(new ArrayAdapter<String>(activity,R.layout.custom_popup_row, list));      
         
         lst.setOnItemClickListener(new OnItemClickListener() {
         	
@@ -51,28 +52,29 @@ public class BotBuilderDialog extends Dialog
         		String clicked = ((TextView) v).getText().toString();
         		Log.v("Test", clicked);
         		if(clicked.equalsIgnoreCase("Rename File")){
-        			promptRename(activity, file);
+        			//prompt user for new name
+        			promptRename(file);
         		}else if (clicked.equalsIgnoreCase("Delete")){
+        			//delete file & refresh activity to accept new change
         			FileManager.deleteXMLFile(file);
         			restartActivity();
         		}else if(clicked.equalsIgnoreCase("Back")){
         			dismissCustomDialog();
         		}
-        		
         		dismissCustomDialog();
            	}
         	});
         
     }
     
-    private void promptRename(Activity act, final String srcFileName){
-    	AlertDialog.Builder alert = new AlertDialog.Builder(this.context);
+    private void promptRename(final String srcFileName){
+    	AlertDialog.Builder alert = new AlertDialog.Builder(activity);
 
 		alert.setTitle("Rename file to: ");
 		alert.setMessage("Rename File");
 
 		// Set an EditText view to get user input 
-		final EditText input = new EditText(this.context);
+		final EditText input = new EditText(activity);
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

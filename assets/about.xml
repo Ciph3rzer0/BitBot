@@ -1,0 +1,28 @@
+<about>
+<text>
+About AndGate
+	The AndGate team that created BitBot consists of:
+	- Josh White / Interpreter
+	- Adam Jason / Graphics and Game Engine
+	- Nick Ludovici / GUI, GameTypes
+	- Hamza Alfastleh / GUI, Sounds
+
+BitBot was a project in a semester long Software Engineering class aimed to teach motivated High School students programming concepts and potentially algorithms and a pseudo-languag; Featuring tutoring/training modes and test modes. Training modes may be interactive lessons or games that reinforce concepts. Test modes will (ideally) be the most fun, featuring complex or open-ended assignments.
+
+Resources Used:
+- JavaCC
+- Quick Action Dialog
+  http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/
+
+Questions, Comments are encouraged:
+- andgatedev@gmail.com
+
+Code at:
+- http://github.com/Ciph3rzer0/BitBot
+
+Liscense used:
+- The Source Code is freely distributed under the GPL version 3 License. The license can be found here:
+  http://www.gnu.org/licenses/gpl-3.0.html
+	
+</text>
+</about>

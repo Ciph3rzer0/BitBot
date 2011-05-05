@@ -37,7 +37,7 @@
 		android:layout_toRightOf="@+id/game_modes"
 		android:layout_width="100dip">
 	</Button>
-	<!-- Temp Graphics Button -->
+	<!-- Temp Graphics Button
 	<Button 
 		android:text="Graphics" 
 		android:layout_height="wrap_content" 
@@ -49,7 +49,7 @@
 		android:layout_alignLeft="@+id/tutorial_btn" 
 		android:layout_alignRight="@+id/tutorial_btn">
 	</Button>
-	<!-- end temp graphics button -->
+	end temp graphics button -->
 	<Button 
 		android:text="Help" 
 		android:layout_height="wrap_content" 
@@ -83,7 +83,7 @@
 		android:layout_below="@+id/game_modes" 
 		android:layout_toLeftOf="@+id/game_modes" android:layout_width="100dip">
 	</Button>
-	<!-- Temporary Interpreter Button -->
+	<!-- Temporary Interpreter Button 
 	<Button 
 		android:text="Interpreter" 
 		android:id="@+id/interpreter_btn" 
@@ -95,7 +95,7 @@
 		android:layout_alignLeft="@+id/scores_btn" 
 		android:layout_alignRight="@+id/scores_btn">
 	</Button>
-	<!-- End Temp Interpreter Button -->
+	End Temp Interpreter Button -->
 	<ImageView 
 		android:id="@+id/bot_base" 
 		android:layout_width="wrap_content" 
