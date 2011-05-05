@@ -88,6 +88,7 @@ public class NickGameActivity extends Activity
         if(missionType.equalsIgnoreCase("BOT versus BOT")){
         	String enemyFile = getIntent().getExtras().getString("Enemy");
         	gameType = new BotVsBot(this,mapFile, botFile, enemyFile);
+        	setEnemyBotsUseInterpreter(true);
         }else if(missionType.equalsIgnoreCase("Dungeon Crawl")){
         	gameType = new DungeonCrawl(this, mapFile, botFile);
         }else if(missionType.equalsIgnoreCase("Target Practice")){
