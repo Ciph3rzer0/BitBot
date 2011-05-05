@@ -268,11 +268,14 @@ public class Bot
 			db.addTexture(Constants.damage2.get(b.getBase()));
 			db.addDamageTextureToSequence(1, 50);
 		    db.addDamageTextureToSequence(2, 25);
-			db.attachCollisionSound(context, R.raw.bot_wall_collision);
 			BotLayer bl = new BotLayer(db);
 			b.setBotLayer(bl);
 			bl.addTexture(b.getTurret());
 			DrawableGun dg = new DrawableGun(db, bl);
+//			dg.attachFireSound(context, R.raw.bot_fire);
+//			dg.attachFireSound(context, R.raw.ar);
+//			dg.attachFireSound(context, R.raw.usp1);
+//			dg.attachFireSound(context, R.raw.tick);
 			b.setDrawableGun(dg);
 			dg.addTexture(b.getBullet());
 			b.attachDrawable(db);

@@ -284,11 +284,6 @@ public class DrawableGun implements Drawable
 	
 	public void fire()
 	{
-		try{
-			fireSound.playAudio();
-		}catch (Exception e){
-			Log.v("BitBot", "Sound not attached");
-		}
 		int workingBulletID = -1;
 		
 		//Get an available BulletID
@@ -308,6 +303,12 @@ public class DrawableGun implements Drawable
 		//If a bulletID was available, calculate bullet info
 		if(workingBulletID != -1)
 		{
+			try{
+				fireSound.playAudio();
+			}catch (Exception e){
+				Log.v("BitBot", "Sound not attached");
+			}
+			
 			//Calculate Trajectory Info
 			float trajectoryAngle = masterTurret.layerParameters[3];
 			float startingX = masterTurret.masterBotLayer.parameters[0] - ((float)(Math.sin(trajectoryAngle * (Math.PI / 180)) * BARREL_LENGTH));
