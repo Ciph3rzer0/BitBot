@@ -277,10 +277,21 @@ public class GlRenderer implements Renderer
 		screenWidth = width;
 		screenHeight = height;
 		
+		
 		//Prevent A Divide By Zero
 		if(height == 0)
 		{
 			height = 1;
+		}
+		
+		//Choose appropriate zoom level based on screen orientation
+		if(width > height)
+		{
+			cameraZoom = 15.0f;
+		}
+		else
+		{
+			cameraZoom = 8.42f;
 		}
 
 		gl.glViewport(0, 0, width, height); 	//Reset The Current Viewport //CAMERA TRANSLATION
