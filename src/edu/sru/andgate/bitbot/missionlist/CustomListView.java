@@ -6,11 +6,13 @@
 package edu.sru.andgate.bitbot.missionlist;
 
 public class CustomListView {
+	//Declare mission attributes
 	private String missionName;
 	private String missionDescription;
 	private String filename;
 	private int image_icon;
 	
+	/* ************* Getter and setter methods ************ */
 	public String getMissionName(){
 		return missionName;
 	}

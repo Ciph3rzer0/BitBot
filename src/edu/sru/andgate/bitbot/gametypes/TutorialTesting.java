@@ -1,3 +1,6 @@
+/*
+ * Generic Game Type for testing code in tutorials & IDE
+ */
 package edu.sru.andgate.bitbot.gametypes;
 
 import java.util.Random;
@@ -10,18 +13,22 @@ import edu.sru.andgate.bitbot.graphics.TileMap;
 
 public class TutorialTesting extends GameTypes
 {
+	//component vars
 	private Context context;
-	private int totalBots;
 	private String userBotFile;
 	private Bot[] bots;
-	private Bot userBot;
-	private float defaultZ;
 	private TileMap tileMap;
-	Random generator;
 	public NickGameActivity _game;
+	private Bot userBot;
+	
+	//bot statistics
+	private float defaultZ;
+	private int totalBots;
+	Random generator;
 	
 	public TutorialTesting(Context context, int numOfBots, String userBotFile)
 	{
+		//initialize stuff
 		this.tileMap = new TileMap();
 		this.context = context;
 		this.userBotFile = userBotFile;
@@ -37,7 +44,6 @@ public class TutorialTesting extends GameTypes
 	public void Initialize(NickGameActivity ga)
 	{
 		this._game = ga;
-		Log.v("GameTypes", "GameType Accepted");
 		int randomIndex;
 		
 		if(totalBots >= tileMap.enemySpawnPointsX.size())
@@ -66,14 +72,13 @@ public class TutorialTesting extends GameTypes
 
 	@Override
 	public void Update() {
-		//if instructions run out, stop?
+		//do nothing
 	}
 	
 
 	@Override
 	public void Finalize(final String type) {
-		
-		
+		//do nothing
 	}
 
 	@Override

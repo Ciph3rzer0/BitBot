@@ -14,9 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.sru.andgate.bitbot.customdialogs.TutorialDialog;
-import edu.sru.andgate.bitbot.graphics.AdamGameActivity;
 import edu.sru.andgate.bitbot.ide.CodeBuilderActivity;
-import edu.sru.andgate.bitbot.interpreter.Test;
 import edu.sru.andgate.bitbot.missionlist.MissionListActivity;
 import edu.sru.andgate.bitbot.tools.FileManager;
 
@@ -32,14 +30,16 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
          
+        FileManager.setContext(getBaseContext());
+
         //Initialize some things: code text docs, saved bot
         cw = new ContextWrapper(getBaseContext());
         init = new Initialization(cw);
         
         helpDialog = new Dialog(this, R.style.CustomDialogTheme);
         helpDialog.setContentView(R.layout.floating_help);
+        
         help_text = (TextView) helpDialog.findViewById(R.id.help_view);
-        FileManager.setContext(getBaseContext());
         help_text.setText(FileManager.readAssetsXML("help.xml", "text"));
 
         bot_turret = (ImageView) findViewById(R.id.bot_turret);
@@ -67,7 +67,7 @@ public class MainMenu extends Activity {
 				rotateImage(bot_turret, R.drawable.mainturret, R.id.bot_turret, 60);
 				/*Intent engineIntent = new Intent(MainMenu.this, Tutorial_List.class);
 				startActivity(engineIntent);*/
-				TutorialDialog td = new TutorialDialog(MainMenu.this, MainMenu.this, R.style.CustomDialogTheme);
+				TutorialDialog td = new TutorialDialog(MainMenu.this, R.style.CustomDialogTheme);
 				td.show();
 			}
 		});

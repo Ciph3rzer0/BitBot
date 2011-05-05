@@ -27,7 +27,6 @@ import edu.sru.andgate.bitbot.customdialogs.BotBuilderDialog;
 import edu.sru.andgate.bitbot.graphics.NickGameActivity;
 import edu.sru.andgate.bitbot.ide.CodeListAdapter;
 import edu.sru.andgate.bitbot.interpreter.SourceCode;
-import edu.sru.andgate.bitbot.tools.Constants;
 import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class BotBuilderActivity extends Activity
@@ -98,20 +97,25 @@ public class BotBuilderActivity extends Activity
 			
 		});
 		
+		/* ************ Initialize bot component buttons ************* */
 		botBaseComponents = new ArrayList<CustomListView>();
 		botTurretComponents = new ArrayList<CustomListView>();
 		botBulletComponents = new ArrayList<CustomListView>();
 		
+
+		/* ************** bot chassis button *************** */
 		chassis = new CustomListView();
 		chassis.setBotComponentName("Basic Chassis");
 		chassis.setBotComponentDescription("A stable base that is fast and sturdy");
 		chassis.setImageIcon(R.drawable.adambot);
-		
+
+		/* ************** bot turret button *************** */
 		turret = new CustomListView();
 		turret.setBotComponentName("Basic Turret");
 		turret.setBotComponentDescription("A turret for shooting stuff");
 		turret.setImageIcon(R.drawable.adamturret);
-		
+
+		/* ************** bot bullet button *************** */
 		bullet = new CustomListView();
 		bullet.setBotComponentName("Basic Bullet");
 		bullet.setBotComponentDescription("A standard bullet with moderate damage");
@@ -125,6 +129,8 @@ public class BotBuilderActivity extends Activity
 		bb_chassis = (ListView) findViewById(R.id.bb_chassis);
 		bb_chassis.setAdapter(this.component_adapter);
 		
+
+		/* ************** onClick() functions for bot component buttons *************** */
 		bb_chassis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
@@ -238,6 +244,10 @@ public class BotBuilderActivity extends Activity
 		startActivity(engineIntent);
 		
 	}
+	
+	/*
+	 * change the name of the bot
+	 */
 	public void promptBotName(){
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -264,7 +274,11 @@ public class BotBuilderActivity extends Activity
 		});
 		
 		alert.show();
-	}	
+	}
+	
+	/*
+	 * ask the user for filename to save the bot to
+	 */
 	public void promptSaveBot(){
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -296,6 +310,7 @@ public class BotBuilderActivity extends Activity
 		alert.show();
 	}	
 	
+	//save the bot shown in the builder activity
 	public void saveBot(String filename, String BotName){
 		//Save bot to xml before going to graphics - Possible load from xml inside graphics
 		_currentBot.setName(BotName);

@@ -12,20 +12,22 @@ import org.w3c.dom.NodeList;
 
 public class Tutorial 
 {
-	private String title, text, hint, answer;
-	private Stage[] stages;
+	private String title, text, hint, answer; //tutorial attributes
+	private Stage[] stages; //stages of the tutorial
 	private int stageNum = 0, numStages;
+	
+	//XML builder declarations
 	private DocumentBuilderFactory docBuilderFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
 	private Element root;
 	private NodeList stagesNodeList;
-	private boolean completionStatus;
 	
 	public Tutorial(InputStream xml)
 	{
 		try
 		{
+			//prepare the xml for reading
 			docBuilderFactory = DocumentBuilderFactory.newInstance();
 	        docBuilder = docBuilderFactory.newDocumentBuilder();
 	        
@@ -36,6 +38,7 @@ public class Tutorial
 			text = getData(root.getElementsByTagName("text"));
 			System.out.println("title = " + title);
 			
+			//select the stage tag for reading
 			stagesNodeList = root.getElementsByTagName("stage");
 			numStages = stagesNodeList.getLength();
 			
@@ -45,6 +48,7 @@ public class Tutorial
 			
 			for (int i = 0; i < numStages; i++)
 			{
+				//set the appropriate stage to hold the appropriate hint & answer
 				hint = getData(((Element)stagesNodeList.item(i)).getElementsByTagName("hint"));
 				answer = getData(((Element)stagesNodeList.item(i)).getElementsByTagName("answer"));
 				
@@ -97,6 +101,7 @@ public class Tutorial
 		return stages[stageNum].answer;
 	}
 	
+	//private class that contains the tutorials hint, and answer
 	private class Stage
 	{
 		private String hint, answer;
@@ -105,18 +110,6 @@ public class Tutorial
 		{
 			this.hint = hint;
 			this.answer = answer;
-		}
-	}
-	
-	public void setCompletionStatus(boolean b){
-		this.completionStatus = b;
-	}
-
-	public Boolean isCompleted() {
-		if(this.completionStatus = true){
-			return true;
-		}else{
-			return false;
 		}
 	}
 }

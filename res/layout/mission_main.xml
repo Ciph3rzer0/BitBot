@@ -23,6 +23,7 @@
 		android:layout_height="wrap_content" 
 		android:id="@+id/button_bar" 
 		android:layout_width="match_parent">
+    	<!-- 
     	<Button
 			style="@style/Heading"
 			android:id="@+id/new_btn"
@@ -45,5 +46,6 @@
 			android:layout_weight="1"
 			android:background="@layout/button_bot_component"
 		/>
+		!-->
   </LinearLayout>
 </RelativeLayout>

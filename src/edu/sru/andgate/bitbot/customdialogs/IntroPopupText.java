@@ -14,9 +14,11 @@ import android.util.Log;
 
 public class IntroPopupText 
 {
-	private String hint;
-	private Stage[] stages;
-	private int stageNum = 0, numStages;
+	private String hint; //tutorial hints
+	private Stage[] stages; //multi-stages
+	private int stageNum = 0, numStages; //current stage number, total number of stages
+	
+	//XML builder declarations
 	private DocumentBuilderFactory docBuilderFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
@@ -28,12 +30,14 @@ public class IntroPopupText
 	{
 		try
 		{
+			//prepare the xml for reading
 			docBuilderFactory = DocumentBuilderFactory.newInstance();
 	        docBuilder = docBuilderFactory.newDocumentBuilder();
 	        
 			doc = docBuilder.parse(xml);
 			root = doc.getDocumentElement();
-					
+			
+			//select the stage tag for reading
 			stagesNodeList = root.getElementsByTagName("stage");
 			numStages = stagesNodeList.getLength();
 			
@@ -42,11 +46,9 @@ public class IntroPopupText
 			
 			for (int i = 0; i < numStages; i++)
 			{
+				//set the appropriate stage to hold the appropriate hint
 				hint = getData(((Element)stagesNodeList.item(i)).getElementsByTagName("hint"));
-				
 				stages[i] = new Stage(hint);
-				
-				Log.v("Intro","hint:\n " + hint+"\n");
 			}
 		}
 		catch (Exception e)
@@ -56,6 +58,7 @@ public class IntroPopupText
 		
 	}
 	
+	//Get the data from a specified xml tag
 	private String getData(NodeList e)
 	{
 		return ((Node)e.item(0).getChildNodes().item(0)).getNodeValue();
@@ -80,6 +83,8 @@ public class IntroPopupText
 		return stages[stageNum].hint;
 	}
 	
+	
+	//private class that contains a string
 	private class Stage
 	{
 		private String hint;

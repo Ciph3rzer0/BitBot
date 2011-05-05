@@ -14,23 +14,27 @@ import edu.sru.andgate.bitbot.tools.Constants;
 
 public class DungeonCrawl extends GameTypes
 {
+	//Declare the components and attributes needed for specified gametype
 	private Context context;
-	private int totalBots, kills = 0, numBulletsContact = 0;
 	private String userBotFile;
 	private Bot[] bots;
 	private VictoryDialog vd;
 	private DefeatDialog dd;
-	private long start, elapsed;
+	private TileMap tileMap;
 	private Bot userBot;
+	public NickGameActivity _game;
+
+	//statistical vars for users BOT
+	private int totalBots, kills = 0, numBulletsContact = 0;
+	private long start, elapsed;
 	private float defaultZ;
 	private double accuracy;
-	private TileMap tileMap;
 	private boolean victory, defeat;
 	private Random generator;
-	public NickGameActivity _game;
 	
 	public DungeonCrawl(Context context, String mapFile, String userBotFile)
 	{
+		//initialize the specified vars
 		this.userBotFile = userBotFile;
 		this.tileMap = new TileMap();
 		this.tileMap.loadMapFile(mapFile, context);
@@ -46,15 +50,15 @@ public class DungeonCrawl extends GameTypes
 	@Override
 	public void Initialize(NickGameActivity ga)
 	{
-		this._game = ga;
-		Log.v("GameTypes", "GameType Accepted");
-		int randomIndex;
-		this.totalBots = generator.nextInt(tileMap.enemySpawnPointsX.size()-1) + 1;
+		this._game = ga;	//set game activity in use
+		int randomIndex;	//random index for iterator
+		this.totalBots = generator.nextInt(tileMap.enemySpawnPointsX.size()-1) + 1; //total bots available
 		
+		//if to many bots requested, set to max
 		if(totalBots >= tileMap.enemySpawnPointsX.size())
 			totalBots = tileMap.enemySpawnPointsX.size();
 		
-		bots = new Bot[totalBots];
+		bots = new Bot[totalBots]; //initialize bot array
 			
 		//create number of bots for game from enemy bot file
 		for(int i = 0; i < totalBots; i++){
@@ -82,13 +86,17 @@ public class DungeonCrawl extends GameTypes
 		int currentTileX = (int)Math.floor((userBot.getDrawableBot().parameters[0]+tileMap.mapWidth)/tileMap.tileStep);
 		int currentTileY = (int)Math.floor(Math.abs((userBot.getDrawableBot().parameters[1] - tileMap.mapHeight)/tileMap.tileStep));
 		
+		//if user reaches finish point
 		for(int i = 0; i < tileMap.finishPointsX.size(); i++){
+			//victory
 			if(userBot.getDrawableBot().isAlive && victory == false && defeat == false && tileMap.tileLocations[currentTileX][currentTileY][0] == tileMap.finishPointsX.get(i) && tileMap.tileLocations[currentTileX][currentTileY][1] == tileMap.finishPointsY.get(i)){
 				victory = true;	
 				Constants.finished_missions.add(_game.missionType);
 				elapsed = System.currentTimeMillis() - start;
 				Finalize("victory");
-			}else if(!userBot.getDrawableBot().isAlive && victory == false && defeat == false){
+			}else
+				//defeat
+				if(!userBot.getDrawableBot().isAlive && victory == false && defeat == false){
 				defeat = true;
 				Finalize("defeat");
 			}	
@@ -98,16 +106,20 @@ public class DungeonCrawl extends GameTypes
 
 	@Override
 	public void Finalize(final String type) {
+		//show corresponding dialog if victory, or defeat
+		
 		if(type.equals("victory")){
 			for(int i = 0; i < _game.getGameType().getBots().length; i++){
 		       	if(_game.getGameType().getBots()[i].getDrawableBot().isAlive()){
 		       		//do nothing
 		       	}else{
+		       		//calculate statistics
 		       		kills++;
 		       		numBulletsContact += _game.getGameType().getBots()[i].getDrawableBot().getNumBulletsHit();
 		       	}
 			}
 			
+			//calculate accuracy
 			accuracy = ((double)numBulletsContact/(double)_game.getGameType().getBot().getDrawableGun().numShotsFired) * 100;
 			accuracy = (double)Math.round(accuracy * 100) / 100;
 		}
@@ -122,10 +134,16 @@ public class DungeonCrawl extends GameTypes
 					e.printStackTrace();
 				}
 				if(type.equals("victory")){
-					vd = new VictoryDialog(_game,_game, R.style.CustomDialogTheme, kills, accuracy, elapsed);	
+					/*
+					 * set statistics for bot here
+					 */
+					vd = new VictoryDialog(_game, R.style.CustomDialogTheme, kills, accuracy, elapsed);	
 					vd.show();	
 				}else if (type.equals("defeat")){
-					dd = new DefeatDialog(_game, _game, R.style.CustomDialogTheme);
+					/*
+					 * set statistics for bot here
+					 */
+					dd = new DefeatDialog(_game, R.style.CustomDialogTheme);
 					dd.show();
 				}
 			}

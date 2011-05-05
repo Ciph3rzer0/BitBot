@@ -13,6 +13,7 @@ import edu.sru.andgate.bitbot.tools.FileManager;
 
 public class MissionBriefingActivity extends Activity
 {
+	//Declare mission Brieifing components
 	private String missionFile, missionMap, enemy;
 	private int missionIcon;
 	private TextView mission_text, title_bar;
@@ -23,7 +24,9 @@ public class MissionBriefingActivity extends Activity
 		 super.onCreate(savedInstanceState);
 	        setContentView(R.layout.mission_briefing);
 	        
-	        FileManager.setContext(getBaseContext());
+	        FileManager.setContext(getBaseContext()); //set context for FileManager
+	        
+	        //receive passed in data from previous activity
 	        missionFile = getIntent().getExtras().getString("Filename");
 	        missionIcon = getIntent().getExtras().getInt("Icon",0);
 	        missionMap = getIntent().getExtras().getString("Map");
@@ -31,11 +34,11 @@ public class MissionBriefingActivity extends Activity
 	       
 	        mission_text = (TextView) findViewById(R.id.mission_text);
 	        title_bar = (TextView) findViewById(R.id.title_bar);
-	        
+	        mission_icon = (ImageView) findViewById(R.id.mission_icon);
+	       
+	        //set the mission text, title of the mission, and mission image
 	        mission_text.setText(FileManager.readAssetsXML(missionFile, "mission-text"));
-			title_bar.setText("\t" + FileManager.readAssetsXML(missionFile,"mission-name"));
-			
-			mission_icon = (ImageView) findViewById(R.id.mission_icon);
+			title_bar.setText("\t" + FileManager.readAssetsXML(missionFile,"mission-name"));			
 			mission_icon.setImageResource(missionIcon);		
 			
 			back_btn = (Button) findViewById(R.id.back_btn);

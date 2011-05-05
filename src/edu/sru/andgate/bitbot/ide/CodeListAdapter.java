@@ -12,6 +12,7 @@ import edu.sru.andgate.bitbot.R;
 
 public class CodeListAdapter extends ArrayAdapter<CustomListView>
 {
+	//Declare custom arrayList adapter & context
 	private ArrayList<CustomListView> codeItems;
 	private Context context;
 	
@@ -28,6 +29,7 @@ public class CodeListAdapter extends ArrayAdapter<CustomListView>
 		View customView = newView;
 		if (customView == null)
 		{
+			//inflate the latout with the custom view
 			LayoutInflater layout = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			customView = layout.inflate(R.layout.code_row, null);
 		}
@@ -35,6 +37,7 @@ public class CodeListAdapter extends ArrayAdapter<CustomListView>
 		CustomListView myView = codeItems.get(position);
 		if (myView != null)
 		{
+			//set the attributes for the custom layout: code name, and description
 			TextView codeName = (TextView) customView.findViewById(R.id.program);
 			TextView codeDescription = (TextView) customView.findViewById(R.id.summary);
 			if (codeName != null) {

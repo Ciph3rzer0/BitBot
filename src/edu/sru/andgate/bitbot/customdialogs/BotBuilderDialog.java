@@ -3,7 +3,6 @@ package edu.sru.andgate.bitbot.customdialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,6 +44,7 @@ public class BotBuilderDialog extends Dialog
         //set the ListView items to our custom layout, with the List of Options available
         lst.setAdapter(new ArrayAdapter<String>(activity,R.layout.custom_popup_row, list));      
         
+        //figure out which item in the list was clicked
         lst.setOnItemClickListener(new OnItemClickListener() {
         	
         	@Override
@@ -67,6 +67,9 @@ public class BotBuilderDialog extends Dialog
         
     }
     
+   /*
+    * Ask user for new filename 
+    */
     private void promptRename(final String srcFileName){
     	AlertDialog.Builder alert = new AlertDialog.Builder(activity);
 
@@ -78,31 +81,34 @@ public class BotBuilderDialog extends Dialog
 		alert.setView(input);
 
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialog, int whichButton) {
-			  String dstFileName = input.getText().toString();
-			  if(dstFileName == ""){
-				  dstFileName = "New File.txt";
-			  }
-			  FileManager.renameXMLFile(srcFileName, dstFileName);
-			  restartActivity();
-		}
+			public void onClick(DialogInterface dialog, int whichButton) {
+				//If yes change filename
+				String dstFileName = input.getText().toString();
+				if(dstFileName == ""){
+					dstFileName = "New File.txt";
+				}
+				FileManager.renameXMLFile(srcFileName, dstFileName);
+				restartActivity();
+			}
 		});
 
 		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 		  public void onClick(DialogInterface dialog, int whichButton) {
-		    // Canceled.
+		    // Return Focus
 		  }
 		});
 		
 		alert.show();
     }
     
+    //refresh the activity to show the new changes
     private void restartActivity(){
     	Intent intent = activity.getIntent();
 		activity.finish();
 		activity.startActivity(intent);
     }
     
+    //close the dialog
     private void dismissCustomDialog(){
     	this.dismiss();
     }

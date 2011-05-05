@@ -6,12 +6,13 @@
 package edu.sru.andgate.bitbot.ide.botbuilder;
 
 public class CustomListView {
+	//Declare Bot's Component attributes
 	private String botComponentName;
 	private String botComponentDescription;
 	private int image_icon;
 		
 	public void setBotComponentName(String botComponenentName){
-		this.botComponentName = botComponenentName;
+		this.botComponentName = botComponenentName; //set the components name
 	}
 	
 	public String getBotComponentName(){

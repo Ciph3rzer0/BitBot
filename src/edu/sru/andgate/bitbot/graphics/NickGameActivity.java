@@ -144,9 +144,9 @@ public class NickGameActivity extends Activity
         drawList = new int[2][MAX_OBJECTS];       
         
         gameRenderer = new GlRenderer(this);
-        
+        		
         ilvm.addInterpreter(gameType.getBot().getInterpreter());
-		
+
         //Set renderer to be the main renderer with the current activity context
         glSurfaceView.setEGLConfigChooser(false);
         glSurfaceView.setRenderer(gameRenderer);
@@ -437,5 +437,9 @@ public class NickGameActivity extends Activity
 				});
 
 		alert.show();
+	}
+	
+	public InstructionLimitedVirtualMachine getILVM(){
+		return this.ilvm;
 	}
 }
